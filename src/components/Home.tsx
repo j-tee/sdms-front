@@ -1,6 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useAuth } from '../utility/AuthContext';
+import UserSession from '../utility/userSession';
 
 const Home = () => {
+  const { openLoginModal, closeLoginModal } = useAuth();
+  const isValid = UserSession.validateToken();
+  const userInfo = UserSession.getUserInfo();
+  useEffect(() => {
+    if(userInfo.userCategory){
+      if (isValid) {
+        closeLoginModal && closeLoginModal();
+      } else {
+        openLoginModal && openLoginModal();
+      }
+    }
+  }, [closeLoginModal, isValid, openLoginModal, userInfo])
   return (
     <section className=" slider_section position-relative">
       <div className="container">
@@ -17,16 +31,16 @@ const Home = () => {
               <div className="row">
                 <div className="col-md-6">
                   <div className="detail-box">
-                  <h1>
-                    Welcome to Data Logique  <br />
+                    <h1>
+                      Welcome to Data Logique  <br />
                       <span>
-                      Empowering Schools, One Subscription at a Time
+                        Empowering Schools, One Subscription at a Time
                       </span>
                     </h1>
                     <p>
-                    Join a community of schools that have chosen [Your Platform Name] for their management needs. We're committed to providing a seamless and efficient experience for all our subscribers.
+                      Join a community of schools that have chosen [Your Platform Name] for their management needs. We're committed to providing a seamless and efficient experience for all our subscribers.
                     </p>
-                    
+
                     <div className="btn-box">
                       <a href="htps:" className="btn-1">
                         Read More
@@ -43,14 +57,14 @@ const Home = () => {
               <div className="row">
                 <div className="col-md-6">
                   <div className="detail-box">
-                  <h1>
+                    <h1>
                       Manage Attendance Effortlessly <br />
                       <span>
                         with Data Logique
                       </span>
                     </h1>
                     <p>
-                    Track student attendance, generate reports, and streamline administrative tasks with our user-friendly application
+                      Track student attendance, generate reports, and streamline administrative tasks with our user-friendly application
                     </p>
                     <div className="btn-box">
                       <a href="htps:" className="btn-1">
@@ -69,14 +83,14 @@ const Home = () => {
                 <div className="col-md-6">
                   <div className="detail-box">
                     <h1>
-                    Subscribe for free!! <br />
+                      Subscribe for free!! <br />
                       <span>
-                      And Unleash Your full potential
+                        And Unleash Your full potential
                       </span>
                     </h1>
                     <p>
                       Are you a school owner  or do you manage a school? Worried about the high cost of available systems for managing your school?
-                    Subscribe to Data Logique to access exclusive features, priority support, and regular updates. Elevate your school management experience with a subscription that grows with your needs.
+                      Subscribe to Data Logique to access exclusive features, priority support, and regular updates. Elevate your school management experience with a subscription that grows with your needs.
                     </p>
                     <div className="btn-box">
                       <a href="htps:" className="btn-1">
@@ -94,7 +108,7 @@ const Home = () => {
               <div className="row">
                 <div className="col-md-6">
                   <div className="detail-box">
-                  <h1>
+                    <h1>
                       A Perfect Solution <br />
                       <span>
                         For School Management
@@ -129,8 +143,8 @@ const Home = () => {
                       </span>
                     </h1>
                     <p>
-                    Are you a parent? Have just moved into a new area or town? Are looking for a school for your kids?
-                     Browse through our directory of school. Check out data on academic performance and facilities.
+                      Are you a parent? Have just moved into a new area or town? Are looking for a school for your kids?
+                      Browse through our directory of school. Check out data on academic performance and facilities.
                       You a find student teacher ratio and class capacity all made available on the platform
                     </p>
                     <div className="btn-box">

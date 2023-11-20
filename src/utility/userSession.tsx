@@ -1,85 +1,81 @@
 // import { showToastify } from './Toastify';
-
-const token = localStorage.getItem('token');
-const momotoken = JSON.parse(localStorage.getItem('momotoken') || '{}')
-
 const UserSession = {
   getroles: () => {
+    const token = sessionStorage.getItem('token');
     if (token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedToken = JSON.parse(window.atob(base64));
-      return decodedToken.roles
+      const decodedToken = decodeJWT(token);
+      return decodedToken?.roles || [];
     }
+    return [];
   },
-  validMomoToken: () => {
-    // Check if momotoken is an object and has an access_token field
-    if (typeof momotoken !== 'object' || !momotoken.access_token) {
-      return false; // Not a valid token
-    }
 
-    const access_token = momotoken.access_token;
+  getUserInfo: () => {
+    const token = sessionStorage.getItem('token');
+    const decodedToken = decodeJWT(token);
+    return {
+      userCategory: decodedToken?.user_category || null,
+      username: decodedToken?.username || null,
+    };
+  },
+
+
+  validMomoToken: () => {
+    const momotoken = JSON.parse(sessionStorage.getItem('momotoken') || '{}')
+
+    if (!isMomoTokenValid(momotoken)) {
+      return false;
+    }
 
     try {
-      // Split the token into its components
-      const tokenParts = access_token.split('.');
-
-      if (tokenParts.length !== 3) {
-        // Token is invalid
-        return false;
-      }
-
-      // Decode the payload (second part of the token)
-      const payload = JSON.parse(atob(tokenParts[1]));
-
-      if (!payload || typeof payload !== 'object') {
-        // Payload is invalid
-        return false;
-      }
-
-      if (typeof payload.exp !== 'number') {
-        // Invalid expiration time, not a number
-        return false;
-      }
-
-      // Assuming payload.exp is provided in minutes, not seconds
-      const expirationMinutes = payload.exp;
-
-      // Calculate the current time in minutes since the Unix epoch
+      const payload = decodeJWT(momotoken.access_token);
+      const expirationMinutes = payload?.exp || 0;
       const currentTimeMinutes = Math.floor(Date.now() / 1000 / 60);
 
-      // Check when the token expires
-      if (expirationMinutes <= currentTimeMinutes) {
-        // Token has already expired
-        return false;
-      }
-
-      // Token is valid, and `expirationMinutes` contains the number of minutes until it expires
-      return true;
+      return expirationMinutes > currentTimeMinutes;
     } catch (error) {
-      // Error occurred during decoding or validation
       return false;
     }
   },
-  validateToken: () => {
-    if (token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedToken = JSON.parse(window.atob(base64));
-      const expirationTime = new Date(decodedToken.exp * 1000);
 
-      if (expirationTime < new Date()) {
-        // Perform necessary actions like logging out the user or redirecting
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        window.location.reload();
-        return false;
-      }
-      return true;
+  validateToken: () => {
+    const token = sessionStorage.getItem('token');
+    const decodedToken = decodeJWT(token);
+    const expirationTime = (decodedToken?.exp || 0) * 1000;
+
+    if (expirationTime < Date.now()) {
+      handleExpiredToken();
+      return false;
     }
-    // showToastify('No session information found! You must log in!!', 'error');
-    return false;
+
+    return true;
   },
+};
+
+const decodeJWT = (jwt: any) => {
+  if (jwt) {
+    const base64Url = jwt.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64)) || {};
+  }
+  return {};
+};
+
+const isMomoTokenValid = (momoToken: any) => {
+  return typeof momoToken === 'object' && momoToken.access_token && isJWTValid(momoToken.access_token);
+};
+
+const isJWTValid = (jwt: any) => {
+  try {
+    const payload = decodeJWT(jwt);
+    return typeof payload === 'object' && typeof payload.exp === 'number' && payload.exp > Date.now() / 1000 / 60;
+  } catch (error) {
+    return false;
+  }
+};
+
+const handleExpiredToken = () => {
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('token');
 };
 
 export default UserSession;

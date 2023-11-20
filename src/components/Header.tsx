@@ -1,32 +1,67 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../images/logo.png';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import UserSession from '../utility/userSession';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
 import { UserModel } from '../models/userModel';
 import Login from './Login';
 import Register from './Register';
+import { useAuth } from '../utility/AuthContext';
+import { logoutUser } from '../redux/slices/authSlice';
+import { ToastContext } from '../utility/ToastContext';
+import { showToastify } from '../utility/Toastify';
 
 const Header = () => {
   const { user = {} as UserModel, isLoggedIn, isLoading } = useSelector((state: RootState) => state.auth ?? {});
-  const [userObject, setUserObject] = useState<UserModel>(user);
   const [roles, setRoles] = useState(UserSession.getroles());
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const { openLoginModal, isLoginModalOpen, closeLoginModal } = useAuth();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const itemsToCheck = ['admin', 'school_owner', 'government', 'employee', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
+  const itemsToCheck = ['admin', 'government', 'employee', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
   const systemAdminItems = ['system_admin', 'datalogique_admin', 'datalogique_staff']
-  
+  const isValid = UserSession.validateToken();
+  const dispatch = useDispatch<AppDispatch>();
+  const { showToast, setShowToast } = useContext(ToastContext);
+  // console.log('isLoginModalOpen========', isLoginModalOpen);
   const handleLoginClick = () => {
-    setLoginModalOpen(true);
+    console.log('handleLoginClick called========', isLoginModalOpen);
+    openLoginModal();
   };
 
-   
+
   const handleRegisterUser = () => {
     setRegisterModalOpen(true);
   };
-  
+  const handleLogoutClick = () => {
+    dispatch(logoutUser()).then((response: any) => {
+      setShowToast(true);
+      if (response.meta.requestStatus === 'fulfilled') {
+        showToastify('User logged out successfully', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      }
+      if (response.meta.requestStatus === 'rejected') {
+        showToastify(`User log out action failed ${response.payload.error}`, 'error');
+        localStorage.clear();
+      }
+    }).catch((error) => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      showToastify('User log out action failed ' + error, 'error');
+    });;
+  };
+  const accessControl = () => {
+    return (
+      isValid ? 
+      <>
+      <Link to="/register-school">REGISTER SCHOOL</Link>
+      <Link to="#" onClick={handleLogoutClick}>LOGOUT</Link>
+      </>  :
+          <Link to="#" onClick={handleLoginClick}>LOGIN</Link>
+    )
+  }
   const navItems = () => {
     return (roles && itemsToCheck.some(item => roles.includes(item)) ? (
       <>
@@ -41,15 +76,17 @@ const Header = () => {
         <Link to="/settings">SETTINGS</Link>
         <Link to="support">SUPPORT</Link>
         <Link to="/about">ABOUT</Link>
+        {accessControl()}
       </>
     ) : (
       <>
-       <Link to="/dashboard">FIND A SCHOOL</Link>
+        <Link to="/dashboard">FIND A SCHOOL</Link>
+
         <Link to="/stocks">EVENTS</Link>
-        <Link to="#" onClick={handleRegisterUser}>SUBSCRIBE</Link>
+        <Link to="#" onClick={handleRegisterUser}>SIGNUP</Link>
+        {accessControl()}
         <Link to="/sorting">CONTACT US</Link>
         <Link to="/weighing">ABOUT US</Link>
-        <Link to="#" onClick={handleLoginClick}>LOGIN</Link>
       </>
     ))
   }
@@ -65,23 +102,19 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
-            {navItems()}
+              {navItems()}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>
-      <Login
-        isOpen={loginModalOpen}
-        onRequestClose={() => setLoginModalOpen(false)}
-        setLoginModalOpen={setLoginModalOpen}
-      />
-       <Register
+      <Login isLoginModalOpen={isLoginModalOpen} onRequestClose={() => closeLoginModal()} />
+      <Register
         isOpen={registerModalOpen}
         setRegisterModalOpen={setRegisterModalOpen}
         onRequestClose={() => setRegisterModalOpen(false)}
       />
     </header>
-    
+
   )
 }
 

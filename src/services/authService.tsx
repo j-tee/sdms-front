@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ResetPasswdUserData, UserRole } from "../models/authModel";
+import { RegisterUserModel, ResetPasswdUserData, UserRole } from "../models/authModel";
 import authHeader from "../utility/authHeader";
 import UserSession from "../utility/userSession";
 
@@ -32,7 +32,7 @@ const AuthService = () => {
 
     try {
       const response = await axios.get(`${API_URL}api/v1/mobile_moneys/keys/token`, { headers: authHeader() });
-      localStorage.setItem('momotoken', JSON.stringify(response.data))
+      sessionStorage.setItem('momotoken', JSON.stringify(response.data))
       return response.data;
     } catch (error) {
       // Handle errors here
@@ -52,8 +52,10 @@ const AuthService = () => {
     .then((response: any) => {
       if (response.headers.authorization) {
         const [bearer, token] = response.headers.authorization.split(' ');
-        localStorage.setItem('token', JSON.stringify(token));
-        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        console.log('token========', token)
+        sessionStorage.setItem('bearer', JSON.stringify(bearer));
+        sessionStorage.setItem('token', JSON.stringify(token));
+        sessionStorage.setItem('user', JSON.stringify(response.data.data.user));
       }
 
       return response.data;
@@ -63,24 +65,19 @@ const AuthService = () => {
 
   const logout = () => axios.delete(`${API_URL}logout`, {
     headers: authHeader(),
-    data: JSON.parse(localStorage.getItem('user') || '{}')
+    data: JSON.parse(sessionStorage.getItem('user') || '{}')
   })
     .then((response: any) => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
       return response;
     });
 
   const getUserByEmail = (email: string) => axios.get(`${API_URL}users/${email}`, {headers: authHeader()});
 
-  const register = (username: string, email: string, password: string, password_confirmation: string) => axios.post(`${API_URL}signup`,
+  const register = (user:RegisterUserModel) => axios.post(`${API_URL}signup`,
     {
-      user: {
-        username,
-        email,
-        password,
-        password_confirmation,
-      },
+      user: user,
     });
 
   return {

@@ -21,10 +21,12 @@ export interface AuthState {
   }  
 
   export interface RegisterUserModel {
-    username: string,
-    password:string,
-    password_confirmation: string,
-    email: string,
+    username: string;
+    password:string;
+    password_confirmation: string;
+    email: string;
+    user_category:string;
+    avatar: File | null;
   }
 
   export interface ResetPasswdUserData {

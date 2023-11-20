@@ -3,12 +3,11 @@ import { ToastContext } from '../utility/ToastContext';
 import { RegisterUserModel } from '../models/authModel';
 import { showToastify } from '../utility/Toastify';
 import { registerUser } from '../redux/slices/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
 import { Button, Form, Modal } from 'react-bootstrap';
 
 const Register = (props: any) => {
-  const {message} = useSelector((state:RootState)=> state.auth)
   const {
     isOpen, setRegisterModalOpen, onRequestClose,
   } = props;
@@ -20,10 +19,12 @@ const Register = (props: any) => {
     password: '',
     password_confirmation: '',
     email: '',
+    avatar: null,
+    user_category:''
   })
   const { setShowToast } = useContext(ToastContext);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     setShowToast(true);
     const form = event.currentTarget;
     event.preventDefault();
@@ -34,18 +35,21 @@ const Register = (props: any) => {
       } else {
         dispatch(registerUser(formData)).then((res: any) => {
           setShowToast(true);
-          if (!res.error) {
+          if (res.meta.requestStatus === 'fulfilled') {
             showToastify('You registration was successfully completed. You will receive an email with a link to confirm your account', 'success');
             setFormData({
               username: '',
               password: '',
               password_confirmation: '',
               email: '',
-            })
+              user_category: '',
+              avatar: null
+            });
             setRegisterModalOpen(false);
-          } else if (res.error) {
+          }
+          if (res.meta.requestStatus === 'rejected') {
             if (res.error.message === 'Rejected') {
-              showToastify(`Your registration has failed,${message}`, 'error');
+              showToastify(`Your registration has failed,${res.payload.status.message}`, 'error');
             }
           }
         }).catch((error: any) => {
@@ -65,34 +69,49 @@ const Register = (props: any) => {
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group controlId="formBasicName">
-            <Form.Control type="text" placeholder="Username" value={formData.username} onChange={(e) => setFormData({...formData , username: e.target.value})} required />
+            <Form.Control type="text" placeholder="Username" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} required />
             <Form.Control.Feedback type="invalid">
               Please enter your name.
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formBasicEmail">
-            <Form.Control type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} required />
+            <Form.Control type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required />
             <Form.Control.Feedback type="invalid">
               Please enter a valid email address.
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="Password" value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} required />
+            <Form.Control type="password" placeholder="Password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} required />
             <Form.Control.Feedback type="invalid">
               Please enter a password.
             </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Control type="password" placeholder="Confirm Password" value={formData.password_confirmation} onChange={(e) => setFormData({...formData,password_confirmation:e.target.value})} required />
+            <Form.Control type="password" placeholder="Confirm Password" value={formData.password_confirmation} onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })} required />
             <Form.Control.Feedback type="invalid">
               Please confirm your password.
             </Form.Control.Feedback>
             {error && <div className="text-danger">{error}</div>}
           </Form.Group>
 
+          <Form.Group controlId="userCategory">
+            <Form.Control
+              as="select"
+              name="userCategory"
+              value={formData.user_category}
+              onChange={(e) => setFormData({...formData, user_category: e.target.value})}
+            >
+              <option value="">Select User Category</option>
+              <option value="Owner">Owner / Manager / Headmaster</option>
+              <option value="Parent">Parent</option>
+              <option value="Student">Student</option>
+              <option value="School Staff">School Staff</option>
+              <option value="Company Staff">Company Staff</option>
+            </Form.Control>
+          </Form.Group>
           <Modal.Footer>
             <Button variant="primary" type="submit">
               Register

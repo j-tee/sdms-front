@@ -41,7 +41,7 @@ body {
 .hero_area {
   position: relative;
   background-color: #78853f;
-  height: 85vh;
+  /* height: 85vh; */
 }
 
 .sub_page .hero_area {

@@ -6,17 +6,18 @@ import { Button, Form, Modal, Nav } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import { useAuth } from '../utility/AuthContext';
 
 const Login = (props:any) => {
     const {
-        isOpen, onRequestClose, setLoginModalOpen,
+        onRequestClose
       } = props;
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const { setShowToast } = useContext(ToastContext);
       const [validated, setValidated] = useState(false);
-      const [modalTop, setModalTop] = useState(0);
       const dispatch = useDispatch<AppDispatch>();
+      const { isLoginModalOpen, closeLoginModal } = useAuth();
         
       const handleSubmit = (event:any) => {
         setShowToast(true);
@@ -36,9 +37,9 @@ const Login = (props:any) => {
           if (response.error) {
             showToastify(`Login failure!! ${response.payload}`, 'error');
           } else {
-            setLoginModalOpen(false);
+            closeLoginModal();
             setTimeout(() => {
-              window.location.reload();
+              // window.location.reload();
               // window.location.href = '/';
             }, 3000);
           }
@@ -47,10 +48,13 @@ const Login = (props:any) => {
         });
         setValidated(true);
       };
-    
+      useEffect(() => {
+        // Set modal top or any other logic you need
+        // ...
+      }, [isLoginModalOpen]);
       return (
         <>
-          <Modal centered show={isOpen} onHide={onRequestClose} size="sm" style={{ marginTop: `${modalTop}px` }}>
+          <Modal centered show={isLoginModalOpen} onHide={onRequestClose} size="sm">
             <Modal.Header closeButton>
               <Modal.Title>Login</Modal.Title>
             </Modal.Header>
