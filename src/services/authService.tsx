@@ -52,7 +52,6 @@ const AuthService = () => {
     .then((response: any) => {
       if (response.headers.authorization) {
         const [bearer, token] = response.headers.authorization.split(' ');
-        console.log('token========', token)
         sessionStorage.setItem('bearer', JSON.stringify(bearer));
         sessionStorage.setItem('token', JSON.stringify(token));
         sessionStorage.setItem('user', JSON.stringify(response.data.data.user));

@@ -39,8 +39,7 @@ const Login = (props:any) => {
           } else {
             closeLoginModal();
             setTimeout(() => {
-              // window.location.reload();
-              // window.location.href = '/';
+              window.location.reload();
             }, 3000);
           }
         }).catch((error:any) => {

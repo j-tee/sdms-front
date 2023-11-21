@@ -29,12 +29,11 @@ const SchoolService = {
             ...authHeader(),
           },
         });
-      }
-    // getBranchList: (user_id: number, farm_id: number) => axios.get(`${API_URL}api/v1/lists/${user_id}/farms/${farm_id}/branches`, { headers: authHeader() }),
-    // getBranches: (farm_id: number, page: number, perPage: number) => axios.get(`${API_URL}api/v1/farms/${farm_id}/branches?page=${page}&per_page=${perPage}`, { headers: authHeader() }),    
-    // deleteBranch: (params: any) => axios.delete(`${API_URL}api/v1/farms/${params.farm_id}/branches/${params.id}`, { headers: authHeader() }),
-    // updateBranch: (branch: IBranch, id: number) => axios.put(`${API_URL}api/v1/farms/${branch.farm_id}/branches/${id}`, branch, { headers: authHeader() }),
-    // getBranch: (params: any) => axios.get(`${API_URL}api/v1/farms/${params.farm_id}/branches/${params.id}`, { headers: authHeader() }),
+      },
+    getCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/categories`, {headers: authHeader()}),
+    getOwnershipCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/ownership_categories`, {headers: authHeader()}),
+    getLevels: () => axios.get(`${API_URL}api/v1/schools/:school_id/levels`, {headers: authHeader()}),
+    getReligiousAffiliation: () => axios.get(`${API_URL}api/v1/schools/:school_id/religious_affiliations`, {headers: authHeader()})
 };
 
 export default SchoolService;

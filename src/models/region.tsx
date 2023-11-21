@@ -1,10 +1,14 @@
-import { District } from "./district";
+import { Pagination } from "./pagination";
 
 export interface Region {
-    id: number; // Assuming 'id' is the primary key
-    Name: string;
-    created_at: Date;
-    updated_at: Date;
-    districts: District[]; // A Region can have many Districts
-  }
-  
+  id: number; // Assuming 'id' is the primary key
+  name: string;
+}
+
+export interface RegionState {
+  regions: Region[];
+  region: Region;
+  message: string;
+  isLoading: boolean;
+  pagination: Pagination;
+}

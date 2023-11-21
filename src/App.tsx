@@ -10,6 +10,7 @@ import Toast from './utility/Toastify';
 import Confirmation from './components/Confirmation';
 import { AuthProvider } from './utility/AuthContext';
 import RegisterSchool from './components/RegisterSchool';
+import School from './components/School';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route caseSensitive path="/" element={<Home />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/register-school" element={<RegisterSchool />} />
+            <Route path="/schools" element={<School />} />
           </Routes>
         </AuthProvider>
         <Information />

@@ -13,7 +13,7 @@ const UserSession = {
     const token = sessionStorage.getItem('token');
     const decodedToken = decodeJWT(token);
     return {
-      userCategory: decodedToken?.user_category || null,
+      userCategory: decodedToken?.user_category || 'public',
       username: decodedToken?.username || null,
     };
   },

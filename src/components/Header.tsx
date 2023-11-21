@@ -52,6 +52,11 @@ const Header = () => {
       showToastify('User log out action failed ' + error, 'error');
     });;
   };
+  const publicMenus = () => {
+    return (
+      <Link to="/schools">SCHOOLS</Link>
+    )
+  }
   const accessControl = () => {
     return (
       isValid ? 
@@ -65,6 +70,7 @@ const Header = () => {
   const navItems = () => {
     return (roles && itemsToCheck.some(item => roles.includes(item)) ? (
       <>
+      {publicMenus()}
         {/* <Link to="/dashboard">FIND A SCHOOL</Link>
         <Link to="/stocks">EVENTS</Link>
         <Link to="/setup">SIGN UP</Link>
@@ -80,8 +86,7 @@ const Header = () => {
       </>
     ) : (
       <>
-        <Link to="/dashboard">FIND A SCHOOL</Link>
-
+      {publicMenus()}
         <Link to="/stocks">EVENTS</Link>
         <Link to="#" onClick={handleRegisterUser}>SIGNUP</Link>
         {accessControl()}

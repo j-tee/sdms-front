@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
-import { useAuth } from '../utility/AuthContext';
-import UserSession from '../utility/userSession';
+import React from 'react'
 
 const Home = () => {
-  const { openLoginModal, closeLoginModal } = useAuth();
-  const isValid = UserSession.validateToken();
-  const userInfo = UserSession.getUserInfo();
-  useEffect(() => {
-    if(userInfo.userCategory){
-      if (isValid) {
-        closeLoginModal && closeLoginModal();
-      } else {
-        openLoginModal && openLoginModal();
-      }
-    }
-  }, [closeLoginModal, isValid, openLoginModal, userInfo])
+  // const { openLoginModal, closeLoginModal } = useAuth();
+  // const isValid = UserSession.validateToken();
+  // const userInfo = UserSession.getUserInfo();
+  // const navigate = useNavigate()
+  // useEffect(() => {
+  //   console.log('userInfo.userCategory==========', userInfo.userCategory)
+  //   if (userInfo.userCategory && isValid) {
+  //     closeLoginModal && closeLoginModal();
+  //   }else {
+  //     navigate('/')
+  //     openLoginModal && openLoginModal();
+  //   }
+  // }, [closeLoginModal, isValid, navigate, openLoginModal, userInfo])
+
   return (
     <section className=" slider_section position-relative">
       <div className="container">
