@@ -33,10 +33,10 @@ export const addRegion = createAsyncThunk(
 
 export const getRegions = createAsyncThunk(
     'region/getRegions',
-    async (params, thunkAPI) => {
+    async (params: any, thunkAPI) => {
       try {
-        const response = RegionService.getRegions(params);
-        return (await response).data;
+        const response = await RegionService.getRegions(params);
+        return response.data;
       } catch (error: any) {
         return thunkAPI.rejectWithValue(error.response.data);
       }

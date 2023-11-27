@@ -54,71 +54,64 @@ const Header = () => {
   };
   const publicMenus = () => {
     return (
-      <Link to="/schools">SCHOOLS</Link>
+      <>
+        <Link to="/schools">SCHOOLS</Link>
+        <Link to="/stocks">EVENTS</Link>
+      </>
     )
   }
   const accessControl = () => {
     return (
-      isValid ? 
-      <>
-      <Link to="/register-school">REGISTER SCHOOL</Link>
-      <Link to="#" onClick={handleLogoutClick}>LOGOUT</Link>
-      </>  :
-          <Link to="#" onClick={handleLoginClick}>LOGIN</Link>
+      isValid ?
+        <>
+          <Link to="/register-school">REGISTER SCHOOL</Link>
+          <Link to="#" onClick={handleLogoutClick}>LOGOUT</Link>
+        </> :
+        <Link to="#" onClick={handleLoginClick}>LOGIN</Link>
     )
   }
   const navItems = () => {
     return (roles && itemsToCheck.some(item => roles.includes(item)) ? (
       <>
-      {publicMenus()}
-        {/* <Link to="/dashboard">FIND A SCHOOL</Link>
-        <Link to="/stocks">EVENTS</Link>
-        <Link to="/setup">SIGN UP</Link>
-        <Link to="/feeding">LOGIN</Link>
-        <Link to="/sorting">CONTACT US</Link>
-        <Link to="/weighing">ABOUT US</Link> */}
+        {publicMenus()}
         {roles && systemAdminItems.some(item => roles.includes(item)) ? (<Link to="/subscriptions">SUBSCRIPTIONS</Link>) : ('')}
-        <Link to="/finances">BOOK KEEPING</Link>
-        <Link to="/settings">SETTINGS</Link>
         <Link to="support">SUPPORT</Link>
         <Link to="/about">ABOUT</Link>
         {accessControl()}
       </>
     ) : (
       <>
-      {publicMenus()}
-        <Link to="/stocks">EVENTS</Link>
-        <Link to="#" onClick={handleRegisterUser}>SIGNUP</Link>
-        {accessControl()}
+        {publicMenus()}
         <Link to="/sorting">CONTACT US</Link>
         <Link to="/weighing">ABOUT US</Link>
+        <Link to="#" onClick={handleRegisterUser}>SIGNUP</Link>
+        {accessControl()}
       </>
     ))
   }
   return (
-    <header className="header_section">
-      <div className="container">
-        <Navbar className='navbar d-flex justify-content-between' expand="lg">
-          <Navbar.Brand href="/"><img src={logo} alt="Academia Logo" />
-            <span>
-              Data Logique
-            </span>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
-              {navItems()}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      </div>
+    // <header className="header_section">
+    <Navbar className='navbar header_section d-flex justify-content-between' fixed='top' mb-4 pb-4 expand="lg">
+      <Navbar.Brand href="/"><img src={logo} alt="Academia Logo" />
+        <span>
+          Data Logique
+        </span>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
+          {navItems()}
+        </Nav>
+      </Navbar.Collapse>
       <Login isLoginModalOpen={isLoginModalOpen} onRequestClose={() => closeLoginModal()} />
       <Register
         isOpen={registerModalOpen}
         setRegisterModalOpen={setRegisterModalOpen}
         onRequestClose={() => setRegisterModalOpen(false)}
       />
-    </header>
+    </Navbar>
+
+    // </header>
 
   )
 }

@@ -1,20 +1,48 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SchoolState } from '../../models/school';
 import SchoolService from '../../services/schoolService';
+import { Branch } from '../../models/branch';
 
 
 const initialState: SchoolState = {
+  branches:[],
   schools: [],
   levels: [],
   religions: [],
   categories: [],
   ownershipCategories: [],
   message: '',
-  school: {
-    religious_affiliation: '',
+  branch:{
+    branch_name: '',
+    postal_address: '',
+    website: '',
+    email_address: '',
+    residential_address: '',
+    phone1: '',
+    phone2: '',
+    school_id: 0,
+    circuit_id: 0,
+  },
+  schoolViewModel:{
+    id:0,
+    level_id: 0,
+    category_id: 0,
+    religious_affiliation_id: 0,
+    ownership_category_id: 0,
     school_name: '',
-    category: '',
-    ownership_category: '',
+    religion: '',
+    level_name: '',
+    category_name: '',
+    ownership: '',
+    bg_image_url: '',
+    crest_image_url: '',
+  },
+  school: {
+    level_id:0,
+    religious_affiliation_id: 0,
+    school_name: '',
+    category_id: 0,
+    ownership_category_id: 0,
     crest_image: null,
     background_picture_image: null,
     // branches: []
@@ -40,6 +68,19 @@ export const registerSchool = createAsyncThunk(
   },
 );
 
+
+export const addBranch = createAsyncThunk(
+  'school/addBranch',
+  async (branch: Branch, thunkAPI) => {
+    try {
+      const response = SchoolService.addBranch(branch);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const getSchools = createAsyncThunk(
   'school/getSchools',
   async (params: any, thunkAPI) => {
@@ -51,7 +92,17 @@ export const getSchools = createAsyncThunk(
     }
   },
 );
-
+export const getBranches = createAsyncThunk(
+  'school/getBranches',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SchoolService.getBranches(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 export const getLevels = createAsyncThunk(
   'school/getLevels',
   async (_, thunkAPI) => {
@@ -105,6 +156,22 @@ export const schoolSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getBranches.fulfilled, (state, action) => ({ ...state, branches: action.payload.branches, isLoading: false }));
+    builder
+      .addCase(getBranches.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(getBranches.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+
+    builder
+      .addCase(addBranch.fulfilled, (state, action) => ({
+        ...state,
+        branch: action.payload, isLoading: false
+      }));
+    builder
+      .addCase(addBranch.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(addBranch.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+    builder
       .addCase(registerSchool.fulfilled, (state, action) => ({
         ...state,
         school: action.payload, isLoading: false
@@ -114,19 +181,7 @@ export const schoolSlice = createSlice({
     builder
       .addCase(registerSchool.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
     builder
-      .addCase(getSchools.fulfilled, (state, action) => {
-        const schoolData = action.payload.schools.data || []; // Extract schools data from payload
-        const schoolsFormatted = schoolData.map((school: any) => ({
-          id: school.id,
-          religious_affiliation: school.attributes.religious_affiliation,
-          school_name: school.attributes.school_name,
-          ownership_category: school.attributes.ownership_category,
-          crest_image_url: school.attributes.crest_image_url,
-          bg_image_url: school.attributes.bg_image_url,
-
-        }));
-        return { ...state, schools: schoolsFormatted, isLoading: false };
-      });
+      .addCase(getSchools.fulfilled, (state, action) => ({ ...state, schools: action.payload.schools, isLoading: false }));
     builder
       .addCase(getSchools.pending, (state) => ({ ...state, isLoading: true }));
     builder

@@ -41,7 +41,7 @@ export const addDistrict = createAsyncThunk(
 
 export const getDistricts = createAsyncThunk(
   'district/getDistricts',
-  async (params, thunkAPI) => {
+  async (params: any, thunkAPI) => {
     try {
       const response = await DistrictService.getDistricts(params);
       return response.data;
@@ -59,7 +59,7 @@ export const districtSlice = createSlice({
     builder
       .addCase(getDistricts.fulfilled, (state, action) => ({
         ...state,
-        regions: action.payload, isLoading: false
+        districts: action.payload, isLoading: false
       }));
     builder
       .addCase(getDistricts.pending, (state) => ({ ...state, isLoading: true }));

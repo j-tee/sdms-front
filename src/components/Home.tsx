@@ -1,4 +1,6 @@
 import React from 'react'
+import { Container } from 'react-bootstrap';
+import Header from './Header';
 
 const Home = () => {
   // const { openLoginModal, closeLoginModal } = useAuth();
@@ -16,7 +18,12 @@ const Home = () => {
   // }, [closeLoginModal, isValid, navigate, openLoginModal, userInfo])
 
   return (
-    <section className=" slider_section position-relative">
+    <>
+      <Header />
+      <Container style={{ marginTop: '3.5rem' }}>
+        &nbsp;
+      </Container>
+      <section className=" slider_section position-relative py-5">
       <div className="container">
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
           <ol className="carousel-indicators">
@@ -163,6 +170,8 @@ const Home = () => {
         </div>
       </div>
     </section>
+    </>
+    
   )
 }
 

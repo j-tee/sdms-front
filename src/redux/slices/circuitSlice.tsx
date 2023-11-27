@@ -34,7 +34,7 @@ export const addCircuit = createAsyncThunk(
 
 export const getCircuits = createAsyncThunk(
   'circuit/getCircuits',
-  async (params, thunkAPI) => {
+  async (params: any, thunkAPI) => {
     try {
       const response = await CircuitService.getCircuits(params);
       return response.data;

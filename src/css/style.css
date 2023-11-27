@@ -230,7 +230,7 @@ a:focus {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  bottom: -75px;
+  bottom: -100px;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -574,5 +574,19 @@ a:focus {
 
 .footer_section a {
   color: #fefdfc;
+}
+.card-tags li a{
+  /* margin-right: 0.5rem; */
+  padding: 4px 12px;
+  border-radius: 8px;
+  /* display: flex; */
+  color: #0a1dc9;
+  /* align-items: center; */
+  /* border: 1px; */
+  letter-spacing: 0.03rem;
+  background-color: #c4c4e7;
+  line-height: 16px;
+  font-size: 14px;
+  font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */

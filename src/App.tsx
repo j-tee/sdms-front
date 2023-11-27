@@ -10,7 +10,9 @@ import Toast from './utility/Toastify';
 import Confirmation from './components/Confirmation';
 import { AuthProvider } from './utility/AuthContext';
 import RegisterSchool from './components/RegisterSchool';
-import School from './components/School';
+import Schools from './components/School';
+import BranchList from './components/BranchList';
+import Calendar from './components/Calendar';
 
 function App() {
   return (
@@ -18,12 +20,13 @@ function App() {
       <ToastProvider>       
         <Toast />
         <AuthProvider>
-        <Header />
           <Routes>
             <Route caseSensitive path="/" element={<Home />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/register-school" element={<RegisterSchool />} />
-            <Route path="/schools" element={<School />} />
+            <Route path="/schools" element={<Schools />} />
+            <Route path="/branches/:schoolId" element={<BranchList />} />
+            <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
           </Routes>
         </AuthProvider>
         <Information />
