@@ -1,0 +1,81 @@
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Department, DepartmentParams, DepartmentState } from '../../models/department';
+import DepartmentService from '../../services/departmentService';
+
+const initialState: DepartmentState = {
+  departments: [],
+  status: '',
+  message: '',
+  department: {
+    id: 0,
+    branch_id: 0,
+    dept_name: '',
+    branch_name: '',
+  },
+  isLoading: false,
+  pagination: {
+    current_page: 0,
+    per_page: 0,
+    total_items: 0,
+    total_pages: 0
+  },
+};
+
+export const addDepartment = createAsyncThunk(
+  'department/addDepartment',
+  async (department: Department, thunkAPI) => {
+    try {
+      const response = await DepartmentService.addDepartment(department);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+
+export const getDepartments = createAsyncThunk(
+  'department/getDepartments',
+  async (params: DepartmentParams, thunkAPI) => {
+    try {
+      const response = await DepartmentService.getDepartments(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+
+export const departmentSlice = createSlice({
+  name: 'department',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDepartments.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        departments: action.payload.depts, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+    builder
+      .addCase(getDepartments.pending, (state) => ({ ...state, isLoading: true}));
+    builder
+      .addCase(getDepartments.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
+    builder
+      .addCase(addDepartment.fulfilled, (state, action:PayloadAction<any>) => ({
+        ...state,
+        department: action.payload.dept, isLoading: false, message: action.payload.message, status: action.payload.status
+      }));
+    builder
+      .addCase(addDepartment.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(addDepartment.rejected, (state, action) => ({
+        ...state, message: "Action Failed", isLoading: false
+      }));
+  },
+});
+
+export default departmentSlice.reducer;

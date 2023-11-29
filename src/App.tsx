@@ -13,6 +13,8 @@ import RegisterSchool from './components/RegisterSchool';
 import Schools from './components/School';
 import BranchList from './components/BranchList';
 import Calendar from './components/Calendar';
+import DepartmentList from './components/DepartmentCard';
+import Organisation from './components/Organisation';
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
             <Route path="/schools" element={<Schools />} />
             <Route path="/branches/:schoolId" element={<BranchList />} />
             <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
+            <Route path="/organisation-structures/:schoolId/:branchId" element={<Organisation />} />
           </Routes>
         </AuthProvider>
         <Information />

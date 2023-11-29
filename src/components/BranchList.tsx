@@ -35,7 +35,7 @@ const BranchList = () => {
       total_pages: 0,
     }
   })
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Dept/Programs', 'Lessons & Coursework']
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
   type AnyType = {
     [key: string]: string;
   };

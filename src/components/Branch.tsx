@@ -11,7 +11,7 @@ const Branch = () => {
   const isValid = UserSession.validateToken();
   const userInfo = UserSession.getUserInfo();
   const { openLoginModal, closeLoginModal } = useAuth();
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Dept/Programs', 'Lessons & Coursework']
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
   const {branches} = useSelector((state:RootState) => state.school)
   useEffect(() => {
     if(!isValid){

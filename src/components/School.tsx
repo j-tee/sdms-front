@@ -48,7 +48,7 @@ const School = () => {
       total_pages: 0,
     }
   })
-  const tags = ['Calendar', 'Admissions', 'Students', 'Staff', 'Dept/Programs', 'Lessons & Coursework']
+  const tags = ['Calendar', 'Admissions', 'Students', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
   const getAllSchools = useCallback(() => {
     dispatch(getSchools(params));
   }, [dispatch, params]);

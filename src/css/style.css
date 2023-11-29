@@ -3,7 +3,9 @@ body {
   color: #0c0c0c;
   background-color: #ffffff;
 }
-
+main {
+  padding: 0;
+}
 .layout_padding {
   padding: 75px 0;
 }

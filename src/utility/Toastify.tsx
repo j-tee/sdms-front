@@ -4,18 +4,20 @@ import React, { useContext } from 'react';
 import { ToastContext } from './ToastContext';
 
 export const showToastify = (message: string, type: string) => {
-    switch (type) {
-      case 'success':
-        toast.success(message);
-        break;
-      case 'error':
-        toast.error(message);
-        break;
-      case 'warning':
-        toast.warning(message);
-        break;
-      default:
-        toast(message);
+    if(message && type){
+      switch (type) {
+        case 'success':
+          toast.success(message);
+          break;
+        case 'error':
+          toast.error(message);
+          break;
+        case 'warning':
+          toast.warning(message);
+          break;
+        default:
+          toast(message);
+      }
     }
   };
   
