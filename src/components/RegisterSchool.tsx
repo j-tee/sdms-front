@@ -10,6 +10,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { useNavigate } from 'react-router-dom';
 import SchoolDropdowns from './SchoolDropdowns';
+import Header from './Header';
 
 const RegisterSchool = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -122,6 +123,10 @@ const RegisterSchool = () => {
 
   return (
     <Container>
+      <Header />
+      <Container style={{ marginTop: '3.5rem' }}>
+        &nbsp;
+      </Container>
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
         <Card className='m-2'>
           <Card.Header><h2>Register School</h2></Card.Header>
