@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { School } from '../models/school';
+import UserSession from '../utility/userSession';
 
 const BranchCard = (props: any) => {
   const { branch } = props;
-  
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+  const validUser = UserSession.isUserStaffOrOwner(user.id, branch.all_users)
   return (
     <Card className="border-0 shadow-sm d-flex flex-md-row my-2">
       
@@ -24,15 +26,18 @@ const BranchCard = (props: any) => {
               // Remove non-letter characters and spaces
               const cleanedTag = tag.replace(/[^a-zA-Z]+/g, '-').toLowerCase();
               return (
+               <>
+                {validUser && 
                 <li key={index}>
                   <Link to={`/${cleanedTag.toLowerCase()}/${branch.school_id}/${branch.id}`}>{tag}</Link>
-                </li>
+                </li>}
+               </>
               );
             })}
           </ul>
-          <Button className="card-btn">
+          {/* <Button className="card-btn">
             See Branches
-          </Button>
+          </Button> */}
         </Card.Body>
       </Card>
   )

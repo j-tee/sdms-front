@@ -1,4 +1,5 @@
 import { Pagination } from './pagination';
+import { UserModel } from './userModel';
 
 
 export interface BranchParams {
@@ -47,6 +48,7 @@ export interface BranchParams {
     region_name:string;
     district_name:string;
     circuit_name:string;
+    all_users:UserModel[]
   }
   
   // If you have additional types, such as Circuit, you may need to define them as well.

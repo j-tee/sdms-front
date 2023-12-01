@@ -11,6 +11,7 @@ const initialState: SchoolState = {
   religions: [],
   categories: [],
   ownershipCategories: [],
+  status:'',
   message: '',
   branch:{
     branch_name: '',

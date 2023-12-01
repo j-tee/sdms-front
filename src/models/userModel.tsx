@@ -1,4 +1,5 @@
 export interface UserModel {
+    id:number;
     email:string;
     reset_password_token: string;
     reset_password_sent_at: Date;

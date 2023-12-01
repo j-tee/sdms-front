@@ -1,3 +1,6 @@
+import { SchoolViewModel } from "../models/school";
+import { UserModel } from "../models/userModel";
+
 // import { showToastify } from './Toastify';
 const UserSession = {
   getroles: () => {
@@ -18,7 +21,9 @@ const UserSession = {
     };
   },
 
-
+  isUserStaffOrOwner: (userId:number, users:UserModel[]) => {
+    return users.some(user => user.id === userId);
+  },
   validMomoToken: () => {
     const momotoken = JSON.parse(sessionStorage.getItem('momotoken') || '{}')
 

@@ -71,6 +71,7 @@ export interface ReligiousAffiliation {
 }
 
 export interface SchoolState {
+  status:string;
   schoolViewModel: SchoolViewModel;
   branch: Branch;
   schools: SchoolViewModel[];

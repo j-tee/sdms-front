@@ -3,9 +3,10 @@ import Header from './Header'
 import { Card, Col, Container, Nav, Row, Tab } from 'react-bootstrap'
 import DepartmentList from './DepartmentCard'
 import ProgramCard from './ProgramCard';
-import ClassGroup from './ClassGroup';
+import ClassGroupCard from './ClassGroupCard';
 import { useParams } from 'react-router-dom';
 import { ToastContext } from '../utility/ToastContext';
+import StageCard from './StageCard';
 
 const Organisation = () => {
   const { schoolId, branchId } = useParams()
@@ -31,7 +32,10 @@ const Organisation = () => {
                     <Nav.Link eventKey="second">Programs</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="third">Class Groups</Nav.Link>
+                    <Nav.Link eventKey="third">Stages</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="fourth">Class Groups</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>
@@ -39,7 +43,8 @@ const Organisation = () => {
                 <Tab.Content>
                   <Tab.Pane eventKey="first"><DepartmentList tabIndex={index} schoolId={schoolId} branchId={branchId}/></Tab.Pane>
                   <Tab.Pane eventKey="second"><ProgramCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
-                  <Tab.Pane eventKey="third"><ClassGroup/></Tab.Pane>
+                  <Tab.Pane eventKey="third"><StageCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
+                  <Tab.Pane eventKey="fourth"><ClassGroupCard/></Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>

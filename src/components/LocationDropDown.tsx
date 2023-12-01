@@ -32,7 +32,6 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
 
   useEffect(() => {
     if (params.region_id !== 0) {
-      
       dispatch(getDistricts(params))
     }
   }, [dispatch, params]);
@@ -76,45 +75,45 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
   return (
     <Container>
       <Row>
-      <Col mg={4}>
-        <Form.Group controlId="region">
-          <Form.Label>Region</Form.Label>
-          <Form.Control as="select" onChange={handleRegionChange} value={params.region_id}>
-            <option value="">---Select---</option>
-            {regions.map((region) => (<option key={region.id} value={region.id}>
-              {region.name}
-            </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-      <Col md={4}>
-        <Form.Group controlId="district">
-          <Form.Label>District</Form.Label>
-          <Form.Control as="select" onChange={handleDistrictChange} value={params.district_id}>
-            <option value="">---Select---</option>
-            {districts.map((district) => (
-              <option key={district.id} value={district.id}>
-                {district.name}
+        <Col mg={4}>
+          <Form.Group controlId="region">
+            <Form.Label>Region</Form.Label>
+            <Form.Control as="select" onChange={handleRegionChange} value={params.region_id}>
+              <option value="">---Select---</option>
+              {regions.map((region) => (<option key={region.id} value={region.id}>
+                {region.name}
               </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-      <Col md={4}>
-        <Form.Group controlId="circuit">
-          <Form.Label>Circuit</Form.Label>
-          <Form.Control as="select" onChange={handleCircuitChange} value={params.circuit_id}>
-            <option value="">---Select---</option>
-            {circuits.map((circuit) => (
-              <option key={circuit.id} value={circuit.id}>
-                {circuit.name}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-      </Col>
-    </Row>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group controlId="district">
+            <Form.Label>District</Form.Label>
+            <Form.Control as="select" onChange={handleDistrictChange} value={params.district_id}>
+              <option value="">---Select---</option>
+              {districts.map((district) => (
+                <option key={district.id} value={district.id}>
+                  {district.name}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group controlId="circuit">
+            <Form.Label>Circuit</Form.Label>
+            <Form.Control as="select" onChange={handleCircuitChange} value={params.circuit_id}>
+              <option value="">---Select---</option>
+              {circuits.map((circuit) => (
+                <option key={circuit.id} value={circuit.id}>
+                  {circuit.name}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
+      </Row>
     </Container>
   );
 };
