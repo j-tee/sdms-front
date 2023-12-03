@@ -58,7 +58,7 @@ export const classGroupSlice = createSlice({
     builder
       .addCase(getClassGroups.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
-        classGroups: action.payload.class_groups, isLoading: false, message: action.payload.message, 
+        class_groups: action.payload.class_groups, isLoading: false, message: action.payload.message, 
         status: action.payload.status
       }));
     builder

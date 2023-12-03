@@ -2,7 +2,6 @@ import { Pagination } from "./pagination";
 
 export interface ClassGroup {
   class_name: string;
-  branch_id: number;
   capacity: number;
   stage_id: number;
   program_id: number;
@@ -11,6 +10,7 @@ export interface ClassGroup {
 export interface ClassGroupParams {
   stage_id:number;
   class_group_id: number;
+  department_id:number;
   branch_id: number;
   program_id: number;
   school_id: number;

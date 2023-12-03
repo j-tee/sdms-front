@@ -11,9 +11,10 @@ type AnyType = {
 };
 interface ProgramDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
-  departmentId:number
+  departmentId:number;
+  branchId:number;
 }
-const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, departmentId }) => {
+const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, departmentId }) => {
   const { programs, message, status } = useSelector((state: RootState) => state.program)
   const { showToast, setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
@@ -34,14 +35,14 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, departmentI
     setParams({
       ...params,
       program_id: selectedProgramId,
-      branch_id: 0,
+      branch_id: branchId,
       department_id: 0,
     });
     onChange('program_id', selectedProgramId);
   };
-  useEffect(() =>{
-    dispatch(getPrograms({...params, department_id:departmentId}))
-  }, [departmentId, dispatch, params])
+  // useEffect(() =>{
+  //   dispatch(getPrograms({...params, branch_id:branchId, department_id:departmentId}))
+  // }, [branchId, departmentId, dispatch, params])
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)
@@ -49,7 +50,7 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, departmentI
   return (
     <Form.Group controlId="department">
       <Form.Label>Programs</Form.Label>
-      <Form.Control as="select" onChange={handleProgramChange} value={params.department_id}>
+      <Form.Control as="select" onChange={handleProgramChange} value={params.program_id}>
         <option value="">---Select---</option>
         {programs.map((prog) => (<option key={prog.id} value={prog.id}>
           {prog.prog_name}

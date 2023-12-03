@@ -44,7 +44,7 @@ const Organisation = () => {
                   <Tab.Pane eventKey="first"><DepartmentList tabIndex={index} schoolId={schoolId} branchId={branchId}/></Tab.Pane>
                   <Tab.Pane eventKey="second"><ProgramCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
                   <Tab.Pane eventKey="third"><StageCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
-                  <Tab.Pane eventKey="fourth"><ClassGroupCard/></Tab.Pane>
+                  <Tab.Pane eventKey="fourth"><ClassGroupCard tabIndex={index} schoolId={schoolId} branchId={branchId}/></Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>

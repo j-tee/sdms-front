@@ -39,10 +39,7 @@ const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId }) =
       department_id: 0,
     });
     onChange('branch_id', selectedBranchId);
-  };
-  useEffect(() => {
-    dispatch(getBranches({ ...params, school_id: schoolId }))
-  }, [dispatch, params, schoolId])
+  };  
 
   useEffect(() => {
     setShowToast(true)
@@ -50,7 +47,7 @@ const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId }) =
   }, [message, setShowToast, showToast, status])
   return (
     <Form.Group controlId="branch">
-      <Form.Label>Region</Form.Label>
+      <Form.Label>Branches</Form.Label>
       <Form.Control as="select" onChange={handleBranchChange} value={params.branch_id}>
         <option value="">---Select---</option>
         {branches.map((branch) => (<option key={branch.id} value={branch.id}>

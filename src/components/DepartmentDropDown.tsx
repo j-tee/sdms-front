@@ -13,8 +13,9 @@ type AnyType = {
 interface DepartmentDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   branchId: number;
+  schoolId: number;
 }
-const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branchId }) => {
+const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branchId, schoolId}) => {
   const { departments, message, status } = useSelector((state: RootState) => state.department)
   const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
@@ -41,9 +42,9 @@ const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branc
     });
     onChange('department_id', selectedDepartmentId);
   };
-  useEffect(() => {
-      dispatch(getDepartments({ ...params, branch_id: branchId, paginate: false }))
-  }, [branchId, dispatch, params])
+  // useEffect(() => {
+  //     dispatch(getDepartments({ ...params, branch_id: branchId, school_id:schoolId, paginate: false }))
+  // }, [branchId, dispatch, params, schoolId])
 
   useEffect(() => {
     setShowToast(true)

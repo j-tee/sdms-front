@@ -35,14 +35,14 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
     setParams({
       ...params,
       program_id: 0,
-      branch_id: selectedStageId,
+      stage_id: selectedStageId,
       department_id: 0,
     });
     onChange('stage_id', selectedStageId);
   };
-  useEffect(() => {
-    dispatch(getStages({ ...params, branch_id: branchId }))
-  }, [branchId, dispatch, params])
+  // useEffect(() => {
+  //   dispatch(getStages({ ...params, branch_id: branchId }))
+  // }, [branchId, dispatch, params])
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)
@@ -53,7 +53,7 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
       <Form.Control as="select" onChange={handleStageChange} value={params.stage_id}>
         <option value="">---Select---</option>
         {stages.map((stage) => (<option key={stage.id} value={stage.id}>
-          {stage.branch_name}
+          {stage.stage_name}
         </option>
         ))}
       </Form.Control>

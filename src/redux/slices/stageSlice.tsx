@@ -54,7 +54,7 @@ export const circuitSlice = createSlice({
     builder
       .addCase(getStages.fulfilled, (state, action) => ({
         ...state,
-        Stages: action.payload.stages, isLoading: false, message: 
+        stages: action.payload.stages, isLoading: false, message: 
         action.payload.message, status: action.payload.status
       }));
     builder
@@ -66,7 +66,7 @@ export const circuitSlice = createSlice({
     builder
       .addCase(addStage.fulfilled, (state, action) => ({
         ...state,
-        Stage: action.payload, isLoading: false, message: action.payload.message, 
+        Stage: action.payload.stage, isLoading: false, message: action.payload.message, 
         status: action.payload.status
       }));
     builder
