@@ -21,6 +21,7 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
   const { showToast, setShowToast } = useContext(ToastContext)
   const [params, setParams] = useState<ClassGroupParams>({
     class_group_id: 0,
+    department_id: 0,
     stage_id:0,
     program_id: 0,
     branch_id: 0,

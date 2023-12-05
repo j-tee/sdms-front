@@ -53,9 +53,9 @@ const DepartmentCard = (props: any) => {
   }, [branchId, showToast, tabIndex, dispatch, params, schoolId])
   return (
     <div>
-      <Card.Title className='d-flex justify-content-center fs-1 text-muted'>
+      <Card.Subtitle className='d-flex justify-content-center fs-3 text-muted'>
         Departments
-      </Card.Title>
+      </Card.Subtitle>
       <Card.Body>
         <Form>
           <Row>

@@ -20,6 +20,11 @@ const Organisation = () => {
         &nbsp;
       </Container>
       <Card>
+        <Card.Header>
+          <Card.Title>
+            <span className='fs-1 text-muted'>Organisation and Structure</span>
+          </Card.Title>
+        </Card.Header>
         <Card.Body>
           <Tab.Container onSelect={(e) => SetIndex(e)} id="left-tabs-example" defaultActiveKey="first">
             <Row>

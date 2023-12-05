@@ -69,7 +69,7 @@ const Calendar = () => {
                 </Row>
                 <Row>
                   <Col className='mt-2'>
-                  <Button onClick={AddNewAcademicYear} variant="primary">Go somewhere</Button>
+                  <Button onClick={AddNewAcademicYear} variant="primary">Add New Academic Year</Button>
                   </Col>
                 </Row>
               </Form> : "Go to branches to add a new academic year"}
