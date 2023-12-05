@@ -92,8 +92,14 @@ const StudentDetails = (props: any) => {
         Student Details
       </Card.Header>
       <Card.Body>
-        <Form onSubmit={handleSubmit}>
-          {!parent.email_address && (
+      {parent.fathers_full_name && 
+      <Card.Title className='d-flex gap-2 justify-content-center'>        
+        <span>{parent.fathers_full_name}</span> |
+        <span>{parent.mothers_full_name}</span> |
+        <span>{parent.contact_number}</span> |
+        <span>{parent.email_address}</span>
+        </Card.Title>}
+      {!parent.email_address && (
             <Row className='my-3 d-flex flex-row justify-content-center'>
               <Col>
                 <Form>
@@ -110,6 +116,7 @@ const StudentDetails = (props: any) => {
               </Col>
             </Row>
           )}
+        <Form onSubmit={handleSubmit}>
           <Row>
             <Col>
               <Form.Group controlId="crestImage" className='d-flex flex-column gap-1'>

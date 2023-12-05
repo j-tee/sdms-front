@@ -21,7 +21,7 @@ const AdmissionCard = (props:any) => {
       <StudentDetails index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
     <Tab eventKey="admission" title="Admission Details">
-      <AdmissionDetails />
+      <AdmissionDetails index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
   </Tabs>
   )

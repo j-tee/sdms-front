@@ -56,11 +56,36 @@ export const getStudents = createAsyncThunk(
   },
 );
 
+
+export const getStudentById = createAsyncThunk(
+  'student/getStudentById',
+  async (studentId: string, thunkAPI) => {
+    try {
+      const response = await StudentService.getStudentById(studentId);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const studentSlice = createSlice({
   name: 'student',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+    .addCase(getStudentById.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      student: action.payload.student, isLoading: false, std_message: action.payload.message,
+      std_status: action.payload.status
+    }));
+  builder
+    .addCase(getStudentById.pending, (state) => ({ ...state, isLoading: true }));
+  builder
+    .addCase(getStudentById.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+    }));
     builder
       .addCase(getStudents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
