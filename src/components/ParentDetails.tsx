@@ -17,8 +17,10 @@ const ParentDetails = (props: any) => {
     mothersFullName: '',
     fathersOccupation: '',
     mothersOccupation: '',
-    emailAddress: '',
-    contactNumber: '',
+    fathersEmailAddress: '',
+    mothersEmailAddress: '',
+    fathersContactNumber: '',
+    mothersContactNumber: '',
     residentialAddress: '',
     postalAddress: '',
     title: '',
@@ -38,8 +40,10 @@ const ParentDetails = (props: any) => {
       mothers_full_name: formData.mothersFullName,
       fathers_occupation: formData.fathersOccupation,
       mothers_occupation: formData.mothersOccupation,
-      email_address: formData.emailAddress,
-      contact_number: formData.contactNumber,
+      fathers_email_address: formData.fathersEmailAddress,
+      mothers_email_address: formData.mothersEmailAddress,
+      fathers_contact_number: formData.fathersContactNumber,
+      mothers_contact_number: formData.mothersContactNumber,
       residential_address: formData.residentialAddress,
       postal_address: formData.postalAddress,
       title: formData.title
@@ -52,12 +56,12 @@ const ParentDetails = (props: any) => {
     // Example: Basic email format validation
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.emailAddress)) {
+    if (!emailRegex.test(formData.fathersEmailAddress)) {
       showToastify('Invalid email format. Please enter a valid email address.', 'error')
       // You can add more advanced validation or error handling here
     } else {
       // console.log('formdataemail ',formData.emailAddress)
-      dispatch(getParentByEmail(encodeURIComponent(formData.emailAddress)))
+      dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
         .then((res: any) => {
           setShowToast(true)
           showToastify(message, status)
@@ -65,16 +69,16 @@ const ParentDetails = (props: any) => {
     }
   };
   useEffect(() => {
-    if (formData.emailAddress && index=== 'parent' ) {
-      dispatch(getParentByEmail(encodeURIComponent(formData.emailAddress)))
+    if (formData.fathersEmailAddress && index=== 'parent' ) {
+      dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
     }
-  }, [dispatch, formData.emailAddress, index])
+  }, [dispatch, formData.fathersEmailAddress, index])
   return (
     <Card>
       <Card.Header>{formData.title || 'Parent Details'}</Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-          <Row className='d-flex flex-lg-row flex-column'>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
               <Form.Group controlId="fathersFullName">
                 <Form.Label>Father's Full Name</Form.Label>
@@ -98,7 +102,7 @@ const ParentDetails = (props: any) => {
               />
             </Form.Group></Col>
           </Row>
-          <Row className='d-flex flex-lg-row flex-column'>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
               <Form.Group controlId="fathersOccupation">
                 <Form.Label>Father's Occupation</Form.Label>
@@ -124,14 +128,14 @@ const ParentDetails = (props: any) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row className='d-flex flex-lg-row flex-column'>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
-              <Form.Group controlId="emailAddress">
+              <Form.Group controlId="fathersEmailAddress">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
                   type="email"
-                  name="emailAddress"
-                  value={formData.emailAddress}
+                  name="fathersEmailAddress"
+                  value={formData.fathersEmailAddress}
                   onChange={handleChange}
                   onBlur={handleEmailBlur}
                   required
@@ -139,19 +143,45 @@ const ParentDetails = (props: any) => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="contactNumber">
-                <Form.Label>Contact Number</Form.Label>
+              <Form.Group controlId="fathersContactNumber">
+                <Form.Label>Father's Contact Number</Form.Label>
                 <Form.Control
                   type="text"
-                  name="contactNumber"
-                  value={formData.contactNumber}
+                  name="fathersContactNumber"
+                  value={formData.fathersContactNumber}
                   onChange={handleChange}
                   required
                 />
               </Form.Group>
             </Col>
           </Row>
-          <Row className='d-flex flex-lg-row flex-column'>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
+            <Col>
+              <Form.Group controlId="mothersEmailAddress">
+                <Form.Label>Mother's Email Address</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="mothersEmailAddress"
+                  value={formData.mothersEmailAddress}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="mothersContactNumber">
+                <Form.Label>Mother's Contact Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="mothersContactNumber"
+                  value={formData.mothersContactNumber}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
               <Form.Group controlId="residentialAddress">
                 <Form.Label>Residential Address</Form.Label>
@@ -178,7 +208,7 @@ const ParentDetails = (props: any) => {
             </Col>
           </Row>
           <Button className='mt-2' variant="primary" type="submit">
-            {parent.email_address ? 'Update' : 'Submit'}
+            {parent.fathers_email_address ? 'Update' : 'Submit'}
           </Button>
         </Form>
       </Card.Body>

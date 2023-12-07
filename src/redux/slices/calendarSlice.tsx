@@ -85,11 +85,34 @@ export const getAcademicTerms = createAsyncThunk(
   },
 );
 
+export const getCurrentTerm = createAsyncThunk(
+  'calendar/getCurrentTerm',
+  async (branchId: number, thunkAPI) => {
+    try {
+      const response = await CalendarService.getCurrentTerm(branchId);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const calenderSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getCurrentTerm.fulfilled, (state, action) => ({
+        ...state,
+        academic_term: action.payload.term, isLoading: false
+      }));
+    builder
+      .addCase(getCurrentTerm.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(getCurrentTerm.rejected, (state, action) => ({
+        ...state, message: "Action Failed", isLoading: false
+      }));
     builder
       .addCase(getAcademicTerms.fulfilled, (state, action) => ({
         ...state,

@@ -20,8 +20,10 @@ export interface Parent {
   mothers_full_name: string;
   fathers_occupation: string;
   mothers_occupation: string;
-  email_address: string;
-  contact_number: string;
+  fathers_email_address: string;
+  mothers_email_address: string;
+  fathers_contact_number: string;
+  mothers_contact_number: string;
   residential_address: string;
   postal_address: string;
   title: string;
@@ -33,8 +35,10 @@ export interface ParentViewModel {
   mothers_full_name: string;
   fathers_occupation: string;
   mothers_occupation: string;
-  email_address: string;
-  contact_number: string;
+  fathers_email_address: string;
+  mothers_email_address: string;
+  fathers_contact_number: string;
+  mothers_contact_number: string;
   residential_address: string;
   postal_address: string;
   title: string;

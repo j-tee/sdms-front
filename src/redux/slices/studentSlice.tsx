@@ -4,6 +4,7 @@ import StudentService from '../../services/studentService';
 
 const initialState: StudentState = {
   students: [],
+  countries:[],
   std_status: '',
   std_message: '',
   student: {
@@ -69,11 +70,36 @@ export const getStudentById = createAsyncThunk(
   },
 );
 
+export const getCountries = createAsyncThunk(
+  'student/getCountries',
+  async (_, thunkAPI) => {
+    try {
+      const response = await StudentService.getCountries();
+      // console.log('===response===', response.data)
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const studentSlice = createSlice({
   name: 'student',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+    .addCase(getCountries.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      countries: action.payload, isLoading: false, std_message: action.payload.message,
+      std_status: action.payload.status
+    }));
+  builder
+    .addCase(getCountries.pending, (state) => ({ ...state, isLoading: true }));
+  builder
+    .addCase(getCountries.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+    }));
     builder
     .addCase(getStudentById.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,

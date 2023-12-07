@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { ToastContext } from '../utility/ToastContext';
-import { getPrograms } from '../redux/slices/programSlice';
 import { showToastify } from '../utility/Toastify';
 import { Form } from 'react-bootstrap';
-import { getDepartments } from '../redux/slices/departmentSlice';
+import { ProgramParams } from '../models/program';
 
 type AnyType = {
   [key: string]: string;
@@ -41,6 +40,10 @@ const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branc
       program_id: 0,
     });
     onChange('department_id', selectedDepartmentId);
+  };
+  const prog: ProgramParams = {
+    branch_id:0
+    // You can omit other properties if you don't need them
   };
   // useEffect(() => {
   //     dispatch(getDepartments({ ...params, branch_id: branchId, school_id:schoolId, paginate: false }))

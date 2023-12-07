@@ -23,9 +23,10 @@ export interface StageState {
 }
 
 export interface StageParams {
-  stage_id:number,
-  program_id: number;
-  branch_id: number;
-  department_id: number;
-  pagination:Pagination
+  stage_id?:number,
+  program_id?: number;
+  branch_id?: number;
+  department_id?: number;
+  pagination?:Pagination
+  paginate?:boolean;
 }

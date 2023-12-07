@@ -42,9 +42,12 @@ export interface StudentParams {
   pagination:Pagination;
   paginate:boolean;
 }
-
+export interface country{
+  name:string;
+}
 export interface StudentState {
 students:StudentViewModel[];
+countries:country[];
 student:StudentViewModel;
 std_message:string;
 isLoading:boolean;

@@ -11,7 +11,7 @@ type AnyType = {
 };
 interface ProgramDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
-  departmentId:number;
+  departmentId:number | undefined;
   branchId:number;
 }
 const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, departmentId }) => {

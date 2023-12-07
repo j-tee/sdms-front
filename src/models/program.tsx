@@ -6,10 +6,10 @@ export interface Program {
 }
 
 export interface ProgramParams {
-  paginate: boolean;
+  paginate?: boolean;
   branch_id: number;
-  department_id: number;
-  pagination: Pagination
+  department_id?: number;
+  pagination?: Pagination
 }
 
 export interface ProgramViewModel {
