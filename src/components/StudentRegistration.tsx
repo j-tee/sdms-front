@@ -1,147 +1,102 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import { Button, Card, Col, Form, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { Button, Card, Col, Form, Row, Tab, Tabs } from 'react-bootstrap';
+import DepartmentDropDown from './DepartmentDropDown';
+import ProgramDropDown from './ProgramDropDown';
+import StageDropDown from './StageDropDown';
+import { getPrograms } from '../redux/slices/programSlice';
+import { getStages } from '../redux/slices/stageSlice';
+import { StudentRegParams } from '../models/student';
+import RegisteredStudent from './RegisteredStudent';
+import UnregisteredStudent from './UnregisteredStudent';
+import { getRegistrationInformation } from '../redux/slices/studentRegSlice';
 
 const StudentRegistration = (props: any) => {
-    
-    const { schoolId, branchId, tabIndex } = props;
-    const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
-        birth_date: '',
-        gender: '',
-        other_names: '',
-        nationality: '',
-        parent_id: '',
-        student_id: '',
-      });
-    
-      const handleChange = (e:any) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-    
-      const handleSubmit = (e:any) => {
-        e.preventDefault();
-        // Handle form submission logic here
-      };
-    
-    return (
-        <Card>
+  const { schoolId, branchId, tabIndex } = props;
+  const {reg_info} = useSelector((state:RootState) => state.studentReg)
+  const [key, setKey] = useState<string>('registered');
+  const dispatch = useDispatch<AppDispatch>()
+  const [params, setParams] = useState<StudentRegParams>({
+    reg_date: '',
+    stage_id: 0,
+    program_id: 0,
+    department_id: 0,
+    branch_id: 0,
+    school_id: 0,
+    term_id: 0,
+    class_group_id: 0,
+    student_id: 0,
+    pagination: {
+      current_page: 1,
+      per_page: 10,
+      total_items: 0,
+      total_pages: 0
+    }
+  });
+  // useEffect(() => {
+  //   setParams((prevData) => ({
+  //     ...params, stage_id: 5
+  //   }))
+  // }, [params])
+  type AnyType = {
+    [key: string]: string;
+  };
+  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    setParams((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+    switch (field) {
+      case 'department_id': {
+        dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
+        break;
+      }
+      case 'program_id': {
+        dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
+        break;
+      }
+    }
+  };
+  useEffect(() => {
+    if(tabIndex === 'second')
+    dispatch(getRegistrationInformation({...params, branch_id:branchId, school_id:schoolId}))
+  }, [tabIndex, schoolId, branchId, dispatch, params])
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>Reporting and Registration</Card.Title>
+      </Card.Header>
       <Card.Body>
-        <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col>
-              <Form.Group controlId="first_name">
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="last_name">
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="birth_date">
-                <Form.Label>Birth Date</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="birth_date"
-                  value={formData.birth_date}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="gender">
-                <Form.Label>Gender</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="other_names">
-                <Form.Label>Other Names</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="other_names"
-                  value={formData.other_names}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="nationality">
-                <Form.Label>Nationality</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="nationality"
-                  value={formData.nationality}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="parent_id">
-                <Form.Label>Parent ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="parent_id"
-                  value={formData.parent_id}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="student_id">
-                <Form.Label>Student ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="student_id"
-                  value={formData.student_id}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+        <Row>
+          <Col>
+            <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
+          </Col>
+          <Col>
+            <ProgramDropDown onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} />
+          </Col>
+          <Col>
+            <StageDropDown onChange={handleInputChange} branchId={branchId} />
+          </Col>
+        </Row>
+        <Row className='my-5'>
+          <Tabs
+            id="controlled-tab-example"
+            activeKey={key}
+            onSelect={(k) => k && setKey(k)}
+            className="mb-3"
+          >
+            <Tab eventKey="registered" title="Registered Students">
+              <RegisteredStudent students={reg_info.registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+            </Tab>
+            <Tab eventKey="unregistered" title="Unregistered Students">
+              <UnregisteredStudent students={reg_info.all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+            </Tab>
+          </Tabs>
+        </Row>
       </Card.Body>
     </Card>
-    )
+  )
 }
 
 export default StudentRegistration

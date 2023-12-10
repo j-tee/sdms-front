@@ -95,7 +95,7 @@ const StageCard = (props: any) => {
         <Col>
           <Form.Group>
             <Form.Label>Stage Name</Form.Label>
-            <Form.Control onChange={(e) => handleInputChange('stage_name', e.target.value)} value={params.stage_name} />
+            <Form.Control placeholder='Stages should be entered in order, eg Stage One before Stage Two' onChange={(e) => handleInputChange('stage_name', e.target.value)} value={params.stage_name} />
           </Form.Group>
         </Col>
         <Col className='pt-4'>

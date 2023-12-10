@@ -14,8 +14,9 @@ interface ClassGroupDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   programId: number;
   stageId: number;
+  departmentId:number;
 }
-const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, programId, stageId }) => {
+const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, programId, stageId, departmentId }) => {
   const { class_groups, message, status } = useSelector((state: RootState) => state.classGroup)
   const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
@@ -45,8 +46,8 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
     onChange('class_group_id', selectedClassGroupId);
   };
   useEffect(() => {
-    dispatch(getClassGroups({ ...params, program_id: programId, stage_id: stageId }))
-  }, [dispatch, params, programId, stageId])
+    dispatch(getClassGroups({ ...params, program_id: programId, stage_id: stageId, department_id:departmentId }))
+  }, [departmentId, dispatch, params, programId, stageId])
 
   useEffect(() => {
     setShowToast(true)

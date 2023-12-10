@@ -12,6 +12,7 @@ import classGroupReducer from '../redux/slices/classGroupSlice';
 import parentReducer from '../redux/slices/parentSlice';
 import studentReducer from '../redux/slices/studentSlice';
 import admissionReducer from '../redux/slices/admissionSlice';
+import studentRegReducer from '../redux/slices/studentRegSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -25,10 +26,11 @@ export const store = configureStore({
     calendar: calendarReducer,
     department: departmentReducer,
     program: programReducer,
-    stage:stageReducer,
-    classGroup:classGroupReducer,
-    parent:parentReducer,
-    student:studentReducer,
-    admission:admissionReducer,
+    stage: stageReducer,
+    classGroup: classGroupReducer,
+    parent: parentReducer,
+    student: studentReducer,
+    admission: admissionReducer,
+    studentReg: studentRegReducer,
   }
 })
