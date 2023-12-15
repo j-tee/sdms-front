@@ -8,13 +8,13 @@ import StageDropDown from './StageDropDown';
 import { getPrograms } from '../redux/slices/programSlice';
 import { getStages } from '../redux/slices/stageSlice';
 import { StudentRegParams } from '../models/student';
-import RegisteredStudent from './RegisteredStudent';
+import RegisteredStudents from './RegisteredStudents';
 import UnregisteredStudent from './UnregisteredStudent';
-import { getRegistrationInformation } from '../redux/slices/studentRegSlice';
+import { getRegisteredStudents, getRegistrationInformation } from '../redux/slices/studentRegSlice';
 
 const StudentRegistration = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
-  const {reg_info} = useSelector((state:RootState) => state.studentReg)
+  const {reg_info, registrations} = useSelector((state:RootState) => state.studentReg)
   const [key, setKey] = useState<string>('registered');
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState<StudentRegParams>({
@@ -60,6 +60,7 @@ const StudentRegistration = (props: any) => {
   };
   useEffect(() => {
     if(tabIndex === 'second')
+    dispatch(getRegisteredStudents({...params, branch_id:branchId, school_id:schoolId}))
     dispatch(getRegistrationInformation({...params, branch_id:branchId, school_id:schoolId}))
   }, [tabIndex, schoolId, branchId, dispatch, params])
   return (
@@ -68,7 +69,7 @@ const StudentRegistration = (props: any) => {
         <Card.Title>Reporting and Registration</Card.Title>
       </Card.Header>
       <Card.Body>
-        <Row>
+        <Row className='d-flex flex-column flex-lg-row'>
           <Col>
             <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
           </Col>
@@ -87,10 +88,10 @@ const StudentRegistration = (props: any) => {
             className="mb-3"
           >
             <Tab eventKey="registered" title="Registered Students">
-              <RegisteredStudent students={reg_info.registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <RegisteredStudents students={registrations} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
             <Tab eventKey="unregistered" title="Unregistered Students">
-              <UnregisteredStudent students={reg_info.all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <UnregisteredStudent onChange={handleInputChange} students={reg_info.all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
           </Tabs>
         </Row>

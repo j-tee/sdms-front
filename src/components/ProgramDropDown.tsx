@@ -40,9 +40,7 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, d
     });
     onChange('program_id', selectedProgramId);
   };
-  // useEffect(() =>{
-  //   dispatch(getPrograms({...params, branch_id:branchId, department_id:departmentId}))
-  // }, [branchId, departmentId, dispatch, params])
+  
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)

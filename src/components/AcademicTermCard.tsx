@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { AcademicTerm, AcademicTermViewModel, TermParams } from '../models/calendar';
-import { addAcademicTerm, getAcademicTerms } from '../redux/slices/calendarSlice';
+import { addAcademicTerm, getAcademicTerms, getCurrentAcademicYear } from '../redux/slices/calendarSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 
 const AcademicTermCard = (props: any) => {
-  const { academic_terms, message, status } = useSelector((state: RootState) => state.calendar)
-  const { showToast, setShowToast } = useContext(ToastContext)
-  const { yearId } = props;
+  const { academic_terms, academic_year } = useSelector((state: RootState) => state.calendar)
+  const { setShowToast } = useContext(ToastContext)
+  const { branchId } = props;
   const dispatch = useDispatch<AppDispatch>()
 
   const [params, setParams] = useState<TermParams>({
@@ -28,40 +28,26 @@ const AcademicTermCard = (props: any) => {
     start_date: '',
     end_date: '',
     completed: false,
-    academic_year_id: 0
+    academic_year_id: 0,
   })
 
   useEffect(() => {
-    setShowToast(false)
-  },[setShowToast])
+    dispatch(getCurrentAcademicYear(branchId))
+    if(academic_year){
+      dispatch(getAcademicTerms({ ...params, year_id: academic_year.id }))
+    }
+  },[branchId, dispatch])
 
   const addNewTerm = async () => {
     setShowToast(true)
-    await dispatch(addAcademicTerm({ ...formData, academic_year_id: yearId }))
+    await dispatch(addAcademicTerm({ ...formData, academic_year_id: academic_year.id })).then((res) => {
+      showToastify(res.payload.message, res.payload.status)
+    })
   }
-  useEffect(() => {
-    if (message && status && showToast) {
-      showToastify(message, status)
-      dispatch(getAcademicTerms({ ...params, year_id: yearId }))
-    }
-  }, [message, setShowToast, showToast, status])
-
-  useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      academic_year_id: yearId
-    }))
-  }, [])
-
-  useEffect(() => {
-    dispatch(getAcademicTerms({ ...params, year_id: yearId }))
-    if(status==='error'){
-      setShowToast(true)
-      showToastify(message,status)
-    }
-  }, [dispatch, message, params, setShowToast, status, yearId])
+   
   return (
     <div>
+      <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>
       <Form>
         <Row>
           <Col>
@@ -88,6 +74,7 @@ const AcademicTermCard = (props: any) => {
           </Col>
         </Row>
       </Form>
+      <Card.Header className='fs-3 text-muted mb-4'>Academic Terms</Card.Header>
       <Table striped hover responsive bordered variant='dark'>
         <thead>
           <tr>

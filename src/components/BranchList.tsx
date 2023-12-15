@@ -35,7 +35,7 @@ const BranchList = () => {
       total_pages: 0,
     }
   })
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics']
   type AnyType = {
     [key: string]: string;
   };
@@ -55,7 +55,10 @@ const BranchList = () => {
       <Container style={{ marginTop: '3rem' }}>
         &nbsp;
       </Container>
-      <Card className='border-0 shadow-sm d-flex flex-md-column mt-2'>
+      <Card className='border-0 shadow-sm d-flex flex-md-column'>
+        <Card.Header>
+          <span className='text-muted fs-1'>Branches</span>
+        </Card.Header>
         <Card.Body>
           <span className='d-flex flex-column align-items-center'>
             <Card.Title className='fs-1 text-muted'>{school && school.school_name}</Card.Title>
@@ -64,14 +67,14 @@ const BranchList = () => {
           </span>
           <LocationDropDown onLocationChange={handleInputChange} />
         </Card.Body>
-      </Card>
-      {branches.map((branch) => {
-        const branchWithTags = { ...branch, tags };
-        return (
-          <BranchCard branch={branchWithTags} />
-        )
-      })}
 
+        {branches.map((branch) => {
+          const branchWithTags = { ...branch, tags };
+          return (
+            <BranchCard branch={branchWithTags} />
+          )
+        })}
+      </Card>
     </>
   )
 }

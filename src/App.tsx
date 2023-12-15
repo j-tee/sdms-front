@@ -16,6 +16,8 @@ import Calendar from './components/Calendar';
 import DepartmentList from './components/DepartmentCard';
 import Organisation from './components/Organisation';
 import Enrolment from './components/Enrolment';
+import StaffCard from './components/StaffCard';
+import Academics from './components/Academics';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path="/schools" element={<Schools />} />
             <Route path="/branches/:schoolId" element={<BranchList />} />
             <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
+            <Route path="/staff/:schoolId/:branchId" element={<StaffCard />} />
+            <Route path="/academics/:schoolId/:branchId" element={<Academics />} />
             <Route path="/enrolments/:schoolId/:branchId" element={<Enrolment />} />
             <Route path="/organisation-structures/:schoolId/:branchId" element={<Organisation />} />
           </Routes>

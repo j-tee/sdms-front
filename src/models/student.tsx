@@ -79,6 +79,9 @@ export interface StudentRegistration {
 
 export interface StudentRegViewModel {
   id: 0,
+  student_class: string;
+  student_program: string;
+  student_stage: string;
   first_name: string,
   last_name: string;
   birth_date: string;
@@ -95,6 +98,7 @@ export interface StudentRegViewModel {
 }
 
 export interface StudentRegState {
+  registrations: StudentRegViewModel[];
   isLoading: boolean;
   pagination?: Pagination;
   status:string;

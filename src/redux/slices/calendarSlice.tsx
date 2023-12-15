@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AcademicTerm, AcademicYear, CalendarState } from '../../models/calendar';
 import CalendarService from '../../services/calendarService';
 
@@ -7,6 +7,7 @@ const initialState: CalendarState = {
   academic_terms: [],
   status: '',
   message: '',
+  term_count:0,
   academic_term: {
     id: 0,
     term_name: '',
@@ -97,11 +98,51 @@ export const getCurrentTerm = createAsyncThunk(
   },
 );
 
+export const getCurrentAcademicYear = createAsyncThunk(
+  'calendar/getCurrentAcademicYear',
+  async (branchId: number, thunkAPI) => {
+    try {
+      const response = await CalendarService.getCurrentAcademicYear(branchId);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+export const gettermCount = createAsyncThunk(
+  'calendar/gettermCount',
+  async (branchId: number, thunkAPI) => {
+    try {
+      const response = await CalendarService.getTermCount(branchId);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 export const calenderSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(gettermCount.fulfilled, (state, action) => ({
+        ...state,
+        term_count: action.payload.term_count, isLoading: false
+      }));
+    builder.addCase(gettermCount.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(gettermCount.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+    }));
+    builder.addCase(getCurrentAcademicYear.fulfilled, (state, action) => ({
+      ...state,
+      academic_year: action.payload.year, isLoading: false
+    }));
+    builder
+      .addCase(getCurrentAcademicYear.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getCurrentAcademicYear.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+    }));
     builder
       .addCase(getCurrentTerm.fulfilled, (state, action) => ({
         ...state,

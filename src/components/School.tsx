@@ -48,7 +48,7 @@ const School = () => {
       total_pages: 0,
     }
   })
-  const tags = ['Calendar', 'Admissions', 'Students', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
+  const tags = ['Calendar', 'Admissions', 'Students', 'Staff', 'Organisation/Structures', 'Academics']
   const getAllSchools = useCallback(() => {
     dispatch(getSchools(params));
   }, [dispatch, params]);
@@ -65,7 +65,7 @@ const School = () => {
 
   };
   useEffect(() => {
-    dispatch(getSchools({...params, school_id:0}));
+    dispatch(getSchools({ ...params, school_id: 0 }));
   }, [dispatch, params])
 
   return (
@@ -74,23 +74,24 @@ const School = () => {
       <Container style={{ marginTop: '3rem' }}>
         &nbsp;
       </Container>
-      <Card className='border-0 shadow-sm d-flex flex-md-column my-2'>
-        <span className='d-flex justify-content-center'>
-          {/* <Card.Img className='mt-5 d-flex' variant="bottom" src={school.crest_image_url} alt={school.school_name} style={{ height: 'auto', width: '20%' }} /> */}
-        </span>
+      <Card className='border-0 shadow-sm d-flex flex-md-column'>
+        <Card.Header>
+          <span className='text-muted fs-1'>Schools</span>
+        </Card.Header>
         <Card.Body>
           <SchoolDropdowns onChange={handleInputChange} />
           {/* <LocationDropDown onLocationChange={handleInputChange} /> */}
         </Card.Body>
-      </Card>
-      {schools.map((school, index) => {
-        // Manually add tags to each school object
-        const schoolWithTags = { ...school, tags };
 
-        return (
-          <SchoolCard school={schoolWithTags} />
-        );
-      })}
+        {schools.map((school, index) => {
+          // Manually add tags to each school object
+          const schoolWithTags = { ...school, tags };
+
+          return (
+            <SchoolCard school={schoolWithTags} />
+          );
+        })}
+      </Card>
     </>
 
 

@@ -13,6 +13,9 @@ import parentReducer from '../redux/slices/parentSlice';
 import studentReducer from '../redux/slices/studentSlice';
 import admissionReducer from '../redux/slices/admissionSlice';
 import studentRegReducer from '../redux/slices/studentRegSlice';
+import staffReducer from '../redux/slices/staffSlice';
+import subjectReducer from '../redux/slices/subjectSlice';
+import programSubjectReducer from '../redux/slices/programSubjectSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -32,5 +35,9 @@ export const store = configureStore({
     student: studentReducer,
     admission: admissionReducer,
     studentReg: studentRegReducer,
+    staff: staffReducer,
+    subject: subjectReducer,
+    programSubject: programSubjectReducer,
+
   }
 })

@@ -23,7 +23,7 @@ const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
     dispatch(getOwnershipCategories());
   }, [dispatch]);
   return (
-    <Container>
+    <Container fluid className='border p-3'>
       <Row>
         <Col md={6}>
           <Form.Group controlId="religiousAffiliation">

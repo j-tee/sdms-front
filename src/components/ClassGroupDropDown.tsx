@@ -55,7 +55,7 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
   }, [message, setShowToast, showToast, status])
   return (
     <Form.Group controlId="department">
-      <Form.Label>Departments</Form.Label>
+      <Form.Label>Class Groups</Form.Label>
       <Form.Control as="select" onChange={handleClassGroupChange} value={params.class_group_id}>
         <option value="">---Select---</option>
         {class_groups.map((clsgrp) => (<option key={clsgrp.id} value={clsgrp.id}>

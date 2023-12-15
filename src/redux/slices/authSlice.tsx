@@ -368,11 +368,11 @@ export const authSlice = createSlice({
         message: 'The action requested has failed',
         isLoading: false,
       }))
-      .addCase(loginUser.fulfilled, (state, action) => ({
+      .addCase(registerUser.pending, (state, action) => ({
         ...state,
         isLoggedIn: true,
-        user: action.payload.user,
-        message: 'User logged In Successfully!!',
+      
+        message: 'Loading...',
         isLoading: false,
       }))
       .addCase(loginUser.rejected, (state) => ({

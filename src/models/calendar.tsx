@@ -9,12 +9,14 @@ export interface CalendarState {
   message: string;
   isLoading: boolean;
   status: string;
+  term_count: number;
 }
 
 export interface AcademicYear {
   start_date: string;
   end_date: string;
-  branch_id: number | "" | undefined
+  branch_id: number | "" | undefined;
+  term_category: string;
 }
 
 export interface AcademicTerm {

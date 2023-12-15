@@ -1,9 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StudentRegParams, StudentRegState } from '../../models/student';
+import { StudentRegParams, StudentRegState, StudentRegistration } from '../../models/student';
 import StudentRegService from '../../services/studentRegService';
 
 const initialState: StudentRegState = {
-
+registrations: [],
   reg_info: {
     all_unregistered_students:[],
     registered:[],
@@ -21,6 +21,18 @@ const initialState: StudentRegState = {
     total_pages: 0
   },
 };
+
+export const registerStudents = createAsyncThunk(
+  'studentReg/registerStudents',
+  async (registrations: any, thunkAPI) => {
+    try {
+      const response = await StudentRegService.registerStudents(registrations);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const getRegisteredStudents = createAsyncThunk(
   'studentReg/getRegisteredStudents',
@@ -51,6 +63,17 @@ export const studentRegSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(registerStudents.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        status: action.payload.status,
+        message: action.payload.message,
+        isLoading: false,
+      }));
+      builder.addCase(registerStudents.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(registerStudents.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
     builder
     .addCase(getRegistrationInformation.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,

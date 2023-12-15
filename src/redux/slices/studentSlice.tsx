@@ -75,7 +75,6 @@ export const getCountries = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await StudentService.getCountries();
-      // console.log('===response===', response.data)
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -98,7 +97,7 @@ export const studentSlice = createSlice({
     .addCase(getCountries.pending, (state) => ({ ...state, isLoading: true }));
   builder
     .addCase(getCountries.rejected, (state, action: PayloadAction<any>) => ({
-      ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+      ...state, message: 'Failed to load countries', status: 'error', isLoading: false
     }));
     builder
     .addCase(getStudentById.fulfilled, (state, action: PayloadAction<any>) => ({
