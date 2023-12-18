@@ -1,6 +1,6 @@
 
 import { Circuit } from "./circuit";
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 import { Region } from "./region";
 
 export interface District {
@@ -21,5 +21,5 @@ export interface DistrictState {
   district: DistrictViewModel;
   message: string;
   isLoading: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }

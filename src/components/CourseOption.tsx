@@ -66,7 +66,7 @@ const CourseOption = (props: any) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log('formData', formData);
-    dispatch(addCourseOption({ ...formData, academic_term_id: academic_term.id })).then((resp: any) => {
+    dispatch(addCourseOption({ ...formData, academic_term_id: academic_term.id ?? 0 })).then((resp: any) => {
       setShowToast(true)
       showToastify(resp.payload.message, resp.payload.status)
 
@@ -88,7 +88,7 @@ const CourseOption = (props: any) => {
       dispatch(getCurrentTerm(branchId)).then((resp: any) => {
         setFormData((prevData) => ({
           ...prevData,
-          academic_term_id: academic_term.id,
+          academic_term_id: academic_term.id as number,
         }));
       })
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))

@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 
 export interface StaffParams {
@@ -7,8 +7,9 @@ export interface StaffParams {
   department_id?: number;
   program_id?: number;
   subject_id?: number;
+  staff_id?: number;
   class_group_id?: number;
-  pagination?: Pagination
+  pagination?: PaginationParams
   paginate?: boolean;
 }
 
@@ -30,7 +31,7 @@ export interface StaffState {
   message: string;
   status: string;
   isLoading: boolean;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 export interface StaffViewModel { 

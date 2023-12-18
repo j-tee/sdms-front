@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Student {
   first_name: string;
@@ -39,7 +39,7 @@ export interface StudentParams {
   admission_id: number;
   academic_year_id: number;
   academic_term_id: number;
-  pagination: Pagination;
+  pagination: PaginationParams;
   paginate: boolean;
 }
 
@@ -54,7 +54,7 @@ export interface StudentState {
   std_message: string;
   isLoading: boolean;
   std_status: string;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 export interface StudentRegParams {
@@ -67,7 +67,7 @@ export interface StudentRegParams {
   school_id?: number;
   term_id?: number;
   class_group_id?: number;
-  pagination?: Pagination
+  pagination?: PaginationParams
 }
 
 export interface StudentRegistration {
@@ -100,7 +100,7 @@ export interface StudentRegViewModel {
 export interface StudentRegState {
   registrations: StudentRegViewModel[];
   isLoading: boolean;
-  pagination?: Pagination;
+  pagination?: PaginationParams;
   status:string;
   message:string;
   reg_info: {

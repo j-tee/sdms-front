@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Subject {
   subject_name: string;
@@ -16,7 +16,7 @@ export interface ProgramSubjectParams {
   school_id?: number;
   credit_hours?: number;
   optional?: number;
-  pagination: Pagination;
+  pagination: PaginationParams;
   paginate: boolean;
 }
 
@@ -27,7 +27,7 @@ export interface ProgramSubjectState {
   message: string;
   isLoading: boolean;
   paginate: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }
 
 export interface ProgramSubject {
@@ -44,6 +44,7 @@ export interface ProgramSubjectViewModel {
   stage_id: number;
   academic_term_id: number;
   subject_id: number;
+  subject_name: string;
   program_id: number;
   stage_name: string;
   program_name: string;
@@ -59,7 +60,7 @@ export interface SubjectState {
   status: string;
   message: string;
   isLoading: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }
 export interface SubjectParams {
   student_id?: number;
@@ -71,7 +72,7 @@ export interface SubjectParams {
   academic_term_id?: number;
   stage_id?: number;
   paginate: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }
 
 export interface SubjectViewModel {

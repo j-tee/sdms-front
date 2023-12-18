@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Program {
   prog_name: string;
@@ -6,10 +6,11 @@ export interface Program {
 }
 
 export interface ProgramParams {
+  school_id?: number;
   paginate?: boolean;
   branch_id: number;
   department_id?: number;
-  pagination?: Pagination
+  pagination?: PaginationParams
 }
 
 export interface ProgramViewModel {
@@ -25,5 +26,5 @@ export interface ProgramState {
   message: string;
   isLoading: boolean;
   status: string;
-  pagination: Pagination
+  pagination: PaginationParams
 }

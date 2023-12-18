@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Region {
   id: number; // Assuming 'id' is the primary key
@@ -10,5 +10,5 @@ export interface RegionState {
   region: Region;
   message: string;
   isLoading: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }

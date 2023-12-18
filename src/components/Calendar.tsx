@@ -7,7 +7,7 @@ import AcademicTermCard from './AcademicTermCard';
 
 const Calendar = () => {
   const { schoolId, branchId } = useParams()
-  const [key, setKey] = useState<string>('ay');
+  const [tabKey, setTabKey] = useState<string>('ay');
   
   return (
     <>
@@ -22,15 +22,15 @@ const Calendar = () => {
         <Card.Body>
           <Tabs
             id="controlled-tab-example"
-            activeKey={key}
-            onSelect={(k) => k && setKey(k)}
+            activeKey={tabKey}
+            onSelect={(k) => k && setTabKey(k)}
             className="mb-3"
           >
             <Tab eventKey="ay" title="Academic Years">
               <AcademicYearCard schoolId={schoolId} branchId={branchId} />
             </Tab>
             <Tab eventKey="at" title="Academic Terms">
-              <AcademicTermCard schoolId={schoolId} branchId={branchId} />
+              <AcademicTermCard tabKey={tabKey} schoolId={schoolId} branchId={branchId} />
             </Tab>
           </Tabs>
         </Card.Body>

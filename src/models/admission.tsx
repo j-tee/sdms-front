@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Admission {
   academic_term_id: number;
@@ -25,7 +25,7 @@ export interface AdmissionState {
     reported_percentage:number
   };
   isLoading: boolean;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 export interface AdmissionViewModel {
@@ -50,5 +50,5 @@ export interface AdmissionParams {
   school_id?: number;
   term_id?: number;
   paginate?: boolean;
-  pagination?: Pagination
+  pagination?: PaginationParams
 }

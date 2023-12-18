@@ -1,5 +1,5 @@
 import { Branch, BranchViewModel } from "./branch";
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface SchoolParams {
   school_id: number;
@@ -13,7 +13,7 @@ export interface SchoolParams {
   user_id: number;
   parent_id: number;
   student_id: number;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 // export interface SchoolViewModel {
@@ -83,5 +83,5 @@ export interface SchoolState {
   ownershipCategories: OwnershipCategory[];
   message: string;
   isLoading: boolean;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }

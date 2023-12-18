@@ -15,7 +15,7 @@ const initialState: CalendarState = {
     school_name: '',
     start_date: '',
     end_date: '',
-    academic_year: '',
+    academic_year_name: '',
     start_year: 0,
     end_year: 0,
   },
@@ -120,11 +120,95 @@ export const gettermCount = createAsyncThunk(
     }
   },
 );
+
+export const updateAcademicYear = createAsyncThunk(
+  'calendar/updateAcademicYear',
+  async (year: AcademicYear, thunkAPI) => {
+    try {
+      const response = await CalendarService.updateAcademicYear(year);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteAcademicYear = createAsyncThunk(
+  'calendar/deleteAcademicYear',
+  async (year: AcademicYear, thunkAPI) => {
+    try {
+      const response = await CalendarService.deleteAcaemicYear(year);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const updateAcademicTerm = createAsyncThunk(
+  'calendar/updateAcademicTerm',
+  async (term: AcademicTerm, thunkAPI) => {
+    try {
+      const response = await CalendarService.updateAcademicTerm(term, term.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteAcademicTerm = createAsyncThunk(
+  'calendar/deleteAcademicTerm',
+  async (term: AcademicTerm, thunkAPI) => {
+    try {
+      const response = await CalendarService.deleteAcademicTerm(term.id ?? 0);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const calenderSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(deleteAcademicTerm.fulfilled, (state, action) => ({
+        ...state,
+        message: action.payload.message, isLoading: false, status: action.payload.status
+      }));
+      builder.addCase(deleteAcademicTerm.pending, (state) => ({ ...state, isLoading: true }));  
+      builder.addCase(deleteAcademicTerm.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+      }));
+    builder.addCase(updateAcademicTerm.fulfilled, (state, action) => ({
+      ...state,
+      academic_term: action.payload.term, isLoading: false, message: action.payload.message, status: action.payload.status
+    }));
+    builder.addCase(updateAcademicTerm.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateAcademicTerm.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+    }));
+    builder
+      .addCase(deleteAcademicYear.fulfilled, (state, action) => ({
+        ...state,
+        message: action.payload.message, isLoading: false, status: action.payload.status
+      }));
+      builder.addCase(deleteAcademicYear.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(deleteAcademicYear.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+      }));
+    builder
+      .addCase(updateAcademicYear.fulfilled, (state, action) => ({
+        ...state,
+        academic_year: action.payload, isLoading: false
+      }));
+    builder.addCase(updateAcademicYear.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateAcademicYear.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+    }));
     builder
       .addCase(gettermCount.fulfilled, (state, action) => ({
         ...state,

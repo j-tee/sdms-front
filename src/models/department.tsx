@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Department {
   dept_name?: string;
@@ -9,7 +9,7 @@ export interface DepartmentParams{
   branch_id?:number;
   school_id?:number;
   paginate?:boolean;
-  pagination?:Pagination
+  pagination?:PaginationParams
 }
 
 export interface DepartmentViewModel {
@@ -25,5 +25,5 @@ export interface DepartmentState {
   message: string;
   isLoading: boolean;
   status: string;
-  pagination: Pagination
+  pagination: PaginationParams
 }

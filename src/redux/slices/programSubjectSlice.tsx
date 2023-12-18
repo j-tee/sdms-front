@@ -16,6 +16,7 @@ const initialState: ProgramSubjectState = {
     dept_name: '',
     optional: 0,
     credit_hours: 0,
+    subject_name: ''
   },
   status: '',
   message: '',

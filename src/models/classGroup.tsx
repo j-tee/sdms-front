@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface ClassGroup {
   class_name: string;
@@ -15,7 +15,7 @@ export interface ClassGroupParams {
   program_id: number;
   school_id: number;
   paginate: boolean;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 export interface ClassGroupViewModel {
@@ -34,5 +34,5 @@ export interface ClassGroupState {
   message: string;
   isLoading: boolean;
   status: string;
-  pagination: Pagination
+  pagination: PaginationParams
 }

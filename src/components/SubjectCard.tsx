@@ -7,6 +7,7 @@ import { SubjectParams } from '../models/subject';
 import { getSubjects } from '../redux/slices/subjectSlice';
 import SubjectDetails from './SubjectDetails';
 import CourseOption from './CourseOption';
+import StudentOptionalCourseCard from './StudentOptionalCourseCard';
 
 const SubjectCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
@@ -42,7 +43,7 @@ const SubjectCard = (props: any) => {
         <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />  
       </Tab>
       <Tab eventKey="registration" title="Course Registration">
-        <h3>Course Registrations</h3>
+        <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} /> 
       </Tab>
     </Tabs>
   )

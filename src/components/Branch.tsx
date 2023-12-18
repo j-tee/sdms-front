@@ -30,6 +30,7 @@ const Branch = () => {
           <BranchCard branch={branchWithTags} />
         );
       })}
+      
     </div>
   )
 }

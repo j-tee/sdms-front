@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface Stage {
   stage_name: string;
@@ -19,14 +19,15 @@ export interface StageState {
   status: string;
   stage: StageViewModel;
   isLoading: boolean;
-  pagination: Pagination
+  pagination: PaginationParams
 }
 
 export interface StageParams {
+  school_id?: number;
   stage_id?:number,
   program_id?: number;
   branch_id?: number;
   department_id?: number;
-  pagination?:Pagination
+  pagination?:PaginationParams
   paginate?:boolean;
 }

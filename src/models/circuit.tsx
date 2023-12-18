@@ -1,5 +1,5 @@
 import { District, DistrictViewModel } from "./district";
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 import { Region } from "./region";
 import { SchoolViewModel } from "./school";
 
@@ -26,6 +26,6 @@ export interface Circuit {
     circuit: Circuit;
     message: string;
     isLoading: boolean;
-    pagination: Pagination;
+    pagination: PaginationParams;
   }
   

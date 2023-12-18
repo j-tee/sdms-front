@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface ParentState {
   parents:ParentViewModel[];
@@ -6,12 +6,12 @@ export interface ParentState {
   message:string;
   isLoading:boolean;
   status:string;
-  pagination:Pagination
+  pagination:PaginationParams
 }
 export interface ParentParams {
   school_id: number;
   branch_id: number;
-  pagination:Pagination;
+  pagination:PaginationParams;
   paginate:boolean
 }
 

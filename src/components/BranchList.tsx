@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Container } from 'react-bootstrap'
+import { Card, Container, Dropdown, DropdownButton } from 'react-bootstrap'
 import SchoolDropdowns from './SchoolDropdowns'
 import { AppDispatch, RootState } from '../redux/store';
 import { BranchParams } from '../models/branch';
@@ -9,6 +9,7 @@ import LocationDropDown from './LocationDropDown';
 import { getBranches } from '../redux/slices/schoolSlice';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
+import PaginationComponent from './PaginationComponent';
 
 const BranchList = () => {
   const { branches } = useSelector((state: RootState) => state.school)
@@ -45,6 +46,28 @@ const BranchList = () => {
       [field]: value,
     }));
   };
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
+
   useEffect(() => {
     // console.log('===========school.id', school.id, )
     dispatch(getBranches({ ...params, school_id: school && school.id }))
@@ -74,6 +97,24 @@ const BranchList = () => {
             <BranchCard branch={branchWithTags} />
           )
         })}
+        <div className="d-flex px-2 justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={params.pagination?.current_page}
+          itemsCountPerPage={params.pagination?.per_page}
+          totalItemsCount={params.pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={params.pagination?.total_pages}
+          hideDisabled={params.pagination?.total_pages === 0}
+          hideNavigation={params.pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
       </Card>
     </>
   )

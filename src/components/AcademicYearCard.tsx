@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Col, Form, Row } from 'react-bootstrap'
+import { Button, Card, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap'
 import AcademicYearList from './AcademicYearList'
 import { AcademicYear, AcademicYearViewModel, YearParams } from '../models/calendar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { addAcademicYear, getAcademicYears } from '../redux/slices/calendarSlice'
+import PaginationComponent from './PaginationComponent'
 
 const AcademicYearCard = (props: any) => {
   const { branchId, schoolId } = props;
   const { academic_years } = useSelector((state: RootState) => state.calendar)
   const dispatch = useDispatch<AppDispatch>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [params, setParams] = useState<YearParams>({
     school_id: 0,
     branch_id: 0,
@@ -27,8 +30,33 @@ const AcademicYearCard = (props: any) => {
     term_category: '',
   })
   const AddNewAcademicYear = () => {
-    dispatch(addAcademicYear({ ...formData, branch_id: branchId && parseInt(branchId) }))
+    dispatch(addAcademicYear({ ...formData, branch_id: branchId && parseInt(branchId) })).then((res) => {
+      dispatch(getAcademicYears({ ...params, school_id: schoolId, branch_id: branchId }));
+    }
+    )
   }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
   useEffect(() => {
     setParams((prevParams) => ({
       ...prevParams,
@@ -78,9 +106,30 @@ const AcademicYearCard = (props: any) => {
           </Form> : "Go to branches to add a new academic year"}
 
       </Card.Text>
+      <Card.Header>
+        <span className="text-muted fs-3">Academic Years</span>
+      </Card.Header>
       {academic_years.length && academic_years.map((year: AcademicYearViewModel) => (
-        <AcademicYearList academicYear={year} />
+        <AcademicYearList schoolId={schoolId} branchId={branchId} academicYear={year} />
       ))}
+      <div className="d-flex justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={params.pagination?.current_page}
+          itemsCountPerPage={params.pagination?.per_page}
+          totalItemsCount={params.pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={params.pagination?.total_pages}
+          hideDisabled={params.pagination?.total_pages === 0}
+          hideNavigation={params.pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   )
 }

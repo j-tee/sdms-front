@@ -187,7 +187,7 @@ a:focus {
 
 .slider_section .detail-box span {
   color: #fefdfc;
-  font-size: 2.0rem;
+  font-size: 2rem;
   font-weight: 700;
 }
 
@@ -577,10 +577,15 @@ a:focus {
 .footer_section a {
   color: #fefdfc;
 }
-.card-tags li a{
+
+span a {
+  text-decoration: underline !important;
+}
+.card-tags li a, span a {
   /* margin-right: 0.5rem; */
   padding: 4px 12px;
   border-radius: 8px;
+  cursor: pointer;
   /* display: flex; */
   color: #0a1dc9;
   /* align-items: center; */
@@ -592,3 +597,8 @@ a:focus {
   font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
+.react-time-picker__wrapper {
+  border-radius: 4px;
+  padding: 3px;
+  margin-top: 4px;
+}

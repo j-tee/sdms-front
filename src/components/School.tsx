@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { getSchools } from '../redux/slices/schoolSlice';
 import { SchoolParams } from '../models/school';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Dropdown, DropdownButton } from 'react-bootstrap';
 import SchoolCard from './SchoolCard';
 import SchoolDropdowns from './SchoolDropdowns';
 import LocationDropDown from './LocationDropDown';
 import Header from './Header';
+import PaginationComponent from './PaginationComponent';
 
 const School = () => {
   const { setShowToast } = useContext(ToastContext);
@@ -18,6 +19,8 @@ const School = () => {
   const isValid = UserSession.validateToken();
   const userInfo = UserSession.getUserInfo();
   const { openLoginModal, closeLoginModal } = useAuth();
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
   const dispatch = useDispatch<AppDispatch>();
 
   // const [schoolData, setSchoolData] = useState<School>({
@@ -68,6 +71,28 @@ const School = () => {
     dispatch(getSchools({ ...params, school_id: 0 }));
   }, [dispatch, params])
 
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
+
   return (
     <>
       <Header />
@@ -91,6 +116,24 @@ const School = () => {
             <SchoolCard school={schoolWithTags} />
           );
         })}
+        <div className="d-flex px-2 justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={params.pagination?.current_page}
+          itemsCountPerPage={params.pagination?.per_page}
+          totalItemsCount={params.pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={params.pagination?.total_pages}
+          hideDisabled={params.pagination?.total_pages === 0}
+          hideNavigation={params.pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
       </Card>
     </>
 

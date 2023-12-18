@@ -1,4 +1,4 @@
-import { Pagination } from './pagination';
+import { PaginationParams } from './pagination';
 import { UserModel } from './userModel';
 
 
@@ -14,7 +14,7 @@ export interface BranchParams {
     user_id: number;
     parent_id: number;
     student_id: number;
-    pagination: Pagination
+    pagination: PaginationParams
   }
 
   export interface Branch {

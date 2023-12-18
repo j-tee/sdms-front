@@ -108,7 +108,7 @@ const AdmissionDetails = (props: any) => {
 
   const handleSubmit = () => {
     const admissionObject: Admission = {
-      academic_term_id: academic_term.id,
+      academic_term_id: academic_term.id ?? 0,
       stage_id: params?.stage_id ?? 0,
       student_id: student.id,
       admission_date: params?.admission_date ?? "",

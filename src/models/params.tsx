@@ -1,4 +1,4 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface ParamObject {
   academic_term_id?: number;
@@ -10,5 +10,5 @@ export interface ParamObject {
   department_id?: number;
   category?: string;
   paginate?:boolean;
-  pagination?:Pagination
+  pagination?:PaginationParams
 }

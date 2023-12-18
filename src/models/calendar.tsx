@@ -1,7 +1,7 @@
-import { Pagination } from "./pagination";
+import { PaginationParams } from "./pagination";
 
 export interface CalendarState {
-  pagination: Pagination;
+  pagination: PaginationParams;
   academic_years: AcademicYearViewModel[]
   academic_terms: AcademicTermViewModel[]
   academic_term: AcademicTermViewModel;
@@ -13,6 +13,7 @@ export interface CalendarState {
 }
 
 export interface AcademicYear {
+  id?: number;
   start_date: string;
   end_date: string;
   branch_id: number | "" | undefined;
@@ -20,6 +21,7 @@ export interface AcademicYear {
 }
 
 export interface AcademicTerm {
+  id?: number;
   term_name: string;
   start_date: string;
   end_date: string;
@@ -39,24 +41,26 @@ export interface AcademicYearViewModel {
 }
 
 export interface AcademicTermViewModel {
-  id: number;
-  term_name: string;
-  branch_name: string;
-  school_name: string;
-  start_date: string;
-  end_date: string;
-  academic_year: string;
-  start_year: number;
-  end_year: number;
+  id?: number;
+  term_name?: string;
+  branch_name?: string;
+  school_name?: string;
+  start_date?: string;
+  end_date?: string;
+  academic_year_name: string;
+  academic_year_id?: number;
+  start_year?: number;
+  end_year?: number;
+  completed?: boolean;
 }
 
 export interface YearParams {
   school_id: number | undefined;
   branch_id: number;
-  pagination: Pagination;
+  pagination: PaginationParams;
 }
 
 export interface TermParams {
   year_id: number;
-  pagination: Pagination
+  pagination: PaginationParams
 }
