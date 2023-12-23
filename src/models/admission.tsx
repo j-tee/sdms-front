@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Admission {
+  id?: number;
   academic_term_id: number;
   stage_id: number;
   student_id: number;

@@ -59,7 +59,8 @@ export const subjectSlice = createSlice({
       .addCase(getSubjects.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         subjects: action.payload.subjects, isLoading: false, message: action.payload.message,
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getSubjects.pending, (state) => ({ ...state, isLoading: true }));

@@ -6,6 +6,7 @@ import SubjectCard from './SubjectCard'
 import LessonsCard from './LessonsCard'
 import AssessmentCard from './AssessmentCard'
 import EvaluationCard from './EvaluationCard'
+import Navigation from './Navigation'
 
 const Academics = () => {
   const [index, SetIndex] = useState<string | null>('first')
@@ -50,6 +51,7 @@ const Academics = () => {
             </Row>
           </Tab.Container>
         </Card.Body>
+        <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
     </>
   )

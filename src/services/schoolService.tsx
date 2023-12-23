@@ -50,7 +50,15 @@ const SchoolService = {
   getCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/categories`, { headers: authHeader() }),
   getOwnershipCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/ownership_categories`, { headers: authHeader() }),
   getLevels: () => axios.get(`${API_URL}api/v1/schools/:school_id/levels`, { headers: authHeader() }),
-  getReligiousAffiliation: () => axios.get(`${API_URL}api/v1/schools/:school_id/religious_affiliations`, { headers: authHeader() })
+  getReligiousAffiliation: () => axios.get(`${API_URL}api/v1/schools/:school_id/religious_affiliations`, { headers: authHeader() }),
+  updateSchool: (school: FormData) => axios.put(`${API_URL}api/v1/schools/${school.get('school[id]')}`, school, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      ...authHeader(),
+    },
+  }),
+  updateBranch: (branch: Branch) => axios.put(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches/${branch.id}`, branch, { headers: authHeader() }), 
+  deleteBranch: (branch: Branch) => axios.delete(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches/${branch.id}`, { headers: authHeader() }), 
 };
 
 export default SchoolService;

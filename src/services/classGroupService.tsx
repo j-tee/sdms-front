@@ -12,6 +12,7 @@ const ClassGroupService = {
   deleteClassGroup: (class_groupId: number) => axios.delete(`${API_URL}api/v1/class_groups/${class_groupId}`, { headers: authHeader() }),
   updateClassGroup: (class_group: ClassGroup, id:number) => axios.put(`${API_URL}api/v1/class_groups/${id}`, class_group, { headers: authHeader() }),
   getClassGroup: (class_groupId: number) => axios.get(`${API_URL}api/v1/class_groups/${class_groupId}`, { headers: authHeader() }),
+  getClassGroupList: (params: ClassGroupParams) => axios.get(`${API_URL}api/v1/class_groups/program_subjects/lessons/class_group_list?branch_id=${params.branch_id}&department_id=${params.department_id}&program_id=${params.program_id}&paginate=false`, { headers: authHeader() }),  
 };
 
 export default ClassGroupService;

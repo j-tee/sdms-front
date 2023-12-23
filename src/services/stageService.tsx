@@ -11,6 +11,7 @@ const StageService = {
   deleteStage: (stage: StageViewModel) => axios.delete(`${API_URL}api/v1/stages/${stage.id}`, { headers: authHeader() }),
   updateStage: (stage: Stage, id: number) => axios.put(`${API_URL}api/v1/stages/${id}`, stage, { headers: authHeader() }),
   getStage: (id: number) => axios.get(`${API_URL}api/v1/stages/${id}`, { headers: authHeader() }),
+  getStageList: (params: StageParams) => axios.get(`${API_URL}api/v1/stages/program_subjects/lessons/stage_list?branch_id=${params.branch_id}&department_id=${params.department_id}&program_id=${params.program_id}&paginate=false`, { headers: authHeader() }),  
 };
 export default StageService;
 

@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AcademicTerm, AcademicYear, CalendarState } from '../../models/calendar';
+import { AcademicTerm, AcademicTermViewModel, AcademicYear, CalendarState } from '../../models/calendar';
 import CalendarService from '../../services/calendarService';
 
 const initialState: CalendarState = {
@@ -159,9 +159,9 @@ export const updateAcademicTerm = createAsyncThunk(
 
 export const deleteAcademicTerm = createAsyncThunk(
   'calendar/deleteAcademicTerm',
-  async (term: AcademicTerm, thunkAPI) => {
+  async (term: AcademicTermViewModel, thunkAPI) => {
     try {
-      const response = await CalendarService.deleteAcademicTerm(term.id ?? 0);
+      const response = await CalendarService.deleteAcademicTerm(term);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

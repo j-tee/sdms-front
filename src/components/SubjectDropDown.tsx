@@ -38,7 +38,7 @@ const SubjectDropDown:React.FC<SubjectDropDownProps> = ({ onChange, branchId, sc
       };
   return (
     <Form.Group controlId="department">
-    <Form.Label>Departments</Form.Label>
+    <Form.Label>Subjects</Form.Label>
     <Form.Control as="select" onChange={handleInputChange} value={params.subject_id}>
       <option value="">---Select---</option>
       {subjects.map((subject) => (<option key={subject.id} value={subject.id}>

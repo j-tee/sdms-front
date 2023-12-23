@@ -7,7 +7,7 @@ import { ToastContext } from '../utility/ToastContext'
 import { showToastify } from '../utility/Toastify'
 import { Parent } from '../models/parent'
 
-const ParentDetails = (props: any) => {
+const ParentCard = (props: any) => {
   const { index, schoolId, branchId } = props;
   const { parent, message, status } = useSelector((state: RootState) => state.parent)
   const dispatch = useDispatch<AppDispatch>()
@@ -50,6 +50,11 @@ const ParentDetails = (props: any) => {
     }
     // Add your logic for submitting the form data (e.g., API call, state update, etc.)
     dispatch(addParent({ ...parent })).then((res: any) => (showToastify(message, status)))
+    .then((res: any) => {
+      setShowToast(true)
+      showToastify(res.payload.message, res.payload.status)
+    }
+    )
   };
   const handleEmailBlur = () => {
     setShowToast(true)
@@ -75,6 +80,7 @@ const ParentDetails = (props: any) => {
   }, [dispatch, formData.fathersEmailAddress, index])
   return (
     <Card>
+      {parent.id > 0 && <em>{parent.id} {parent.fathers_full_name} {parent.fathers_contact_number}</em> }
       <Card.Header>{formData.title || 'Parent Details'}</Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
@@ -216,4 +222,4 @@ const ParentDetails = (props: any) => {
   )
 }
 
-export default ParentDetails
+export default ParentCard

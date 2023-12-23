@@ -5,15 +5,15 @@ import { Branch } from '../../models/branch';
 
 
 const initialState: SchoolState = {
-  branches:[],
+  branches: [],
   schools: [],
   levels: [],
   religions: [],
   categories: [],
   ownershipCategories: [],
-  status:'',
+  status: '',
   message: '',
-  branch:{
+  branch: {
     branch_name: '',
     postal_address: '',
     website: '',
@@ -24,8 +24,8 @@ const initialState: SchoolState = {
     school_id: 0,
     circuit_id: 0,
   },
-  schoolViewModel:{
-    id:0,
+  schoolViewModel: {
+    id: 0,
     level_id: 0,
     category_id: 0,
     religious_affiliation_id: 0,
@@ -39,7 +39,7 @@ const initialState: SchoolState = {
     crest_image_url: '',
   },
   school: {
-    level_id:0,
+    level_id: 0,
     religious_affiliation_id: 0,
     school_name: '',
     category_id: 0,
@@ -151,11 +151,68 @@ export const getReligiousAffiliation = createAsyncThunk(
   },
 );
 
+export const updateSchool = createAsyncThunk(
+  'school/updateSchool',
+  async (school: FormData, thunkAPI) => {
+    try {
+      const response = SchoolService.updateSchool(school);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const updateBranch = createAsyncThunk(
+  'school/updateBranch',
+  async (branch: Branch, thunkAPI) => {
+    try {
+      const response = SchoolService.updateBranch(branch);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteBranch = createAsyncThunk(
+  'school/deleteBranch',
+  async (branch: Branch, thunkAPI) => {
+    try {
+      const response = SchoolService.deleteBranch(branch);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const schoolSlice = createSlice({
   name: 'school',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(deleteBranch.fulfilled, (state, action) => ({
+        ...state,
+        branch: action.payload.branch, isLoading: false
+      }));
+    builder.addCase(deleteBranch.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(deleteBranch.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+    builder
+      .addCase(updateBranch.fulfilled, (state, action) => ({
+        ...state,
+        branch: action.payload.branch, isLoading: false
+      }));
+    builder.addCase(updateBranch.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateBranch.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+    builder
+      .addCase(updateSchool.fulfilled, (state, action) => ({
+        ...state,
+        school: action.payload, isLoading: false
+      }));
+    builder.addCase(updateSchool.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateSchool.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
     builder
       .addCase(getBranches.fulfilled, (state, action) => ({ ...state, branches: action.payload.branches, isLoading: false }));
     builder
@@ -187,7 +244,7 @@ export const schoolSlice = createSlice({
       .addCase(getSchools.pending, (state) => ({ ...state, isLoading: true }));
     builder
       .addCase(getSchools.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
-      builder
+    builder
       .addCase(getLevels.pending, (state) => ({ ...state, isLoading: true }));
     builder
       .addCase(getLevels.rejected, (state, action) => ({

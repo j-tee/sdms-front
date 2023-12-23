@@ -63,7 +63,8 @@ export const programSubjectSlice = createSlice({
       .addCase(getCourseOptions.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         course_options: action.payload.course_options, isLoading: false, message: action.payload.message,
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getCourseOptions.pending, (state) => ({ ...state, isLoading: true }));

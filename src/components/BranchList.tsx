@@ -94,7 +94,7 @@ const BranchList = () => {
         {branches.map((branch) => {
           const branchWithTags = { ...branch, tags };
           return (
-            <BranchCard branch={branchWithTags} />
+            <BranchCard params={params} branch={branchWithTags} />
           )
         })}
         <div className="d-flex px-2 justify-content-between align-items-center">

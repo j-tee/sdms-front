@@ -113,7 +113,7 @@ const School = () => {
           const schoolWithTags = { ...school, tags };
 
           return (
-            <SchoolCard school={schoolWithTags} />
+            <SchoolCard params={params} school={schoolWithTags} />
           );
         })}
         <div className="d-flex px-2 justify-content-between align-items-center">

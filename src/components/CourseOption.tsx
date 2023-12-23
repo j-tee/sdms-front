@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Form, Row } from 'react-bootstrap';
+import { Card, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import DepartmentDropDown from './DepartmentDropDown';
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartments } from '../redux/slices/departmentSlice';
-import { ProgramSubject } from '../models/subject';
+import { ProgramSubject, ProgramSubjectParams } from '../models/subject';
 import { getPrograms } from '../redux/slices/programSlice';
 import { getStages } from '../redux/slices/stageSlice';
 import { ProgramParams } from '../models/program';
@@ -17,15 +17,22 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import ProgramSubjectDetails from './ProgramSubjectDetails';
+import PaginationComponent from './PaginationComponent';
 
 const CourseOption = (props: any) => {
-  const { schoolId, branchId, tabKey, params } = props;
-  const { course_options } = useSelector((state: RootState) => state.programSubject)
+  const { schoolId, branchId, tabKey } = props;
+  const { course_options, pagination } = useSelector((state: RootState) => state.programSubject)
   const dispatch = useDispatch<AppDispatch>();
   const { subjects } = useSelector((state: RootState) => state.subject);
   const { showToast, setShowToast } = useContext(ToastContext)
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const [deptId, setDeptId] = useState<number>(0);
+  const [params, setParams] = useState<ProgramSubjectParams>({
+    school_id: schoolId, 
+    branch_id: branchId, 
+    pagination: { current_page: 1, per_page: 10 }, 
+    paginate: true
+  } as ProgramSubjectParams);
   const [formData, setFormData] = useState<ProgramSubject>({
     stage_id: 0,
     academic_term_id: 0,
@@ -69,22 +76,25 @@ const CourseOption = (props: any) => {
     dispatch(addCourseOption({ ...formData, academic_term_id: academic_term.id ?? 0 })).then((resp: any) => {
       setShowToast(true)
       showToastify(resp.payload.message, resp.payload.status)
-
     })
   }
 
-  useEffect(() => {
-    dispatch(getCourseOptions({
-      ...params, school_id: schoolId, branch_id: branchId, department_id: deptId,
-      academic_term_id: academic_term.id, stage_id: formData.stage_id, program_id: formData.program_id,
-      paginate: true, pagination: { per_page: 10, current_page: 1 } as any
-    })).then((resp: any) => {
-      showToastify(resp.payload.message, resp.payload.status)
-    })
-    console.log('formfatad.stage_id============', formData.stage_id);
-  }, [academic_term.id, branchId, deptId, dispatch, formData, params, schoolId])
+  // useEffect(() => {
+  //   dispatch(getCourseOptions({
+  //     ...params, school_id: schoolId, branch_id: branchId, department_id: deptId,
+  //     academic_term_id: academic_term.id, stage_id: formData.stage_id, program_id: formData.program_id,
+  //     paginate: true, pagination: { per_page: 10, current_page: 1 } as any
+  //   })).then((resp: any) => {
+  //     showToastify(resp.payload.message, resp.payload.status)
+  //   })
+  //   console.log('params==================', params);
+  // }, [academic_term.id, branchId, deptId, dispatch, formData, params, schoolId])
+
   useEffect(() => {
     if (tabKey === 'course-options') {
+      dispatch(getCourseOptions({...params})).then((resp: any) => {
+        showToastify(resp.payload.message, resp.payload.status)
+      })
       dispatch(getCurrentTerm(branchId)).then((resp: any) => {
         setFormData((prevData) => ({
           ...prevData,
@@ -92,10 +102,33 @@ const CourseOption = (props: any) => {
         }));
       })
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))
-      dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId }))
-      console.log('academic_term', academic_term);
+      dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: true, pagination: { current_page: 1, per_page: 10 } }))
     }
+    
   }, [schoolId, branchId, tabKey, dispatch, params])
+
+  const handlePageChange = (page: number) => {    
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: 1,
+        per_page: perPage,
+      },
+    }));
+  };
   return (
     <div>
       <Row className='d-flex flex-column flex-lg-row'>
@@ -163,6 +196,24 @@ const CourseOption = (props: any) => {
           <ProgramSubjectDetails branchId={branchId} schoolId={schoolId} key={course_option.id} course_option={course_option} />
         ))}
       </Row>
+      <div className="d-flex px-2 justify-content-between flex-column flex-lg-row align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   )
 }

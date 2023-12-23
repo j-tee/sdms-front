@@ -7,6 +7,7 @@ import ClassGroupCard from './ClassGroupCard';
 import { useParams } from 'react-router-dom';
 import { ToastContext } from '../utility/ToastContext';
 import StageCard from './StageCard';
+import Navigation from './Navigation';
 
 const Organisation = () => {
   const { schoolId, branchId } = useParams()
@@ -55,6 +56,7 @@ const Organisation = () => {
             </Row>
           </Tab.Container>
         </Card.Body>
+        <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
     </div>
   )

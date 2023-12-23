@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Card } from 'react-bootstrap'
+import { Button, Card, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
 import AddBranch from './AddBranch';
 import UserSession from '../utility/userSession';
+import SchoolEdit from './SchoolEdit';
 
 const SchoolCard = (props: any) => {
-  const { school } = props
+  const { school, params } = props
   const navigate = useNavigate();
-
+const [isSchoolEditModalOpen, setSchoolEditModalOpen] = useState(false)
   const [isAddBranchModalOpen, setAddBranchModalOpen] = useState(false)
   const user = JSON.parse(sessionStorage.getItem('user') || '{}')
   const validUser = UserSession.isUserStaffOrOwner(user.id, school.all_users)
@@ -17,6 +18,18 @@ const SchoolCard = (props: any) => {
 
   const openAddBranchModal = () => {
     setAddBranchModalOpen(true)
+  }
+
+  const handleEdit = () => {
+    setSchoolEditModalOpen(true)
+  }
+
+  const handleDelete = () => {
+    navigate(`/delete-school/${school.id}`, { state: { school } });
+  }
+
+  const handleDetails = () => {
+    navigate(`/school-details/${school.id}`, { state: { school } });
   }
   return (
     <Card className="border-0 shadow-sm d-flex flex-md-row my-2">
@@ -48,6 +61,20 @@ const SchoolCard = (props: any) => {
             Add New Branch
           </Button>}
         </div>
+        <Row className='d-flex flex-row mt-5'>
+        <span>
+          {validUser && <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>}
+          {validUser && <Card.Link link-info  text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>}
+          <Card.Link link-info  text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>
+        </span>
+      </Row>
+      <SchoolEdit
+      params={params}
+      school={school}
+      isOpen={isSchoolEditModalOpen}
+      setSchoolEditModalOpen={setSchoolEditModalOpen}
+      onRequestClose={() => setSchoolEditModalOpen(false)}
+      />
         <AddBranch
           schoolId={school.id}
           isOpen={isAddBranchModalOpen}

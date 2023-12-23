@@ -10,6 +10,7 @@ import { addStaff, getStaffs } from '../redux/slices/staffSlice';
 import { useToast } from 'react-toastify';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import Navigation from './Navigation';
 
 const StaffCard = (props: any) => {
   const { branchId, schoolId } = useParams()
@@ -192,6 +193,7 @@ const StaffCard = (props: any) => {
             <StaffDetails key={staff.id} staff={staff} />
           ))}
         </Card.Body>
+        <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
     </>
 

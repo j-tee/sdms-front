@@ -73,11 +73,55 @@ export const getVacancies = createAsyncThunk(
     },
   );
 
+export  const updateAdmission = createAsyncThunk(
+  'admission/updateAdmission',
+  async (admission: Admission, thunkAPI) => {
+    try {
+      const response = await AdmissionService.updateAdmission(admission, admission.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteAdmission = createAsyncThunk(
+  'admission/deleteAdmission',
+  async (admission: Admission, thunkAPI) => {
+    try {
+      const response = await AdmissionService.deleteAdmission(admission, admission.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 export const admissionSlice = createSlice({
   name: 'admission',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(deleteAdmission.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        admission: action.payload.admission, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+      builder.addCase(deleteAdmission.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(deleteAdmission.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
+    builder
+      .addCase(updateAdmission.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        admission: action.payload.admission, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+
+      builder.addCase(updateAdmission.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(updateAdmission.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
     builder
       .addCase(getVacancies.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

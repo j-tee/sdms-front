@@ -8,6 +8,7 @@ import { getSubjects } from '../redux/slices/subjectSlice';
 import SubjectDetails from './SubjectDetails';
 import CourseOption from './CourseOption';
 import StudentOptionalCourseCard from './StudentOptionalCourseCard';
+import SubjectList from './SubjectList';
 
 const SubjectCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
@@ -35,15 +36,13 @@ const SubjectCard = (props: any) => {
         <Card.Header>
           <Card.Title className='fs-4 text-muted'>Subject List</Card.Title>
         </Card.Header>
-        {subjects && subjects.map((subject, index) => (
-          <SubjectDetails key={index} subject={subject} />
-        ))}
+        <SubjectList tabKey={tabKey} params={params} subjects={subjects} schoolId={schoolId} branchId={branchId} /> 
       </Tab>
       <Tab eventKey="course-options" title="Course Options">
-        <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />  
+        <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
       </Tab>
       <Tab eventKey="registration" title="Course Registration">
-        <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} /> 
+        <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
       </Tab>
     </Tabs>
   )

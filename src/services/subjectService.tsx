@@ -11,6 +11,7 @@ const SubjectService = {
   deleteSubject: (subject: SubjectViewModel) => axios.delete(`${API_URL}api/v1/subjects/${subject.id}`, { headers: authHeader() }),
   updateSubject: (subject: Subject, id: number) => axios.put(`${API_URL}api/v1/subjects/${id}`, subject, { headers: authHeader() }),
   getSubject: (id: number) => axios.get(`${API_URL}api/v1/subjects/${id}`, { headers: authHeader() }),
+  getSubjectList: (params: SubjectParams) => axios.get(`${API_URL}api/v1/subjects/program_subjects/lessons/subject_list?branch_id=${params.branch_id}&department_id=${params.department_id}&program_id=${params.program_id}&paginate=false`, { headers: authHeader() }),  
 };
 export default SubjectService;
 

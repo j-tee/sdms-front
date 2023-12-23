@@ -577,7 +577,10 @@ a:focus {
 .footer_section a {
   color: #fefdfc;
 }
-
+.card-footer a {
+  color: #fefdfc;
+  cursor: pointer;
+}
 span a {
   text-decoration: underline !important;
 }

@@ -4,6 +4,7 @@ import { Card, Container, Tab, Tabs } from 'react-bootstrap';
 import Header from './Header';
 import AcademicYearCard from './AcademicYearCard';
 import AcademicTermCard from './AcademicTermCard';
+import Navigation from './Navigation';
 
 const Calendar = () => {
   const { schoolId, branchId } = useParams()
@@ -34,9 +35,8 @@ const Calendar = () => {
             </Tab>
           </Tabs>
         </Card.Body>
+        <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
-
-
     </>
   )
 }

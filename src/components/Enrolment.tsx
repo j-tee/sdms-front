@@ -5,6 +5,7 @@ import AdmissionCard from './AdmissionCard'
 import { useParams } from 'react-router-dom'
 import StudentRegistration from './StudentRegistration'
 import ExitProfiles from './ExitProfiles'
+import Navigation from './Navigation'
 
 const Enrolment = () => {
   const [index, SetIndex] = useState<string|null>('first')
@@ -45,6 +46,7 @@ const Enrolment = () => {
             </Row>
           </Tab.Container>
         </Card.Body>
+        <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
     </div>
   )

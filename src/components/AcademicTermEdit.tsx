@@ -53,9 +53,9 @@ const AcademicTermEdit = (props: any) => {
     }))
   }, [term, params])
   return (
-    <Modal animation show={isOpen} onHide={onRequestClose} size="lg">
+    <Modal animation show={isOpen} centered onHide={onRequestClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Edit: {term.academic_year_name} Academic Year - {term.term_name} Term</Modal.Title>
+        <Modal.Title>Edit: {term.academic_year_name} Academic Year - {term.term_name} {term.term_category}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Card>

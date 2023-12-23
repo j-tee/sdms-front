@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import axios from 'axios';
 import authHeader from '../utility/authHeader';
-import { AcademicTerm, TermParams, YearParams } from '../models/calendar';
+import { AcademicTerm, AcademicTermViewModel, TermParams, YearParams } from '../models/calendar';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -16,7 +16,7 @@ const CalendarService = {
   getAcademicYear: (id: number) => axios.get(`${API_URL}api/v1/academic_years/${id}`, { headers: authHeader() }),
   getAcademicTerms: (params: TermParams) => axios.get(`${API_URL}api/v1/academic_years/${params.year_id}/academic_terms?page=${params.pagination.current_page}&per_page=${params.pagination.per_page}`, { headers: authHeader() }),
   addAcademicTerm: (term: AcademicTerm) => axios.post(`${API_URL}api/v1/academic_years/${term.academic_year_id}/academic_terms`, term, { headers: authHeader() }),
-  deleteAcademicTerm: (termId: number) => axios.delete(`${API_URL}api/v1/academic_years/${termId}`, { headers: authHeader() }),
+  deleteAcademicTerm: (term: AcademicTermViewModel) => axios.delete(`${API_URL}api/v1/academic_years/${term.academic_year_id}/academic_terms/${term.id}`, { headers: authHeader() }),
   updateAcademicTerm: (term: AcademicTerm, id: number) => axios.put(`${API_URL}api/v1/academic_years/${term.academic_year_id}/academic_terms/${id}`, term, { headers: authHeader() }),
   getAcademicTerm: (id: number) => axios.get(`${API_URL}api/v1/academic_years/${id}`, { headers: authHeader() }),
 };

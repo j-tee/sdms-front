@@ -41,6 +41,7 @@ export interface SchoolViewModel {
   crest_image_url: string;
 }
 export interface School {
+  id?: number;
   level_id: number;
   category_id: number;
   religious_affiliation_id: number;

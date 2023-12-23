@@ -18,6 +18,7 @@ export interface BranchParams {
   }
 
   export interface Branch {
+    id?: number;
     branch_name: string;
     postal_address: string;
     website: string;
@@ -38,6 +39,8 @@ export interface BranchParams {
     email_address: string;
     residential_address: string;
     phone1: string;
+    category_name: string;
+    ownership: string;
     phone2: string;
     school_id: number; // Adjust the type based on your actual type for school_id
     circuit_id: number; // Adjust the type based on your actual type for circuit_id
