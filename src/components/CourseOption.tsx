@@ -51,8 +51,6 @@ const CourseOption = (props: any) => {
       ...prevData,
       [field]: value,
     }));
-    
-    console.log('field', field, value);
     switch (field) {
       case 'department_id': {
         setDeptId(parseInt(value))
@@ -72,24 +70,12 @@ const CourseOption = (props: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log('formData', formData);
     dispatch(addCourseOption({ ...formData, academic_term_id: academic_term.id ?? 0 })).then((resp: any) => {
       setShowToast(true)
       showToastify(resp.payload.message, resp.payload.status)
+      dispatch(getCourseOptions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true  }))
     })
   }
-
-  // useEffect(() => {
-  //   dispatch(getCourseOptions({
-  //     ...params, school_id: schoolId, branch_id: branchId, department_id: deptId,
-  //     academic_term_id: academic_term.id, stage_id: formData.stage_id, program_id: formData.program_id,
-  //     paginate: true, pagination: { per_page: 10, current_page: 1 } as any
-  //   })).then((resp: any) => {
-  //     showToastify(resp.payload.message, resp.payload.status)
-  //   })
-  //   console.log('params==================', params);
-  // }, [academic_term.id, branchId, deptId, dispatch, formData, params, schoolId])
-
   useEffect(() => {
     if (tabKey === 'course-options') {
       dispatch(getCourseOptions({...params})).then((resp: any) => {

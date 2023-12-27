@@ -1,11 +1,13 @@
 import { PaginationParams } from "./pagination";
 
 export interface Department {
+  id?: number;
   dept_name?: string;
   branch_id?: number;
 }
 
 export interface DepartmentParams{
+  id?:number;
   branch_id?:number;
   school_id?:number;
   paginate?:boolean;

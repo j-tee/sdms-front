@@ -100,7 +100,7 @@ const AdmissionAdd = (props: any) => {
   },[branchId, dispatch, schoolId])
   
   useEffect(() => {
-    // console.log('params===========>', {...params})
+    if(index === 'admission') {
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))   
     .then((res: any) => {
       setShowToast(true)
@@ -111,6 +111,7 @@ const AdmissionAdd = (props: any) => {
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
     })
+  }
   }, [dispatch, params])
 
   const handleSubmit = () => {
@@ -125,7 +126,6 @@ const AdmissionAdd = (props: any) => {
     }
     dispatch(addAdmission(admissionObject))
     .then((res: any) => {
-      console.log('res===========>', res)
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
       dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
@@ -183,8 +183,8 @@ const AdmissionAdd = (props: any) => {
         </Card>
       </Container>
       <Card.Body>
-        {student.image_url && <Card.Img variant='top' src={student.image_url} style={{ width: '100px', height: '100px' }} />}
-        {!student.student_id && (
+        {(student && student.image_url) && <Card.Img variant='top' src={student.image_url} style={{ width: '100px', height: '100px' }} />}
+        {!(student && student.student_id) && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
               <Form>

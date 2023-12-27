@@ -1,0 +1,34 @@
+import { PaginationParams } from "./pagination";
+
+export interface QueryParams {
+  academic_term_id?: number;
+  stage_id?: number;
+  student_id?: string,
+  admission_date?: string;
+  branch_id?: number;
+  program_id?: number;
+  department_id?: number;
+  category?: string;
+  paginate?: boolean;
+  pagination?: PaginationParams,
+  school_id?: number;
+  level_id?: number;
+  category_id?: number;
+  ownership_category_id?: number;
+  religious_affiliation_id?: number;
+  region_id?: number;
+  district_id?: number;
+  circuit_id?: number;
+  user_id?: number;
+  parent_id?: number;
+  staff_id?: number;
+  program_subject_id?: number;
+  day_of_week?: string;
+  academic_year_id?: number;
+  reg_date?: string;
+  subject_id?: number;
+  class_group_id?: number;
+  stage_name?: string;
+  class_name?: string;
+  email?: string;
+}

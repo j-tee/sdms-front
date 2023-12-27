@@ -43,7 +43,7 @@ export const addCourseOption = createAsyncThunk(
 );
 
 export const getCourseOptions = createAsyncThunk(
-  'course_option/getCourseOption',
+  'course_option/getCourseOptions',
   async (params: ProgramSubjectParams, thunkAPI) => {
     try {
       const response = await ProgramSubjectService.getCourseOptions(params);
@@ -54,11 +54,33 @@ export const getCourseOptions = createAsyncThunk(
   },
 );
 
+export const getCourseOption = createAsyncThunk(
+  'course_option/getCourseOption',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ProgramSubjectService.getCourseOption(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 export const programSubjectSlice = createSlice({
   name: 'course_option',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getCourseOption.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        course_option: action.payload.course_option, isLoading: false, message: action.payload.message,
+        status: action.payload.status
+      }));
+    builder.addCase(getCourseOption.pending, (state) => ({ ...state, isLoading: true })); 
+    builder
+      .addCase(getCourseOption.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
     builder
       .addCase(getCourseOptions.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

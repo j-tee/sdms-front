@@ -24,7 +24,7 @@ const StudentRegistration = (props: any) => {
     department_id: 0,
     branch_id: 0,
     school_id: 0,
-    term_id: 0,
+    academic_term_id: 0,
     class_group_id: 0,
     student_id: 0,
     pagination: {

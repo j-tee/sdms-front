@@ -47,6 +47,29 @@ export const getPrograms = createAsyncThunk(
   },
 );
 
+export const updateProgram = createAsyncThunk(
+  'program/updateProgram',
+  async (program: Program, thunkAPI) => {
+    try {
+      const response = await ProgramService.updateProgram(program);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteProgram = createAsyncThunk(
+  'program/deleteProgram',
+  async (program: Program, thunkAPI) => {
+    try {
+      const response = await ProgramService.deleteProgram(program, program.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const programSlice = createSlice({
   name: 'program',
@@ -54,10 +77,27 @@ export const programSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(updateProgram.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state, isLoading: false, message: action.payload.message, status: action.payload.status
+      }));
+    builder.addCase(updateProgram.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateProgram.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
+    builder
+      .addCase(deleteProgram.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state, isLoading: false, message: action.payload.message, status: action.payload.status
+      }));
+    builder.addCase(deleteProgram.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(deleteProgram.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
+    builder
       .addCase(getPrograms.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         programs: action.payload.programs, isLoading: false, message: action.payload.message, 
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getPrograms.pending, (state) => ({ ...state, isLoading: true }));

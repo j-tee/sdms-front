@@ -42,25 +42,6 @@ const AcademicYearEdit = (props: any) => {
       
     })
   }
-  // const handleSubmit = (e: ChangeEvent<any>) => {
-  //   e.preventDefault();
-  //   console.log({'====================':formData})
-  //   dispatch(updateAcademicYear({...formData})).then((res: any) => {
-  //     setShowToast(true)
-  //     showToastify(res.payload.message, res.payload.status)
-  //     if(res.payload.status==='success'){
-  //       setAcademicYearEditModalOpen(false)
-  //     }
-  //     dispatch(getAcademicYears({ school_id: schoolId, branch_id: branchId }));
-  //   })
-  // }
-  // useEffect(() => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     start_date: academic_year.start_date,
-  //     end_date: academic_year.end_date
-  //   }))
-  // }, [academic_year])
   return (
     <Form>
       <Modal animation show={isOpen} onHide={onRequestClose} size="lg">

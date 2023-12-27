@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Stage, StageParams, StageState } from '../../models/stage';
+import { Stage, StageParams, StageState, StageViewModel } from '../../models/stage';
 import StageService from '../../services/stageService';
 
 const initialState: StageState = {
@@ -46,16 +46,59 @@ export const getStages = createAsyncThunk(
   },
 );
 
+export const updateStage = createAsyncThunk(
+  'Stage/updateStage',
+  async (stage: Stage, thunkAPI) => {
+    try {
+      const response = await StageService.updateStage(stage, stage.id || 0);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteStage = createAsyncThunk(
+  'Stage/deleteStage',
+  async (stage: StageViewModel, thunkAPI) => {
+    try {
+      const response = await StageService.deleteStage(stage);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const circuitSlice = createSlice({
   name: 'Stage',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(updateStage.fulfilled, (state, action) => ({
+        ...state,
+        stage: action.payload.stage, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+      builder.addCase(updateStage.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(updateStage.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false }));
+    builder
+      .addCase(deleteStage.fulfilled, (state, action) => ({
+        ...state,
+        stage: action.payload.stage, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+      builder.addCase(deleteStage.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(deleteStage.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false }));
+    builder
       .addCase(getStages.fulfilled, (state, action) => ({
         ...state,
         stages: action.payload.stages, isLoading: false, message: 
-        action.payload.message, status: action.payload.status
+        action.payload.message, status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getStages.pending, (state) => ({ ...state, isLoading: true }));

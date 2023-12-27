@@ -65,7 +65,7 @@ export interface StudentRegParams {
   department_id?: number;
   branch_id?: number;
   school_id?: number;
-  term_id?: number;
+  academic_term_id?: number;
   class_group_id?: number;
   pagination?: PaginationParams
 }
@@ -84,17 +84,19 @@ export interface StudentRegViewModel {
   student_stage: string;
   first_name: string,
   last_name: string;
+  full_name: string;
   birth_date: string;
   gender: string;
   other_names: string;
   nationality: string;
-  student_id: string;
+  student_id: number;
   parent_id: 0,
   image_url: string;
   fathers_name: string;
   mothers_name: string;
   contact_number: string;
   email_address: string;
+  class_name: string;
 }
 
 export interface StudentRegState {

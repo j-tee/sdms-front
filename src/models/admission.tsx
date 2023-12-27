@@ -49,7 +49,6 @@ export interface AdmissionParams {
   department_id?: number;
   branch_id?: number;
   school_id?: number;
-  term_id?: number;
   paginate?: boolean;
   pagination?: PaginationParams
 }

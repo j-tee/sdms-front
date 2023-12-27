@@ -25,7 +25,7 @@ const UnregisteredStudent = (props: any) => {
     department_id: params.department_id,
     branch_id: branchId,
     school_id: schoolId,
-    term_id: academic_term.id,
+    academic_term_id: academic_term.id,
     class_group_id: 0,
     student_id: 0,
     pagination: {
@@ -42,6 +42,7 @@ const UnregisteredStudent = (props: any) => {
     reg_date: '',
   })
   const [registrations, setRegistrations] = useState<StudentRegistration[]>([])
+  
   type AnyType = {
     [key: string]: string;
   };
@@ -131,11 +132,8 @@ const UnregisteredStudent = (props: any) => {
         reg_date: registration.reg_date,
       })),
     };
-  
-    console.log(formattedPayload);
-  
+    
     dispatch(registerStudents(formattedPayload)).then((resp) => {
-      console.log(resp);
       setShowToast(true);
       showToastify(resp.payload.message, resp.payload.status);
       dispatch(getRegisteredStudents({ ...params, branch_id: branchId, school_id: schoolId }))

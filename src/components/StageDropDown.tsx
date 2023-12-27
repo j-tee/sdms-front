@@ -40,9 +40,9 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
     });
     onChange('stage_id', selectedStageId);
   };
-  // useEffect(() => {
-  //   dispatch(getStages({ ...params, branch_id: branchId }))
-  // }, [branchId, dispatch, params])
+  useEffect(() => {
+    dispatch(getStages({ ...params, branch_id: branchId }))
+  }, [branchId, dispatch, params])
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)

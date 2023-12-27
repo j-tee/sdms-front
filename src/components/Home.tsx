@@ -3,20 +3,7 @@ import { Container } from 'react-bootstrap';
 import Header from './Header';
 
 const Home = () => {
-  // const { openLoginModal, closeLoginModal } = useAuth();
-  // const isValid = UserSession.validateToken();
-  // const userInfo = UserSession.getUserInfo();
-  // const navigate = useNavigate()
-  // useEffect(() => {
-  //   console.log('userInfo.userCategory==========', userInfo.userCategory)
-  //   if (userInfo.userCategory && isValid) {
-  //     closeLoginModal && closeLoginModal();
-  //   }else {
-  //     navigate('/')
-  //     openLoginModal && openLoginModal();
-  //   }
-  // }, [closeLoginModal, isValid, navigate, openLoginModal, userInfo])
-
+ 
   return (
     <>
       <Header />

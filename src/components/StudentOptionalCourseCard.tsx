@@ -1,20 +1,36 @@
-import React, { useState } from 'react'
-import { Card, Col, Row } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Card, Col, Form, Row } from 'react-bootstrap'
 import DepartmentDropDown from './DepartmentDropDown'
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
 import SubjectDropDown from './SubjectDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
 import { StudentOptionalCourse } from '../models/optionalCourseRegistration';
+import { getStages } from '../redux/slices/stageSlice';
+import { getDepartments } from '../redux/slices/departmentSlice';
+import { getPrograms } from '../redux/slices/programSlice';
+import { getSubjectList } from '../redux/slices/subjectSlice';
+import { getCurrentTerm } from '../redux/slices/calendarSlice';
+import { getClassGroupList } from '../redux/slices/classGroupSlice';
+import { getRegisteredStudents } from '../redux/slices/studentRegSlice';
+import { getCourseOption } from '../redux/slices/programSubjectSlice';
+import { registerOptionalCourses } from '../redux/slices/studentCourseRegSlice';
+import { ToastContext } from '../utility/ToastContext';
 // to do: get the list of optional courses for the student
 // to do: only the staff teaching the course can register the student
 // to do: get the list of students registered for the program and the stage at which the subject is being offered  
 const StudentOptionalCourseCard = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
+  const { course_option } = useSelector((state: RootState) => state.programSubject)
+  const { stages } = useSelector((state: RootState) => state.stage);
+  const { academic_term } = useSelector((state: RootState) => state.calendar);
   const dispatch = useDispatch<AppDispatch>();
   const [optinalCourses, setOptionalCourses] = useState<StudentOptionalCourse[]>([])
+  const {setShowToast} = useContext(ToastContext)
+
+  const { registrations } = useSelector((state: RootState) => state.studentReg)
   const [params, setParams] = useState({
     program_id: 0,
     branch_id: branchId,
@@ -44,8 +60,103 @@ const StudentOptionalCourseCard = (props: any) => {
       ...prevData,
       [field]: value,
     }));
-
+    switch (field) {
+      case 'department_id':
+        dispatch(getPrograms({ ...params, school_id: schoolId, branch_id: branchId, department_id: parseInt(value), paginate: false }))
+        break;
+      case 'stage_id':
+        dispatch(getSubjectList({
+          ...params,
+          school_id: schoolId, branch_id: branchId,
+          academic_term_id: academic_term.id,
+          department_id: params.department_id,
+          stage_id: params.stage_id,
+          program_id: params.program_id, paginate: false,
+          pagination: {}, optional: true
+        }))
+        break;
+      case 'program_id':
+        dispatch(getSubjectList({
+          ...params,
+          school_id: schoolId,
+          branch_id: branchId,
+          academic_term_id: academic_term.id,
+          department_id: params.department_id,
+          stage_id: params.stage_id, program_id: parseInt(value), paginate: false,
+          pagination: {}, optional: true
+        }))
+        break;
+      case 'subject_id':
+        dispatch(getCourseOption({
+          ...params,
+          academic_term_id: academic_term.id,
+          stage_id: params.stage_id,
+          program_id: params.program_id,
+          subject_id: parseInt(value),
+          paginate: false,
+          pagination: {}, optional: true
+        })).then((resp: any) => {
+          setFormData({ ...formData, program_subject_id: resp.payload?.course_option?.id })
+        })
+        dispatch(getClassGroupList({
+          ...params,
+          school_id: schoolId,
+          branch_id: branchId,
+          academic_term_id: academic_term.id,
+          department_id: params.department_id,
+          stage_id: params.stage_id, program_id: params.program_id, paginate: false,
+          pagination: {}, optional: true
+        }))
+        break;
+      case 'class_group_id':
+        dispatch(getRegisteredStudents({
+          ...params,
+          school_id: schoolId,
+          branch_id: branchId,
+          academic_term_id: academic_term.id,
+          department_id: params.department_id,
+          stage_id: params.stage_id,
+          program_id: params.program_id,
+          class_group_id: parseInt(value),
+        }))
+        break
+      default:
+        break;
+    }
   };
+  const handleCheckboxChange = (studentId: number, isChecked: boolean) => {
+    if (isChecked) {
+      // Create a new formData object with the selected registration ID
+      const course_registration: StudentOptionalCourse = {
+        student_id: studentId,
+        program_subject_id: course_option.id,
+        reg_date: new Date().toISOString().split('T')[0]
+      };
+
+      // Update optionalCourses array by appending the newFormData object
+      setOptionalCourses(prevCourses => [...prevCourses, course_registration]);
+    } else {
+      // If the checkbox is unchecked, remove the corresponding formData from optionalCourses
+      setOptionalCourses(prevCourses =>
+        prevCourses.filter(course => course.student_id !== studentId)
+      );
+    }
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    // Dispatch an action to register the student for the optional courses
+    dispatch(registerOptionalCourses(optinalCourses))
+    .then((resp: any) => {
+      setShowToast(true)
+    } )
+  }
+  
+  useEffect(() => {
+    dispatch(getCurrentTerm(branchId))
+    dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
+    dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
+  }, [dispatch, schoolId, branchId])
   return (
     <div>
       <Card.Header>
@@ -53,7 +164,7 @@ const StudentOptionalCourseCard = (props: any) => {
       </Card.Header>
       <Card.Body>
         <Card.Text>
-          <Row>
+          <Row className='d-flex flex-column flex-lg-row'>
             <Col>
               <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
             </Col>
@@ -64,14 +175,36 @@ const StudentOptionalCourseCard = (props: any) => {
               <StageDropDown branchId={branchId} onChange={handleInputChange} />
             </Col>
           </Row>
-          <Row>
+          <Row className='d-flex flex-column flex-lg-row'>
             <Col>
-              <SubjectDropDown branchId={branchId} onChange={handleInputChange } schoolId={0} />
+              <SubjectDropDown branchId={branchId} onChange={handleInputChange} schoolId={0} />
             </Col>
-          <Col>
-          <ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
-          </Col>
+            <Col>
+              <ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
+            </Col>
           </Row>
+          <Card className='my-3'>
+            <Card.Header>
+              <span className='text-muted'>List of students</span>
+            </Card.Header>
+            <Form>
+              <Card.Body>
+                {registrations.map((reg) => (
+                  <Form.Check type='checkbox'
+                    key={reg.student_id}
+                    label={reg.full_name}
+                    onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)} />
+                ))}
+              </Card.Body>
+              <Card.Footer>
+                <Row>
+                  <Col>
+                    <span className='text-muted'>Optional Courses</span>
+                  </Col>
+                </Row>
+              </Card.Footer>
+            </Form>
+          </Card>
         </Card.Text>
       </Card.Body>
     </div>

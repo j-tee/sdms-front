@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface ClassGroup {
+  id?: number;
   class_name: string;
   capacity: number;
   stage_id: number;
@@ -26,6 +27,7 @@ export interface ClassGroupViewModel {
   branch_name: string;
   stage_name:string;
   program_name:string;
+  class_grp_name:string;
 }
 
 export interface ClassGroupState {

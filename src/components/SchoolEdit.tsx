@@ -80,7 +80,6 @@ const SchoolEdit = (props: any) => {
     }
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('schoolData', schoolData)
     e.preventDefault();
     setShowToast(true);
 

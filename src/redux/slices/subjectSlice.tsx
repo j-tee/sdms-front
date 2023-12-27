@@ -50,11 +50,28 @@ export const getSubjects = createAsyncThunk(
   },
 );
 
+export const getSubjectList = createAsyncThunk(
+  'subject/getSubjectList',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SubjectService.getSubjectList(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const subjectSlice = createSlice({
   name: 'subject',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getSubjectList.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      subjects: action.payload.subjects, isLoading: false, message: action.payload.message,
+      status: action.payload.status,
+    }));
     builder
       .addCase(getSubjects.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

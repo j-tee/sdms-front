@@ -17,6 +17,7 @@ import staffReducer from '../redux/slices/staffSlice';
 import subjectReducer from '../redux/slices/subjectSlice';
 import programSubjectReducer from '../redux/slices/programSubjectSlice';
 import lessonReducer from '../redux/slices/lessonSlice';
+import courseRegReducer from '../redux/slices/studentCourseRegSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -40,5 +41,6 @@ export const store = configureStore({
     subject: subjectReducer,
     programSubject: programSubjectReducer,
     lesson: lessonReducer,
+    courseReg: courseRegReducer
   }
 })

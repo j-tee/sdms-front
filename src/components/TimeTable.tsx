@@ -80,7 +80,6 @@ const TimeTable = (props: any) => {
     }
   };
   useEffect(() => {
-    console.log('tabKey', tabKey);
     if (tabKey === 'time-table') {
       dispatch(getLessons({
         school_id: schoolId,
@@ -95,7 +94,6 @@ const TimeTable = (props: any) => {
         pagination: { current_page: 1, per_page: 10 }, paginate: true
       }))
         .then((res) => {
-          console.log('res', res);
           setShowToast(true);
           showToastify(res.payload.message, res.payload.status);
         })
@@ -109,7 +107,6 @@ const TimeTable = (props: any) => {
     e.preventDefault();
     dispatch(addLesson({ ...formData, start_time: startTime, end_time: endTime }))
       .then((res) => {
-        console.log('res', res);
         setShowToast(true);
         showToastify(res.payload.message, res.payload.status);
         dispatch(getLessons({
@@ -125,7 +122,6 @@ const TimeTable = (props: any) => {
           pagination: { current_page: 1, per_page: 10 }, paginate: true
         }))
           .then((res) => {
-            console.log('res', res);
             setShowToast(true);
             showToastify(res.payload.message, res.payload.status);
           })

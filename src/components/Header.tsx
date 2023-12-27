@@ -23,9 +23,7 @@ const Header = () => {
   const isValid = UserSession.validateToken();
   const dispatch = useDispatch<AppDispatch>();
   const { showToast, setShowToast } = useContext(ToastContext);
-  // console.log('isLoginModalOpen========', isLoginModalOpen);
   const handleLoginClick = () => {
-    console.log('handleLoginClick called========', isLoginModalOpen);
     openLoginModal();
   };
 

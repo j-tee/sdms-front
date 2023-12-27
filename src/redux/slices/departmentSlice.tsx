@@ -46,6 +46,29 @@ export const getDepartments = createAsyncThunk(
   },
 );
 
+export const updateDepartment = createAsyncThunk(
+  'department/updateDepartment',
+  async (department: Department, thunkAPI) => {
+    try {
+      const response = await DepartmentService.updateDepartment(department, department.id || 0);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteDepartment = createAsyncThunk(
+  'department/deleteDepartment',
+  async (id: number, thunkAPI) => {
+    try {
+      const response = await DepartmentService.deleteDepartment(id);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const departmentSlice = createSlice({
   name: 'department',
@@ -53,10 +76,33 @@ export const departmentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(deleteDepartment.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        department: action.payload.dept, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+    builder.addCase(deleteDepartment.pending, (state) => ({ ...state, isLoading: true }));  
+    builder
+      .addCase(deleteDepartment.rejected, (state, action) => ({
+        ...state, message: "Action Failed", isLoading: false
+      }));
+    builder
+      .addCase(updateDepartment.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        department: action.payload.dept, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+    builder.addCase(updateDepartment.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(updateDepartment.rejected, (state, action) => ({
+        ...state, message: "Action Failed", isLoading: false
+      }));
+    builder
       .addCase(getDepartments.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         departments: action.payload.depts, isLoading: false, message: action.payload.message, 
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getDepartments.pending, (state) => ({ ...state, isLoading: true}));
@@ -75,6 +121,7 @@ export const departmentSlice = createSlice({
       .addCase(addDepartment.rejected, (state, action) => ({
         ...state, message: "Action Failed", isLoading: false
       }));
+    
   },
 });
 

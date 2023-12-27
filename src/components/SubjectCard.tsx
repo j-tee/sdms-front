@@ -19,7 +19,6 @@ const SubjectCard = (props: any) => {
     school_id: schoolId, branch_id: branchId, pagination: { current_page: 1, per_page: 10 }, paginate: true
   } as SubjectParams);
   useEffect(() => {
-    console.log('tabIndex', tabIndex);
     if (tabIndex === 'first') {
       dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId }))
     }

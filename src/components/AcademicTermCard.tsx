@@ -10,6 +10,7 @@ import PaginationComponent from './PaginationComponent';
 import AcademicTermEdit from './AcademicTermEdit';
 import AcademicTermDelete from './AcademicTermDelete';
 import AcademicTermDetails from './AcademicTermDetails';
+import { QueryParams } from '../models/queryParams';
 
 const AcademicTermCard = (props: any) => {
   const { academic_terms, academic_year } = useSelector((state: RootState) => state.calendar)
@@ -42,8 +43,8 @@ const AcademicTermCard = (props: any) => {
     }))
     setAcademicTermEditModalOpen(true)
   }
-  const [params, setParams] = useState<TermParams>({
-    year_id: 0,
+  const [params, setParams] = useState<QueryParams>({
+    academic_year_id: 0,
     pagination: {
       per_page: 10,
       current_page: 1,
@@ -63,7 +64,7 @@ const AcademicTermCard = (props: any) => {
   useEffect(() => {
     dispatch(getCurrentAcademicYear(branchId))
     if (academic_year.id) {
-      dispatch(getAcademicTerms({ ...params, year_id: academic_year.id }))
+      dispatch(getAcademicTerms({ ...params, academic_year_id: academic_year.id }))
     }
   }, [branchId, dispatch, tabKey, academic_year.id])
 
@@ -95,9 +96,6 @@ const AcademicTermCard = (props: any) => {
       },
     }));
   };
-  // const handleEdit = () => {
-  //   console.log('edit')
-  // }
   const handleDetails = (term: AcademicTermViewModel) => {
     setTerm((prevParams) => ({
       ...prevParams,

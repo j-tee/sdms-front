@@ -10,6 +10,6 @@ const ProgramSubjectService = {
   addCourseOption: (subject: ProgramSubject) => axios.post(`${API_URL}api/v1/program_subjects`, subject, { headers: authHeader() }),
   deleteCoureseOption: (subject: ProgramSubjectViewModel) => axios.delete(`${API_URL}api/v1/subjects/${subject.id}`, { headers: authHeader() }),
   updateCourseOption: (subject: ProgramSubject, id: number) => axios.put(`${API_URL}api/v1/subjects/${id}`, subject, { headers: authHeader() }),
-  getCourseOption: (id: number) => axios.get(`${API_URL}api/v1/subjects/${id}`, { headers: authHeader() }),
+  getCourseOption: (params: any) => axios.get(`${API_URL}api/v1/program_subjects/${params.id}?program_id=${params.program_id}&subject_id=${params.subject_id}&stage_id=${params.stage_id}&academic_term_id=${params.academic_term_id}&optional=${params.optional}`, { headers: authHeader() }),
 };
 export default ProgramSubjectService;

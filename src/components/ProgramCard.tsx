@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Card, Col, Form, Row } from 'react-bootstrap'
+import { Button, Card, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap'
 import { ToastContext } from '../utility/ToastContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
@@ -9,16 +9,19 @@ import { Program, ProgramParams, ProgramViewModel } from '../models/program';
 import { addProgram, getPrograms } from '../redux/slices/programSlice';
 import { showToastify } from '../utility/Toastify';
 import ProgramList from './ProgramList';
+import PaginationComponent from './PaginationComponent';
+import { QueryParams } from '../models/queryParams';
 
 const ProgramCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
   const { showToast, setShowToast } = useContext(ToastContext)
   const { departments } = useSelector((state: RootState) => state.department)
-  const { message, status, program, programs } = useSelector((state: RootState) => state.program)
+  const { pagination, programs } = useSelector((state: RootState) => state.program)
   const dispatch = useDispatch<AppDispatch>()
-  const [params, setParams] = useState<DepartmentParams>({
+  const [params, setParams] = useState<QueryParams>({
     branch_id: 0,
     school_id: 0,
+    department_id: 0,
     paginate: false,
     pagination: {
       per_page: 10,
@@ -28,17 +31,6 @@ const ProgramCard = (props: any) => {
     }
   })
 
-  const [progParams, setProgParams] = useState<ProgramParams>({
-    branch_id: 0,
-    department_id: 0,
-    paginate: true,
-    pagination: {
-      per_page: 10,
-      current_page: 1,
-      total_items: 0,
-      total_pages: 0
-    }
-  })
   const [formData, setFormData] = useState<Program>({
     prog_name: '',
     department_id: 0,
@@ -46,19 +38,43 @@ const ProgramCard = (props: any) => {
 
   const handleSubmit = () => {
     dispatch(addProgram({ ...formData }))
+    .then((res: any) => {
+      setShowToast(true)
+      // showToastify(res.payload.message, res.payload.status)
+      dispatch(getPrograms({ ...params, branch_id: branchId, department_id: formData.department_id, paginate: true }))
+    })
   }
 
   useEffect(() => {
     if (tabIndex === 'second') {
-      dispatch(getPrograms({ ...progParams, branch_id: branchId, department_id: formData.department_id }))
+      dispatch(getPrograms({ ...params, branch_id: branchId, department_id: formData.department_id, paginate: true }))
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId, paginate: false }))
     }
-  }, [tabIndex, dispatch, progParams, params, formData])
+  }, [tabIndex, dispatch, params, formData])
 
-  useEffect(() => {
-    setShowToast(true)
-    showToastify(message, status)
-  }, [message, setShowToast, showToast, status])
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
+  
+
   return (
     <div>
       <Card.Title className='d-flex justify-content-center fs-1 text-muted'>
@@ -90,8 +106,26 @@ const ProgramCard = (props: any) => {
         </Form>
         {programs.map((prog: ProgramViewModel) => (
           // <span>{prog.prog_name}</span>
-          <ProgramList prog={prog} />
+          <ProgramList params={params} schoolId={schoolId} branchId={branchId} prog={prog} />
         ))}
+        <div className="d-flex px-2 justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
       </Card.Body>
     </div>
   )

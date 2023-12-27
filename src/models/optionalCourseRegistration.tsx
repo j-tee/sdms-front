@@ -6,6 +6,10 @@ export interface StudentOptionalCourse {
   reg_date: string;
 }
 
+export interface StudentOptionalCourseFormData {
+  course_registration: StudentOptionalCourse;
+}
+
 export interface StudentOptionalCourseState {
   student_optional_courses: StudentOptionalCourseViewModel[];
   student_optional_course: StudentOptionalCourseViewModel;

@@ -29,11 +29,9 @@ const initialState: ParentState = {
   },
 };
 
-
 export const getParentByEmail = createAsyncThunk(
   'parent/getParentByEmail',
   async (email: string, thunkAPI) => {
-    // console.log('email from slice============', email)
     try {
       const response = await ParentService.getParentByEmail(email);
       return response.data;

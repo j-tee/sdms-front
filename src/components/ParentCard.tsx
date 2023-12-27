@@ -52,7 +52,7 @@ const ParentCard = (props: any) => {
     dispatch(addParent({ ...parent })).then((res: any) => (showToastify(message, status)))
     .then((res: any) => {
       setShowToast(true)
-      showToastify(res.payload.message, res.payload.status)
+      // showToastify(res.payload.message, res.payload.status)
     }
     )
   };
@@ -65,7 +65,6 @@ const ParentCard = (props: any) => {
       showToastify('Invalid email format. Please enter a valid email address.', 'error')
       // You can add more advanced validation or error handling here
     } else {
-      // console.log('formdataemail ',formData.emailAddress)
       dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
         .then((res: any) => {
           setShowToast(true)

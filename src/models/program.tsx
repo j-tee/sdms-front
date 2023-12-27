@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Program {
+  id?: number;
   prog_name: string;
   department_id: number;
 }

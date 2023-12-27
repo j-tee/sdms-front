@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Stage {
+  id?: number;
   stage_name: string;
   branch_id: number;
 }
