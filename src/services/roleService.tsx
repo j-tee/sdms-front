@@ -5,8 +5,8 @@ import { QueryParams } from '../models/queryParams';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
-const StaffService = {
-  getStaffs: (params: QueryParams) => axios.get(`${API_URL}api/v1/roles/schools/roles/add_user_to_role?branch_id=${params.branch_id}&school_id=${params.school_id}&email=${params.email}`, { headers: authHeader() }),
+const RoleService = {
+    addUserToRole: (params: QueryParams) => axios.post(`${API_URL}api/v1/roles/schools/new_role/add_user_to_role?`,params, { headers: authHeader() }),
 };
-export default StaffService;
+export default RoleService;
 

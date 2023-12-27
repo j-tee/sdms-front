@@ -96,7 +96,7 @@ const StaffCard = (props: any) => {
           <Card.Title className='fs-3 text-muted'>Staffs </Card.Title>
         </Card.Header>
         <Card.Body>
-          <Container>
+          <Container fluid>
             <Form onSubmit={handleSubmit}>
               <Row>
                 <Col>
@@ -190,7 +190,9 @@ const StaffCard = (props: any) => {
             </Form>
           </Container>
           {staffs.map((staff: StaffViewModel) => (
-            <StaffDetails key={staff.id} staff={staff} />
+            <StaffDetails schoolId={schoolId}
+            branchId={branchId}
+             key={staff.id} staff={staff} />
           ))}
         </Card.Body>
         <Navigation schoolId={schoolId} branchId={branchId} />
