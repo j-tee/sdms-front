@@ -95,17 +95,17 @@ const StudentDetails = (props: any) => {
         Student Details 
       </Card.Header>
       <Card.Body>
-        {parent.fathers_full_name &&
+        {parent &&
           <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
-            <span>{parent.fathers_full_name}</span>
+            <span>{parent?.fathers_full_name}</span>
             <span className='d-none d-lg-inline'>|</span>
-            <span>{parent.mothers_full_name}</span>
+            <span>{parent?.mothers_full_name}</span>
             <span className='d-none d-lg-inline'>|</span>
-            <span>{parent.fathers_contact_number}</span>
+            <span>{parent?.fathers_contact_number}</span>
             <span className='d-none d-lg-inline'>|</span>
-            <span>{parent.fathers_email_address}</span>
+            <span>{parent?.fathers_email_address}</span>
           </Card.Title>}
-        {!parent.fathers_email_address && (
+        {!parent?.fathers_email_address && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
               <Form>
@@ -230,7 +230,7 @@ const StudentDetails = (props: any) => {
                 <Form.Control
                   type="text"
                   name="parent_id"
-                  value={parent.id}
+                  value={parent?.id}
                   onChange={handleChange} disabled
                 />
               </Form.Group>

@@ -52,16 +52,51 @@ export const getStaffs = createAsyncThunk(
   },
 );
 
+export const deleteStaff = createAsyncThunk(
+  'staff/deleteStaff',
+  async (staff: Staff, thunkAPI) => {
+    try {
+      const response = await StaffService.deleteStaff(staff);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const updateStaff = createAsyncThunk(
+  'staff/updateStaff',
+  async (staff: FormData, thunkAPI) => {
+    try {
+      const response = await StaffService.updateStaff(staff);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const circuitSlice = createSlice({
   name: 'staff',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(updateStaff.fulfilled, (state, action) => ({
+        ...state,
+        staff: action.payload.staff, isLoading: false, message: action.payload.message,
+        status: action.payload.status
+      }));
+      builder.addCase(updateStaff.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(updateStaff.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status:
+          action.payload.status, isLoading: false
+      }));
+    builder
       .addCase(getStaffs.fulfilled, (state, action) => ({
         ...state,
         staffs: action.payload.staffs, isLoading: false, message:
-          action.payload.message, status: action.payload.status
+          action.payload.message, status: action.payload.status, pagination: action.payload.pagination || initialState.pagination
       }));
     builder
       .addCase(getStaffs.pending, (state) => ({ ...state, isLoading: true }));

@@ -35,7 +35,7 @@ const ManagementRoles = (props: any) => {
                 <option value="admin">Admin</option>
                 <option value="employee">Staff</option>
                 <option value="student">Student</option>
-                <option value="parent">Student</option>
+                <option value="parent">Parent</option>
               </Form.Select>
             </Form.Group>
             <Button variant="primary" type="submit">

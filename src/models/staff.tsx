@@ -14,6 +14,7 @@ export interface StaffParams {
 }
 
 export interface Staff {  
+  id?: number;
   email: string;
   first_name: string;
   last_name: string;

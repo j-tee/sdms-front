@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Container, Image, Form, Row, Button } from 'react-bootstrap';
+import { Card, Col, Container, Image, Form, Row, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Header from './Header';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +11,11 @@ import { useToast } from 'react-toastify';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import Navigation from './Navigation';
+import PaginationComponent from './PaginationComponent';
 
 const StaffCard = (props: any) => {
   const { branchId, schoolId } = useParams()
-  const { staffs } = useSelector((state: RootState) => state.staff)
+  const { staffs, pagination } = useSelector((state: RootState) => state.staff)
   const [staffImagePreview, setStaffImagePreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
@@ -83,7 +84,30 @@ const StaffCard = (props: any) => {
     dispatch(addStaff(staff)).then((res: any) => {
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
+      dispatch(getStaffs({...params, branch_id: branchId ? parseInt(branchId) : 0,paginate: true, school_id: schoolId ? parseInt(schoolId) : 0})) 
     })
+  };
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+        current_page: 1,
+      },
+    }));
   };
   return (
     <>
@@ -189,12 +213,34 @@ const StaffCard = (props: any) => {
               </Row>
             </Form>
           </Container>
+          <Card.Header className='text-center'>
+        <Card.Title className='text-center'>Staff List</Card.Title>
+      </Card.Header>
           {staffs.map((staff: StaffViewModel) => (
             <StaffDetails schoolId={schoolId}
+            params={params}
             branchId={branchId}
              key={staff.id} staff={staff} />
           ))}
         </Card.Body>
+        <div className="d-flex px-2 justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
         <Navigation schoolId={schoolId} branchId={branchId} />
       </Card>
     </>

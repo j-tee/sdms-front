@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { Container } from 'react-bootstrap';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +20,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter basename="/">
       <Provider store={store}>
-        <App />
+        {/* <Container fluid> */}
+          <App />
+        {/* </Container> */}
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

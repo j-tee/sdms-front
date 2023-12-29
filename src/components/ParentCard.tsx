@@ -68,7 +68,7 @@ const ParentCard = (props: any) => {
       dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
         .then((res: any) => {
           setShowToast(true)
-          showToastify(message, status)
+          showToastify(res.payload.message, res.payload.status)
         })
     }
   };
@@ -79,7 +79,7 @@ const ParentCard = (props: any) => {
   }, [dispatch, formData.fathersEmailAddress, index])
   return (
     <Card>
-      {parent.id > 0 && <em>{parent.id} {parent.fathers_full_name} {parent.fathers_contact_number}</em> }
+     
       <Card.Header>{formData.title || 'Parent Details'}</Card.Header>
       <Card.Body>
         <Form onSubmit={handleSubmit}>
@@ -213,7 +213,7 @@ const ParentCard = (props: any) => {
             </Col>
           </Row>
           <Button className='mt-2' variant="primary" type="submit">
-            {parent.fathers_email_address ? 'Update' : 'Submit'}
+            {parent?.fathers_email_address ? 'Update' : 'Submit'}
           </Button>
         </Form>
       </Card.Body>
