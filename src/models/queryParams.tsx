@@ -31,4 +31,5 @@ export interface QueryParams {
   stage_name?: string;
   class_name?: string;
   email?: string;
+  
 }

@@ -23,7 +23,7 @@ import PaginationComponent from './PaginationComponent';
 
 const AdmissionAdd = (props: any) => {
   const { index, schoolId, branchId } = props;
-  const { message, status, admissions } = useSelector((state: RootState) => state.admission)
+  const { admissions, pagination } = useSelector((state: RootState) => state.admission)
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
   const { academic_term } = useSelector((state: RootState) => state.calendar)
@@ -42,7 +42,9 @@ const AdmissionAdd = (props: any) => {
     category: '',
     pagination: {
       current_page: 1,
-      per_page: 10
+      per_page: 10,
+      total_items: 0,
+      total_pages: 0
     },
     paginate: true
   })
@@ -100,6 +102,7 @@ const AdmissionAdd = (props: any) => {
   },[branchId, dispatch, schoolId])
   
   useEffect(() => {
+    console.log('index============', index)
     if(index === 'admission') {
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))   
     .then((res: any) => {
@@ -112,7 +115,7 @@ const AdmissionAdd = (props: any) => {
       showToastify(res.payload.message, res.payload.status)
     })
   }
-  }, [dispatch, params])
+  }, [dispatch,index, params])
 
   const handleSubmit = () => {
     const admissionObject: Admission = {
@@ -175,7 +178,7 @@ const AdmissionAdd = (props: any) => {
                 <span>{vacancies?.capacity}</span>
               </Col>
               <Col className='gap-2 d-flex flex-column'>
-                <span>On Roll</span>
+                <span>Registered</span>
                 <span>{vacancies?.registered}</span>
               </Col>
             </Row>
@@ -242,13 +245,13 @@ const AdmissionAdd = (props: any) => {
         <div className="d-flex px-2 justify-content-between align-items-center">
         <PaginationComponent
           params={params}
-          activePage={params.pagination?.current_page}
-          itemsCountPerPage={params.pagination?.per_page}
-          totalItemsCount={params.pagination?.total_items || 0}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
           pageRangeDisplayed={5}
-          totalPages={params.pagination?.total_pages}
-          hideDisabled={params.pagination?.total_pages === 0}
-          hideNavigation={params.pagination?.total_pages === 1}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
           onChange={handlePageChange}
         />
         <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>

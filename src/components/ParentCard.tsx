@@ -49,10 +49,9 @@ const ParentCard = (props: any) => {
       title: formData.title
     }
     // Add your logic for submitting the form data (e.g., API call, state update, etc.)
-    dispatch(addParent({ ...parent })).then((res: any) => (showToastify(message, status)))
-    .then((res: any) => {
+    dispatch(addParent({ ...parent })).then((res: any) => {
       setShowToast(true)
-      // showToastify(res.payload.message, res.payload.status)
+      showToastify(res.payload.message, res.payload.status)
     }
     )
   };

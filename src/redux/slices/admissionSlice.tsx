@@ -138,7 +138,8 @@ export const admissionSlice = createSlice({
       .addCase(getAdmissions.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         admissions: action.payload.admissions, isLoading: false, message: action.payload.message, 
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getAdmissions.pending, (state) => ({ ...state, isLoading: true }));

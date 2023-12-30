@@ -18,7 +18,7 @@ const Header = () => {
   const [roles, setRoles] = useState(UserSession.getroles());
   const { openLoginModal, isLoginModalOpen, closeLoginModal } = useAuth();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const itemsToCheck = ['admin', 'government', 'employee', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
+  const itemsToCheck = ['admin', 'government', 'employee','teacher', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
   const systemAdminItems = ['system_admin', 'datalogique_admin', 'datalogique_staff']
   const isValid = UserSession.validateToken();
   const dispatch = useDispatch<AppDispatch>();

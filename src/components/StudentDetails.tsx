@@ -95,7 +95,7 @@ const StudentDetails = (props: any) => {
         Student Details 
       </Card.Header>
       <Card.Body>
-        {parent &&
+        {parent?.id > 0 &&
           <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
             <span>{parent?.fathers_full_name}</span>
             <span className='d-none d-lg-inline'>|</span>

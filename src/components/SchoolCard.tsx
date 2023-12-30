@@ -8,7 +8,7 @@ import SchoolEdit from './SchoolEdit';
 const SchoolCard = (props: any) => {
   const { school, params } = props
   const navigate = useNavigate();
-const [isSchoolEditModalOpen, setSchoolEditModalOpen] = useState(false)
+  const [isSchoolEditModalOpen, setSchoolEditModalOpen] = useState(false)
   const [isAddBranchModalOpen, setAddBranchModalOpen] = useState(false)
   const user = JSON.parse(sessionStorage.getItem('user') || '{}')
   const validUser = UserSession.isUserStaffOrOwner(user.id, school.all_users)
@@ -62,19 +62,19 @@ const [isSchoolEditModalOpen, setSchoolEditModalOpen] = useState(false)
           </Button>}
         </div>
         <Row className='d-flex flex-row mt-5'>
-        <span>
-          {validUser && <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>}
-          {validUser && <Card.Link link-info  text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>}
-          <Card.Link link-info  text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>
-        </span>
-      </Row>
-      <SchoolEdit
-      params={params}
-      school={school}
-      isOpen={isSchoolEditModalOpen}
-      setSchoolEditModalOpen={setSchoolEditModalOpen}
-      onRequestClose={() => setSchoolEditModalOpen(false)}
-      />
+          <span>
+            {validUser && <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>}
+            {validUser && <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>}
+            <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>
+          </span>
+        </Row>
+        <SchoolEdit
+          params={params}
+          school={school}
+          isOpen={isSchoolEditModalOpen}
+          setSchoolEditModalOpen={setSchoolEditModalOpen}
+          onRequestClose={() => setSchoolEditModalOpen(false)}
+        />
         <AddBranch
           schoolId={school.id}
           isOpen={isAddBranchModalOpen}
