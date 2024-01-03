@@ -79,6 +79,7 @@ const ClassGroupCard = (props: any) => {
           ...prevData,
           [field]: value,
         }));
+        if(branchId)
         dispatch(getStages({ ...params, branch_id: branchId, department_id: params.department_id, paginate: false })) 
         break;
       default:
@@ -90,7 +91,7 @@ const ClassGroupCard = (props: any) => {
     if (tabIndex === 'fourth') {
       dispatch(getClassGroups({ ...params, branch_id: branchId, school_id: schoolId, paginate:true } as any))
       dispatch(getPrograms({ ...params, paginate:false } as any))
-      if (stages.length === 0) {
+      if (stages.length === 0 && branchId) {
         dispatch(getStages({ ...params, branch_id: branchId, department_id: params.department_id }))
       }
     }

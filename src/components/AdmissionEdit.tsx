@@ -41,6 +41,7 @@ const AdmissionEdit = (props: any) => {
         break;
       }        
       case 'program_id': {
+        if(branchId)
         dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
         break;
       }

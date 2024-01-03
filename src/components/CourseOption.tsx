@@ -58,6 +58,7 @@ const CourseOption = (props: any) => {
         break;
       }
       case 'program_id': {
+        if(branchId)
         dispatch(getStages({ ...params, school_id: schoolId, branch_id: branchId, program_id: parseInt(value), paginate: false } as StageParams))
         break;
       }

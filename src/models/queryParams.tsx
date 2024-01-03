@@ -1,13 +1,16 @@
 import { PaginationParams } from "./pagination";
 
 export interface QueryParams {
+  lesson_id?: number;
   academic_term_id?: number;
   stage_id?: number;
-  student_id?: string,
+  student_id?: number,
   admission_date?: string;
   branch_id?: number;
   program_id?: number;
   department_id?: number;
+  assessment_id?: number;
+  assessment_type_id?: number;
   category?: string;
   paginate?: boolean;
   pagination?: PaginationParams,

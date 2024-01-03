@@ -9,9 +9,11 @@ type AnyType = {
   };
   interface StaffDropDownProps {
     onChange: (field: keyof AnyType, value: string) => void;
+    branchId: number;
+    schoolId: number;
   }
   
-const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange}) => {
+const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange, branchId}) => {
   const { staffs } = useSelector((state: RootState) => state.staff)
   const [params, setParams] = useState<StaffParams>({})
   const handleStaffChange = (e: React.ChangeEvent<any>) => {

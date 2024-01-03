@@ -64,6 +64,7 @@ const TimeTable = (props: any) => {
         break;
       case 'program_id':
         setProgramId(parseInt(value));
+        if(branchId)
         dispatch(getStages({ school_id: schoolId, branch_id: branchId, program_id: parseInt(value), pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
         break;
       case 'staff_id':
@@ -136,7 +137,7 @@ const TimeTable = (props: any) => {
       <Form onSubmit={handleSubmit}>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <StaffDropDown onChange={handleInputChange} />
+            <StaffDropDown onChange={handleInputChange} branchId={0} schoolId={0} />
           </Col>
           <Col>
             <ProgramDropDown onChange={handleInputChange} departmentId={undefined} branchId={0} />

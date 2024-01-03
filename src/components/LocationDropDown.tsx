@@ -22,7 +22,7 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
     region_id: 0,
     district_id: 0,
     circuit_id: 0,
-    page: 1,
+    current_page: 1,
     per_page: 10,
   });
 

@@ -11,13 +11,14 @@ import { StudentRegParams } from '../models/student';
 import RegisteredStudents from './RegisteredStudents';
 import UnregisteredStudent from './UnregisteredStudent';
 import { getRegisteredStudents, getRegistrationInformation } from '../redux/slices/studentRegSlice';
+import { QueryParams } from '../models/queryParams';
 
 const StudentRegistration = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
   const {reg_info, registrations} = useSelector((state:RootState) => state.studentReg)
   const [key, setKey] = useState<string>('registered');
   const dispatch = useDispatch<AppDispatch>()
-  const [params, setParams] = useState<StudentRegParams>({
+  const [params, setParams] = useState<QueryParams>({
     reg_date: '',
     stage_id: 0,
     program_id: 0,
@@ -53,6 +54,7 @@ const StudentRegistration = (props: any) => {
         break;
       }
       case 'program_id': {
+        if(branchId)
         dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
         break;
       }

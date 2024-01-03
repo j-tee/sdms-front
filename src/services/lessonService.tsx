@@ -17,7 +17,7 @@ const LessonService = {
     `&academic_term_id=${params.academic_term_id}`+
     `&day_of_week=${params.day_of_week}`+
     `&stage_id=${params.stage_id}`+
-    `&page=${params.pagination?.current_page}`+
+    `&current_page=${params.pagination?.current_page}`+
     `&per_page=${params.pagination?.per_page}`+
     `&paginate=${params.paginate} `
      return axios.get(`${API_URL}api/v1/lessons?${queryParams}`, { headers: authHeader() })

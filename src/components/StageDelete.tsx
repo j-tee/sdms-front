@@ -15,6 +15,7 @@ const StageDelete = (props: any) => {
         setShowToast(true);
         // showToastify(res.payload.message, res.payload.status);
         setStageDeleteModalOpen(false);
+        if(branchId)
         dispatch(getStages({ ...params, paginate: true, branch_id: branchId }))
       })
     setStageDeleteModalOpen(false)

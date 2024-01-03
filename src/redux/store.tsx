@@ -20,6 +20,8 @@ import lessonReducer from '../redux/slices/lessonSlice';
 import courseRegReducer from '../redux/slices/studentCourseRegSlice';
 import roleReducer from '../redux/slices/roleSlice';
 import assessmentTypeReducer from './slices/assesmentTypeSlice';
+import assessmentReducer from './slices/assessmentSlice';
+import scoreSheetReducer from './slices/scoreSheetSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -45,6 +47,8 @@ export const store = configureStore({
     lesson: lessonReducer,
     courseReg: courseRegReducer,
     role: roleReducer,
-    assessmentType: assessmentTypeReducer
+    assessmentType: assessmentTypeReducer,
+    assessment: assessmentReducer,
+    scoreSheet: scoreSheetReducer
   }
 })

@@ -74,7 +74,9 @@ const AdmissionAdd = (props: any) => {
         break;
       }        
       case 'program_id': {
-        dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
+        if(branchId) {
+          dispatch(getStages({ ...params, branch_id: branchId, department_id: params.department_id, program_id: parseInt(value), paginate: false }))
+        }
         break;
       }
     }

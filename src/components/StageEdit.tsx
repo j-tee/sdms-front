@@ -45,6 +45,7 @@ const StageEdit = (props: any) => {
       setShowToast(true);
       // showToastify(res.payload.message, res.payload.status);
       setStageEditModalOpen(false);
+      if(branchId)
       dispatch(getStages({ ...params, paginate: true, branch_id: branchId }))
     })
   }

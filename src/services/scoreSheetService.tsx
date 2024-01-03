@@ -1,0 +1,18 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import axios from 'axios';
+import authHeader from '../utility/authHeader';
+import { QueryParams } from '../models/queryParams';
+import { ScoreSheet } from '../models/scoreSheet';
+import queryStringFormatter from '../utility/queryStringFormatter';
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
+
+const ScoreSheetService = {
+  getScoreSheets: (params: QueryParams) => axios.get(`${API_URL}api/v1/score_sheets?${queryStringFormatter(params)}`, { headers: authHeader() }),
+  addScoreSheet: (scoreSheet: any) => axios.post(`${API_URL}api/v1/score_sheets`, scoreSheet, { headers: authHeader() }),
+  deleteScoreSheet: (scoreSheet: ScoreSheet) => axios.delete(`${API_URL}api/v1/score_sheets/${scoreSheet.id}`, { headers: authHeader() }),
+  updateScoreSheet: (scoreSheet: ScoreSheet) => axios.put(`${API_URL}api/v1/score_sheets/${scoreSheet.id}`, scoreSheet, { headers: authHeader() }),
+  getScoreSheet: (id: number) => axios.get(`${API_URL}api/v1/score_sheets/${id}`, { headers: authHeader() }),
+};
+export default ScoreSheetService;
+

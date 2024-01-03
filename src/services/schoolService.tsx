@@ -15,7 +15,7 @@ const SchoolService = {
       `parent_id=${params.parent_id}&` +
       `student_id=${params.student_id}&` +
       `per_page=${params.pagination.per_page}&` +
-      `page=${params.pagination.current_page}`;
+      `current_page=${params.pagination.current_page}`;
     return axios.get(`${API_URL}api/v1/schools?${queryParams}`, { headers: authHeader() })
   },
 
@@ -33,7 +33,7 @@ const SchoolService = {
       `parent_id=${params.parent_id}&` +
       `student_id=${params.student_id}&` +
       `per_page=${params.pagination.per_page}&` +
-      `page=${params.pagination.current_page}`;
+      `current_page=${params.pagination.current_page}`;
 
     return axios.get(`${API_URL}api/v1/schools/${params.school_id}d/circuits/${params.circuit_id}/branches?${queryParams}`, { headers: authHeader() });
   },

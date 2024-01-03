@@ -64,6 +64,7 @@ export interface StudentRegParams {
   program_id?: number;
   department_id?: number;
   branch_id?: number;
+  assessment_id?: number;
   school_id?: number;
   academic_term_id?: number;
   class_group_id?: number;

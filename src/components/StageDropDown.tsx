@@ -41,6 +41,7 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
     onChange('stage_id', selectedStageId);
   };
   useEffect(() => {
+    if(branchId)
     dispatch(getStages({ ...params, branch_id: branchId }))
   }, [branchId, dispatch, params])
   useEffect(() => {

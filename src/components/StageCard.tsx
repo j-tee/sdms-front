@@ -55,6 +55,7 @@ const StageCard = (props: any) => {
         .then((res: any) => {
           console.log(res)
         })
+      if(branchId)
       dispatch(getStages({ ...params, paginate: true, branch_id: branchId }))
     }
   }, [branchId, dispatch, schoolId, params, tabIndex])
@@ -75,6 +76,7 @@ const StageCard = (props: any) => {
     dispatch(addStage(stage))
       .then((res: any) => {
         // showToastify(res.payload.message, res.payload.status)
+        if(branchId)
         dispatch(getStages({ ...params, paginate: true, branch_id: branchId }))
       })
   }

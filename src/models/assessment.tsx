@@ -5,8 +5,7 @@ export interface Assessment {
   assessment_name: string;
   base_mark: number;
   pass_mark: number;
-  class_group_id: number;
-  program_subject_id: number;
+  lesson_id: number;
   assessment_type_id: number;
 }
 
@@ -24,6 +23,7 @@ export interface AssessmentViewModel {
   assessment_name: string;
   base_mark: number;
   pass_mark: number;
+  category: string;
   class_group_name: string;
   program_name: string;
   subject_name: string;

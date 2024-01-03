@@ -154,8 +154,12 @@ const StudentOptionalCourseCard = (props: any) => {
   
   useEffect(() => {
     dispatch(getCurrentTerm(branchId))
-    dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
-    dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
+    if(branchId){
+      dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
+      dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
+    }
+    // dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
+    // dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
   }, [dispatch, schoolId, branchId])
   return (
     <div>

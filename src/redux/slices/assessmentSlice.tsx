@@ -1,0 +1,157 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import { QueryParams } from '../../models/queryParams';
+import { Assessment, AssessmentState } from '../../models/assessment';
+import AssessmentService from '../../services/assessmentService';
+const initialState: AssessmentState = {
+    assessments: [],
+    assessment: {
+        id: 0,
+        assessment_name: '',
+        base_mark: 0,
+        pass_mark: 0,
+        class_group_name: '',
+        program_name: '',
+        subject_name: '',
+        assessment_category: '',
+        class_group_id: 0,
+        program_subject_id: 0,
+        assessment_type_id: 0,
+        category: ''
+    },
+    status: '',
+    message: '',
+    isLoading: false,
+    pagination: {
+        current_page: 0,
+        per_page: 0,
+        total_items: 0,
+        total_pages: 0
+    },
+};
+
+export const addAssessment = createAsyncThunk(
+  'assessment/addAssessment',
+  async (assessment: Assessment, thunkAPI) => {
+    try {
+      const response = await AssessmentService.addAssessment(assessment);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const getAssessments = createAsyncThunk(
+  'assessment/getAssessments',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await AssessmentService.getAssessments(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const updateAssessment = createAsyncThunk(
+  'assessment/updateAssessment',
+  async (assessment: Assessment, thunkAPI) => {
+    try {
+      const response = await AssessmentService.updateAssessment(assessment, assessment.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const deleteAssessment = createAsyncThunk(
+  'assessment/deleteAssessment',
+  async (assessment: Assessment, thunkAPI) => {
+    try {
+      const response = await AssessmentService.deleteAssessment(assessment, assessment.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
+export const assessmentSlice = createSlice({
+  name: 'assessment',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addAssessment.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(addAssessment.fulfilled, (state, action: any) => ({
+      ...state,
+      assessment: action.payload.assessment,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+    }));
+    builder.addCase(addAssessment.rejected, (state, action: any) => ({
+      ...state,
+      message: action.payload.message,
+      status: action.payload.status,
+      isLoading: false,
+    }));
+    builder.addCase(getAssessments.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(getAssessments.fulfilled, (state, action: any) => ({
+      ...state,
+      assessments: action.payload.assessments,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+      pagination: action.payload.pagination
+    }));
+    builder.addCase(getAssessments.rejected, (state, action: any) => ({
+      ...state,
+      message: action.payload.message,
+      status: action.payload.status,
+      isLoading: false,
+    }));
+    builder.addCase(updateAssessment.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(updateAssessment.fulfilled, (state, action: any) => ({
+      ...state,
+      assessment: action.payload.assessment,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+    }));
+    builder.addCase(updateAssessment.rejected, (state, action: any) => ({
+      ...state,
+      message: action.payload.message,
+      status: action.payload.status,
+      isLoading: false,
+    }));
+    builder.addCase(deleteAssessment.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(deleteAssessment.fulfilled, (state, action: any) => ({
+      ...state,
+      assessment: action.payload.assessment,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+    }));
+    builder.addCase(deleteAssessment.rejected, (state, action: any) => ({
+      ...state,
+      message: action.payload.message,
+      status: action.payload.status,
+      isLoading: false,
+    }));
+  }})
+
+  export default assessmentSlice.reducer;

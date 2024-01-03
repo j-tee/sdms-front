@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import AssessmentTypeCard from './AssessmentTypeCard';
 import ContinuousAssessmentCard from './ContinuousAssessmentCard';
+import { Score } from '@mui/icons-material';
+import ScoreSheetCard from './ScoreSheetCard';
 
 const AssessmentCard = (props: any) => {
     const {schoolId, branchId, tabIndex} = props;
@@ -16,14 +18,11 @@ const AssessmentCard = (props: any) => {
     <Tab eventKey="ty" title="Assessment Types">
       <AssessmentTypeCard index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
-    <Tab eventKey="ca" title="Continuous Assessment">
+    <Tab eventKey="ca" title="Exercises">
       <ContinuousAssessmentCard index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
-    <Tab eventKey="ta" title="Terminal Assessment">
-      <h3>Terminal Assessment</h3>
-    </Tab>
     <Tab eventKey="sc" title="Score Sheet">
-      <h3>Score Sheet</h3>
+      <ScoreSheetCard index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
   </Tabs>
   )

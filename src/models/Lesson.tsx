@@ -18,6 +18,7 @@ export interface LessonParams {
   class_group_id?: number;
   staff_id?: number;
   program_subject_id?: number;
+  assessment_type_id?: number;
   academic_term_id?: number;
   day_of_week?: string;
   paginate: boolean;

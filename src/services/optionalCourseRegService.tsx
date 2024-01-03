@@ -14,7 +14,7 @@ const StudentOptionalCourseService = {
         `student_id=${params.student_id}&` +
         `program_id=${params.academic_term_id}&` +
         `program_id=${params.school_id}&` +
-        `page=${params.pagination?.current_page}&` +
+        `current_page=${params.pagination?.current_page}&` +
         `per_page=${params.pagination?.per_page}&` +
         `paginate=${params.paginate}`;
     return axios.get(`${API_URL}api/v1/student_optional_courses?${queryParams}`, { headers: authHeader() });
