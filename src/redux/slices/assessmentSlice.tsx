@@ -4,30 +4,31 @@ import { QueryParams } from '../../models/queryParams';
 import { Assessment, AssessmentState } from '../../models/assessment';
 import AssessmentService from '../../services/assessmentService';
 const initialState: AssessmentState = {
-    assessments: [],
-    assessment: {
-        id: 0,
-        assessment_name: '',
-        base_mark: 0,
-        pass_mark: 0,
-        class_group_name: '',
-        program_name: '',
-        subject_name: '',
-        assessment_category: '',
-        class_group_id: 0,
-        program_subject_id: 0,
-        assessment_type_id: 0,
-        category: ''
-    },
-    status: '',
-    message: '',
-    isLoading: false,
-    pagination: {
-        current_page: 0,
-        per_page: 0,
-        total_items: 0,
-        total_pages: 0
-    },
+  assessments: [],
+  assessment: {
+    id: 0,
+    assessment_name: '',
+    base_mark: 0,
+    pass_mark: 0,
+    class_group_name: '',
+    program_name: '',
+    subject_name: '',
+    assessment_category: '',
+    class_group_id: 0,
+    program_subject_id: 0,
+    assessment_type_id: 0,
+    category: ''
+  },
+  status: '',
+  message: '',
+  isLoading: false,
+  pagination: {
+    current_page: 0,
+    per_page: 0,
+    total_items: 0,
+    total_pages: 0
+  },
+  staff_assessment_summary: []
 };
 
 export const addAssessment = createAsyncThunk(
@@ -78,11 +79,34 @@ export const deleteAssessment = createAsyncThunk(
   },
 );
 
+export const getStaffAssessmentSummary = createAsyncThunk(
+  'assessment/getStaffAssessmentSummary',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await AssessmentService.getStaffAssessmentSummary(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const assessmentSlice = createSlice({
   name: 'assessment',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStaffAssessmentSummary.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(getStaffAssessmentSummary.fulfilled, (state, action: any) => ({
+      ...state,
+      staff_assessment_summary: action.payload.staff_assessment_summary,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+    }));
     builder.addCase(addAssessment.pending, (state) => ({
       ...state,
       isLoading: true,

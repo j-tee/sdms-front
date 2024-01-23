@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Form, Row } from 'react-bootstrap'
+import { Button, Card, Col, Form, Row } from 'react-bootstrap'
 import DepartmentDropDown from './DepartmentDropDown'
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
@@ -18,6 +18,7 @@ import { getRegisteredStudents } from '../redux/slices/studentRegSlice';
 import { getCourseOption } from '../redux/slices/programSubjectSlice';
 import { registerOptionalCourses } from '../redux/slices/studentCourseRegSlice';
 import { ToastContext } from '../utility/ToastContext';
+import { showToastify } from '../utility/Toastify';
 // to do: get the list of optional courses for the student
 // to do: only the staff teaching the course can register the student
 // to do: get the list of students registered for the program and the stage at which the subject is being offered  
@@ -149,6 +150,7 @@ const StudentOptionalCourseCard = (props: any) => {
     dispatch(registerOptionalCourses(optinalCourses))
     .then((resp: any) => {
       setShowToast(true)
+      showToastify(resp.payload.message, resp.payload.status);
     } )
   }
   
@@ -201,11 +203,7 @@ const StudentOptionalCourseCard = (props: any) => {
                 ))}
               </Card.Body>
               <Card.Footer>
-                <Row>
-                  <Col>
-                    <span className='text-muted'>Optional Courses</span>
-                  </Col>
-                </Row>
+              <Button onClick={handleSubmit}>Submit</Button>
               </Card.Footer>
             </Form>
           </Card>

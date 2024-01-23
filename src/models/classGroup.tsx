@@ -9,6 +9,7 @@ export interface ClassGroup {
 }
 
 export interface ClassGroupParams {
+  lesson_id?: number;
   stage_id:number;
   class_group_id: number;
   department_id:number;

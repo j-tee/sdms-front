@@ -18,9 +18,10 @@ const Header = () => {
   const [roles, setRoles] = useState(UserSession.getroles());
   const { openLoginModal, isLoginModalOpen, closeLoginModal } = useAuth();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const itemsToCheck = ['admin', 'government', 'employee','teacher', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
+  const itemsToCheck = ['admin', 'government', 'employee','teacher','parent', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
   const systemAdminItems = ['system_admin', 'datalogique_admin', 'datalogique_staff']
   const isValid = UserSession.validateToken();
+  const userInfo = UserSession.getUserInfo();
   const dispatch = useDispatch<AppDispatch>();
   const { showToast, setShowToast } = useContext(ToastContext);
   const handleLoginClick = () => {
@@ -53,6 +54,7 @@ const Header = () => {
   const publicMenus = () => {
     return (
       <>
+        <Link to="/my-wards">MY WARDS</Link>
         <Link to="/schools">SCHOOLS</Link>
         <Link to="/stocks">EVENTS</Link>
       </>

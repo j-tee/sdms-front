@@ -8,7 +8,7 @@ import StageDropDown from './StageDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
 import { getClassGroups } from '../redux/slices/classGroupSlice';
 import { ClassGroupParams } from '../models/classGroup';
-import { getRegisteredStudents, registerStudents } from '../redux/slices/studentRegSlice';
+import { getRegisteredStudents, getRegistrationInformation, registerStudents } from '../redux/slices/studentRegSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 
@@ -19,6 +19,7 @@ const UnregisteredStudent = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const { showToast, setShowToast } = useContext(ToastContext)
   const [classParams, setClassParams] = useState<StudentRegParams>({
+    ...params,
     reg_date: '',
     stage_id: term_count < 3 ? 0 : params.stage_id,
     program_id: params.program_id,
@@ -93,6 +94,7 @@ const UnregisteredStudent = (props: any) => {
           ...prevData,
           class_group_id: parseInt(value),
         }));
+        dispatch(getRegistrationInformation({ ...classParams, class_group_id: parseInt(value) }))
         break;
       }
     }
@@ -102,6 +104,7 @@ const UnregisteredStudent = (props: any) => {
     if (index === 'unregistered') {
       dispatch(getCurrentTerm(branchId))
       dispatch(gettermCount(branchId))
+      console.log('===params', params)
     }
   }, [branchId, params, dispatch, index, term_count])
 

@@ -1,8 +1,10 @@
 import { PaginationParams } from "./pagination";
+import { StudentViewModel } from "./student";
 
 export interface ParentState {
   parents:ParentViewModel[];
   parent:ParentViewModel;
+  myWards: StudentViewModel[];
   message:string;
   isLoading:boolean;
   status:string;

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
+import AssessmentReport from './AssessmentReport';
+import StudentTerminalReport from './StudentTerminalReport';
 
 const EvaluationCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
@@ -11,17 +13,11 @@ const EvaluationCard = (props: any) => {
       onSelect={(k) => k && setKey(k)}
       className="mb-3"
     >
-      <Tab eventKey="ca" title="Continuous Assessment">
-        <h3>Continuous Assessment</h3>
-      </Tab>
-      <Tab eventKey="ta" title="Terminal Assessment">
-        <h3>Terminal Assessment</h3>
-      </Tab>
-      <Tab eventKey="sc" title="Score Sheet">
-        <h3>Score Sheet</h3>
+      <Tab eventKey="ca" title="Assessments / Exercises">
+        <AssessmentReport index={key} schoolId={schoolId} branchId={branchId} />
       </Tab>
       <Tab eventKey="tr" title="Terminal Report">
-        <h3>Terminal Report</h3>
+        <StudentTerminalReport index={key} schoolId={schoolId} branchId={branchId} />
       </Tab>
     </Tabs>
   )

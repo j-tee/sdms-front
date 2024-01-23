@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Parent, ParentParams, ParentState } from '../../models/parent';
 import ParentService from '../../services/parentService';
+import { QueryParams } from '../../models/queryParams';
 
 const initialState: ParentState = {
   parents: [],
@@ -27,6 +28,7 @@ const initialState: ParentState = {
     total_items: 0,
     total_pages: 0
   },
+  myWards: []
 };
 
 export const getParentByEmail = createAsyncThunk(
@@ -66,12 +68,34 @@ export const getParents = createAsyncThunk(
   },
 );
 
+export const getMyWards = createAsyncThunk(
+  'parent/getMyWards',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await ParentService.getMyWards(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const programSlice = createSlice({
   name: 'parent',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getMyWards.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        myWards: action.payload.my_wards, isLoading: false, message: action.payload.message,
+        status: action.payload.status
+      }));
+    builder.addCase(getMyWards.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(getMyWards.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
     builder
       .addCase(getParents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

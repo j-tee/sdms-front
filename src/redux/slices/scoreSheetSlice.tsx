@@ -25,7 +25,8 @@ const initialState: ScoreSheetState = {
     class_group_name: ''
   },
   message: '',
-  status: ''
+  status: '',
+  student_reports: []
 };
 
 export const addScoreSheet = createAsyncThunk(
@@ -76,11 +77,35 @@ export const updateScoreSheet = createAsyncThunk(
   },
 );
 
+export const getTerminalReport = createAsyncThunk(
+  'scoreSheet/getTerminalReport',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await ScoreSheetService.getTerminalReport(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const scoreSheetSlice = createSlice({
   name: 'scoreSheet',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(deleteScoreSheet.fulfilled, (state, action) => ({
+        ...state,
+        student_reports: action.payload.final_report, isLoading: false, 
+        message: action.payload.message,
+        status: action.payload.status
+      }));
+    builder.addCase(deleteScoreSheet.pending, (state) => ({ ...state, isLoading: true }));  
+    builder.addCase(deleteScoreSheet.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status:
+        action.payload.status, isLoading: false
+    }));
     builder
       .addCase(updateScoreSheet.fulfilled, (state, action) => ({
         ...state,

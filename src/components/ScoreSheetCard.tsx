@@ -16,17 +16,33 @@ import { ScoreSheet } from '../models/scoreSheet';
 import { addScoreSheet, getScoreSheets } from '../redux/slices/scoreSheetSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import { AssessmentViewModel } from '../models/assessment';
 type AnyType = {
   [key: string]: string;
 };
 const ScoreSheetCard = (props: any) => {
   const { schoolId, branchId, index } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
+  const { assessments } = useSelector((state: RootState) => state.assessment)
   const { registrations } = useSelector((state: RootState) => state.studentReg)
-  const {score_sheets} = useSelector((state: RootState) => state.scoreSheet)
+  const { score_sheets } = useSelector((state: RootState) => state.scoreSheet)
   const dispatch = useDispatch<AppDispatch>()
   const [scores, setScores] = useState<ScoreSheet[]>([]);
-  const {showToast, setShowToast} = useContext(ToastContext)
+  const { showToast, setShowToast } = useContext(ToastContext)
+  const [assessment, setAssessment] = useState<AssessmentViewModel>({
+    id: 0,
+    assessment_name: '',
+    base_mark: 0,
+    pass_mark: 0,
+    category: '',
+    class_group_name: '',
+    program_name: '',
+    subject_name: '',
+    assessment_category: '',
+    class_group_id: 0,
+    program_subject_id: 0,
+    assessment_type_id: 0,
+  })
 
 
   const [formData, setFormData] = useState({
@@ -41,6 +57,7 @@ const ScoreSheetCard = (props: any) => {
     school_id: schoolId,
     assessment_type_id: 0,
     subject_id: 0,
+    academic_term_id: academic_term.id,
     class_group_id: 0,
     department_id: 0,
     stage_id: 0,
@@ -55,15 +72,17 @@ const ScoreSheetCard = (props: any) => {
   })
   const handleSubmit = (e: any) => {
     e.preventDefault();
-  
+
     // Assuming server expects data in the format: { score_sheet: [{student_id, score, assessment_id}, ...] }
     const formattedData = {
-      scores:scores.map(score => ({
-      student_id: score.student_id,
-      score: score.score,
-      assessment_id: score.assessment_id
-    }))};
-  
+      scores: scores.map(score => ({
+        student_id: score.student_id,
+        score: score.score,
+        assessment_id: score.assessment_id
+      }))
+    };
+    console.log('====scores', scores)
+    console.log('====formattedData', formattedData)
     dispatch(addScoreSheet(formattedData))
       .then((res: any) => {
         dispatch(getScoreSheets({ ...params, paginate: true }));
@@ -71,7 +90,7 @@ const ScoreSheetCard = (props: any) => {
         showToastify(res.payload.message, res.payload.status);
       });
   };
-  
+
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -100,17 +119,14 @@ const ScoreSheetCard = (props: any) => {
         dispatch(getAssessments({ ...params, academic_term_id: academic_term.id, lesson_id: parseInt(value), paginate: false }))
         break;
       case 'assessment_id':
+        const assessment = assessments.find((assmnt) => assmnt.id === parseInt(value));
+        setAssessment((prevData) => ({
+          ...prevData,
+          ...assessment
+        }))
         dispatch(getScoreSheets({ ...params, assessment_id: parseInt(value), paginate: false }))
         dispatch(getRegisteredStudentsForRecordingScores({ ...params, assessment_id: parseInt(value), paginate: true }))
-        // .then((res: any) => {
-        //   const initialScores = registrations.map((registration: any) => ({
-        //     student_id: registration.student_id,
-        //     score: 0,
-        //     assessment_id: params.assessment_id
-        //   }));
-        //   setScores((prevData) => ([...prevData, ...initialScores]));
-        //   console.log('initialScores========', initialScores)
-        // })
+
         setScores([]);
         break;
       default:
@@ -121,6 +137,7 @@ const ScoreSheetCard = (props: any) => {
     setParams({
       ...params,
       branch_id: branchId,
+      academic_term_id: academic_term.id
     });
 
     if (index === 'sc') {
@@ -129,7 +146,7 @@ const ScoreSheetCard = (props: any) => {
       dispatch(getRegisteredStudentsForRecordingScores({ ...params, branch_id: branchId, paginate: true }))
       dispatch(getScoreSheets({ ...params, paginate: true }));
     }
-  }, [branchId, index, dispatch])
+  }, [branchId, index, dispatch, academic_term.id, assessment])
 
   useEffect(() => {
     const initialScores = registrations.map((registration: any) => ({
@@ -137,16 +154,46 @@ const ScoreSheetCard = (props: any) => {
       score: 0,
       assessment_id: params.assessment_id
     }));
-    setScores((prevData) => ([...prevData, ...initialScores]));
-  } , [registrations])
+    setScores(initialScores);
+  }, [registrations, params.assessment_id]);
 
+
+  // const handleScoreChange = (studentId: number, newScore: number) => {
+  //   const updatedScores = scores.map((score) =>
+  //     score.student_id === studentId ? { ...score, score: newScore } : score
+  //   );
+
+  //   if (!arraysAreEqual(scores, updatedScores)) {
+  //     // No changes were made, do not update state
+  //     return;
+  //   }
+
+  //   setScores([...updatedScores]); // Create a new array
+  // };
   const handleScoreChange = (studentId: number, newScore: number) => {
+    if (newScore > assessment.base_mark) {
+      setShowToast(true);
+      showToastify('Score cannot be greater than base mark', 'error');
+      return;
+    }
     const updatedScores = scores.map((score) =>
       score.student_id === studentId ? { ...score, score: newScore } : score
     );
-    setScores(updatedScores);
-  }; 
 
+    if (scores === updatedScores) {
+      setShowToast(true);
+      showToastify('No changes were made', 'error');
+      return;
+    }
+
+    setScores(updatedScores);
+  };
+
+
+  const getScoreForStudent = (studentId: number): number => {
+    const score = scores.find((s) => s.student_id === studentId);
+    return score?.score ?? 0;
+  };
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -167,6 +214,11 @@ const ScoreSheetCard = (props: any) => {
           </Col>
         </Row>
       </Form>
+      {assessment.assessment_name && <span className='py-4 text-muted'>
+        <h5>Assessment: {assessment.assessment_name}</h5>
+        <h5>Subject: {assessment.subject_name}</h5>
+        <h5>Base Mark: {assessment.base_mark}</h5>
+      </span>}
       <ListGroup as="ol" variant="dark">
         {registrations.map((registration: any) => (
           <ListGroup.Item as="li" key={registration.id} className='d-flex flex-row justify-content-between'>
@@ -174,7 +226,7 @@ const ScoreSheetCard = (props: any) => {
             <span>
               <Form.Control
                 type="number"
-                value={scores.find((score) => score.student_id === registration.student_id)?.score}
+                value={getScoreForStudent(registration.student_id)}
                 onChange={(e) => handleScoreChange(registration.student_id, parseFloat(e.target.value))}
               />
             </span>
@@ -184,7 +236,7 @@ const ScoreSheetCard = (props: any) => {
       <Row>
         <Col>
           <button className='btn btn-primary' onClick={handleSubmit}>Save</button>
-        </Col>  
+        </Col>
       </Row>
       <Table striped bordered hover size='sm'>
         <thead>

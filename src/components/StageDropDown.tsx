@@ -50,7 +50,7 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
   }, [message, setShowToast, showToast, status])
   return (
     <Form.Group controlId="branch">
-      <Form.Label>Stages</Form.Label>
+      <Form.Label>Stages / Levels / Years</Form.Label>
       <Form.Control as="select" onChange={handleStageChange} value={params.stage_id}>
         <option value="">---Select---</option>
         {stages.map((stage) => (<option key={stage.id} value={stage.id}>

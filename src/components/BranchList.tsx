@@ -69,7 +69,19 @@ const BranchList = () => {
   };
 
   useEffect(() => {
-    dispatch(getBranches({ ...params, school_id: school && school.id }))
+    setParams((prevParams) => ({
+      ...prevParams,
+      school_id: school && school.id
+    }));  
+  }, [school])
+
+  useEffect(() => {
+    console.log('params=============>', params)
+    if (school) {
+      if (params.school_id > 0) {
+        dispatch(getBranches(params));
+      }
+    }
   }, [dispatch, params, school])
   return (
     <>

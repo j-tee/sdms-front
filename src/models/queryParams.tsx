@@ -3,6 +3,7 @@ import { PaginationParams } from "./pagination";
 export interface QueryParams {
   lesson_id?: number;
   academic_term_id?: number;
+  attendance_date?: string;
   stage_id?: number;
   student_id?: number,
   admission_date?: string;

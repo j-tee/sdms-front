@@ -155,7 +155,7 @@ const AcademicTermCard = (props: any) => {
         </Row>
       </Form>
       <Card.Header className='fs-3 text-muted mb-4'>Academic Terms</Card.Header>
-      <Table striped hover responsive bordered variant='dark'>
+      <Table striped hover responsive bordered variant='dark' size='sm'>
         <thead>
           <tr>
             <th>Term / Semester</th>

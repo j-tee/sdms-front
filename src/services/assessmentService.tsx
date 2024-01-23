@@ -22,6 +22,7 @@ getAssessments: (params: QueryParams) =>axios.get(`${API_URL}api/v1/assessments?
   deleteAssessment: (assessment: Assessment, id: number) => axios.delete(`${API_URL}api/v1/assessments/${id}`, { headers: authHeader() }),
   updateAssessment: (assessment: Assessment, id: number) => axios.put(`${API_URL}api/v1/assessments/${id}`, assessment, { headers: authHeader() }),
   getAssessment: (assessmentId: number) => axios.get(`${API_URL}api/v1/assessments/${assessmentId}`, { headers: authHeader() }),
+  getStaffAssessmentSummary:(params: QueryParams) => axios.get(`${API_URL}api/v1/assessments/summary/staffs/evaluation/lessons/assessment_summary?${queryStringFormatter(params)}`, { headers: authHeader() }), 
 };
 
 export default AssessmentService;

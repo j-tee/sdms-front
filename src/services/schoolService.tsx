@@ -2,41 +2,16 @@ import axios from "axios";
 import authHeader from "../utility/authHeader";
 import { SchoolParams } from "../models/school";
 import { Branch, BranchParams } from '../models/branch';
+import queryStringFormatter from "../utility/queryStringFormatter";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 const SchoolService = {
-  getSchools: (params: SchoolParams) => {
-    const queryParams = `level_id=${params.level_id}&` +
-      `category_id=${params.category_id}&` +
-      `ownership_category_id=${params.ownership_category_id}&` +
-      `religious_affiliation_id=${params.religious_affiliation_id}&` +
-      `user_id=${params.user_id}&` +
-      `parent_id=${params.parent_id}&` +
-      `student_id=${params.student_id}&` +
-      `per_page=${params.pagination.per_page}&` +
-      `current_page=${params.pagination.current_page}`;
-    return axios.get(`${API_URL}api/v1/schools?${queryParams}`, { headers: authHeader() })
-  },
+  getSchools: (params: SchoolParams) => axios.get(`${API_URL}api/v1/schools?${queryStringFormatter(params)}`, { headers: authHeader() }),
 
   addBranch: (branch: Branch) => axios.post(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches`, branch, { headers: authHeader() }),
 
-  getBranches: (params: BranchParams) => {
-    const queryParams = `level_id=${params.level_id}&` +
-      `category_id=${params.category_id}&` +
-      `ownership_category_id=${params.ownership_category_id}&` +
-      `religious_affiliation_id=${params.religious_affiliation_id}&` +
-      `region_id=${params.region_id}&` +
-      `district_id=${params.district_id}&` +
-      `circuit_id=${params.circuit_id}&` +
-      `user_id=${params.user_id}&` +
-      `parent_id=${params.parent_id}&` +
-      `student_id=${params.student_id}&` +
-      `per_page=${params.pagination.per_page}&` +
-      `current_page=${params.pagination.current_page}`;
-
-    return axios.get(`${API_URL}api/v1/schools/${params.school_id}d/circuits/${params.circuit_id}/branches?${queryParams}`, { headers: authHeader() });
-  },
+  getBranches: (params: BranchParams) => axios.get(`${API_URL}api/v1/schools/${params.school_id}d/circuits/${params.circuit_id}/branches?${queryStringFormatter(params)}`, { headers: authHeader() }),
 
   addSchool: (school: FormData) => {
     return axios.post(`${API_URL}api/v1/schools`, school, {

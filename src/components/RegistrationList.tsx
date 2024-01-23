@@ -8,10 +8,13 @@ const RegistrationList = (props:any) => {
       <Card.Header>
         <Card.Title>{student.admission_id} {student.last_name} {student.first_name}</Card.Title>
       </Card.Header>
-      <Card.Body>
+      <Card.Body className='d-flex flex-row gap-2'>
       <Card.Img variant="top" src={student.image_url}style={{width:"100px", height:"100px"}} />
-      <Card.Text>
-        <span>{student.student_program}</span> <span>{student.student_stage}</span> <span>{student.student_class} </span>
+      <Card.Text className='d-flex flex-column'>
+        <span>Program: {student.student_program}</span> 
+        <span>Stage / Level / Year: {student.student_stage}</span> 
+        <span>Class Group: {student.student_class} </span>
+        <span>Department: {student.dept_name} </span>
       </Card.Text>
       </Card.Body>
     </Card>

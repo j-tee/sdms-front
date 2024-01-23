@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../redux/store';
-import { ToastContext } from '../utility/ToastContext';
-import { showToastify } from '../utility/Toastify';
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { ClassGroupParams } from '../models/classGroup';
-import { getClassGroups } from '../redux/slices/classGroupSlice';
+import { RootState } from '../redux/store';
 
 type AnyType = {
   [key: string]: string;
@@ -17,9 +14,7 @@ interface ClassGroupDropDownProps {
   departmentId:number;
 }
 const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, programId, stageId, departmentId }) => {
-  const { class_groups, message, status } = useSelector((state: RootState) => state.classGroup)
-  const dispatch = useDispatch<AppDispatch>()
-  const { showToast, setShowToast } = useContext(ToastContext)
+  const { class_groups } = useSelector((state: RootState) => state.classGroup)
   const [params, setParams] = useState<ClassGroupParams>({
     class_group_id: 0,
     department_id: 0,
@@ -45,14 +40,6 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
     });
     onChange('class_group_id', selectedClassGroupId);
   };
-  useEffect(() => {
-    dispatch(getClassGroups({ ...params, program_id: programId, stage_id: stageId, department_id:departmentId }))
-  }, [departmentId, dispatch, params, programId, stageId])
-
-  useEffect(() => {
-    setShowToast(true)
-    showToastify(message, status)
-  }, [message, setShowToast, showToast, status])
   return (
     <Form.Group controlId="department">
       <Form.Label>Class Groups</Form.Label>

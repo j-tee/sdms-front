@@ -18,6 +18,9 @@ import Organisation from './components/Organisation';
 import Enrolment from './components/Enrolment';
 import StaffCard from './components/StaffCard';
 import Academics from './components/Academics';
+import MyWardCard from './components/MyWardCard';
+import ResetPasswordComponent from './components/ResetPasswordComponent';
+import Email from './components/Email';
 
 function App() {
   return (
@@ -29,6 +32,7 @@ function App() {
             <Route caseSensitive path="/" element={<Home />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/register-school" element={<RegisterSchool />} />
+            <Route path="/my-wards" element={<MyWardCard />} />
             <Route path="/schools" element={<Schools />} />
             <Route path="/branches/:schoolId" element={<BranchList />} />
             <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
@@ -36,6 +40,8 @@ function App() {
             <Route path="/academics/:schoolId/:branchId" element={<Academics />} />
             <Route path="/enrolments/:schoolId/:branchId" element={<Enrolment />} />
             <Route path="/organisation-structures/:schoolId/:branchId" element={<Organisation />} />
+            <Route path="/resetPassword/:resetPasswordToken" element={<ResetPasswordComponent />} />
+            <Route path="/email" element={<Email />} />
           </Routes>
         </AuthProvider>
         <Information />

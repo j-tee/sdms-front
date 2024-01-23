@@ -13,6 +13,7 @@ const ScoreSheetService = {
   deleteScoreSheet: (scoreSheet: ScoreSheet) => axios.delete(`${API_URL}api/v1/score_sheets/${scoreSheet.id}`, { headers: authHeader() }),
   updateScoreSheet: (scoreSheet: ScoreSheet) => axios.put(`${API_URL}api/v1/score_sheets/${scoreSheet.id}`, scoreSheet, { headers: authHeader() }),
   getScoreSheet: (id: number) => axios.get(`${API_URL}api/v1/score_sheets/${id}`, { headers: authHeader() }),
+  getTerminalReport: (params: QueryParams) => axios.get(`${API_URL}api/v1/score_sheets/summary/students/evaluation/report/terminal_report?${queryStringFormatter(params)}`, { headers: authHeader() }),  
 };
 export default ScoreSheetService;
 

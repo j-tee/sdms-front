@@ -80,8 +80,10 @@ export interface StudentRegistration {
 
 export interface StudentRegViewModel {
   id: 0,
+  admission_id?: string;
   student_class: string;
   student_program: string;
+  dept_name: string;
   student_stage: string;
   first_name: string,
   last_name: string;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import TimeTable from './TimeTable';
+import AttendanceCard from './AttendanceCard';
 
 const LessonsCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
@@ -16,7 +17,7 @@ const LessonsCard = (props: any) => {
         <TimeTable tabKey={tabKey} schoolId={schoolId} branchId={branchId} />
       </Tab>
       <Tab eventKey="attendance" title="Attendance">
-        <h3>Attendance</h3>
+        <AttendanceCard index={tabKey} schoolId={schoolId} branchId={branchId} />
       </Tab>
     </Tabs>
   )

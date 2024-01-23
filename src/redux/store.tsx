@@ -22,6 +22,10 @@ import roleReducer from '../redux/slices/roleSlice';
 import assessmentTypeReducer from './slices/assesmentTypeSlice';
 import assessmentReducer from './slices/assessmentSlice';
 import scoreSheetReducer from './slices/scoreSheetSlice';
+import attendanceReducer from './slices/attendanceSlice';
+import subscriptionReducer from './slices/subscriptionSlice';
+import subscriptionFeeReducer from './slices/subscriptionFeeSlice';
+import taxReducer from './slices/taxSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -49,6 +53,10 @@ export const store = configureStore({
     role: roleReducer,
     assessmentType: assessmentTypeReducer,
     assessment: assessmentReducer,
-    scoreSheet: scoreSheetReducer
+    scoreSheet: scoreSheetReducer,
+    attendance: attendanceReducer,
+    subscription: subscriptionReducer,
+    subscriptionFee: subscriptionFeeReducer,
+    tax: taxReducer
   }
 })

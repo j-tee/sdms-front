@@ -5,6 +5,7 @@ import { UserModel } from '../../models/userModel';
 
 const initialState = {
   momotoken: {},
+  isSuccessful: false,
   isLoggedIn: false,
   isLoading: false,
   user: {} as UserModel,
