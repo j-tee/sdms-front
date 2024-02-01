@@ -17,6 +17,8 @@ const ParentCard = (props: any) => {
     mothersFullName: '',
     fathersOccupation: '',
     mothersOccupation: '',
+    fathersGhanaCardNumber: '',
+    mothersGhanaCardNumber: '',
     fathersEmailAddress: '',
     mothersEmailAddress: '',
     fathersContactNumber: '',
@@ -46,6 +48,8 @@ const ParentCard = (props: any) => {
       mothers_contact_number: formData.mothersContactNumber,
       residential_address: formData.residentialAddress,
       postal_address: formData.postalAddress,
+      fathers_ghana_card_number: formData.fathersGhanaCardNumber,
+      mothers_ghana_card_number: formData.mothersGhanaCardNumber,
       title: formData.title
     }
     // Add your logic for submitting the form data (e.g., API call, state update, etc.)
@@ -135,7 +139,7 @@ const ParentCard = (props: any) => {
           <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
               <Form.Group controlId="fathersEmailAddress">
-                <Form.Label>Email Address</Form.Label>
+                <Form.Label>Fathers Email Address</Form.Label>
                 <Form.Control
                   type="email"
                   name="fathersEmailAddress"
@@ -205,6 +209,32 @@ const ParentCard = (props: any) => {
                   type="text"
                   name="postalAddress"
                   value={formData.postalAddress}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
+            <Col>
+              <Form.Group controlId="residentialAddress">
+                <Form.Label>Father's Ghana Card Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="residentialAddress"
+                  value={formData.fathersGhanaCardNumber}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="postalAddress">
+                <Form.Label>Mother's Ghana Card Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="postalAddress"
+                  value={formData.mothersGhanaCardNumber}
                   onChange={handleChange}
                   required
                 />

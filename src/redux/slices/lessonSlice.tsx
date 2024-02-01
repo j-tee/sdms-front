@@ -32,6 +32,18 @@ const initialState: LessonState = {
     },
 };
 
+export const updateLesson = createAsyncThunk(
+  'lesson/updateLesson',
+  async (lesson: Lesson, thunkAPI) => {
+    try {
+      const response = await LessonService.updateLesson(lesson, lesson.id || 0);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const addLesson = createAsyncThunk(
   'lesson/addLesson',
   async (lesson: Lesson, thunkAPI) => {
@@ -61,6 +73,11 @@ export const lessonSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+    .addCase(updateLesson.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      lesson: action.payload.lesson, isLoading: false, message: action.payload.message, status: action.payload.status
+    }));
     builder
       .addCase(getLessons.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

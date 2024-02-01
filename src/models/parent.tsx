@@ -28,6 +28,8 @@ export interface Parent {
   mothers_contact_number: string;
   residential_address: string;
   postal_address: string;
+  fathers_ghana_card_number: string;
+  mothers_ghana_card_number: string;
   title: string;
 }
 

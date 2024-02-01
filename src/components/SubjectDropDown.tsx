@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { RootState } from '../redux/store';
+import { QueryParams } from '../models/queryParams';
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 type AnyType = {
     [key: string]: string;
@@ -10,30 +10,12 @@ type AnyType = {
     onChange: (field: keyof AnyType, value: string) => void;
     branchId: number;
     schoolId: number;
+    params: QueryParams;
   }
-const SubjectDropDown:React.FC<SubjectDropDownProps> = ({ onChange, branchId, schoolId}) => {
+const SubjectDropDown:React.FC<SubjectDropDownProps> = ({ onChange, branchId, schoolId, params}) => {
     const { subjects} = useSelector((state: RootState) => state.subject)  
-    const [params, setParams] = useState({
-        program_id: 0,
-        branch_id: 0,
-        school_id: 0,
-        subject_id: 0,
-        paginate: false,
-        pagination: {
-          per_page: 10000,
-          current_page: 1,
-          total_items: 0,
-          total_pages: 0
-        }
-      })
     const handleInputChange = (e: React.ChangeEvent<any>) => {
         const selectedSubjectId = e.target.value;
-        setParams({
-          ...params,
-          subject_id: selectedSubjectId,
-          branch_id: 0,
-          program_id: 0,
-        });
         onChange('subject_id', selectedSubjectId);
       };
   return (

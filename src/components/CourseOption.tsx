@@ -89,7 +89,7 @@ const CourseOption = (props: any) => {
         }));
       })
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))
-      dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: true, pagination: { current_page: 1, per_page: 10 } }))
+      dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: false, pagination: { current_page: 1, per_page: 10000 } }))
     }
     
   }, [schoolId, branchId, tabKey, dispatch, params])

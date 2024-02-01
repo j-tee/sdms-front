@@ -193,6 +193,7 @@ const TimeTable = (props: any) => {
                 <th scope="col">Subject</th>
                 <th scope="col">Class</th>
                 <th scope="col">Staff</th>
+                <th scope='col'>&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -204,6 +205,7 @@ const TimeTable = (props: any) => {
                   <td>{lesson.subject_name}</td>
                   <td>{lesson.class_group_name}</td>
                   <td>{lesson.staff_name}</td>
+                  <td>Edit|Delete|Details</td>
                 </tr>
               ))}
             </tbody>

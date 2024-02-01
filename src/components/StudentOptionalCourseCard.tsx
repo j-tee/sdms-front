@@ -19,17 +19,13 @@ import { getCourseOption } from '../redux/slices/programSubjectSlice';
 import { registerOptionalCourses } from '../redux/slices/studentCourseRegSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
-// to do: get the list of optional courses for the student
-// to do: only the staff teaching the course can register the student
-// to do: get the list of students registered for the program and the stage at which the subject is being offered  
 const StudentOptionalCourseCard = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
   const { course_option } = useSelector((state: RootState) => state.programSubject)
-  const { stages } = useSelector((state: RootState) => state.stage);
   const { academic_term } = useSelector((state: RootState) => state.calendar);
   const dispatch = useDispatch<AppDispatch>();
   const [optinalCourses, setOptionalCourses] = useState<StudentOptionalCourse[]>([])
-  const {setShowToast} = useContext(ToastContext)
+  const { setShowToast } = useContext(ToastContext)
 
   const { registrations } = useSelector((state: RootState) => state.studentReg)
   const [params, setParams] = useState({
@@ -148,21 +144,24 @@ const StudentOptionalCourseCard = (props: any) => {
     e.preventDefault();
     // Dispatch an action to register the student for the optional courses
     dispatch(registerOptionalCourses(optinalCourses))
-    .then((resp: any) => {
-      setShowToast(true)
-      showToastify(resp.payload.message, resp.payload.status);
-    } )
+      .then((resp: any) => {
+        setShowToast(true)
+        showToastify(resp.payload.message, resp.payload.status);
+      })
   }
-  
+
   useEffect(() => {
-    dispatch(getCurrentTerm(branchId))
-    if(branchId){
-      dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
-      dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
+    if (tabKey === 'registration') {
+      dispatch(getCurrentTerm(branchId))
+      if (branchId) {
+        dispatch(getSubjectList({ ...params,paginate:false, school_id: schoolId, branch_id: branchId }))
+        dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
+        dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
+      }
     }
     // dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
     // dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
-  }, [dispatch, schoolId, branchId])
+  }, [dispatch, schoolId, branchId, tabKey, params])
   return (
     <div>
       <Card.Header>
@@ -183,7 +182,7 @@ const StudentOptionalCourseCard = (props: any) => {
           </Row>
           <Row className='d-flex flex-column flex-lg-row'>
             <Col>
-              <SubjectDropDown branchId={branchId} onChange={handleInputChange} schoolId={0} />
+              <SubjectDropDown params={params} branchId={branchId} onChange={handleInputChange} schoolId={0} />
             </Col>
             <Col>
               <ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
@@ -203,7 +202,7 @@ const StudentOptionalCourseCard = (props: any) => {
                 ))}
               </Card.Body>
               <Card.Footer>
-              <Button onClick={handleSubmit}>Submit</Button>
+                <Button onClick={handleSubmit}>Submit</Button>
               </Card.Footer>
             </Form>
           </Card>

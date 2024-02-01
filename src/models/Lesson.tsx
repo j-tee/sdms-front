@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Lesson {
+  id?: number;
   class_group_id: number;
   staff_id: number;
   program_subject_id: number;
