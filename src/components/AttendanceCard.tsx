@@ -144,7 +144,7 @@ const AttendanceCard = (props: any) => {
     <Form onSubmit={handleSubmit}>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
+            <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} value={undefined} />
           </Col>
           <Col>
             <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />

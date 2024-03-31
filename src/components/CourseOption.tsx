@@ -123,10 +123,10 @@ const CourseOption = (props: any) => {
           <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
         </Col>
         <Col>
-          <ProgramDropDown branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
+          <ProgramDropDown value={undefined} branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
         </Col>
         <Col>
-          <StageDropDown branchId={branchId} onChange={handleInputChange} />
+          <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
         </Col>
       </Row>
       <Form onSubmit={handleSubmit}>

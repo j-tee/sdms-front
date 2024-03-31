@@ -7,7 +7,7 @@ const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 const LessonService = {
   getLessons: (params: LessonParams) => {
-    const queryParams = `?branch_id=${params.branch_id}`+
+    const queryParams = `branch_id=${params.branch_id}`+
     `&department_id=${params.department_id}`+
     `&branch_id=${params.branch_id}`+
     `&program_id=${params.program_id}`+

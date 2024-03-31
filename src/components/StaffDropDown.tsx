@@ -9,13 +9,15 @@ type AnyType = {
   };
   interface StaffDropDownProps {
     onChange: (field: keyof AnyType, value: string) => void;
+    value: any;
     branchId: number;
     schoolId: number;
   }
   
-const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange, branchId}) => {
+const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange, branchId, value, schoolId}) => {
   const { staffs } = useSelector((state: RootState) => state.staff)
   const [params, setParams] = useState<StaffParams>({})
+  
   const handleStaffChange = (e: React.ChangeEvent<any>) => {
     const selectedStaffId = e.target.value;
     setParams({
@@ -27,13 +29,13 @@ const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange, branchId}) => {
   return (
     <Form.Group controlId="branch">
       <Form.Label>Staffs</Form.Label>
-      <Form.Control as="select" onChange={handleStaffChange} value={params.staff_id}>
-        <option value="">---Select---</option>
+      <Form.Select as="select" onChange={handleStaffChange} value={params.staff_id}>
+        <option value={value ? value.staff_id : ''}>{value ? value.staff_name : "-----Select Staff----"}</option>
         {staffs.map((staff) => (<option key={staff.id} value={staff.id}>
           {staff.id} {staff.last_name} {staff.first_name}
         </option>
         ))}
-      </Form.Control>
+      </Form.Select>
     </Form.Group>
   )
 }

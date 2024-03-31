@@ -43,13 +43,13 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
   return (
     <Form.Group controlId="department">
       <Form.Label>Class Groups</Form.Label>
-      <Form.Control as="select" onChange={handleClassGroupChange} value={params.class_group_id}>
+      <Form.Select as="select" onChange={handleClassGroupChange} value={params.class_group_id}>
         <option value="">---Select---</option>
         {class_groups.map((clsgrp) => (<option key={clsgrp.id} value={clsgrp.id}>
           {clsgrp.class_grp_name}
         </option>
         ))}
-      </Form.Control>
+      </Form.Select>
     </Form.Group>
   )
 }

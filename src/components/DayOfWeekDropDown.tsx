@@ -20,7 +20,7 @@ const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange }) => {
   return (
     <Form.Group controlId="dayOfWeek">
       <Form.Label>Days of The Week</Form.Label>
-      <Form.Control as="select" onChange={handleDayOfWeekChange} value={params.staff_id}>
+      <Form.Select as="select" onChange={handleDayOfWeekChange} value={params.staff_id}>
         <option value="">---Select---</option>
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
@@ -29,7 +29,7 @@ const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange }) => {
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
         <option value="Sunday">Sunday</option>
-      </Form.Control>
+      </Form.Select>
     </Form.Group>
   )
 }

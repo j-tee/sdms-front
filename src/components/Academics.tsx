@@ -43,9 +43,9 @@ const Academics = () => {
               <Col sm={10}>
                 <Tab.Content>
                   <Tab.Pane eventKey="first"><SubjectCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
-                  <Tab.Pane eventKey="second"><LessonsCard schoolId={schoolId} branchId={branchId} /></Tab.Pane>
-                  <Tab.Pane eventKey="third"><AssessmentCard schoolId={schoolId} branchId={branchId} /></Tab.Pane>
-                  <Tab.Pane eventKey="fourth"><EvaluationCard schoolId={schoolId} branchId={branchId} /></Tab.Pane>
+                  <Tab.Pane eventKey="second"><LessonsCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
+                  <Tab.Pane eventKey="third"><AssessmentCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
+                  <Tab.Pane eventKey="fourth"><EvaluationCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>

@@ -19,7 +19,7 @@ import { showToastify } from '../utility/Toastify';
 import { getLessons, updateLesson } from '../redux/slices/lessonSlice';
 
 const TimeTableEditModal = (props: any) => {
-    const { lesson, schoolId, branchId, isOpen, params, onRequestClose, setEditModalOpen } = props;
+    const { lesson, schoolId, branchId, isOpen, params, onRequestClose, setTimeTableEditModalOpen } = props;
     const { subjects } = useSelector((state: any) => state.subject)
     const dispatch = useDispatch<AppDispatch>()
     const { setShowToast } = useContext(ToastContext)
@@ -33,7 +33,6 @@ const TimeTableEditModal = (props: any) => {
     const [startTime, setStartTime] = useState<string>('7:45');
     const [endTime, setEndTime] = useState<string>('9:15');
 
-
     const [formData, setFormData] = useState<Lesson>({
         class_group_id: 0,
         staff_id: 0,
@@ -43,7 +42,9 @@ const TimeTableEditModal = (props: any) => {
         end_time: '',
     })
 
+
     useEffect(() => {
+        console.log('lesson from timetable editmodal open==========', lesson)
         dispatch(getSubjects({
             ...params, school_id: schoolId, branch_id: branchId, pagination: {
                 per_page: 100000,
@@ -52,15 +53,15 @@ const TimeTableEditModal = (props: any) => {
                 total_pages: 0
             }
         }))
-        setFormData((prevData) => ({
-            ...prevData,
-            class_group_id: lesson.class_group_id,
-            staff_id: lesson.staff_id,
-            program_subject_id: lesson.program_subject_id,
-            day_of_week: lesson.day_of_week,
-            start_time: lesson.start_time,
-            end_time: lesson.end_time,
-        }))
+        // setFormData((prevData) => ({
+        //     ...prevData,
+        //     class_group_id: lesson.class_group_id,
+        //     staff_id: lesson.staff_id,
+        //     program_subject_id: lesson.program_subject_id,
+        //     day_of_week: lesson.day_of_week,
+        //     start_time: lesson.start_time,
+        //     end_time: lesson.end_time,
+        // }))
     }, [branchId, dispatch, lesson, params, schoolId])
 
     type AnyType = {
@@ -102,30 +103,26 @@ const TimeTableEditModal = (props: any) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(updateLesson({ ...formData, start_time: startTime, end_time: endTime }))
-          .then((res) => {
-            setShowToast(true);
-            showToastify(res.payload.message, res.payload.status);
-            dispatch(getLessons({
-              school_id: schoolId,
-              branch_id: branchId,
-              program_id: programId,
-              stage_id: stageId,
-              department_id: departmentId,
-              class_group_id: classGroupId,
-              staff_id: staffId,
-              program_subject_id: programSubjectId,
-              day_of_week: dayOfWeek,
-              pagination: params.pagination, paginate: true
-            }))
-              .then((res) => {
+            .then((res) => {
                 setShowToast(true);
                 showToastify(res.payload.message, res.payload.status);
-              })
-          }
-          )
-      }
+                dispatch(getLessons({
+                    school_id: schoolId,
+                    branch_id: branchId,
+                    program_id: programId,
+                    stage_id: stageId,
+                    department_id: departmentId,
+                    class_group_id: classGroupId,
+                    staff_id: staffId,
+                    program_subject_id: programSubjectId,
+                    day_of_week: dayOfWeek,
+                    pagination: params.pagination, paginate: true
+                }))
+                setTimeTableEditModalOpen(false)
+            })
+    }
     return (
-        <Modal animation show={isOpen} centered onHide={onRequestClose} size='lg'>
+        <Modal animation show={isOpen} centered onHide={onRequestClose} size='xl'>
             <Modal.Header closeButton>
                 <Modal.Title>Edit: {lesson.class_group_name} - {lesson.program_subject_name}</Modal.Title>
             </Modal.Header>
@@ -133,13 +130,13 @@ const TimeTableEditModal = (props: any) => {
                 <Form onSubmit={handleSubmit}>
                     <Row className='d-flex flex-column flex-lg-row'>
                         <Col>
-                            <StaffDropDown onChange={handleInputChange} branchId={0} schoolId={0} />
+                            <StaffDropDown onChange={handleInputChange} branchId={0} value={lesson} schoolId={0} />
                         </Col>
                         <Col>
-                            <ProgramDropDown onChange={handleInputChange} departmentId={undefined} branchId={0} />
+                            <ProgramDropDown value={lesson} onChange={handleInputChange} departmentId={undefined} branchId={0} />
                         </Col>
                         <Col>
-                            <StageDropDown onChange={handleInputChange} branchId={0} />
+                            <StageDropDown lesson={lesson} onChange={handleInputChange} branchId={0} />
                         </Col>
                     </Row>
                     <Row className='d-flex flex-column flex-lg-row'>

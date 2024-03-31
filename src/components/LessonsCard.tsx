@@ -14,7 +14,7 @@ const LessonsCard = (props: any) => {
       className="mb-3"
     >
       <Tab eventKey="time-table" title="Time Table">
-        <TimeTable tabKey={tabKey} schoolId={schoolId} branchId={branchId} />
+        <TimeTable tabKey={tabKey} lessonTabIndex={tabIndex} schoolId={schoolId} branchId={branchId} />
       </Tab>
       <Tab eventKey="attendance" title="Attendance">
         <AttendanceCard index={tabKey} schoolId={schoolId} branchId={branchId} />

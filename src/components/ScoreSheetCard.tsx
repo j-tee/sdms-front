@@ -199,7 +199,7 @@ const ScoreSheetCard = (props: any) => {
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col>
-            <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
           </Col>
           <Col>
             <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />

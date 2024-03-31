@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Form, Row } from 'react-bootstrap'
+import { Card, Col, Form, Row, Table } from 'react-bootstrap'
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStaffs } from '../redux/slices/staffSlice';
 import StaffDropDown from './StaffDropDown';
-import { Lesson } from '../models/Lesson';
+import { Lesson, LessonViewModel } from '../models/Lesson';
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
@@ -19,9 +19,11 @@ import TimePicker from 'react-time-picker';
 import { addLesson, getLessons } from '../redux/slices/lessonSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import TimeTableEditModal from './TimeTableEditModal';
+import { QueryParams } from '../models/queryParams';
 
 const TimeTable = (props: any) => {
-  const { schoolId, branchId, tabKey } = props;
+  const { schoolId, branchId, tabKey,lessonTabIndex } = props;
   const dispatch = useDispatch<AppDispatch>();
   const [programId, setProgramId] = useState<number>(0);
   const [stageId, setStageId] = useState<number>(0);
@@ -33,7 +35,25 @@ const TimeTable = (props: any) => {
   const [startTime, setStartTime] = useState<string>('7:45');
   const [endTime, setEndTime] = useState<string>('9:15');
   const { setShowToast } = useContext(ToastContext);
-  const {lessons}=useSelector((state:RootState)=>state.lesson)
+  const [isTimeTableEditModalOpen,setTimeTableEditModalOpen] = useState(false);
+  const [params, setParams] = useState<QueryParams>({ })
+  const [lesson, setLesson] = useState<LessonViewModel>({
+    id: 0,
+    class_group_id: 0,
+    staff_id: 0,
+    program_subject_id: 0,
+    day_of_week: '',
+    start_time: '',
+    end_time: '',
+    class_group_name: '',
+    staff_name: '',
+    subject_name: '',
+    program_name: '',
+    stage_name: '',
+    term_name: '',
+    dept_name: '',
+  });
+  const { lessons } = useSelector((state: RootState) => state.lesson)
 
   const [formData, setFormData] = useState<Lesson>({
     class_group_id: 0,
@@ -64,8 +84,8 @@ const TimeTable = (props: any) => {
         break;
       case 'program_id':
         setProgramId(parseInt(value));
-        if(branchId)
-        dispatch(getStages({ school_id: schoolId, branch_id: branchId, program_id: parseInt(value), pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
+        if (branchId)
+          dispatch(getStages({ school_id: schoolId, branch_id: branchId, program_id: parseInt(value), pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
         break;
       case 'staff_id':
         setStaffId(parseInt(value));
@@ -81,28 +101,33 @@ const TimeTable = (props: any) => {
     }
   };
   useEffect(() => {
+    
     if (tabKey === 'time-table') {
-      dispatch(getLessons({
-        school_id: schoolId,
-        branch_id: branchId,
-        program_id: programId,
-        stage_id: stageId,
-        department_id: departmentId,
-        class_group_id: classGroupId,
-        staff_id: staffId,
-        program_subject_id: programSubjectId,
-        day_of_week: dayOfWeek,
-        pagination: { current_page: 1, per_page: 10 }, paginate: true
-      }))
-        .then((res) => {
-          setShowToast(true);
-          showToastify(res.payload.message, res.payload.status);
-        })
+      setParams({ school_id: schoolId, branch_id: branchId, program_id: programId, stage_id: stageId, department_id: departmentId, class_group_id: classGroupId, staff_id: staffId, program_subject_id: programSubjectId, day_of_week: dayOfWeek, pagination: { current_page: 1, per_page: 10 }, paginate: true })
+      if(lessonTabIndex === 'second'){
+        dispatch(getLessons({
+          school_id: schoolId,
+          branch_id: branchId,
+          program_id: programId,
+          stage_id: stageId,
+          department_id: departmentId,
+          class_group_id: classGroupId,
+          staff_id: staffId,
+          program_subject_id: programSubjectId,
+          day_of_week: dayOfWeek,
+          pagination: { ...params.pagination}, paginate: true
+        }))
+          .then((res) => {
+            setShowToast(true);
+            showToastify(res.payload.message, res.payload.status);
+          })
+      }
+      
       dispatch(getPrograms({ school_id: schoolId, branch_id: branchId, pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
       dispatch(getCourseOptions({ school_id: schoolId, branch_id: branchId, program_id: programId, stage_id: stageId, pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
       dispatch(getStaffs({ school_id: schoolId, branch_id: branchId, pagination: { current_page: 1, per_page: 10000 }, paginate: false }))
     }
-  }, [branchId, programId, dayOfWeek, stageId, classGroupId, programSubjectId, dispatch, schoolId, tabKey]);
+  }, [branchId, programId,lessonTabIndex, dayOfWeek, stageId, classGroupId, programSubjectId, dispatch, schoolId, tabKey]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -129,6 +154,21 @@ const TimeTable = (props: any) => {
       }
       )
   }
+  const handleEdit = (lesson:any) => {
+    setTimeTableEditModalOpen(true)
+    setLesson((prevParams) => ({
+      ...prevParams,
+      id: lesson.id,
+      class_group_id: lesson.class_group_id,
+      staff_id: lesson.staff_id,
+      program_subject_id: lesson.program_subject_id,
+      day_of_week: lesson.day_of_week,
+      start_time: lesson.start_time,
+      end_time: lesson.end_time,
+      staff_name: lesson.staff_name,
+      program_name: lesson.program_name,
+    }))
+  }
   return (
     <div>
       <Card.Header>
@@ -137,13 +177,13 @@ const TimeTable = (props: any) => {
       <Form onSubmit={handleSubmit}>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <StaffDropDown onChange={handleInputChange} branchId={0} schoolId={0} />
+            <StaffDropDown onChange={handleInputChange} value={lesson} branchId={0} schoolId={0} />
           </Col>
           <Col>
-            <ProgramDropDown onChange={handleInputChange} departmentId={undefined} branchId={0} />
+            <ProgramDropDown value={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
           </Col>
           <Col>
-            <StageDropDown onChange={handleInputChange} branchId={0} />
+            <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={0} />
           </Col>
         </Row>
         <Row className='d-flex flex-column flex-lg-row'>
@@ -184,7 +224,7 @@ const TimeTable = (props: any) => {
       </Form>
       <Row>
         <Col>
-          <table className="table table-striped table-hover">
+          <Table striped hover responsive bordered size='sm'>
             <thead>
               <tr>
                 <th scope="col">Day</th>
@@ -205,13 +245,25 @@ const TimeTable = (props: any) => {
                   <td>{lesson.subject_name}</td>
                   <td>{lesson.class_group_name}</td>
                   <td>{lesson.staff_name}</td>
-                  <td>Edit|Delete|Details</td>
+                  <td>
+                    <span>
+                      <Card.Link fw-light onClick={() => handleEdit(lesson)}><em>Edit</em></Card.Link>
+                      {/* <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
+                      <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link> */}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         </Col>
       </Row>
+      <TimeTableEditModal schoolId={schoolId} lesson={lesson}
+        branchId={branchId}
+        isOpen={isTimeTableEditModalOpen}
+        params={params}
+        onRequestClose={() => setTimeTableEditModalOpen(false)}
+        isTimeTableEditModalOpen={isTimeTableEditModalOpen} />
     </div>
   )
 }

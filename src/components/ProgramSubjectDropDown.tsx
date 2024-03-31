@@ -23,13 +23,13 @@ const ProgramSubjectDropDown: React.FC<ProgramSubjectDropDownProps> = ({ onChang
   return (
     <Form.Group controlId="branch">
       <Form.Label>Subjects</Form.Label>
-      <Form.Control as="select" onChange={handleStaffChange} value={params.staff_id}>
+      <Form.Select as="select" onChange={handleStaffChange} value={params.staff_id}>
         <option value="">---Select---</option>
         {course_options.map((subject) => (<option key={subject.id} value={subject.id}>
           {subject.id} {subject.subject_name} 
         </option>
         ))}
-      </Form.Control>
+      </Form.Select>
     </Form.Group>
   )
 }

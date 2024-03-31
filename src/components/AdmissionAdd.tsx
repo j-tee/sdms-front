@@ -213,10 +213,10 @@ const AdmissionAdd = (props: any) => {
               <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
             </Col>
             <Col>
-              <ProgramDropDown onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} />
+              <ProgramDropDown onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} value={undefined} />
             </Col>
             <Col>
-              <StageDropDown branchId={branchId} onChange={handleInputChange} />
+              <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
             </Col>
           </Row>
           <Row className='my-4 d-flex flex-column flex-lg-row'>

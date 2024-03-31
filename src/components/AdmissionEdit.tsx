@@ -75,10 +75,10 @@ const AdmissionEdit = (props: any) => {
             <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
             </Col>
             <Col>
-            <ProgramDropDown departmentId={params.department_id} branchId={branchId} onChange={handleInputChange} />
+            <ProgramDropDown value={undefined} departmentId={params.department_id} branchId={branchId} onChange={handleInputChange} />
             </Col>
             <Col>
-            <StageDropDown branchId={branchId} onChange={handleInputChange} />
+            <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
             </Col>
             </Row>
             <Row className='my-4 d-flex flex-column flex-lg-row'>

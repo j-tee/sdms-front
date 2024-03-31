@@ -154,7 +154,7 @@ const UnregisteredStudent = (props: any) => {
         <form>
           <Row className='d-flex flex-column flex-lg-row'>
             <Col>
-              <StageDropDown onChange={handleInputChange} branchId={branchId} />
+              <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={branchId} />
             </Col>
             <Col>
               <ClassGroupDropDown onChange={handleInputChange}

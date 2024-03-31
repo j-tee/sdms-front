@@ -69,7 +69,7 @@ const AssessmentReport = (props: any) => {
     <div>
       <Row className='d-flex flex-column flex-lg-row'>
         <Col>
-          <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
+          <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} value={undefined} />
         </Col>
         <Col>
         <LessonDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} staffId={0} academicTermId={academic_term.id|| 0} />

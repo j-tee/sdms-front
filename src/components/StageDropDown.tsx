@@ -13,8 +13,9 @@ type AnyType = {
 interface StageDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   branchId: any
+  lesson: any
 }
-const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => {
+const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesson }) => {
   const { stages, message, status } = useSelector((state: RootState) => state.stage)
   const { showToast, setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
@@ -41,9 +42,10 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
     onChange('stage_id', selectedStageId);
   };
   useEffect(() => {
+    console.log('lesson from timetable editmodal open==========', lesson)
     if(branchId)
     dispatch(getStages({ ...params, branch_id: branchId }))
-  }, [branchId, dispatch, params])
+  }, [branchId, dispatch, params, lesson])
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)
@@ -51,13 +53,13 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId }) => 
   return (
     <Form.Group controlId="branch">
       <Form.Label>Stages / Levels / Years</Form.Label>
-      <Form.Control as="select" onChange={handleStageChange} value={params.stage_id}>
-        <option value="">---Select---</option>
+      <Form.Select as="select" onChange={handleStageChange} value={params.stage_id}>
+      <option value={lesson ? lesson.stage_id : ''}>{lesson ? lesson.stage_name : "-----Select Stage----"}</option>
         {stages.map((stage) => (<option key={stage.id} value={stage.id}>
           {stage.stage_name}
         </option>
         ))}
-      </Form.Control>
+      </Form.Select>
     </Form.Group>
   )
 }
