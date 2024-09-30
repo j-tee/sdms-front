@@ -21,6 +21,7 @@ import Academics from './components/Academics';
 import MyWardCard from './components/MyWardCard';
 import ResetPasswordComponent from './components/ResetPasswordComponent';
 import Email from './components/Email';
+import Finance from './components/Finance';
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/register-school" element={<RegisterSchool />} />
             <Route path="/my-wards" element={<MyWardCard />} />
-            <Route path="/schools" element={<Schools />} />
+            <Route path="/finance/:schoolId/:branchId" element={<Finance />} />
+            <Route path="/schools/" element={<Schools />} />
             <Route path="/branches/:schoolId" element={<BranchList />} />
             <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
             <Route path="/staff/:schoolId/:branchId" element={<StaffCard />} />

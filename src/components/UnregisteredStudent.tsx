@@ -158,8 +158,8 @@ const UnregisteredStudent = (props: any) => {
             </Col>
             <Col>
               <ClassGroupDropDown onChange={handleInputChange}
-                programId={params.program_id} stageId={params.stage_id}
-                departmentId={params.department_id} />
+              programId={params.program_id} stageId={params.stage_id}
+              departmentId={params.department_id} lesson={undefined} />
             </Col>
             <Col>
               <Form.Group controlId="regDate">

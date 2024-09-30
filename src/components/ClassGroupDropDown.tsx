@@ -11,9 +11,10 @@ interface ClassGroupDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   programId: number;
   stageId: number;
+  lesson: any;
   departmentId:number;
 }
-const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, programId, stageId, departmentId }) => {
+const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, programId, stageId, departmentId, lesson }) => {
   const { class_groups } = useSelector((state: RootState) => state.classGroup)
   const [params, setParams] = useState<ClassGroupParams>({
     class_group_id: 0,
@@ -44,7 +45,7 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
     <Form.Group controlId="department">
       <Form.Label>Class Groups</Form.Label>
       <Form.Select as="select" onChange={handleClassGroupChange} value={params.class_group_id}>
-        <option value="">---Select---</option>
+      <option value={lesson ? lesson.class_group_id : ''}>{lesson ? lesson.class_group_name : "-----Select Stage----"}</option>
         {class_groups.map((clsgrp) => (<option key={clsgrp.id} value={clsgrp.id}>
           {clsgrp.class_grp_name}
         </option>

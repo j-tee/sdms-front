@@ -36,7 +36,7 @@ const BranchList = () => {
       total_pages: 0,
     }
   })
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics']
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics', 'Finance']
   type AnyType = {
     [key: string]: string;
   };
@@ -76,7 +76,6 @@ const BranchList = () => {
   }, [school])
 
   useEffect(() => {
-    console.log('params=============>', params)
     if (school) {
       if (params.school_id > 0) {
         dispatch(getBranches(params));

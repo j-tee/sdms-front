@@ -17,6 +17,7 @@ import TimePicker from 'react-time-picker';
 import { ClassGroupParams } from '../models/classGroup';
 import { showToastify } from '../utility/Toastify';
 import { getLessons, updateLesson } from '../redux/slices/lessonSlice';
+import { options } from '../models/utilities';
 
 const TimeTableEditModal = (props: any) => {
     const { lesson, schoolId, branchId, isOpen, params, onRequestClose, setTimeTableEditModalOpen } = props;
@@ -141,13 +142,13 @@ const TimeTableEditModal = (props: any) => {
                     </Row>
                     <Row className='d-flex flex-column flex-lg-row'>
                         <Col>
-                            <ClassGroupDropDown onChange={handleInputChange} programId={programId} stageId={stageId} departmentId={departmentId} />
+                            <ClassGroupDropDown lesson={lesson} onChange={handleInputChange} programId={programId} stageId={stageId} departmentId={departmentId} />
                         </Col>
                         <Col>
-                            <ProgramSubjectDropDown onChange={handleInputChange} />
+                            <ProgramSubjectDropDown onChange={handleInputChange} lesson={lesson} />
                         </Col>
                         <Col>
-                            <DayOfWeekDropDown onChange={handleInputChange} />
+                            <DayOfWeekDropDown onChange={handleInputChange} lesson={lesson} />
                         </Col>
                     </Row>
                     <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>
@@ -155,7 +156,7 @@ const TimeTableEditModal = (props: any) => {
                             <span className='pt-2'>Start Time</span>
                             <span> <TimePicker
                                 onChange={(e) => setStartTime(e as string)}
-                                value={startTime}
+                                value={new Date(lesson.start_time).toLocaleTimeString()}
                             /></span>
                         </Col>
                         <Col md={4} className='d-flex flex-row gap-5'>
@@ -165,7 +166,7 @@ const TimeTableEditModal = (props: any) => {
                             <span className='pt-2'>End Time</span>
                             <span><TimePicker
                                 onChange={(e) => setEndTime(e as string)}
-                                value={endTime}
+                                value={new Date(lesson.end_time).toLocaleTimeString()}
                             /></span>
                         </Col>
                     </Row>

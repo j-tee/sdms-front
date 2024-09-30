@@ -8,11 +8,14 @@ type AnyType = {
 };
 interface ProgramSubjectDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
+  lesson: any;
 }
-const ProgramSubjectDropDown: React.FC<ProgramSubjectDropDownProps> = ({ onChange }) => {
+const ProgramSubjectDropDown: React.FC<ProgramSubjectDropDownProps> = ({ onChange, lesson }) => {
+  console.log('ProgramSubjectDropDown lesson ============>', lesson)
   const { course_options } = useSelector((state: RootState) => state.programSubject)
   const [params, setParams] = useState<any>({})
-  const handleStaffChange = (e: React.ChangeEvent<any>) => {
+
+  const handleSubjectChange = (e: React.ChangeEvent<any>) => {
     const selectedprogramSubjectId = e.target.value;
     setParams({
       ...params,
@@ -23,8 +26,9 @@ const ProgramSubjectDropDown: React.FC<ProgramSubjectDropDownProps> = ({ onChang
   return (
     <Form.Group controlId="branch">
       <Form.Label>Subjects</Form.Label>
-      <Form.Select as="select" onChange={handleStaffChange} value={params.staff_id}>
-        <option value="">---Select---</option>
+      {/* {lesson.subject_name} */}
+      <Form.Select as="select" onChange={handleSubjectChange} value={params.program_subject_id}>
+      <option value={lesson ? lesson.program_subject_id : ''}>{lesson ? lesson.subject_name : "-----Select Subject----"}</option>
         {course_options.map((subject) => (<option key={subject.id} value={subject.id}>
           {subject.id} {subject.subject_name} 
         </option>

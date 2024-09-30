@@ -155,18 +155,23 @@ const TimeTable = (props: any) => {
       )
   }
   const handleEdit = (lesson:any) => {
+    console.log('lesson=========from handleEdit method',lesson)
     setTimeTableEditModalOpen(true)
     setLesson((prevParams) => ({
       ...prevParams,
       id: lesson.id,
       class_group_id: lesson.class_group_id,
+      class_group_name: lesson.class_group_name,
       staff_id: lesson.staff_id,
       program_subject_id: lesson.program_subject_id,
       day_of_week: lesson.day_of_week,
       start_time: lesson.start_time,
       end_time: lesson.end_time,
       staff_name: lesson.staff_name,
+      stage_name: lesson.stage_name,
+      subject_name: lesson.subject_name,
       program_name: lesson.program_name,
+      term_name: lesson.term_name,
     }))
   }
   return (
@@ -177,7 +182,7 @@ const TimeTable = (props: any) => {
       <Form onSubmit={handleSubmit}>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <StaffDropDown onChange={handleInputChange} value={lesson} branchId={0} schoolId={0} />
+            <StaffDropDown onChange={handleInputChange} value={undefined} branchId={0} schoolId={0} />
           </Col>
           <Col>
             <ProgramDropDown value={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
@@ -188,13 +193,13 @@ const TimeTable = (props: any) => {
         </Row>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <ClassGroupDropDown onChange={handleInputChange} programId={programId} stageId={stageId} departmentId={departmentId} />
+            <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={programId} stageId={stageId} departmentId={departmentId} />
           </Col>
           <Col>
-            <ProgramSubjectDropDown onChange={handleInputChange} />
+            <ProgramSubjectDropDown onChange={handleInputChange} lesson={undefined} />
           </Col>
           <Col>
-            <DayOfWeekDropDown onChange={handleInputChange} />
+            <DayOfWeekDropDown onChange={handleInputChange} lesson={undefined} />
           </Col>
         </Row>
         <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>

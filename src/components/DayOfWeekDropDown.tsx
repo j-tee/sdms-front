@@ -6,8 +6,9 @@ type AnyType = {
 };
 interface DayOfWeekDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
+  lesson: any;
 }
-const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange }) => {
+const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange, lesson }) => {
   const [params, setParams] = useState<any>({})
   const handleDayOfWeekChange = (e: React.ChangeEvent<any>) => {
     const selectedDayOfWeek = e.target.value;
@@ -21,7 +22,7 @@ const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange }) => {
     <Form.Group controlId="dayOfWeek">
       <Form.Label>Days of The Week</Form.Label>
       <Form.Select as="select" onChange={handleDayOfWeekChange} value={params.staff_id}>
-        <option value="">---Select---</option>
+      <option value={lesson ? lesson.day_of_week : ''}>{lesson ? lesson.day_of_week : "-----Select Day of Week----"}</option>
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
         <option value="Wednesday">Wednesday</option>

@@ -150,7 +150,7 @@ const AttendanceCard = (props: any) => {
             <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
           </Col>
           <Col>
-            <ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
+            <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
           </Col>
         </Row>       
       </Form>

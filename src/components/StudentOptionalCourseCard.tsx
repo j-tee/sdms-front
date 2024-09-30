@@ -185,7 +185,7 @@ const StudentOptionalCourseCard = (props: any) => {
               <SubjectDropDown params={params} branchId={branchId} onChange={handleInputChange} schoolId={0} />
             </Col>
             <Col>
-              <ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
+              <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
             </Col>
           </Row>
           <Card className='my-3'>
