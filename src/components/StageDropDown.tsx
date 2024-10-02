@@ -42,7 +42,6 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesso
     onChange('stage_id', selectedStageId);
   };
   useEffect(() => {
-    console.log('lesson from timetable editmodal open==========', lesson)
     if(branchId)
     dispatch(getStages({ ...params, branch_id: branchId }))
   }, [branchId, dispatch, params, lesson])

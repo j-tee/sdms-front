@@ -26,6 +26,7 @@ import attendanceReducer from './slices/attendanceSlice';
 import subscriptionReducer from './slices/subscriptionSlice';
 import subscriptionFeeReducer from './slices/subscriptionFeeSlice';
 import taxReducer from './slices/taxSlice';
+import billsFeesReducer from './slices/billsFeesSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -57,6 +58,7 @@ export const store = configureStore({
     attendance: attendanceReducer,
     subscription: subscriptionReducer,
     subscriptionFee: subscriptionFeeReducer,
-    tax: taxReducer
+    tax: taxReducer,
+    billsFees: billsFeesReducer
   }
 })

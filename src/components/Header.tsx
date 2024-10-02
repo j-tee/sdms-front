@@ -91,7 +91,7 @@ const Header = () => {
   }
   return (
     // <header className="header_section">
-    <Navbar className='navbar header_section d-flex justify-content-between' fixed='top' mb-4 pb-4 expand="lg">
+    <Navbar className='navbar header_section d-flex justify-content-between mb-4 pb-4' fixed='top' expand="lg">
       <Navbar.Brand href="/"><img src={logo} alt="Academia Logo" />
         <span>
           Data Logique

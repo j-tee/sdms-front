@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Header from './Header';
 import { Card, Col, Container, Nav, Row, Tab } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import BillsFeesCard from './BillsFeesCard';
+import PaymentCard from './PaymentCard';
+import Arrearscard from './Arrearscard';
+import FinancialSummaryCard from './FinancialSummaryCard';
 
 const Finance = () => {
     const [index, SetIndex] = useState<string | null>('first')
@@ -37,10 +41,10 @@ const Finance = () => {
             </Col>
             <Col sm={10}>
               <Tab.Content>
-                {/* <Tab.Pane eventKey="first"><SubjectCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
-                <Tab.Pane eventKey="second"><LessonsCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
-                <Tab.Pane eventKey="third"><AssessmentCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
-                <Tab.Pane eventKey="fourth"><EvaluationCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane> */}
+                <Tab.Pane eventKey="first"><BillsFeesCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
+                <Tab.Pane eventKey="second"><PaymentCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
+                <Tab.Pane eventKey="third"><Arrearscard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
+                <Tab.Pane eventKey="fourth"><FinancialSummaryCard schoolId={schoolId} branchId={branchId} tabIndex={index} /></Tab.Pane>
               </Tab.Content>
             </Col>
           </Row>    
