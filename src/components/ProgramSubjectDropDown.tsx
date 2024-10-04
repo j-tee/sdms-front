@@ -11,7 +11,6 @@ interface ProgramSubjectDropDownProps {
   lesson: any;
 }
 const ProgramSubjectDropDown: React.FC<ProgramSubjectDropDownProps> = ({ onChange, lesson }) => {
-  console.log('ProgramSubjectDropDown lesson ============>', lesson)
   const { course_options } = useSelector((state: RootState) => state.programSubject)
   const [params, setParams] = useState<any>({})
 

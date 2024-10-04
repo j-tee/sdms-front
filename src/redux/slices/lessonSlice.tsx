@@ -61,7 +61,6 @@ export const getLessons = createAsyncThunk(
   async (params: LessonParams, thunkAPI) => {
     try {
       const response = await LessonService.getLessons(params);
-      console.log('response.data ========> lessond',response.data);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

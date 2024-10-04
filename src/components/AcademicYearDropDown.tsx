@@ -34,7 +34,7 @@ const AcademicYearDropDown: React.FC<AcademicYearDropDownProps> = ({ onChange, s
             ...params,
             academic_year_id: selectedYearId,
         });
-        onChange('academic_year__id', selectedYearId);
+        onChange('academic_year_id', selectedYearId);
         dispatch(getAcademicTerms({ ...params, academic_year_id: selectedYearId }));
     };
     useEffect(() => {

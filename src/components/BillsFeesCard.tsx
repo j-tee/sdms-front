@@ -8,14 +8,13 @@ import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
-import { get } from 'http';
 
 type AnyType = {
   [key: string]: string;
 };
 
 const BillsFeesCard = (props: any) => {
-  const { schoolId, branchId, yearId, index } = props;
+  const { schoolId, branchId, yearId, tabIndex } = props;
   const { fees } = useSelector((state: RootState) => state.billsFees);
   const dispatch = useDispatch<AppDispatch>();
   const { setShowToast } = useContext(ToastContext);
@@ -53,9 +52,11 @@ const BillsFeesCard = (props: any) => {
   }
 
   useEffect(() => {
-    dispatch(getFees({school_id:schoolId,academic_year_id:yearId, 
-      branch_id:branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params }));
-  }, [branchId, dispatch, formData.academic_term_id, formData.class_group_id, schoolId, yearId, params])
+    if(tabIndex === 'first'){
+      dispatch(getFees({school_id:schoolId,academic_year_id:yearId, 
+        branch_id:branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params }));
+    }
+  }, [branchId, dispatch, formData.academic_term_id, formData.class_group_id, schoolId, yearId, params, tabIndex])
 
   return (
     <div className='mb-5'>

@@ -65,13 +65,10 @@ export const addAcademicTerm = createAsyncThunk(
 export const getAcademicYears = createAsyncThunk(
   'calendar/getAcademicYears',
   async (params: any, thunkAPI) => {
-    console.log("========>",params);
     try {
       const response = await CalendarService.getAcademicYears(params);
-      console.log("========>",response.data);
       return response.data;
     } catch (error: any) {
-      console.log("========>",error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },

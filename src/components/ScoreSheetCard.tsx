@@ -81,8 +81,6 @@ const ScoreSheetCard = (props: any) => {
         assessment_id: score.assessment_id
       }))
     };
-    console.log('====scores', scores)
-    console.log('====formattedData', formattedData)
     dispatch(addScoreSheet(formattedData))
       .then((res: any) => {
         dispatch(getScoreSheets({ ...params, paginate: true }));

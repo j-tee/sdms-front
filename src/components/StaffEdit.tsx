@@ -53,7 +53,6 @@ const StaffEdit = (props: any) => {
     })
   }
   useEffect(() => {
-    console.log('staff===========>', staff)
     setFormData((prevData) => ({
       ...prevData,
       id: staff.id,
@@ -67,7 +66,6 @@ const StaffEdit = (props: any) => {
       branch_id: staff.branch_id,
       avatar: staff.avatar, 
     }))
-    console.log('formData===========>', formData)
     setStaffImagePreview((prevData) => (staff.image_url ? staff.image_url : null))
   }, [staff])
   return (

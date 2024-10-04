@@ -188,7 +188,7 @@ const AdmissionAdd = (props: any) => {
         </Card>
       </Container>
       <Card.Body>
-        {(student && student.image_url) && <Card.Img variant='top' src={student.image_url} style={{ width: '100px', height: '100px' }} />}
+        {(student && student.image_url) && <Card.Img variant='top' src={student.image_url}  />}
         {!(student && student.student_id) && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
