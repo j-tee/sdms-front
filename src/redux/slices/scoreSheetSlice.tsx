@@ -97,7 +97,7 @@ export const scoreSheetSlice = createSlice({
     builder
       .addCase(deleteScoreSheet.fulfilled, (state, action) => ({
         ...state,
-        student_reports: action.payload.final_report, isLoading: false, 
+        // student_reports: action.payload.final_report, isLoading: false, 
         message: action.payload.message,
         status: action.payload.status
       }));
@@ -147,6 +147,11 @@ export const scoreSheetSlice = createSlice({
       .addCase(addScoreSheet.rejected, (state, action: PayloadAction<any>) => ({
         ...state, message: action.payload.message, status:
           action.payload.status, isLoading: false
+      })).addCase(getTerminalReport.fulfilled, (state, action) => ({
+        ...state,
+        student_reports: action.payload.final_report, isLoading: false, 
+        message: action.payload.message,
+        status: action.payload.status
       }));
   },
 });

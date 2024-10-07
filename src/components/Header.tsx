@@ -56,7 +56,7 @@ const Header = () => {
       <>
         <Link to="/my-wards">MY WARDS</Link>
         <Link to="/schools">SCHOOLS</Link>
-        <Link to="/stocks">EVENTS</Link>
+        <Link to="/subscriptions">SUBSCRIPTIONS</Link>
       </>
     )
   }

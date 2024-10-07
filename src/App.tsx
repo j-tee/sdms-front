@@ -13,7 +13,6 @@ import RegisterSchool from './components/RegisterSchool';
 import Schools from './components/School';
 import BranchList from './components/BranchList';
 import Calendar from './components/Calendar';
-import DepartmentList from './components/DepartmentCard';
 import Organisation from './components/Organisation';
 import Enrolment from './components/Enrolment';
 import StaffCard from './components/StaffCard';
@@ -22,6 +21,7 @@ import MyWardCard from './components/MyWardCard';
 import ResetPasswordComponent from './components/ResetPasswordComponent';
 import Email from './components/Email';
 import Finance from './components/Finance';
+import Subscription from './components/Subscription';
 
 function App() {
   return (
@@ -36,6 +36,7 @@ function App() {
             <Route path="/my-wards" element={<MyWardCard />} />
             <Route path="/finance/:schoolId/:branchId" element={<Finance />} />
             <Route path="/schools/" element={<Schools />} />
+            <Route path="/subscriptions/" element={<Subscription />} />
             <Route path="/branches/:schoolId" element={<BranchList />} />
             <Route path="/calendar/:schoolId/:branchId" element={<Calendar />} />
             <Route path="/staff/:schoolId/:branchId" element={<StaffCard />} />

@@ -12,7 +12,7 @@ interface AcademicYearDropDownProps {
     schoolId: any;
     branchId: any;
 }
-const AcademicYearDropDown: React.FC<AcademicYearDropDownProps> = ({ onChange, schoolId, branchId }) => {
+const                                                                                                                                           AcademicYearDropDown: React.FC<AcademicYearDropDownProps> = ({ onChange, schoolId, branchId }) => {
     const { academic_years, academic_terms, message, status } = useSelector((state: RootState) => state.calendar)
     const dispatch = useDispatch<AppDispatch>()
     const { showToast, setShowToast } = useContext(ToastContext)

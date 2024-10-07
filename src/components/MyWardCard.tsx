@@ -24,7 +24,7 @@ const MyWardCard = (props: any) => {
 
   useEffect(() => {
     dispatch(getMyWards(params))
-  }, [dispatch])
+  }, [dispatch, params])
     return (
     <>
       <Container style={{ marginTop: '3.5rem' }}>
@@ -37,7 +37,7 @@ const MyWardCard = (props: any) => {
       </Card.Header>
      {myWards.map((ward: any, index: any) => {
         return (
-          <MyWardDetails key={index} student={ward} />
+          <MyWardDetails key={index} student={ward} parent={parent} params={params} />
         )
      })}
     </Card>

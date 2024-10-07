@@ -23,11 +23,11 @@ const LessonDropDown: React.FC<LessonDropDownProps> = ({ onChange, staffId, acad
   };
   return (
     <Form.Group controlId="lesson">
-      <Form.Label>Subject</Form.Label>
+      <Form.Label>Lessons</Form.Label>
       <Form.Select as="select" onChange={handleLessonChange}>
         <option value="">---Select---</option>
         {lessons.map((lesson)=>(
-          <option key={lesson.id} value={lesson.id}>{lesson.program_name} {lesson.subject_name} - {lesson.class_group_name}</option>
+          <option key={lesson.id} value={lesson.id}>{lesson.day_of_week} | {lesson.subject_name} | {new Date(lesson.start_time).toLocaleTimeString()} - {new Date(lesson.end_time).toLocaleTimeString()} |</option>
         ))}
       </Form.Select>
     </Form.Group>

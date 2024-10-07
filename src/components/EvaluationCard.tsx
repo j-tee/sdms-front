@@ -13,7 +13,7 @@ const EvaluationCard = (props: any) => {
       onSelect={(k) => k && setKey(k)}
       className="mb-3"
     >
-      <Tab eventKey="ca" title="Assessments / Exercises">
+      <Tab eventKey="ca" title="Assessments & Exercises">
         <AssessmentReport index={key} schoolId={schoolId} branchId={branchId} />
       </Tab>
       <Tab eventKey="tr" title="Terminal Report">

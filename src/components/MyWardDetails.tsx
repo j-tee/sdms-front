@@ -1,15 +1,19 @@
-import { Subscript } from '@mui/icons-material';
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import SubscriptionModal from './SubscriptionModal';
+import StudentAcademics from './StudentAcademics';
 
 const MyWardDetails = (props: any) => {
-  const { student, key } = props;
-  const [isSunscriptinModalOpen, setIsSubscriptionModalOpen] = React.useState<boolean>(false)
+  const { student, key, params, parent } = props;
+  const [isSunscriptinModalOpen, setIsSubscriptionModalOpen] = useState<boolean>(false)
+  const [isAcademcsModalOpen, setAcademicsModalOpen] = useState<boolean>(false)
 
   const handleSubscription = () => {
     setIsSubscriptionModalOpen(true)
+  }
+
+  const handleAcademics = () => {
+    setAcademicsModalOpen(true)
   }
   return (
     <>
@@ -23,7 +27,7 @@ const MyWardDetails = (props: any) => {
             <li className='list-unstyled'>{student.student_id}</li>
           </ul>
           <ul className='d-flex flex-row gap-2 ps-0'>
-            <Card.Link>Academics</Card.Link>
+            <Card.Link onClick={handleAcademics}>Academics</Card.Link>
             <Card.Link>Bills and Fees</Card.Link>
             <Card.Link onClick={handleSubscription}>Subscription</Card.Link>
           </ul>
@@ -33,6 +37,16 @@ const MyWardDetails = (props: any) => {
         onRequestClose={() => setIsSubscriptionModalOpen(false)}
         setIsSubscriptionModalOpen={setIsSubscriptionModalOpen}
         student={student} />
+      <StudentAcademics isOpen={isAcademcsModalOpen} 
+      onRequestClose={() => setAcademicsModalOpen(false)}
+      stage={student.stage}
+      student={student}
+      branchId={student.branch_id}
+      schoolId={student.school_id}
+      params={params}
+      parent={parent}
+      setAcademicsModalOpen={setAcademicsModalOpen}      
+      />
     </>
   )
 }

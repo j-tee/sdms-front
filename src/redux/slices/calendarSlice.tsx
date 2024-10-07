@@ -168,6 +168,17 @@ export const deleteAcademicTerm = createAsyncThunk(
     }
   },
 );
+export const getStudentAcademicYears = createAsyncThunk(
+  'calendar/getStudentAcademicYears',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await CalendarService.getStudentAcademicYears(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 
 export const calenderSlice = createSlice({
   name: 'calendar',
@@ -283,6 +294,14 @@ export const calenderSlice = createSlice({
       .addCase(addAcademicTerm.rejected, (state, action) => ({
         ...state, message: "Action Failed", isLoading: false, status:'error'
       }));
+    builder.addCase(getStudentAcademicYears.fulfilled, (state, action) => ({
+      ...state,
+      academic_years: action.payload.academic_years, isLoading: false
+    }));
+    builder.addCase(getStudentAcademicYears.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentAcademicYears.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: true, status: action.payload.status
+    }));
   },
 });
 

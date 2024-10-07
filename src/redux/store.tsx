@@ -28,6 +28,7 @@ import subscriptionFeeReducer from './slices/subscriptionFeeSlice';
 import taxReducer from './slices/taxSlice';
 import billsFeesReducer from './slices/billsFeesSlice';
 import paymentReducer from './slices/paymentSlice';
+import exitProfileReducer from './slices/exitProfileSlice';
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
@@ -62,5 +63,6 @@ export const store = configureStore({
     tax: taxReducer,
     billsFees: billsFeesReducer,
     payment: paymentReducer,
+    exitProfile: exitProfileReducer,
   }
 })
