@@ -41,10 +41,8 @@ const ClassGroupEdit = (props: any) => {
         setShowToast(true);
         showToastify(res.payload.message, res.payload.status);
         setClassGroupEditModalOpen(false);
-        console.log('=========params',params)
         dispatch(getClassGroups({ ...params, paginate: true, branch_id: branchId }))
         .then((res: any) => {
-          console.log('=========res',res)
         })
       })
   }

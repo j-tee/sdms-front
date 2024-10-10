@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { ToastContext } from '../utility/ToastContext';
@@ -12,7 +12,7 @@ interface AcademicYearDropDownProps {
     schoolId: any;
     branchId: any;
 }
-const                                                                                                                                           AcademicYearDropDown: React.FC<AcademicYearDropDownProps> = ({ onChange, schoolId, branchId }) => {
+const AcademicYearDropDown: FC<AcademicYearDropDownProps> = ({ onChange, schoolId, branchId }) => {
     const { academic_years, academic_terms, message, status } = useSelector((state: RootState) => state.calendar)
     const dispatch = useDispatch<AppDispatch>()
     const { showToast, setShowToast } = useContext(ToastContext)

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import authHeader from '../utility/authHeader';
 import { Lesson, LessonParams, LessonViewModel } from '../models/Lesson';
+import queryStringFormatter  from '../utility/queryStringFormatter';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -22,6 +23,7 @@ const LessonService = {
     `&paginate=${params.paginate} `
      return axios.get(`${API_URL}api/v1/lessons?${queryParams}`, { headers: authHeader() })
     },
+  getStudentLessons: (params: any) => axios.get(`${API_URL}api/v1/schools/student/student_lessons?${queryStringFormatter(params)}`, { headers: authHeader() }), 
   addLesson: (lesson: Lesson) => axios.post(`${API_URL}api/v1/lessons`, lesson, { headers: authHeader() }),
   deleteLesson: (lesson: LessonViewModel) => axios.delete(`${API_URL}api/v1/lessons/${lesson.id}`, { headers: authHeader() }),
   updateLesson: (lesson: Lesson, id: number) => axios.put(`${API_URL}api/v1/lessons/${id}`, lesson, { headers: authHeader() }),

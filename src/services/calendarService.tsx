@@ -21,7 +21,7 @@ const CalendarService = {
   deleteAcademicTerm: (term: AcademicTermViewModel) => axios.delete(`${API_URL}api/v1/academic_years/${term.academic_year_id}/academic_terms/${term.id}`, { headers: authHeader() }),
   updateAcademicTerm: (term: AcademicTerm, id: number) => axios.put(`${API_URL}api/v1/academic_years/${term.academic_year_id}/academic_terms/${id}`, term, { headers: authHeader() }),
   getAcademicTerm: (id: number) => axios.get(`${API_URL}api/v1/academic_years/${id}`, { headers: authHeader() }),
-  getStudentAcademicYears: (params: QueryParams) => axios.get(`${API_URL}api/v1/academic_years/student_academic_years?${queryStringFormatter(params)}`, { headers: authHeader() }), 
+  getStudentAcademicYears: (params: QueryParams) => axios.get(`${API_URL}api/v1/schools/student/registration/student_academic_years?${queryStringFormatter(params)}`, { headers: authHeader() }), 
 };
 
 export default CalendarService;

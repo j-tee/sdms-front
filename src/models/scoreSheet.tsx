@@ -24,6 +24,7 @@ export interface ScoreSheetViewModel {
   assessment_id: number;
   student_name: string;
   assessment_name: string;
+  subject_name: string;
   category: string;
   student_score: string;
   percentage_score: number;

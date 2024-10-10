@@ -68,6 +68,18 @@ export const getLessons = createAsyncThunk(
   },
 );
 
+export const getStudentLessons = createAsyncThunk(
+  'lesson/getStudentLessons',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await LessonService.getStudentLessons(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const lessonSlice = createSlice({
   name: 'lesson',
   initialState,
@@ -101,6 +113,18 @@ export const lessonSlice = createSlice({
       .addCase(addLesson.rejected, (state, action: PayloadAction<any>) => ({
         ...state, isLoading: false, message: action.payload.message, status: action.payload.status
       }));
+    builder
+      .addCase(getStudentLessons.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        lessons: action.payload.lessons, isLoading: false, message: action.payload.message,
+        status: action.payload.status
+      }));
+    builder
+    .addCase(getStudentLessons.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+    .addCase(getStudentLessons.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
   },
 });
 

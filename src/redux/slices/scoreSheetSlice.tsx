@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ScoreSheet, ScoreSheetState } from '../../models/scoreSheet';
 import { QueryParams } from '../../models/queryParams';
 import ScoreSheetService from '../../services/scoreSheetService';
+import { get } from 'http';
 
 const initialState: ScoreSheetState = {
   isLoading: false,
@@ -15,6 +16,7 @@ const initialState: ScoreSheetState = {
   score_sheet: {
     id: 0,
     student_id: 0,
+    subject_name: '',
     score: 0,
     assessment_id: 0,
     student_name: '',
@@ -89,6 +91,29 @@ export const getTerminalReport = createAsyncThunk(
   },
 );
 
+export const getStudentTerminalReport = createAsyncThunk(
+  'scoreSheet/getStudentTerminalReport',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await ScoreSheetService.getStudentTerminalReport(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },  
+)
+
+export const getStudentScoreSheets = createAsyncThunk(
+  'scoreSheet/getStudentScoreSheets',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ScoreSheetService.getStudentScoreSheets(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const scoreSheetSlice = createSlice({
   name: 'scoreSheet',
   initialState,
@@ -147,12 +172,43 @@ export const scoreSheetSlice = createSlice({
       .addCase(addScoreSheet.rejected, (state, action: PayloadAction<any>) => ({
         ...state, message: action.payload.message, status:
           action.payload.status, isLoading: false
-      })).addCase(getTerminalReport.fulfilled, (state, action) => ({
+      }));
+      builder.addCase(getTerminalReport.fulfilled, (state, action) => ({
         ...state,
         student_reports: action.payload.final_report, isLoading: false, 
         message: action.payload.message,
         status: action.payload.status
-      }));
+      }))
+      .addCase(getTerminalReport.pending, (state) => ({ ...state, isLoading: true }))
+      .addCase(getTerminalReport.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message,
+        status: action.payload.status, isLoading: false
+        }));
+    builder.addCase(getStudentScoreSheets.pending, (state) => ({ ...state, isLoading: true }))
+    .addCase(getStudentScoreSheets.fulfilled, (state, action) => ({
+      ...state,
+      score_sheets: action.payload.score_sheets, isLoading: false, message:
+        action.payload.message,
+      status: action.payload.status,
+      pagination: action.payload.pagination || initialState.pagination
+    })).addCase(getStudentScoreSheets.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, 
+      status: action.payload.status, isLoading: false
+    }));
+    builder.addCase(getStudentTerminalReport.pending, (state) => ({ ...state, isLoading: true }))
+    .addCase(getStudentTerminalReport.fulfilled, (state, action) => ({
+      ...state,
+      student_reports: action.payload.final_report, isLoading: false, 
+      message: action.payload.message,
+      status: action.payload.status
+    })).addCase(getStudentTerminalReport.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message,
+      status: action.payload.status, isLoading: false
+    }))
+    .addCase(getStudentTerminalReport.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message,
+      status: action.payload.status, isLoading: false
+    }));
   },
 });
 

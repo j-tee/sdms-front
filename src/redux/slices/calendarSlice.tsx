@@ -296,7 +296,7 @@ export const calenderSlice = createSlice({
       }));
     builder.addCase(getStudentAcademicYears.fulfilled, (state, action) => ({
       ...state,
-      academic_years: action.payload.academic_years, isLoading: false
+      academic_years: action.payload.years, isLoading: false
     }));
     builder.addCase(getStudentAcademicYears.pending, (state) => ({ ...state, isLoading: true }));
     builder.addCase(getStudentAcademicYears.rejected, (state, action:PayloadAction<any>) => ({

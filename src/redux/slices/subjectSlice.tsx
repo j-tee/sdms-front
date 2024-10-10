@@ -3,6 +3,7 @@ import { Subject, SubjectParams, SubjectState } from '../../models/subject';
 import SubjectService from '../../services/subjectService';
 
 const initialState: SubjectState = {
+  subject_list: [],
   subjects: [],
   subject: {
     id: 0,
@@ -26,6 +27,29 @@ const initialState: SubjectState = {
   },
 };
 
+export const deleteSubject = createAsyncThunk(
+  'subject/deleteSubject',
+  async (subject: any, thunkAPI) => {
+    try {
+      const response = await SubjectService.deleteSubject(subject);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const updateSubject = createAsyncThunk(
+  'subject/updateSubject',
+  async (subject: Subject, thunkAPI) => {
+    try {
+      const response = await SubjectService.updateSubject(subject, subject.id);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const addSubject = createAsyncThunk(
   'subject/addSubject',
   async (subject: Subject, thunkAPI) => {
@@ -62,6 +86,18 @@ export const getSubjectList = createAsyncThunk(
   },
 );
 
+export const getClassSubjectList = createAsyncThunk(
+  'subject/getClassSubjectList',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SubjectService.getClassSubjectList(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const subjectSlice = createSlice({
   name: 'subject',
   initialState,
@@ -96,6 +132,41 @@ export const subjectSlice = createSlice({
       .addCase(addSubject.rejected, (state, action: PayloadAction<any>) => ({
         ...state, isLoading: false, message: action.payload.message, status: action.payload.status
       }));
+    builder
+    .addCase(getClassSubjectList.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      subject_list: action.payload.subjects, isLoading: false, message: action.payload.message,
+      status: action.payload.status,
+    }));
+    builder
+      .addCase(getClassSubjectList.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(getClassSubjectList.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
+    builder
+      .addCase(updateSubject.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        subject: action.payload.subject, isLoading: false,
+        message: action.payload.message, status: action.payload.status
+      }));
+    builder
+      .addCase(updateSubject.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(updateSubject.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
+    builder
+      .addCase(deleteSubject.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        subject: action.payload.subject, isLoading: false, message: action.payload.message, status: action.payload.status
+      }));
+    builder
+      .addCase(deleteSubject.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(deleteSubject.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));  
   },
 });
 

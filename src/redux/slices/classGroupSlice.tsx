@@ -85,6 +85,18 @@ export const deleteClassGroup = createAsyncThunk(
     }
   },
 );
+
+export const getStudentClassGroup = createAsyncThunk(
+  'classGroup/getStudentClassGroup',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ClassGroupService.getStudentClassGroup(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const classGroupSlice = createSlice({
   name: 'classGroup',
   initialState,
@@ -135,6 +147,19 @@ export const classGroupSlice = createSlice({
       .addCase(addClassGroup.rejected, (state, action) => ({
         ...state, message: "Action Failed", isLoading: false
       }));
+    builder
+    .addCase(getStudentClassGroup.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      class_group: action.payload.class_group, isLoading: false, message: action.payload.message, 
+      status: action.payload.status
+    }));
+
+    builder
+    .addCase(getStudentClassGroup.pending, (state) => ({ ...state, isLoading: true}));
+    builder
+    .addCase(getStudentClassGroup.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
   },
 });
 

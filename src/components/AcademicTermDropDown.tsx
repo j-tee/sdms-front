@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContext } from '../utility/ToastContext';
 import { Form } from 'react-bootstrap';
 import { getClassGroups } from '../redux/slices/classGroupSlice';
+
 type AnyType = {
     [key: string]: string;
 };

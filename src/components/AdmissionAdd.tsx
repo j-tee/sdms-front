@@ -104,7 +104,6 @@ const AdmissionAdd = (props: any) => {
   },[branchId, dispatch, schoolId])
   
   useEffect(() => {
-    console.log('index============', index)
     if(index === 'admission') {
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))   
     .then((res: any) => {

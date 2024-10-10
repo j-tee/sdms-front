@@ -248,7 +248,7 @@ const ScoreSheetCard = (props: any) => {
           </tr>
         </thead>
         <tbody>
-          {score_sheets.map((scoreSheet: any) => (
+          {score_sheets && score_sheets.map((scoreSheet: any) => (
             <tr key={scoreSheet.id}>
               <td>{scoreSheet.student_name}</td>
               <td>{scoreSheet.class_group_name}</td>

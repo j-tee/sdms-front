@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Subject {
+  id?: number;
   subject_name: string;
   subject_code: string;
   branch_id: number;
@@ -55,6 +56,7 @@ export interface ProgramSubjectViewModel {
 }
 
 export interface SubjectState {
+  subject_list:string[]
   subjects: SubjectViewModel[];
   subject: SubjectViewModel;
   status: string;
