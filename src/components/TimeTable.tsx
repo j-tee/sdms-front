@@ -155,7 +155,6 @@ const TimeTable = (props: any) => {
       )
   }
   const handleEdit = (lesson:any) => {
-    console.log('lesson=========from handleEdit method',lesson)
     setTimeTableEditModalOpen(true)
     setLesson((prevParams) => ({
       ...prevParams,

@@ -72,7 +72,7 @@ const AttendanceCard = (props: any) => {
         break;
       case 'class_group_id':
         dispatch(getAttendees({ ...params, class_group_id: parseInt(value), paginate: true }))
-       dispatch(getAttendances({ ...params, attendance_date:new Date(Date.now()).toISOString(), class_group_id: parseInt(value), paginate: true }))
+       dispatch(getAttendances({ ...params, academic_term_id: academic_term.id, class_group_id: parseInt(value), paginate: true }))
         break;
       default:
         break;
@@ -86,6 +86,7 @@ const AttendanceCard = (props: any) => {
           student_id: student.student_id,
           lesson_id: params.lesson_id,
           status: student.status,
+          branch_id:branchId,
           attendance_date: new Date(Date.now()).toISOString().split('T')[0],
         };
       }),

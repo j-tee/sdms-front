@@ -11,6 +11,7 @@ const initialState:BillsFeesState = {
       class_group_id: 0,
       item: '',
     },
+    total_bill: 0,
     status: '',
     message: '',
     isLoading: false,
@@ -45,8 +46,21 @@ export const getFees = createAsyncThunk(
     }
   },
 );
+
+export const getStudentFees = createAsyncThunk(
+  'fee/getStudentFees',
+  async (params: any, { rejectWithValue }) => {
+    try {
+      const { data } = await BillsFeesService.getStudentFees(params);
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const billsFeesSlice = createSlice({
-    name: 'assessment',
+    name: 'billsFees',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -89,8 +103,37 @@ export const billsFeesSlice = createSlice({
         isLoading: false,
         message: action.payload.message,
         status: 'succeeded',
-        }});
-
+        }}).addCase(getFees.rejected, (state, action: any) => {
+      return {
+        ...state,
+        isLoading: false,
+        message: action.payload.message || 'Failed to get fees',
+        status: 'failed',
+      };
+    });
+    builder.addCase(getStudentFees.pending, (state) => {
+      return {
+        ...state,
+        isLoading: true,
+        status: 'loading',
+      };
+    } ).addCase(getStudentFees.fulfilled, (state, action: any) => {
+      return {
+        ...state,
+        total_bill: action.payload.total_bill,
+        fees: action.payload.fees,
+        isLoading: false,
+        message: action.payload.message,
+        status: 'succeeded',
+      };
+    }).addCase(getStudentFees.rejected, (state, action: any) => {
+      return {
+        ...state,
+        isLoading: false,
+        message: action.payload.message || 'Failed to get student fees',
+        status: 'failed',
+      };
+    })
   }
 });
 export default billsFeesSlice.reducer;

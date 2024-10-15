@@ -8,6 +8,7 @@ export interface SubscriptionState {
   status: string;
   api_key: string;
   ref_id: string;
+  valid: boolean;
   momo_token: {access_token: string};
   pagination: PaginationParams;
 }

@@ -1,9 +1,6 @@
 import { Button, Card } from 'react-bootstrap';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PaymentDialog from './PaymentDialog';
-import { AppDispatch, RootState } from '../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPaymentSummary } from '../redux/slices/paymentSlice';
 
 const StudentPaymentCard = (props: any) => {
   const { params, registration } = props;

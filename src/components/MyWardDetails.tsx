@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Card } from 'react-bootstrap';
 import SubscriptionModal from './SubscriptionModal';
 import StudentAcademics from './StudentAcademics';
+import StudentBillFeesModal from './StudentBillFeesModal';
 
 const MyWardDetails = (props: any) => {
   const { student, key, params, parent } = props;
   const [isSunscriptinModalOpen, setIsSubscriptionModalOpen] = useState<boolean>(false)
   const [isAcademcsModalOpen, setAcademicsModalOpen] = useState<boolean>(false)
+  const [isBillsFeesModalOpen, setBillsFeesModalOpen] = useState<boolean>(false)
 
   const handleSubscription = () => {
     setIsSubscriptionModalOpen(true)
@@ -14,6 +16,10 @@ const MyWardDetails = (props: any) => {
 
   const handleAcademics = () => {
     setAcademicsModalOpen(true)
+  }
+
+  const handleBillsFees = () => { 
+    setBillsFeesModalOpen(true)
   }
   return (
     <>
@@ -28,7 +34,7 @@ const MyWardDetails = (props: any) => {
           </ul>
           <ul className='d-flex flex-row gap-2 ps-0'>
             <Card.Link onClick={handleAcademics}>Academics</Card.Link>
-            <Card.Link>Bills and Fees</Card.Link>
+            <Card.Link onClick={handleBillsFees}>Bills and Fees</Card.Link>
             <Card.Link onClick={handleSubscription}>Subscription</Card.Link>
           </ul>
         </span>
@@ -47,6 +53,17 @@ const MyWardDetails = (props: any) => {
       parent={parent}
       setAcademicsModalOpen={setAcademicsModalOpen}      
       />
+      <StudentBillFeesModal isOpen={isBillsFeesModalOpen} 
+      onRequestClose={() => setBillsFeesModalOpen(false)}
+      stage={student.stage}
+      student={student}
+      branchId={student.branch_id}
+      schoolId={student.school_id}
+      params={params}
+      parent={parent}
+      setBillsFeesModalOpen={setBillsFeesModalOpen}      
+      />
+      
     </>
   )
 }

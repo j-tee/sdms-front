@@ -7,6 +7,7 @@ const initialState: SubscriptionState = {
   subscriptions: [],
   api_key: '',
   ref_id: '',
+  valid: false,
   subscription: {
     id: 0,
     student_id: 0,
@@ -96,6 +97,18 @@ export const requestToPay = createAsyncThunk(
   },
 );
 
+export const getStudentRecentSubscription = createAsyncThunk(
+  'subscription/getStudentRecentSubscription',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await SubscriptionService.getStudentRecentSubscription(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const subscriptionSlice = createSlice({
   name: 'subscription',
   initialState,
@@ -159,6 +172,12 @@ export const subscriptionSlice = createSlice({
       .addCase(addSubscription.rejected, (state, action: PayloadAction<any>) => ({
         ...state, isLoading: false, message: action.payload.message, status: action.payload.status
       }));
+    builder.addCase(getStudentRecentSubscription.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      subscription: action.payload.subscription, isLoading: false, message: action.payload.message,
+      status: action.payload.status,
+      valid: action.payload.valid
+    }));
   },
 });
 

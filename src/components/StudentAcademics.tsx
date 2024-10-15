@@ -10,8 +10,8 @@ import StudentEvaluationCard from './StudentEvaluationCard';
 import StudentAcademicYearDropDown from './StudentAcademicYearDropDown';
 import StudentAcademicTermDropDown from './StudentAcademicTermDropDown';
 import { getStudentClassGroup } from '../redux/slices/classGroupSlice';
-import { getClassSubjectList } from '../redux/slices/subjectSlice';
 import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
+import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
 type AnyType = {
     [key: string]: string;
 };
@@ -19,6 +19,7 @@ const StudentAcademics = (props: any) => {
     const { isOpen, student, onRequestClose, stage, branchId, schoolId, setAcademicsModalOpen } = props;
     const [index, SetIndex] = useState<string | null>('first')
     const { class_group } = useSelector((state: RootState) => state.classGroup)
+    
     const dispatch = useDispatch<AppDispatch>();
     const [params, setParams] = useState({
         student_id: student.id,
@@ -33,6 +34,7 @@ const StudentAcademics = (props: any) => {
         }));
     };
     
+
     useEffect(() => {
         if (student && student.id) {
             dispatch(getStudentAcademicYears({ student_id: student.id }));
@@ -62,7 +64,7 @@ const StudentAcademics = (props: any) => {
                     </Row>
                     <Row>
                         <Col>
-                            <h6>{class_group.class_grp_name}</h6>
+                            <h6>{class_group && class_group.class_grp_name}</h6>
                         </Col>
                     </Row>
                     <Tab.Container onSelect={(e) => SetIndex(e)} id="left-tabs-example" defaultActiveKey="first">

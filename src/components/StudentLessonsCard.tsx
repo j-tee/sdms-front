@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { getStudentLessons } from '../redux/slices/lessonSlice';
 import { Form, Table } from 'react-bootstrap';
+import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
 
 const StudentLessonsCard = (props: any) => {
-  const { tabIndex,class_group, student, params} = props;
+  const { tabIndex, class_group, student, params } = props;
+  const {valid, subscription} = useSelector((state: RootState) => state.subscription)
   const dispatch = useDispatch<AppDispatch>();
-  const { lessons } = useSelector((state: RootState) => state.lesson)  
+  const { lessons } = useSelector((state: RootState) => state.lesson)
 
-  const uniqueDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];  
+  const uniqueDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  useEffect(() => {
+    dispatch(getStudentRecentSubscription({ student_id: student.id }));
+}, [dispatch, student]);
 
   useEffect(() => {
     if (params.academic_year_id && params.academic_term_id && class_group && tabIndex === 'second') {
@@ -29,20 +35,22 @@ const StudentLessonsCard = (props: any) => {
       program_id: 0, // Default value
       day_of_week: dayOfWeek
     }));
-};
+  };
   return (
     <>
-       <Form.Group controlId="yearId">
-    <Form.Label>Academic Years</Form.Label>
-    <Form.Select as="select" onChange={handleDayOfWeekChange}>
-        <option value="">-----Select Day of The Week----</option>
-        {uniqueDays && uniqueDays.map((day) =>
-        (<option key={day} value={day}>
+      {subscription.valid_subscription ? (
+        <>
+        <Form.Group controlId="yearId">
+        <Form.Label>Academic Years</Form.Label>
+        <Form.Select as="select" onChange={handleDayOfWeekChange}>
+          <option value="">-----Select Day of The Week----</option>
+          {uniqueDays && uniqueDays.map((day) =>
+          (<option key={day} value={day}>
             {day}
-        </option>
-        ))}
-    </Form.Select>
-</Form.Group>
+          </option>
+          ))}
+        </Form.Select>
+      </Form.Group>
       <div>
         <Table size='sm' borderless striped hover>
           <thead>
@@ -65,6 +73,9 @@ const StudentLessonsCard = (props: any) => {
           </tbody>
         </Table>
       </div>
+      </>) : (<>You have no active subscription! <br />
+      Expiry Date: {new Date(subscription.exp_date).toDateString()}
+      </>)}
     </>
   )
 }

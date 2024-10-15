@@ -11,6 +11,7 @@ const BillsFeesService = {
     deleteFee: (feeId: number) => axios.delete(`${API_URL}api/v1/fees/${feeId}`, { headers: authHeader() }),    
     updateFee: (fee: any, id:number) => axios.put(`${API_URL}api/v1/fees/${id}`, fee, { headers: authHeader() }),   
     getFee: (feeId: number) => axios.get(`${API_URL}api/v1/fees/${feeId}`, { headers: authHeader() }),
+    getStudentFees: (params: any) => axios.get(`${API_URL}api/v1/schools/student/fees/student_fees?${queryStringFormatter(params)}`, { headers: authHeader() }),
   };
   
   export default BillsFeesService;

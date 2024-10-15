@@ -198,14 +198,10 @@ export const scoreSheetSlice = createSlice({
     builder.addCase(getStudentTerminalReport.pending, (state) => ({ ...state, isLoading: true }))
     .addCase(getStudentTerminalReport.fulfilled, (state, action) => ({
       ...state,
-      student_reports: action.payload.final_report, isLoading: false, 
+      student_reports: action.payload.terminal_report, isLoading: false, 
       message: action.payload.message,
       status: action.payload.status
     })).addCase(getStudentTerminalReport.rejected, (state, action: PayloadAction<any>) => ({
-      ...state, message: action.payload.message,
-      status: action.payload.status, isLoading: false
-    }))
-    .addCase(getStudentTerminalReport.rejected, (state, action: PayloadAction<any>) => ({
       ...state, message: action.payload.message,
       status: action.payload.status, isLoading: false
     }));

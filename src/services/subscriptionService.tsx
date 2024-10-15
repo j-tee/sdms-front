@@ -26,6 +26,7 @@ const SubscriptionService = {
   deleteSubscription: (subscription: SubscriptionViewModel) => axios.delete(`${API_URL}api/v1/subscriptions/${subscription.id}`, { headers: authHeader() }),
   updateSubscription: (subscription: Subscription, id: number) => axios.put(`${API_URL}api/v1/subscriptions/${id}`, subscription, { headers: authHeader() }),
   getSubscription: (id: number) => axios.get(`${API_URL}api/v1/subscriptions/${id}`, { headers: authHeader() }),
+  getStudentRecentSubscription: (params: QueryParams) => axios.get(`${API_URL}api/v1/schools/subscriptions/student_recent_subscription?${queryStringFormatter(params)}`, { headers: authHeader() }),  
 };
 export default SubscriptionService;
 

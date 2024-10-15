@@ -10,6 +10,7 @@ export interface BillsFees {
   }
   export interface BillsFeesState {
     fees: BillsFees[];
+    total_bill: number;
     fee: BillsFees;
     status: string;
     message: string;
