@@ -613,3 +613,131 @@ span a {
   align-items: center;
   margin-top: 20px;
 }
+/* Custom CSS for Student Report */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Make columns flexible and take equal space */
+  padding: 10px;
+}
+
+.second-column {
+  text-align: center; 
+}
+
+.third-column {
+  text-align: right;
+}
+
+.report-container {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 1000px;
+}
+
+.report-card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #eaeaea;
+  text-align: center;
+}
+
+.card-img {
+  margin: 20px;
+  display: block;
+  width: 10px;
+  height: 80px;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #f0f0f0;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.card-footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+}
+
+.column div {
+  display: flex;
+  justify-content: space-between;
+  }
+
+  .column span {
+    padding-bottom: 0.5rem;
+  }
+
+/* Targeting the first span (label) inside the div */
+.column div span:first-child, .third-column div span:first-child {
+  font-weight: bold; /* Make the label bold */
+  margin-right: 10px; /* Add some spacing between label and value */
+  color: #6c757d; /* A muted color for the label (similar to Bootstrap's text-muted) */
+}
+
+/* Targeting the second span (value) inside the div */
+.column div span:last-child, .third-column div span:last-child {
+  font-weight: normal; /* Normal weight for the value */
+  color: #000; /* Default text color for the value */
+}
+
+.list-style li {
+  list-style-type: none;
+  display: inline;
+  padding: 0.5rem;
+}
+
+
+.third-column div span {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+  }
+  .report-card {
+    padding: 15px;
+  }
+
+  .card-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .table th, .table td {
+    font-size: 0.8rem;
+  }
+}
+@media print {
+  .page-break {
+    page-break-after: always;
+  }
+}
+
+
+
+

@@ -23,7 +23,8 @@ const initialState: AttendanceState = {
     class_group_name: '',
     admission_id: '',
     last_name: '',
-    first_name: ''
+    first_name: '',
+    day_of_week: ''
   },
   message: '',
   status: '',

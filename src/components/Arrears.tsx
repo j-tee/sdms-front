@@ -5,6 +5,7 @@ import { getPaymentSummary } from '../redux/slices/paymentSlice';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import { Col, Row } from 'react-bootstrap';
 import ClassGroupDropDown from './ClassGroupDropDown';
+import AcademicTermDropDown from './AcademicTermDropDown';
 
 
 type AnyType = {
@@ -47,7 +48,7 @@ const Arrears = (props: any) => {
             <AcademicYearDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />   
         </Col>
         <Col>
-            <AcademicYearDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
+            <AcademicTermDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} yearId={undefined} />
         </Col>
         <Col>
             <ClassGroupDropDown programId={0} stageId={0} departmentId={0} lesson={undefined} onChange={handleInputChange} />   

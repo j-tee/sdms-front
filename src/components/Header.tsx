@@ -18,8 +18,10 @@ const Header = () => {
   const [roles, setRoles] = useState(UserSession.getroles());
   const { openLoginModal, isLoginModalOpen, closeLoginModal } = useAuth();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const itemsToCheck = ['admin', 'government', 'employee','teacher','parent', 'system_admin', 'datalogique_admin', 'datalogique_staff'];
-  const systemAdminItems = ['system_admin', 'datalogique_admin', 'datalogique_staff']
+  
+  const gesRoles = ['circuit_supervisor','circuit_staff','district_director','district_staff','regional_director','regional_staff','ges_director','ges_staff','education_ministry']
+  const schoolRoles = ['admin', 'employee','teacher','secretary','parent','student','owner','principal','vice_principal','bursar','librarian','counselor','nurse','security','driver','cleaner','cook','gardener','watchman','storekeeper','other'];
+  const systemAdminRoles = ['system_admin', 'datalogique_admin', 'datalogique_staff']
   const isValid = UserSession.validateToken();
   const userInfo = UserSession.getUserInfo();
   const dispatch = useDispatch<AppDispatch>();
@@ -51,7 +53,44 @@ const Header = () => {
       showToastify('User log out action failed ' + error, 'error');
     });;
   };
-  const publicMenus = () => {
+  const systemAdminMenu = () => {
+    return(
+      <>
+      <Link to="/my-wards">SUBSCRIPTIONS</Link>
+        <Link to="/schools">SCHOOLS</Link>
+      </>
+    )
+  }
+  const parentMenu = () => {  
+    return (
+      <>
+        <Link to="/my-wards">MY WARDS</Link>
+        <Link to="/schools">SCHOOLS</Link>
+        <Link to="/subscriptions">MY SUBSCRIPTIONS</Link>
+      </>
+    )
+  }
+  const schoolAdminMenu = () => { 
+    return (
+      <>
+        <Link to="/subjects">MY SCHOOLS</Link>
+        <Link to="/lessons">LESSONS</Link>
+        <Link to="/assessments">ASSESSMENTS</Link>
+        <Link to="/report-evaluations">REPORTS / EVALUATIONS</Link>
+      </>
+    )
+  }
+const teacherMenu = () => {
+    return (
+      <>
+        <Link to="/subjects">SUBJECTS</Link>
+        <Link to="/lessons">LESSONS</Link>
+        <Link to="/assessments">ASSESSMENTS</Link>
+        <Link to="/report-evaluations">REPORTS / EVALUATIONS</Link>
+      </>
+    )
+  }
+  const schoolMenus = () => {
     return (
       <>
         <Link to="/my-wards">MY WARDS</Link>
@@ -71,17 +110,17 @@ const Header = () => {
     )
   }
   const navItems = () => {
-    return (roles && itemsToCheck.some(item => roles.includes(item)) ? (
+    return (roles && schoolRoles.some(item => roles.includes(item)) ? (
       <>
-        {publicMenus()}
-        {roles && systemAdminItems.some(item => roles.includes(item)) ? (<Link to="/subscriptions">SUBSCRIPTIONS</Link>) : ('')}
+        {schoolMenus()}
+        {roles && systemAdminRoles.some(item => roles.includes(item)) ? (<Link to="/subscriptions">SUBSCRIPTIONS</Link>) : ('')}
         <Link to="support">SUPPORT</Link>
         <Link to="/about">ABOUT</Link>
         {accessControl()}
       </>
     ) : (
       <>
-        {publicMenus()}
+        {schoolMenus()}
         <Link to="/sorting">CONTACT US</Link>
         <Link to="/weighing">ABOUT US</Link>
         <Link to="#" onClick={handleRegisterUser}>SIGNUP</Link>

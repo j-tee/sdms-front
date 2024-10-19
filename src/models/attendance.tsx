@@ -24,6 +24,7 @@ export interface AttendanceViewModel {
   student_id: number;
   lesson_id: number;
   status: string;
+  day_of_week: string;
   attendance_date: string;
   admission_id: string
   student_name: string;

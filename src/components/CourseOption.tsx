@@ -18,6 +18,7 @@ import { showToastify } from '../utility/Toastify';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import ProgramSubjectDetails from './ProgramSubjectDetails';
 import PaginationComponent from './PaginationComponent';
+import UserSession from '../utility/userSession';
 
 const CourseOption = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
@@ -27,6 +28,8 @@ const CourseOption = (props: any) => {
   const { showToast, setShowToast } = useContext(ToastContext)
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const [deptId, setDeptId] = useState<number>(0);
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const [params, setParams] = useState<ProgramSubjectParams>({
     school_id: schoolId, 
     branch_id: branchId, 
@@ -79,6 +82,8 @@ const CourseOption = (props: any) => {
   }
   useEffect(() => {
     if (tabKey === 'course-options') {
+      const user_roles = UserSession.getroles()
+      setRoles(user_roles)
       dispatch(getCourseOptions({...params})).then((resp: any) => {
         showToastify(resp.payload.message, resp.payload.status)
       })
@@ -158,7 +163,7 @@ const CourseOption = (props: any) => {
               </Form.Control>
             </Form.Group>
           </Col>
-          <Col>
+          {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Col>
             <Form.Group controlId='creditHours' className='mb-3'>
               <Form.Label>Credit Hours</Form.Label>
               <Form.Control type="number"
@@ -167,7 +172,7 @@ const CourseOption = (props: any) => {
                 placeholder="Enter credit hours" />
 
             </Form.Group>
-          </Col>
+          </Col>}
         </Row>
         <Row>
           <Col>

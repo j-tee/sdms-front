@@ -1,4 +1,3 @@
-import { SchoolViewModel } from "../models/school";
 import { UserModel } from "../models/userModel";
 
 // import { showToastify } from './Toastify';

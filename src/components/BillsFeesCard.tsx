@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { addFee, getFees } from '../redux/slices/billsFeesSlice';
@@ -8,6 +8,7 @@ import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
+import { useReactToPrint } from 'react-to-print';
 
 type AnyType = {
   [key: string]: string;
@@ -19,6 +20,9 @@ const BillsFeesCard = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const { setShowToast } = useContext(ToastContext);
 
+  const componentRef = useRef<HTMLDivElement | null>(null);
+  const handlePrint = useReactToPrint({ contentRef: componentRef });
+
   const [formData, setFormData] = useState({
     academic_term_id: 0,
     class_group_id: 0,
@@ -27,7 +31,7 @@ const BillsFeesCard = (props: any) => {
     unit_cost: 0,
   });
 
-  const [params, setParams] = useState({  
+  const [params, setParams] = useState({
     pagination: {
       per_page: 10000,
       current_page: 1,
@@ -41,7 +45,7 @@ const BillsFeesCard = (props: any) => {
     dispatch(addFee({ ...formData })).then((resp) => {
       showToastify(resp.payload.message, resp.payload.status);
       setShowToast(true);
-      dispatch(getFees({school_id:schoolId,academic_year_id:yearId, branch_id:branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params }));
+      dispatch(getFees({ school_id: schoolId, academic_year_id: yearId, branch_id: branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params }));
     })
   }
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
@@ -52,14 +56,16 @@ const BillsFeesCard = (props: any) => {
   }
 
   useEffect(() => {
-    if(tabIndex === 'first'){
-      dispatch(getFees({school_id:schoolId,academic_year_id:yearId, 
-        branch_id:branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params }));
+    if (tabIndex === 'first') {
+      dispatch(getFees({
+        school_id: schoolId, academic_year_id: yearId,
+        branch_id: branchId, academic_term_id: formData.academic_term_id, class_group_id: formData.class_group_id, ...params
+      }));
     }
   }, [branchId, dispatch, formData.academic_term_id, formData.class_group_id, schoolId, yearId, params, tabIndex])
 
   return (
-    <div className='mb-5'>
+    <>
       <h1>Bills and Fees</h1>
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -116,30 +122,32 @@ const BillsFeesCard = (props: any) => {
           </Col>
         </Row>
       </Form>
-
-      <Table className='mt-4' striped hover responsive bordered variant='dark' size='sm'>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Unit Cost</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {fees.map((fee, index) => (
-            <tr key={fee.id}>
-              <td>{index + 1}</td>
-              <td>{fee.item}</td>
-              <td>{fee.quantity}</td>
-              <td>{fee.unit_cost}</td>
-              <td>{fee.quantity * fee.unit_cost}</td>
+      <div ref={componentRef}>
+        <Table className='mt-4' striped hover responsive bordered variant='dark' size='sm'>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Unit Cost</th>
+              <th>Total</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+          </thead>
+          <tbody>
+            {fees.map((fee, index) => (
+              <tr key={fee.id}>
+                <td>{index + 1}</td>
+                <td>{fee.item}</td>
+                <td>{fee.quantity}</td>
+                <td>{fee.unit_cost}</td>
+                <td>{fee.quantity * fee.unit_cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      <Button onClick={() => handlePrint()}>Print Bills!</Button>
+    </>
   )
 }
 

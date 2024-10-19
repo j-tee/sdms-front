@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppDispatch, RootState } from '../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import { getBranches } from '../redux/slices/schoolSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 
@@ -15,7 +14,6 @@ interface BranchDropDownProps {
 }
 const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId }) => {
   const { branches, message, status } = useSelector((state: RootState) => state.school)
-  const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
   const [params, setParams] = useState({
     program_id: 0,

@@ -19,6 +19,7 @@ import { getCourseOption } from '../redux/slices/programSubjectSlice';
 import { registerOptionalCourses } from '../redux/slices/studentCourseRegSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import UserSession from '../utility/userSession';
 const StudentOptionalCourseCard = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
   const { course_option } = useSelector((state: RootState) => state.programSubject)
@@ -26,7 +27,8 @@ const StudentOptionalCourseCard = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const [optinalCourses, setOptionalCourses] = useState<StudentOptionalCourse[]>([])
   const { setShowToast } = useContext(ToastContext)
-
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const { registrations } = useSelector((state: RootState) => state.studentReg)
   const [params, setParams] = useState({
     program_id: 0,
@@ -152,6 +154,8 @@ const StudentOptionalCourseCard = (props: any) => {
 
   useEffect(() => {
     if (tabKey === 'registration') {
+      const user_roles = UserSession.getroles()
+      setRoles(user_roles)
       dispatch(getCurrentTerm(branchId))
       if (branchId) {
         dispatch(getSubjectList({ ...params,paginate:false, school_id: schoolId, branch_id: branchId }))
@@ -202,7 +206,7 @@ const StudentOptionalCourseCard = (props: any) => {
                 ))}
               </Card.Body>
               <Card.Footer>
-                <Button onClick={handleSubmit}>Submit</Button>
+                {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Button onClick={handleSubmit}>Submit</Button>}
               </Card.Footer>
             </Form>
           </Card>

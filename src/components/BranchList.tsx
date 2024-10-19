@@ -90,7 +90,7 @@ const BranchList = () => {
       </Container>
       <Card className='border-0 shadow-sm d-flex flex-md-column'>
         <Card.Header>
-          <span className='text-muted fs-1'>Branches</span>
+          <span className='text-muted fs-1'></span>
         </Card.Header>
         <Card.Body>
           <span className='d-flex flex-column align-items-center'>

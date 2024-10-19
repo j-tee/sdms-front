@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
@@ -9,6 +9,7 @@ import { getStudentClassGroup } from '../redux/slices/classGroupSlice';
 import StudentBillsCard from './StudentBillsCard';
 import StudentPaymentDetails from './StudentPaymentDetails';
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
+import { useReactToPrint } from 'react-to-print';
 
 type AnyType = {
   [key: string]: string;
@@ -19,6 +20,9 @@ const StudentBillFeesModal = (props: any) => {
   const { class_group } = useSelector((state: RootState) => state.classGroup)
   const [index, SetIndex] = useState<string | null>('first')
   const dispatch = useDispatch<AppDispatch>();
+  const componentRef = useRef<HTMLDivElement | null>(null);
+  const handlePrint = useReactToPrint({ contentRef: componentRef });
+
   
   const [params, setParams] = useState({
     student_id: student.id,

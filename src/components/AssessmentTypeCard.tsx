@@ -8,6 +8,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import AssessmentTypeEdit from './AssessmentTypeEdit';
+import UserSession from '../utility/userSession';
 
 const AssessmentTypeCard = (props: any) => {
   const { schoolId, branchId, index } = props;
@@ -17,6 +18,8 @@ const AssessmentTypeCard = (props: any) => {
   const [isAssessmentTypeEditModalOpen, setAssessmentTypeEditModalOpen] = useState(false);
   const [isAssessmentTypeDeleteModalOpen, setAssessmentTypeDeleteModalOpen] = useState(false);  
   const [isAssessmentTypeDetailsModalOpen, setAssessmentTypeDetailsModalOpen] = useState(false);
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const [assessmentType, setAssessmentType] = useState<AssessmentType>({
     id: 0,
     category: '',
@@ -42,6 +45,8 @@ const AssessmentTypeCard = (props: any) => {
   });
 
   useEffect(() => {
+    const user_roles = UserSession.getroles()
+      setRoles(user_roles)
     dispatch(getAssessmentTypes({ ...params, branch_id: branchId, school_id: schoolId }))
       .then((res: any) => {
         setShowToast(true)
@@ -66,7 +71,7 @@ const AssessmentTypeCard = (props: any) => {
 
   return (
     <div>
-      <Form onSubmit={ handleSubmit }>
+      {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Form onSubmit={ handleSubmit }>
         <Card.Body>
           <Row>
             <Col>
@@ -96,7 +101,7 @@ const AssessmentTypeCard = (props: any) => {
             </Col>
           </Row>
         </Card.Body>
-      </Form>
+      </Form>}
       <Card.Body>
         <Card.Title>Assessment Types</Card.Title>
         <Card.Text>

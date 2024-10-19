@@ -7,7 +7,7 @@ import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice'
 
 const StudentSubjectCard = (props: any) => {
   const { subject_list } = useSelector((state: RootState) => state.subject)
-  const { class_group,student, params, tabIndex } = props;
+  const { class_group,student, params, index } = props;
   const {valid, subscription} = useSelector((state: RootState) => state.subscription)
   const dispatch = useDispatch<AppDispatch>();
 
@@ -16,10 +16,10 @@ const StudentSubjectCard = (props: any) => {
 }, [dispatch, student]);
 
   useEffect(() => {
-    if (params.academic_year_id && params.academic_term_id && class_group && tabIndex === 'first') {
+    if (params.academic_year_id && params.academic_term_id && class_group && index === 'first') {
       dispatch(getClassSubjectList({ ...params, class_group_id: class_group.id }));
     }
-  }, [class_group, dispatch, params, tabIndex])
+  }, [class_group, dispatch, params, index])
 
   return (
     <>
@@ -27,11 +27,9 @@ const StudentSubjectCard = (props: any) => {
         <>
           <Row>
             <Col>
-              <h3>{params.class_group && params.class_group.class_grp_name}</h3>
+              <h3>{class_group && class_group.class_grp_name} - Subjects</h3>
             </Col>
           </Row>
-
-          <h3>Subjects</h3>
           <Row>
             {subject_list && subject_list.map((subject) => (
               <Col key={subject} md={3}>

@@ -12,6 +12,7 @@ import StudentAcademicTermDropDown from './StudentAcademicTermDropDown';
 import { getStudentClassGroup } from '../redux/slices/classGroupSlice';
 import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
+import StudentTerminalReport from './StudentTerminalReport';
 type AnyType = {
     [key: string]: string;
 };
@@ -62,11 +63,11 @@ const StudentAcademics = (props: any) => {
                             <StudentAcademicTermDropDown studentId={student.id} yearId={params.academic_year_id} onChange={handleInputChange} />
                         </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                         <Col>
                             <h6>{class_group && class_group.class_grp_name}</h6>
                         </Col>
-                    </Row>
+                    </Row> */}
                     <Tab.Container onSelect={(e) => SetIndex(e)} id="left-tabs-example" defaultActiveKey="first">
                         <Row style={{ marginTop: '10px' }}>
                             <Col sm={2} className='border-right'>
@@ -81,16 +82,16 @@ const StudentAcademics = (props: any) => {
                                         <Nav.Link eventKey="third">Assessments</Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
-                                        <Nav.Link eventKey="fourth">Evaluation / Reports</Nav.Link>
+                                        <Nav.Link eventKey="tr">Evaluation / Reports</Nav.Link>
                                     </Nav.Item>
                                 </Nav>
                             </Col>
                             <Col sm={10}>
                                 <Tab.Content>
-                                    <Tab.Pane eventKey="first"><StudentSubjectCard params={params} class_group={class_group} student={student} tabIndex={index} /></Tab.Pane>
-                                    <Tab.Pane eventKey="second"><StudentLessonsCard params={params} class_group={class_group} student={student} tabIndex={index} /></Tab.Pane>
-                                    <Tab.Pane eventKey="third"><StudentAssessmentCard params={params} class_group={class_group} tabIndex={index} student={student} /></Tab.Pane>
-                                    <Tab.Pane eventKey="fourth"><StudentEvaluationCard params={params} class_group={class_group} tabIndex={index} student={student} /></Tab.Pane>
+                                    <Tab.Pane eventKey="first"><StudentSubjectCard params={params} class_group={class_group} student={student} index={index} /></Tab.Pane>
+                                    <Tab.Pane eventKey="second"><StudentLessonsCard params={params} class_group={class_group} student={student} index={index} /></Tab.Pane>
+                                    <Tab.Pane eventKey="third"><StudentAssessmentCard params={params} class_group={class_group} index={index} student={student} /></Tab.Pane>
+                                    <Tab.Pane eventKey="tr"><StudentTerminalReport params={params} class_group={class_group} index={index} student={student} /></Tab.Pane>
                                 </Tab.Content>
                             </Col>
                         </Row>

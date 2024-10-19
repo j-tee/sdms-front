@@ -6,7 +6,7 @@ import { Form, Table } from 'react-bootstrap';
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
 
 const StudentLessonsCard = (props: any) => {
-  const { tabIndex, class_group, student, params } = props;
+  const { index, class_group, student, params } = props;
   const {valid, subscription} = useSelector((state: RootState) => state.subscription)
   const dispatch = useDispatch<AppDispatch>();
   const { lessons } = useSelector((state: RootState) => state.lesson)
@@ -18,7 +18,7 @@ const StudentLessonsCard = (props: any) => {
 }, [dispatch, student]);
 
   useEffect(() => {
-    if (params.academic_year_id && params.academic_term_id && class_group && tabIndex === 'second') {
+    if (params.academic_year_id && params.academic_term_id && class_group && index === 'second') {
       dispatch(getStudentLessons({
         academic_term_id: params.academic_term_id,
         class_group_id: class_group.id,
@@ -26,7 +26,7 @@ const StudentLessonsCard = (props: any) => {
         day_of_week: 'Monday'
       }));
     }
-  }, [params.academic_year_id, params.academic_term_id, class_group, tabIndex, dispatch, class_group]);
+  }, [params.academic_year_id, params.academic_term_id, class_group, index, dispatch, class_group]);
   const handleDayOfWeekChange = (e: React.ChangeEvent<any>) => {
     const dayOfWeek = e.target.value;
     dispatch(getStudentLessons({

@@ -6,13 +6,13 @@ import { Form, Table } from 'react-bootstrap';
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
 
 const StudentAssessmentCard = (props: any) => {
-  const { tabIndex, class_group, student, params } = props;
+  const { index, class_group, student, params } = props;
   const {valid, subscription} = useSelector((state: RootState) => state.subscription)
   const dispatch = useDispatch<AppDispatch>();
   const { score_sheets } = useSelector((state: RootState) => state.scoreSheet)
   const { subject_list } = useSelector((state: RootState) => state.subject)
   useEffect(() => {
-    if (params.academic_year_id && params.academic_term_id && class_group && tabIndex === 'third') {
+    if (params.academic_year_id && params.academic_term_id && class_group && index === 'third') {
       dispatch(getStudentScoreSheets({
         academic_term_id: params.academic_term_id,
         class_group_id: class_group.id,
@@ -20,7 +20,7 @@ const StudentAssessmentCard = (props: any) => {
         subject_id: 0, // Default value
       }));
     }
-  }, [dispatch, student, class_group, tabIndex, params]);
+  }, [dispatch, student, class_group, index, params]);
 
 
   useEffect(() => {

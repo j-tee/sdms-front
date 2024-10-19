@@ -11,6 +11,7 @@ import AcademicTermEdit from './AcademicTermEdit';
 import AcademicTermDelete from './AcademicTermDelete';
 import AcademicTermDetails from './AcademicTermDetails';
 import { QueryParams } from '../models/queryParams';
+import UserSession from '../utility/userSession';
 
 const AcademicTermCard = (props: any) => {
   const { academic_terms, academic_year } = useSelector((state: RootState) => state.calendar)
@@ -20,6 +21,8 @@ const AcademicTermCard = (props: any) => {
   const [isAcdemicTermDetailsModalOpen, setAcademicTermDetailsModalOpen] = useState(false)
   const [isAcademicTermEditModalOpen, setAcademicTermEditModalOpen] = useState(false)
   const [isAcademicTermDeleteModalOpen, setAcademicTermDeleteModalOpen] = useState(false)
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const [term, setTerm] = useState<AcademicTermViewModel>({
     id: 0,
     term_name: '',
@@ -62,6 +65,8 @@ const AcademicTermCard = (props: any) => {
   })
 
   useEffect(() => {
+    const user_roles = UserSession.getroles()
+    setRoles(user_roles)
     dispatch(getCurrentAcademicYear(branchId))
     if (academic_year.id) {
       dispatch(getAcademicTerms({ ...params, academic_year_id: academic_year.id }))
@@ -123,12 +128,13 @@ const AcademicTermCard = (props: any) => {
     setAcademicTermDeleteModalOpen(true)
   }
   useEffect(() => {
-    
+    const user_roles = UserSession.getroles()
+    setRoles(user_roles)
   }, [academic_year.id, dispatch, params])
   return (
     <div>
-      <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>
-      <Form>
+      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>}
+      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Form>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
             <Form.Group controlId='termName'>
@@ -153,7 +159,7 @@ const AcademicTermCard = (props: any) => {
             <Button size='sm' onClick={addNewTerm}>Add New Term</Button>
           </Col>
         </Row>
-      </Form>
+      </Form>}
       <Card.Header className='fs-3 text-muted mb-4'>Academic Terms</Card.Header>
       <Table striped hover responsive bordered variant='dark' size='sm'>
         <thead>

@@ -21,6 +21,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import TimeTableEditModal from './TimeTableEditModal';
 import { QueryParams } from '../models/queryParams';
+import UserSession from '../utility/userSession';
 
 const TimeTable = (props: any) => {
   const { schoolId, branchId, tabKey,lessonTabIndex } = props;
@@ -37,6 +38,8 @@ const TimeTable = (props: any) => {
   const { setShowToast } = useContext(ToastContext);
   const [isTimeTableEditModalOpen,setTimeTableEditModalOpen] = useState(false);
   const [params, setParams] = useState<QueryParams>({ })
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const [lesson, setLesson] = useState<LessonViewModel>({
     id: 0,
     class_group_id: 0,
@@ -103,6 +106,8 @@ const TimeTable = (props: any) => {
   useEffect(() => {
     
     if (tabKey === 'time-table') {
+      const user_roles = UserSession.getroles()
+      setRoles(user_roles)
       setParams({ school_id: schoolId, branch_id: branchId, program_id: programId, stage_id: stageId, department_id: departmentId, class_group_id: classGroupId, staff_id: staffId, program_subject_id: programSubjectId, day_of_week: dayOfWeek, pagination: { current_page: 1, per_page: 10 }, paginate: true })
       if(lessonTabIndex === 'second'){
         dispatch(getLessons({
@@ -201,7 +206,7 @@ const TimeTable = (props: any) => {
             <DayOfWeekDropDown onChange={handleInputChange} lesson={undefined} />
           </Col>
         </Row>
-        <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>
+        {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>
           <Col md={4} className='d-flex flex-row gap-5'>
             <span className='pt-2'>Start Time</span>
             <span> <TimePicker
@@ -219,12 +224,12 @@ const TimeTable = (props: any) => {
               value={endTime}
             /></span>
           </Col>
-        </Row>
-        <Row>
+        </Row>}
+       {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Row>
           <Col>
             <button type="submit" className="btn btn-primary mt-2">Save</button>
           </Col>
-        </Row>
+        </Row>}
       </Form>
       <Row>
         <Col>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { addAcademicYear, getAcademicYears } from '../redux/slices/calendarSlice'
 import PaginationComponent from './PaginationComponent'
+import UserSession from '../utility/userSession'
 
 const AcademicYearCard = (props: any) => {
   const { branchId, schoolId } = props;
@@ -13,6 +14,8 @@ const AcademicYearCard = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const [params, setParams] = useState<YearParams>({
     school_id: 0,
     branch_id: 0,
@@ -57,18 +60,21 @@ const AcademicYearCard = (props: any) => {
       },
     }));
   };
+
   useEffect(() => {
     setParams((prevParams) => ({
       ...prevParams,
       school_id: typeof schoolId === 'number' ? schoolId : prevParams.school_id,
     }));
+    const user_roles = UserSession.getroles()
+    setRoles(user_roles)
     dispatch(getAcademicYears({ ...params, school_id: schoolId, branch_id: branchId }));
   }, [schoolId, branchId]);
 
   return (
     <div>
-      <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>
-      <Card.Text>
+      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>}
+     {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Text>
         {branchId && parseInt(branchId) > 0 ?
           <Form>
             <Row>
@@ -105,7 +111,7 @@ const AcademicYearCard = (props: any) => {
             </Row>
           </Form> : "Go to branches to add a new academic year"}
 
-      </Card.Text>
+      </Card.Text>}
       <Card.Header>
         <span className="text-muted fs-3">Academic Years</span>
       </Card.Header>

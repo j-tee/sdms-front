@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { Button, Card, Row } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import { Card, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { School } from '../models/school';
 import UserSession from '../utility/userSession';
 import BranchEdit from './BranchEdit';
 import BranchDelete from './BranchDelete';
@@ -14,6 +13,8 @@ const BranchCard = (props: any) => {
   const [isBranchEditModalOpen, setBranchEditModalOpen] = useState(false)
   const [isBranchDeleteModalOpen, setBranchDeleteModalOpen] = useState(false)
   const [isBranchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false)
+  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const [roles, setRoles] = useState<string[]>([]);
   const handleEdit = () => {
     setBranchEditModalOpen(true)
   }
@@ -25,6 +26,12 @@ const BranchCard = (props: any) => {
   const handleDetails = () => {
     setBranchDetailsModalOpen(true)
   }
+
+  useEffect(() => {
+    const user_roles = UserSession.getroles()
+    setRoles(user_roles)
+  }, [])
+
 
   return (
     <Card className="border-0 shadow-sm d-flex flex-md-row my-2">
@@ -57,7 +64,7 @@ const BranchCard = (props: any) => {
           })}
         </ul>
         <Row className='d-flex flex-row mt-3'>
-          { validUser &&  <span>
+          { (roles && privileged_school_roles.some(role=>roles.includes(role))) &&  validUser  &&  <span>
             <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>
             <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
             <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>

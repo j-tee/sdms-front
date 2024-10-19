@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from 'react'
-import { ToastContext } from '../utility/ToastContext';
+import React, { useEffect } from 'react';
 import UserSession from '../utility/userSession';
 import { useAuth } from '../utility/AuthContext';
 import BranchCard from './BranchCard';
@@ -7,19 +6,21 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
 const Branch = () => {
-  const { setShowToast } = useContext(ToastContext);
   const isValid = UserSession.validateToken();
-  const userInfo = UserSession.getUserInfo();
   const { openLoginModal, closeLoginModal } = useAuth();
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Lessons & Coursework']
-  const {branches} = useSelector((state:RootState) => state.school)
+  
+  // Initial tags array
+  let tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Lessons & Coursework'];
+  const { branches } = useSelector((state: RootState) => state.school);
+
   useEffect(() => {
-    if(!isValid){
+    if (!isValid) {
       openLoginModal();
-    }else{
+    } else {
       closeLoginModal();
     }
-  }, [closeLoginModal, isValid, openLoginModal])
+  }, [closeLoginModal, isValid, openLoginModal]);
+
   return (
     <div>
       {branches.map((branch, index) => {
@@ -27,12 +28,11 @@ const Branch = () => {
         const branchWithTags = { ...branch, tags };
 
         return (
-          <BranchCard branch={branchWithTags} />
+          <BranchCard key={index} branch={branchWithTags} />
         );
       })}
-      
     </div>
-  )
-}
+  );
+};
 
-export default Branch
+export default Branch;
