@@ -2,14 +2,11 @@ import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { PaginationComponentProps } from '../models/pagination';
 
-
 const PaginationComponent: React.FC<PaginationComponentProps> = ({
-  params,
-  activePage,
+  activePage = 1,  // Default to 1 if activePage is undefined
   itemsCountPerPage,
   totalItemsCount,
-  pageRangeDisplayed,
-  totalPages,
+  totalPages = 0,  // Default to 0 if totalPages is undefined
   hideDisabled = false,
   hideNavigation = false,
   onChange,
@@ -22,11 +19,11 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
 
   const renderPageItems = () => {
     const pageItems = [];
-    const displayRange = Math.min(5, totalPages || 0); // Adjust the range as needed
+    const displayRange = Math.min(5, totalPages);
 
-    if (totalPages ?? 0 <= displayRange) {
-      // If total pages are less than or equal to the display range, show all pages
-    for (let page = 1; page <= (totalPages ?? 0); page++) {
+    if (totalPages <= displayRange) {
+      // Show all pages if the total number is less than or equal to the display range
+      for (let page = 1; page <= totalPages; page++) {
         pageItems.push(
           <Pagination.Item
             key={page}
@@ -38,11 +35,19 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
         );
       }
     } else {
-      // If total pages exceed the display range, show ellipsis for middle pages
-    const rangeStart = Math.max(1, Math.min(activePage ?? 1 - 2, (totalPages ?? 0) - displayRange + 1));
-    const rangeEnd = Math.min(rangeStart + displayRange - 1, totalPages ?? 0);
+      // Handle ellipsis for larger page ranges
+      const rangeStart = Math.max(1, Math.min(activePage - 2, totalPages - displayRange + 1));
+      const rangeEnd = Math.min(rangeStart + displayRange - 1, totalPages);
 
       if (rangeStart > 1) {
+        pageItems.push(
+          <Pagination.Item
+            key={1}
+            onClick={() => handlePageSelect(1)}
+          >
+            1
+          </Pagination.Item>
+        );
         pageItems.push(
           <Pagination.Ellipsis key="ellipsis_start" disabled={hideDisabled} />
         );
@@ -60,9 +65,17 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
         );
       }
 
-    if (rangeEnd < (totalPages ?? 0)) {
+      if (rangeEnd < totalPages) {
         pageItems.push(
           <Pagination.Ellipsis key="ellipsis_end" disabled={hideDisabled} />
+        );
+        pageItems.push(
+          <Pagination.Item
+            key={totalPages}
+            onClick={() => handlePageSelect(totalPages)}
+          >
+            {totalPages}
+          </Pagination.Item>
         );
       }
     }
@@ -78,18 +91,18 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
         hidden={totalPages === 1 || hideNavigation}
       />
       <Pagination.Prev
-        onClick={() => handlePageSelect(activePage ?? 0 - 1)}
+        onClick={() => handlePageSelect(activePage - 1)}
         disabled={activePage === 1 || hideDisabled}
         hidden={totalPages === 1 || hideNavigation}
       />
       {renderPageItems()}
       <Pagination.Next
-        onClick={() => handlePageSelect(activePage ?? 0 + 1)}
+        onClick={() => handlePageSelect(activePage + 1)}
         disabled={activePage === totalPages || hideDisabled}
         hidden={totalPages === 1 || hideNavigation}
       />
       <Pagination.Last
-        onClick={() => handlePageSelect(totalPages || 0)}
+        onClick={() => handlePageSelect(totalPages)}
         disabled={activePage === totalPages || hideDisabled}
         hidden={totalPages === 1 || hideNavigation}
       />

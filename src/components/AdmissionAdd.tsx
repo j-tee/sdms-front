@@ -20,15 +20,34 @@ import { addAdmission, getAdmissions, getVacancies } from '../redux/slices/admis
 import { ParamObject } from '../models/params';
 import AdmissionList from './AdmissionList';
 import PaginationComponent from './PaginationComponent';
+import { StudentViewModel } from '../models/student';
 
 const AdmissionAdd = (props: any) => {
   const { index, schoolId, branchId } = props;
+
   const { admissions, pagination } = useSelector((state: RootState) => state.admission)
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const { vacancies } = useSelector((state: RootState) => state.admission)
   const { student, std_message, std_status } = useSelector((state: RootState) => state.student)
+  const [studentInfo, setStudentInfo] = useState<StudentViewModel>({
+    id: 0,
+    first_name: '',
+    last_name: '',
+    birth_date: '',
+    gender: '',
+    other_names: '',
+    nationality: '',
+    parent_id: 0,
+    student_id: '',
+    image_url: '',
+    fathers_name: '',
+    mothers_name: '',
+    contact_number: '',
+    email_address: '',
+  })
+
   // const [student_id, setStudent_id] = useState('')
 
   const [params, setParams] = useState<ParamObject>({
@@ -51,13 +70,17 @@ const AdmissionAdd = (props: any) => {
 
   const getStudent = (studentId: string) => {
     // setStudent_id(studentId);  // Assuming you have a state variable setEmail for storing the email
-    if (studentId && index === 'admission') {
-      dispatch(getStudentById(encodeURIComponent(studentId)))
-        .then((res: any) => {
-          setShowToast(true);
-          showToastify(std_message, std_status);
-        })
-    }
+   if(studentId){
+    dispatch(getStudentById(encodeURIComponent(studentId)))
+    .then((res: any) => {
+      setShowToast(true);
+      showToastify(std_message, std_status);
+    })
+    // dispatch(getStudentById(studentId))
+    //   .then((res: any) => {
+    //     setStudentInfo(res.payload.student)
+    //   })
+   }
   }
   type AnyType = {
     [key: string]: string;
@@ -72,15 +95,15 @@ const AdmissionAdd = (props: any) => {
       case 'department_id': {
         dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
         break;
-      }        
+      }
       case 'program_id': {
-        if(branchId) {
+        if (branchId) {
           dispatch(getStages({ ...params, branch_id: branchId, department_id: params.department_id, program_id: parseInt(value), paginate: false }))
         }
         break;
       }
     }
-    
+
     // dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
   };
 
@@ -93,6 +116,9 @@ const AdmissionAdd = (props: any) => {
   }, [academic_term.id, branchId, dispatch])
 
   useEffect(() => {
+    const storedStudent = sessionStorage.getItem('student');
+    setStudentInfo(storedStudent && storedStudent !== 'undefined' ? JSON.parse(storedStudent) : {});
+
     dispatch(getCurrentTerm(branchId))
     const deptParams: DepartmentParams = {
       ...params,
@@ -101,62 +127,40 @@ const AdmissionAdd = (props: any) => {
       paginate: false
     }
     dispatch(getDepartments(deptParams))
-  },[branchId, dispatch, schoolId])
-  
+  }, [branchId, dispatch, schoolId])
+
   useEffect(() => {
-    if(index === 'admission') {
-    dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))   
-    .then((res: any) => {
-      setShowToast(true)
-      showToastify(res.payload.message, res.payload.status)
-    })
+    dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))
+      .then((res: any) => {
+        setShowToast(true)
+        showToastify(res.payload.message, res.payload.status)
+      })
     dispatch(getVacancies({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))
-    .then((res: any) => {
-      setShowToast(true)
-      showToastify(res.payload.message, res.payload.status)
-    })
-  }
-  }, [dispatch,index, params])
+      .then((res: any) => {
+        setShowToast(true)
+        showToastify(res.payload.message, res.payload.status)
+      })
+  }, [dispatch, index, params])
 
   const handleSubmit = () => {
     const admissionObject: Admission = {
       academic_term_id: academic_term.id ?? 0,
       stage_id: params?.stage_id ?? 0,
-      student_id: student.id,
+      student_id: student.id ?? 0,
       admission_date: params?.admission_date ?? "",
       branch_id: params.branch_id ?? 0,
       program_id: params.program_id ?? 0,
       category: params.category ?? ""
     }
     dispatch(addAdmission(admissionObject))
-    .then((res: any) => {
-      setShowToast(true)
-      showToastify(res.payload.message, res.payload.status)
-      dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
-    } 
-    )
+      .then((res: any) => {
+        setShowToast(true)
+        showToastify(res.payload.message, res.payload.status)
+        dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
+      }
+      )
   }
-  const handlePageChange = (page: number) => {
-    // setCurrentPage(page);
-    setParams((prevParams) => ({
-      ...prevParams,
-      pagination: {
-        ...prevParams.pagination,
-        current_page: page,
-      },
-    }));
-  };
-
-  const handleItemsPerPageChange = (perPage: number) => {
-    // setItemsPerPage(perPage);
-    setParams((prevParams) => ({
-      ...prevParams,
-      pagination: {
-        ...prevParams.pagination,
-        per_page: perPage,
-      },
-    }));
-  };
+  
   return (
     <Card>
       <Card.Header>Admission Details</Card.Header>
@@ -187,7 +191,7 @@ const AdmissionAdd = (props: any) => {
         </Card>
       </Container>
       <Card.Body>
-        {(student && student.image_url) && <Card.Img variant='top' src={student.image_url}  />}
+        {(student) && <Card.Img variant='top' src={student.image_url} />}
         {!(student && student.student_id) && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
@@ -195,9 +199,11 @@ const AdmissionAdd = (props: any) => {
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Student</Form.Label>
                   <Form.Control
+                    value={studentInfo ? studentInfo.student_id : ''}
                     style={{ width: '70%' }}
                     placeholder='Enter student ID'
                     type='text'
+                    onFocus={(e) => getStudent(e.target.value)}
                     onBlur={(e) => getStudent(e.target.value)}
                   />
                 </Form.Group>
@@ -212,10 +218,10 @@ const AdmissionAdd = (props: any) => {
               <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
             </Col>
             <Col>
-              <ProgramDropDown onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} value={undefined} />
+              <ProgramDropDown onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} admission={undefined} />
             </Col>
             <Col>
-              <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
+              <StageDropDown admission={undefined} lesson={undefined} branchId={branchId} onChange={handleInputChange} />
             </Col>
           </Row>
           <Row className='my-4 d-flex flex-column flex-lg-row'>
@@ -241,27 +247,9 @@ const AdmissionAdd = (props: any) => {
         </Form>
         <Card.Header className='mt-4'>Admission List</Card.Header>
         {admissions && admissions.map((admission: AdmissionViewModel) => (
-          <AdmissionList params={params} setParams={setParams} onChange={handleInputChange}  key={admission.id} admission={admission} schoolId={schoolId} branchId={branchId}/>
+          <AdmissionList params={params} setParams={setParams} onChange={handleInputChange} key={admission.id} admission={admission} schoolId={schoolId} branchId={branchId} />
         ))}
-        <div className="d-flex px-2 justify-content-between align-items-center">
-        <PaginationComponent
-          params={params}
-          activePage={pagination?.current_page}
-          itemsCountPerPage={pagination?.per_page}
-          totalItemsCount={pagination?.total_items || 0}
-          pageRangeDisplayed={5}
-          totalPages={pagination?.total_pages}
-          hideDisabled={pagination?.total_pages === 0}
-          hideNavigation={pagination?.total_pages === 1}
-          onChange={handlePageChange}
-        />
-        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-        </DropdownButton>
-      </div>
-     </Card.Body>
+      </Card.Body>
     </Card>
   )
 }

@@ -17,6 +17,8 @@ const initialState: AdmissionState = {
   message: '',
   admission: {
     id: 0,
+    department_id: 0,
+    dept_name: '',
     academic_term_id:0,
     student_id:0,
     admission_date:'',

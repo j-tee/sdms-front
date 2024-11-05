@@ -76,7 +76,7 @@ const StudentRegistration = (props: any) => {
             <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
           </Col>
           <Col>
-            <ProgramDropDown value={undefined} onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} />
+            <ProgramDropDown admission={undefined} onChange={handleInputChange} departmentId={params.department_id} branchId={branchId} />
           </Col>
           <Col>
             <StageDropDown lesson={(undefined)} onChange={handleInputChange} branchId={branchId} />

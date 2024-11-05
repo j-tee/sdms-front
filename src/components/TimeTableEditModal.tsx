@@ -134,7 +134,7 @@ const TimeTableEditModal = (props: any) => {
                             <StaffDropDown onChange={handleInputChange} branchId={0} value={lesson} schoolId={0} />
                         </Col>
                         <Col>
-                            <ProgramDropDown value={lesson} onChange={handleInputChange} departmentId={undefined} branchId={0} />
+                            <ProgramDropDown admission={lesson} onChange={handleInputChange} departmentId={undefined} branchId={0} />
                         </Col>
                         <Col>
                             <StageDropDown lesson={lesson} onChange={handleInputChange} branchId={0} />

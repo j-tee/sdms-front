@@ -13,8 +13,9 @@ interface DepartmentDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   branchId: number;
   schoolId: number;
+  admission?: any;
 }
-const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branchId, schoolId}) => {
+const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branchId, schoolId, admission}) => {
   const { departments, message, status } = useSelector((state: RootState) => state.department)
   const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
@@ -57,7 +58,7 @@ const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branc
     <Form.Group controlId="department">
       <Form.Label>Departments</Form.Label>
       <Form.Control as="select" onChange={handleDepartmentChange} value={params.department_id}>
-        <option value="">---Select---</option>
+        {admission && <option value={admission ? admission.department_id : ''}>{admission ? admission.dept_name : "-----Select Department----"}</option>}
         {departments.map((dept) => (<option key={dept.id} value={dept.id}>
           {dept.dept_name}
         </option>

@@ -75,7 +75,7 @@ const ClassGroupEdit = (props: any) => {
               <DepartmentDropDown schoolId={schoolId} onChange={handleInputChange} branchId={0} />  
             </Col>
             <Col>
-            <ProgramDropDown value={undefined} onChange={handleInputChange} branchId={0} departmentId={undefined} />
+            <ProgramDropDown admission={undefined} onChange={handleInputChange} branchId={0} departmentId={undefined} />
             </Col>
             <Col>
             <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={0} />

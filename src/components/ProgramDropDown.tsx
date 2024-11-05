@@ -11,11 +11,11 @@ type AnyType = {
 };
 interface ProgramDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
-  value: any;
+  admission: any;
   departmentId:number | undefined;
   branchId:number;
 }
-const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, departmentId, value }) => {
+const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, departmentId, admission }) => {
   const { programs, message, status } = useSelector((state: RootState) => state.program)
   const { showToast, setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
@@ -45,13 +45,13 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, d
   useEffect(() => {
     setShowToast(true)
     showToastify(message, status)
-  }, [message, setShowToast, showToast, status, value])
+  }, [message, setShowToast, showToast, status, admission])
   return (
     <Form.Group controlId="department">
       <Form.Label>Programs</Form.Label>
       <Form.Select as="select" onChange={handleProgramChange} value={params.program_id}>
         {/* <option value="">---Select---</option> */}
-        <option value={value ? value.program_id : ''}>{value ? value.program_name : "-----Select Program----"}</option>
+        <option value={admission !== undefined ? admission.program_id : ''}>{admission !== undefined ? admission.admission_program : "-----Select Program----"}</option>
         {programs.map((prog) => (<option key={prog.id} value={prog.id}>
           {prog.prog_name}
         </option>

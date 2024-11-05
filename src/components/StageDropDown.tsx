@@ -13,9 +13,11 @@ type AnyType = {
 interface StageDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   branchId: any
-  lesson: any
+  lesson?: any
+  admission?:any
+  value?: any
 }
-const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesson }) => {
+const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesson, admission }) => {
   const { stages, message, status } = useSelector((state: RootState) => state.stage)
   const { showToast, setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
@@ -53,7 +55,8 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesso
     <Form.Group controlId="branch">
       <Form.Label>Stages / Levels / Years</Form.Label>
       <Form.Select as="select" onChange={handleStageChange} value={params.stage_id}>
-      <option value={lesson ? lesson.stage_id : ''}>{lesson ? lesson.stage_name : "-----Select Stage----"}</option>
+      {lesson && <option value={lesson ? lesson.stage_id : ''}>{lesson ? lesson.stage_name : "-----Select Stage----"}</option>}
+      {admission && <option value={admission ? admission.stage_id : ''}>{admission ? admission.admission_stage : "-----Select Stage----"}</option>}
         {stages.map((stage) => (<option key={stage.id} value={stage.id}>
           {stage.stage_name}
         </option>

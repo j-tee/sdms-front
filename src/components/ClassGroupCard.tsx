@@ -139,7 +139,7 @@ const ClassGroupCard = (props: any) => {
               <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
             </Col>
             <Col>
-              <ProgramDropDown value={undefined} onChange={handleInputChange} branchId={branchId} departmentId={params.department_id} />
+              <ProgramDropDown admission={undefined} onChange={handleInputChange} branchId={branchId} departmentId={params.department_id} />
             </Col>
             <Col>
               <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={branchId} />

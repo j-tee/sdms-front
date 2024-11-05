@@ -128,7 +128,7 @@ const CourseOption = (props: any) => {
           <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
         </Col>
         <Col>
-          <ProgramDropDown value={undefined} branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
+          <ProgramDropDown admission={undefined} branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
         </Col>
         <Col>
           <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />

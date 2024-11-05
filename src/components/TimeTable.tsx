@@ -189,7 +189,7 @@ const TimeTable = (props: any) => {
             <StaffDropDown onChange={handleInputChange} value={undefined} branchId={0} schoolId={0} />
           </Col>
           <Col>
-            <ProgramDropDown value={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
+            <ProgramDropDown admission={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
           </Col>
           <Col>
             <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={0} />

@@ -7,10 +7,12 @@ import { showToastify } from '../utility/Toastify'
 import { ToastContext } from '../utility/ToastContext'
 import { addStudent, getCountries } from '../redux/slices/studentSlice'
 import { Student, country } from '../models/student'
+import { ParentViewModel } from '../models/parent'
 
 const StudentDetails = (props: any) => {
   const { index, schoolId, branchId } = props;
   const { parent, message, status } = useSelector((state: RootState) => state.parent)
+  const [parentInfo, setParentInfo] = useState<ParentViewModel>({})
   const { student,countries, std_message, std_status } = useSelector((state: RootState) => state.student)
   const [studentImagePreview, setStudentImagePreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>()
@@ -43,12 +45,15 @@ const StudentDetails = (props: any) => {
         }
       }
     }
-    student.append('student[parent_id]', parent.id.toString());
+    if (parent && parent.id) {
+      student.append('student[parent_id]', (parent?.id?.toString() || parentInfo.id?.toString() || ''));
+    }
 
     if (formData.avatar instanceof File) {
       student.append('student[avatar]', formData.avatar);
     }
     dispatch(addStudent(student)).then((res: any) => {
+      sessionStorage.setItem('student', JSON.stringify(res.payload.student))
       setShowToast(true)
       showToastify(std_message, std_status)
     })
@@ -72,15 +77,15 @@ const StudentDetails = (props: any) => {
   };
   const getParent = (email: string) => {
     setEmail(email);  // Assuming you have a state variable setEmail for storing the email
-    if (email && index === 'student') {
-      dispatch(getParentByEmail(encodeURIComponent(email)))
-        .then((res: any) => {
-          setShowToast(true);
-          showToastify(message, status);
-        })
-    }
+    dispatch(getParentByEmail(encodeURIComponent(email)))
+    .then((res: any) => {
+      setShowToast(true);
+      showToastify(message, status);
+    })
   }
   useEffect(() => {
+    setParentInfo(JSON.parse(sessionStorage.getItem('parent') || '{}'));
+    
     dispatch(getCountries())
   },[dispatch])
   useEffect(() => {
@@ -95,8 +100,8 @@ const StudentDetails = (props: any) => {
         Student Details 
       </Card.Header>
       <Card.Body>
-        {parent?.id > 0 &&
-          <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
+        {parent?.id && parent.id > 0 &&
+           <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
             <span>{parent?.fathers_full_name}</span>
             <span className='d-none d-lg-inline'>|</span>
             <span>{parent?.mothers_full_name}</span>
@@ -112,9 +117,11 @@ const StudentDetails = (props: any) => {
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Parent</Form.Label>
                   <Form.Control
+                  value={parentInfo ? parentInfo.fathers_email_address:''}
                     style={{ width: '70%' }}
                     placeholder='Enter parent email address'
                     type='text'
+                    onFocus={(e) => getParent(e.target.value)}
                     onBlur={(e) => getParent(e.target.value)}
                   />
                 </Form.Group>
@@ -226,12 +233,12 @@ const StudentDetails = (props: any) => {
           <Row className='d-flex flex-lg-row flex-column'>
             <Col>
               <Form.Group controlId="parent_id">
-                <Form.Label>Parent ID</Form.Label>
+                <Form.Label>Parent ID:{parent?.id}</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="hidden"
                   name="parent_id"
                   value={parent?.id}
-                  onChange={handleChange} disabled
+                  onChange={handleChange}
                 />
               </Form.Group>
             </Col>

@@ -111,7 +111,7 @@ const UnregisteredStudent = (props: any) => {
   const selectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
     setSelectAllChecked(isChecked);
-    setSelectedCheckboxes(isChecked ? students.map((student: StudentViewModel) => student.id.toString()) : []);
+    setSelectedCheckboxes(isChecked ? students.map((student: StudentViewModel) => student.id ? student.id.toString() : '') : []);
 
     // Update registrations based on the "Select All" action
     setRegistrations((prevRegistrations) =>
@@ -183,7 +183,7 @@ const UnregisteredStudent = (props: any) => {
                   <input
                     type="checkbox"
                     value={student.id}
-                    checked={selectedCheckboxes.includes(student.id.toString())}
+                    checked={selectedCheckboxes.includes((student.id ?? '').toString())}
                     onChange={handleCheckboxChange}
                   />
                 </span>

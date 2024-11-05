@@ -54,6 +54,7 @@ const ParentCard = (props: any) => {
     }
     // Add your logic for submitting the form data (e.g., API call, state update, etc.)
     dispatch(addParent({ ...parent })).then((res: any) => {
+      sessionStorage.setItem('parent', JSON.stringify(res.payload.parent))
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
     }

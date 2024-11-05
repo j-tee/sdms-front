@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 import DepartmentDropDown from './DepartmentDropDown';
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
@@ -39,10 +39,10 @@ const AdmissionEdit = (props: any) => {
       case 'department_id': {
         dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
         break;
-      }        
+      }
       case 'program_id': {
-        if(branchId)
-        dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
+        if (branchId)
+          dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
         break;
       }
     }
@@ -50,7 +50,7 @@ const AdmissionEdit = (props: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    
+
     dispatch(updateAdmission({
       ...formData,
       // student_id: admission.student_id,
@@ -59,10 +59,10 @@ const AdmissionEdit = (props: any) => {
       dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
-    } )
+    })
     setAdmissionEditModalOpen(false)
   };
- 
+
   return (
     <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg'>
       <Form onSubmit={handleSubmit}>
@@ -71,17 +71,23 @@ const AdmissionEdit = (props: any) => {
         </Modal.Header>
         <Modal.Body>
           <Row className='d-flex flex-lg-row flex-column mb-2'>
+            <span>
+              {admission && <Image src={admission.picture} alt="Student Preview" thumbnail
+                style={{ maxWidth: '100px', maxHeight: '100px' }} />}
+            </span>
+          </Row>
+          <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
-            <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
+              <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
             </Col>
             <Col>
-            <ProgramDropDown value={undefined} departmentId={params.department_id} branchId={branchId} onChange={handleInputChange} />
+              <ProgramDropDown admission={admission} departmentId={params.department_id} branchId={branchId} onChange={handleInputChange} />
             </Col>
             <Col>
-            <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
+              <StageDropDown admission={admission} value={admission} lesson={undefined} branchId={branchId} onChange={handleInputChange} />
             </Col>
-            </Row>
-            <Row className='my-4 d-flex flex-column flex-lg-row'>
+          </Row>
+          <Row className='my-4 d-flex flex-column flex-lg-row'>
             <Col>
               <Form.Group controlId='admissionDate'>
                 <Form.Label>AdmissionDate</Form.Label>
@@ -93,15 +99,16 @@ const AdmissionEdit = (props: any) => {
               <Form.Group controlId='category'>
                 <Form.Label>Admission Category</Form.Label>
                 <Form.Control as={'select'} value={formData.category} onChange={(e) => handleInputChange('category', e.target.value)}>
-                  <option value={''}>---Select category</option>
+                  <option value={admission ? admission.category : ''}>{admission ? admission.category : "---Select category---"}</option>
                   <option value={'Transfer'}>Transfer</option>
-                  <option value={'Non-Transfer'}>Non-Transfer</option>
+                  <option value={'Non Transfer'}>Non Transfer</option>
                 </Form.Control>
               </Form.Group>
             </Col>
           </Row>
           <Button type='submit'>Submit</Button>
         </Modal.Body>
+        {/* <h1>{admission.program_id}</h1> */}
       </Form>
     </Modal>
   )

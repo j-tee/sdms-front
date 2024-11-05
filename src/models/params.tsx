@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface ParamObject {
+  academic_year_id?: number;
   academic_term_id?: number;
   stage_id?: number;
   student_id: string,

@@ -31,6 +31,8 @@ export interface AdmissionState {
 
 export interface AdmissionViewModel {
   id: number;
+  department_id: number;
+  dept_name: string;
   academic_term_id: number;
   student_id: number;
   admission_date: string;
