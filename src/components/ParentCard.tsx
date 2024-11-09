@@ -218,11 +218,11 @@ const ParentCard = (props: any) => {
           </Row>
           <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>
-              <Form.Group controlId="residentialAddress">
+              <Form.Group controlId="fathersGhanaCardNumber">
                 <Form.Label>Father's Ghana Card Number</Form.Label>
                 <Form.Control
                   type="text"
-                  name="residentialAddress"
+                  name="fathersGhanaCardNumber"
                   value={formData.fathersGhanaCardNumber}
                   onChange={handleChange}
                   required
@@ -230,11 +230,11 @@ const ParentCard = (props: any) => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="postalAddress">
+              <Form.Group controlId="mothersGhanaCardNumber">
                 <Form.Label>Mother's Ghana Card Number</Form.Label>
                 <Form.Control
                   type="text"
-                  name="postalAddress"
+                  name="mothersGhanaCardNumber"
                   value={formData.mothersGhanaCardNumber}
                   onChange={handleChange}
                   required

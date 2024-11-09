@@ -5,6 +5,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { Form } from 'react-bootstrap';
 import { ProgramParams } from '../models/program';
+import { getPrograms } from '../redux/slices/programSlice';
 
 type AnyType = {
   [key: string]: string;
@@ -51,6 +52,12 @@ const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branc
   // }, [branchId, dispatch, params, schoolId])
 
   useEffect(() => {
+    setParams((prevData) => ({
+      ...params, department_id: admission ? admission.department_id : 0
+    }))
+    if(params.department_id){
+      dispatch(getPrograms({ ...params, department_id: params.department_id, paginate: false }))
+    }
     setShowToast(true)
     showToastify(message, status)
   }, [message, setShowToast, showToast, status])

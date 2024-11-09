@@ -12,6 +12,13 @@ import AcademicTermDelete from './AcademicTermDelete';
 import AcademicTermDetails from './AcademicTermDetails';
 import { QueryParams } from '../models/queryParams';
 import UserSession from '../utility/userSession';
+import AcademicYearDropDown from './AcademicYearDropDown';
+
+
+type AnyType = {
+  [key: string]: string;
+};
+
 
 const AcademicTermCard = (props: any) => {
   const { academic_terms, academic_year } = useSelector((state: RootState) => state.calendar)
@@ -127,6 +134,13 @@ const AcademicTermCard = (props: any) => {
     }))
     setAcademicTermDeleteModalOpen(true)
   }
+  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    // Update the formData state with the new value
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
   useEffect(() => {
     const user_roles = UserSession.getroles()
     setRoles(user_roles)
@@ -136,6 +150,9 @@ const AcademicTermCard = (props: any) => {
       {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>}
       {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Form>
         <Row className='d-flex flex-column flex-lg-row'>
+          <Col>
+            <AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} />
+          </Col>
           <Col>
             <Form.Group controlId='termName'>
               <Form.Label>Term/Sem</Form.Label>
