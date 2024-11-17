@@ -65,7 +65,8 @@ const DepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange, branc
     <Form.Group controlId="department">
       <Form.Label>Departments</Form.Label>
       <Form.Control as="select" onChange={handleDepartmentChange} value={params.department_id}>
-        {admission && <option value={admission ? admission.department_id : ''}>{admission ? admission.dept_name : "-----Select Department----"}</option>}
+        {/* {admission && <option value={admission ? admission.department_id : ''}>{admission ? admission.dept_name : "-----Select Department----"}</option>} */}
+        <option value='0'>-----Select Department----</option>
         {departments.map((dept) => (<option key={dept.id} value={dept.id}>
           {dept.dept_name}
         </option>

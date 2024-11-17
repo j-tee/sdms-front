@@ -50,8 +50,8 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, d
     <Form.Group controlId="department">
       <Form.Label>Programs</Form.Label>
       <Form.Select as="select" onChange={handleProgramChange} value={params.program_id}>
-        {/* <option value="">---Select---</option> */}
-        <option value={admission !== undefined ? admission.program_id : ''}>{admission !== undefined ? admission.admission_program : "-----Select Program----"}</option>
+        <option value="0">---Select---</option>
+        {/* <option value={admission !== undefined ? admission.program_id : ''}>{admission !== undefined ? admission.admission_program : "-----Select Program----"}</option> */}
         {programs.map((prog) => (<option key={prog.id} value={prog.id}>
           {prog.prog_name}
         </option>

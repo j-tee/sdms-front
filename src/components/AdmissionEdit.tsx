@@ -10,6 +10,8 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { getPrograms } from '../redux/slices/programSlice';
 import { getStages } from '../redux/slices/stageSlice';
+import AcademicYearDropDown from './AcademicYearDropDown';
+import AcademicTermDropDown from './AcademicTermDropDown';
 
 const AdmissionEdit = (props: any) => {
   const { schoolId, branchId, isOpen, admission, params, onRequestClose, setAdmissionEditModalOpen } = props;
@@ -62,7 +64,16 @@ const AdmissionEdit = (props: any) => {
     })
     setAdmissionEditModalOpen(false)
   };
-
+// useEffect(() => {
+//   setFormData((prevData) => ({
+//     ...formData, department_id: admission.department_id,
+//     program_id: admission.program_id,
+//     stage_id: admission.stage_id,
+//     admission_date: admission.admission_date,
+//     category: admission.category,
+//     academic_term_id: admission.academic_term_id,
+//   }))
+// }, [admission, formData])
   return (
     <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg'>
       <Form onSubmit={handleSubmit}>
@@ -75,6 +86,10 @@ const AdmissionEdit = (props: any) => {
               {admission && <Image src={admission.picture} alt="Student Preview" thumbnail
                 style={{ maxWidth: '100px', maxHeight: '100px' }} />}
             </span>
+          </Row>
+         <Row className='d-flex flex-lg-row flex-column mb-2'>
+         <Col> <AcademicYearDropDown branchId={branchId} onChange={handleInputChange} schoolId={undefined} /> </Col>
+         <Col><AcademicTermDropDown onChange={handleInputChange } schoolId={undefined} branchId={undefined} yearId={undefined} /></Col>
           </Row>
           <Row className='d-flex flex-lg-row flex-column mb-2'>
             <Col>

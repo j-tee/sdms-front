@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Card, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap'
 import AcademicYearList from './AcademicYearList'
 import { AcademicYear, AcademicYearViewModel, YearParams } from '../models/calendar'
@@ -7,9 +7,12 @@ import { AppDispatch, RootState } from '../redux/store'
 import { addAcademicYear, getAcademicYears } from '../redux/slices/calendarSlice'
 import PaginationComponent from './PaginationComponent'
 import UserSession from '../utility/userSession'
+import { showToastify } from '../utility/Toastify'
+import { ToastContext } from '../utility/ToastContext'
 
 const AcademicYearCard = (props: any) => {
   const { branchId, schoolId } = props;
+  const { setShowToast } = useContext(ToastContext)
   const { academic_years } = useSelector((state: RootState) => state.calendar)
   const dispatch = useDispatch<AppDispatch>();
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +36,9 @@ const AcademicYearCard = (props: any) => {
     term_category: '',
   })
   const AddNewAcademicYear = () => {
+    setShowToast(true)
     dispatch(addAcademicYear({ ...formData, branch_id: branchId && parseInt(branchId) })).then((res) => {
+      showToastify(res.payload.message, res.payload.status)
       dispatch(getAcademicYears({ ...params, school_id: schoolId, branch_id: branchId }));
     }
     )

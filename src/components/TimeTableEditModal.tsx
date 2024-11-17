@@ -45,6 +45,8 @@ const TimeTableEditModal = (props: any) => {
 
 
     useEffect(() => {
+        setStartTime(new Date(lesson.start_time).toLocaleTimeString())
+        setEndTime(new Date(lesson.end_time).toLocaleTimeString())
         console.log('lesson from timetable editmodal open==========', lesson)
         dispatch(getSubjects({
             ...params, school_id: schoolId, branch_id: branchId, pagination: {
@@ -156,7 +158,7 @@ const TimeTableEditModal = (props: any) => {
                             <span className='pt-2'>Start Time</span>
                             <span> <TimePicker
                                 onChange={(e) => setStartTime(e as string)}
-                                value={new Date(lesson.start_time).toLocaleTimeString()}
+                                value={startTime}
                             /></span>
                         </Col>
                         <Col md={4} className='d-flex flex-row gap-5'>
@@ -166,7 +168,7 @@ const TimeTableEditModal = (props: any) => {
                             <span className='pt-2'>End Time</span>
                             <span><TimePicker
                                 onChange={(e) => setEndTime(e as string)}
-                                value={new Date(lesson.end_time).toLocaleTimeString()}
+                                value={endTime}
                             /></span>
                         </Col>
                     </Row>

@@ -25,6 +25,7 @@ const AcademicTermCard = (props: any) => {
   const { setShowToast } = useContext(ToastContext)
   const { branchId, tabKey, schoolId } = props;
   const dispatch = useDispatch<AppDispatch>()
+  const [yearId, setYearId] = useState(0)
   const [isAcdemicTermDetailsModalOpen, setAcademicTermDetailsModalOpen] = useState(false)
   const [isAcademicTermEditModalOpen, setAcademicTermEditModalOpen] = useState(false)
   const [isAcademicTermDeleteModalOpen, setAcademicTermDeleteModalOpen] = useState(false)
@@ -40,7 +41,7 @@ const AcademicTermCard = (props: any) => {
     academic_year_name: '',
   })
 
-  const handleEdit = (term: AcademicTermViewModel) => { 
+  const handleEdit = (term: AcademicTermViewModel) => {
     setTerm((prevParams) => ({
       ...prevParams,
       id: term.id,
@@ -82,9 +83,9 @@ const AcademicTermCard = (props: any) => {
 
   const addNewTerm = async () => {
     setShowToast(true)
-    await dispatch(addAcademicTerm({ ...formData, academic_year_id: academic_year.id })).then((res) => {
+    await dispatch(addAcademicTerm({ ...formData, academic_year_id: yearId ? yearId : academic_year.id })).then((res) => {
       showToastify(res.payload.message, res.payload.status)
-      dispatch(getAcademicTerms({ ...params, year_id: academic_year.id }))
+      dispatch(getAcademicTerms({ ...params, year_id: yearId ? yearId : academic_year.id }))
     })
   }
   const handlePageChange = (page: number) => {
@@ -136,19 +137,26 @@ const AcademicTermCard = (props: any) => {
   }
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     // Update the formData state with the new value
+
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
+    switch (field) {
+      case 'academic_year_id':
+        setYearId(parseInt(value))
+        break
+      default:
+    }
   };
   useEffect(() => {
     const user_roles = UserSession.getroles()
     setRoles(user_roles)
-  }, [academic_year.id, dispatch, params])
+  }, [academic_year.id, dispatch, params, yearId])
   return (
     <div>
-      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>}
-      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Form>
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>}
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Form>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
             <AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} />
@@ -221,25 +229,25 @@ const AcademicTermCard = (props: any) => {
         </DropdownButton>
       </div>
       <AcademicTermDetails
-       schoolId={schoolId} branchId={branchId} term={term}
-       params={params}
-       isOpen={isAcdemicTermDetailsModalOpen}
-       setAcademicTermDetailsModalOpen={setAcademicTermDetailsModalOpen}
-       onRequestClose={() => setAcademicTermDetailsModalOpen(false)}
+        schoolId={schoolId} branchId={branchId} term={term}
+        params={params}
+        isOpen={isAcdemicTermDetailsModalOpen}
+        setAcademicTermDetailsModalOpen={setAcademicTermDetailsModalOpen}
+        onRequestClose={() => setAcademicTermDetailsModalOpen(false)}
       />
       <AcademicTermDelete
-       schoolId={schoolId} branchId={branchId} term={term}
-       params={params}
-       isOpen={isAcademicTermDeleteModalOpen}
-       setAcademicTermDeleteModalOpen={setAcademicTermDeleteModalOpen}
-       onRequestClose={() => setAcademicTermDeleteModalOpen(false)}
+        schoolId={schoolId} branchId={branchId} term={term}
+        params={params}
+        isOpen={isAcademicTermDeleteModalOpen}
+        setAcademicTermDeleteModalOpen={setAcademicTermDeleteModalOpen}
+        onRequestClose={() => setAcademicTermDeleteModalOpen(false)}
       />
-      <AcademicTermEdit 
-       schoolId={schoolId} branchId={branchId} term={term}
-       params={params}
-       isOpen={isAcademicTermEditModalOpen}
-       setAcademicTermEditModalOpen={setAcademicTermEditModalOpen}
-       onRequestClose={() => setAcademicTermEditModalOpen(false)}
+      <AcademicTermEdit
+        schoolId={schoolId} branchId={branchId} term={term}
+        params={params}
+        isOpen={isAcademicTermEditModalOpen}
+        setAcademicTermEditModalOpen={setAcademicTermEditModalOpen}
+        onRequestClose={() => setAcademicTermEditModalOpen(false)}
       />
     </div>
   )

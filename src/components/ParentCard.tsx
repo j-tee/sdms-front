@@ -68,13 +68,7 @@ const ParentCard = (props: any) => {
     if (!emailRegex.test(formData.fathersEmailAddress)) {
       showToastify('Invalid email format. Please enter a valid email address.', 'error')
       // You can add more advanced validation or error handling here
-    } else {
-      dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
-        .then((res: any) => {
-          setShowToast(true)
-          showToastify(res.payload.message, res.payload.status)
-        })
-    }
+    } 
   };
   useEffect(() => {
     if (formData.fathersEmailAddress && index=== 'parent' ) {

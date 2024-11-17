@@ -11,8 +11,20 @@ const StaffEdit = (props: any) => {
   const { staff, isOpen, params, setStaffEditModalOpen, onRequestClose, branchId, schoolId } = props;
   const { setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
-  const [formData, setFormData] = useState<Staff>({} as Staff);
+  
   const [staffImagePreview, setStaffImagePreview] = useState<string | null>(null);
+  const [formData, setFormData] = useState<Staff>({
+    id: staff.id,
+    email: staff.email,
+    first_name: staff.first_name,
+    last_name: staff.last_name,
+    dob: staff.dob,
+    gender: staff.gender,
+    phone_number: staff.phone_number,
+    designation: staff.designation,
+    branch_id: staff.branch_id,
+    avatar: staff.avatar, 
+  } as Staff);
 
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
@@ -53,19 +65,6 @@ const StaffEdit = (props: any) => {
     })
   }
   useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      id: staff.id,
-      email: staff.email,
-      first_name: staff.first_name,
-      last_name: staff.last_name,
-      dob: staff.dob,
-      gender: staff.gender,
-      phone_number: staff.phone_number,
-      designation: staff.designation,
-      branch_id: staff.branch_id,
-      avatar: staff.avatar, 
-    }))
     setStaffImagePreview((prevData) => (staff.image_url ? staff.image_url : null))
   }, [staff])
   return (

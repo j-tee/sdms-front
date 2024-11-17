@@ -181,7 +181,7 @@ const TimeTable = (props: any) => {
   return (
     <div>
       <Card.Header>
-        <span className="text-muted fs-4">Time Table</span>
+        <span className="text-muted fs-4"></span>
       </Card.Header>
       <Form onSubmit={handleSubmit}>
         <Row className='d-flex flex-column flex-lg-row'>
@@ -272,7 +272,7 @@ const TimeTable = (props: any) => {
         isOpen={isTimeTableEditModalOpen}
         params={params}
         onRequestClose={() => setTimeTableEditModalOpen(false)}
-        isTimeTableEditModalOpen={isTimeTableEditModalOpen} />
+        setTimeTableEditModalOpen={setTimeTableEditModalOpen} />
     </div>
   )
 }

@@ -21,6 +21,8 @@ import { ParamObject } from '../models/params';
 import AdmissionList from './AdmissionList';
 import PaginationComponent from './PaginationComponent';
 import { StudentViewModel } from '../models/student';
+import AcademicYearDropDown from './AcademicYearDropDown';
+import AcademicTermDropDown from './AcademicTermDropDown';
 
 const AdmissionAdd = (props: any) => {
   const { index, schoolId, branchId } = props;
@@ -70,17 +72,17 @@ const AdmissionAdd = (props: any) => {
 
   const getStudent = (studentId: string) => {
     // setStudent_id(studentId);  // Assuming you have a state variable setEmail for storing the email
-   if(studentId){
-    dispatch(getStudentById(encodeURIComponent(studentId)))
-    .then((res: any) => {
-      setShowToast(true);
-      showToastify(std_message, std_status);
-    })
-    // dispatch(getStudentById(studentId))
-    //   .then((res: any) => {
-    //     setStudentInfo(res.payload.student)
-    //   })
-   }
+    if (studentId) {
+      dispatch(getStudentById(encodeURIComponent(studentId)))
+        .then((res: any) => {
+          setShowToast(true);
+          showToastify(std_message, std_status);
+        })
+      // dispatch(getStudentById(studentId))
+      //   .then((res: any) => {
+      //     setStudentInfo(res.payload.student)
+      //   })
+    }
   }
   type AnyType = {
     [key: string]: string;
@@ -116,8 +118,9 @@ const AdmissionAdd = (props: any) => {
   }, [academic_term.id, branchId, dispatch])
 
   useEffect(() => {
-    const storedStudent = sessionStorage.getItem('student');
-    setStudentInfo(storedStudent && storedStudent !== 'undefined' ? JSON.parse(storedStudent) : {});
+    const student = sessionStorage.getItem('student');
+    
+    setStudentInfo(student && student !== 'undefined' ? JSON.parse(student) : {});
 
     dispatch(getCurrentTerm(branchId))
     const deptParams: DepartmentParams = {
@@ -144,7 +147,7 @@ const AdmissionAdd = (props: any) => {
 
   const handleSubmit = () => {
     const admissionObject: Admission = {
-      academic_term_id: academic_term.id ?? 0,
+      academic_term_id: params?.academic_term_id ?? 0,
       stage_id: params?.stage_id ?? 0,
       student_id: student.id ?? 0,
       admission_date: params?.admission_date ?? "",
@@ -154,16 +157,17 @@ const AdmissionAdd = (props: any) => {
     }
     dispatch(addAdmission(admissionObject))
       .then((res: any) => {
+        sessionStorage.removeItem('student');
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
         dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
       }
       )
   }
-  
+
   return (
     <Card>
-      <Card.Header>Admission Details</Card.Header>
+      <Card.Header>Admission Details for {studentInfo.student_id} {studentInfo.last_name} {studentInfo.first_name}</Card.Header>
       <Container className='mt-5'>
         <Card>
           <Card.Header>Enrolement Data</Card.Header>
@@ -191,7 +195,7 @@ const AdmissionAdd = (props: any) => {
         </Card>
       </Container>
       <Card.Body>
-        {(student) && <Card.Img variant='top' src={student.image_url} />}
+        {(student) && <Card.Img variant='top' style={{ width: "100px" }} src={student.image_url} />}
         {!(student && student.student_id) && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
@@ -199,7 +203,7 @@ const AdmissionAdd = (props: any) => {
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Student</Form.Label>
                   <Form.Control
-                    value={studentInfo ? studentInfo.student_id : ''}
+                    value={studentInfo ? studentInfo.student_id : student.student_id}
                     style={{ width: '70%' }}
                     placeholder='Enter student ID'
                     type='text'
@@ -212,7 +216,7 @@ const AdmissionAdd = (props: any) => {
           </Row>
         )}
 
-        <Form>
+        <Form name='admission_form'>
           <Row className='d-flex flex-column flex-lg-row'>
             <Col>
               <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
@@ -222,6 +226,14 @@ const AdmissionAdd = (props: any) => {
             </Col>
             <Col>
               <StageDropDown admission={undefined} lesson={undefined} branchId={branchId} onChange={handleInputChange} />
+            </Col>
+          </Row>
+          <Row className='my-4 d-flex flex-column flex-lg-row'>
+            <Col>
+              <AcademicYearDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+            <Col>
+              <AcademicTermDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} yearId={undefined} />
             </Col>
           </Row>
           <Row className='my-4 d-flex flex-column flex-lg-row'>

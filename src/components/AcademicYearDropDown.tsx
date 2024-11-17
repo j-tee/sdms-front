@@ -46,7 +46,7 @@ const AcademicYearDropDown: FC<AcademicYearDropDownProps> = ({ onChange, schoolI
         <Form.Group controlId="yearId">
         <Form.Label>Academic Years</Form.Label>
         <Form.Select as="select" onChange={handleAcademicYearChange}>
-            <option value="">-----Select Year----</option>
+            <option value="0">-----Select Year----</option>
             {academic_years.map((year) =>
             (<option key={year.id} value={year.id}>
                 {year.academic_year}

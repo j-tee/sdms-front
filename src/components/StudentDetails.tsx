@@ -54,8 +54,9 @@ const StudentDetails = (props: any) => {
     }
     dispatch(addStudent(student)).then((res: any) => {
       sessionStorage.setItem('student', JSON.stringify(res.payload.student))
+      sessionStorage.removeItem('parent')
       setShowToast(true)
-      showToastify(std_message, std_status)
+      showToastify(res.payload.message, res.payload.status)
     })
   };
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +85,22 @@ const StudentDetails = (props: any) => {
     })
   }
   useEffect(() => {
-    setParentInfo(JSON.parse(sessionStorage.getItem('parent') || '{}'));
+    // setParentInfo(JSON.parse(sessionStorage.getItem('parent') || '{}'));
+    let parsedParentData = {};
+
+try {
+  // Attempt to parse the data from sessionStorage
+  const parentData = sessionStorage.getItem('parent');
+  parsedParentData = parentData ? JSON.parse(parentData) : {};
+} catch (error) {
+  console.error("Failed to parse 'parent' data from sessionStorage:", error);
+  // If parsing fails, fall back to an empty object
+  parsedParentData = {};
+}
+
+// Set the parent info
+setParentInfo(parsedParentData);
+
     
     dispatch(getCountries())
   },[dispatch])

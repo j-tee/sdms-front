@@ -94,7 +94,9 @@ const UnregisteredStudent = (props: any) => {
           ...prevData,
           class_group_id: parseInt(value),
         }));
-        dispatch(getRegistrationInformation({ ...classParams, class_group_id: parseInt(value) }))
+
+        console.log('===academic_term.id=======>>>', academic_term.id)
+        // dispatch(getRegistrationInformation({ ...classParams, class_group_id: parseInt(value) }))
         break;
       }
     }
@@ -128,13 +130,16 @@ const UnregisteredStudent = (props: any) => {
 
   const registerNewStudents = () => {
     const formattedPayload = {
-      registration: registrations.map((registration) => ({
-        class_group_id: registration.class_group_id,
-        student_id: registration.student_id,
-        academic_term_id: registration.academic_term_id,
-        reg_date: registration.reg_date,
-      })),
+      student_registration: {  // This should match the "student_registration" required in Rails
+        registration: registrations.map((registration) => ({
+          class_group_id: registration.class_group_id,
+          student_id: registration.student_id,
+          academic_term_id: academic_term.id,
+          reg_date: registration.reg_date,
+        })),
+      },
     };
+    
     
     dispatch(registerStudents(formattedPayload)).then((resp) => {
       setShowToast(true);
