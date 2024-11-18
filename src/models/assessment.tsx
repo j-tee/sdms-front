@@ -5,7 +5,9 @@ export interface Assessment {
   assessment_name: string;
   base_mark: number;
   pass_mark: number;
-  lesson_id: number;
+  subject_id: number;
+  academic_term_id: number;
+  staff_id: number;
   assessment_type_id: number;
 }
 

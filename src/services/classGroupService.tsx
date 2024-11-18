@@ -15,6 +15,7 @@ const ClassGroupService = {
   getClassGroup: (class_groupId: number) => axios.get(`${API_URL}api/v1/class_groups/${class_groupId}`, { headers: authHeader() }),
   getClassGroupList: (params: ClassGroupParams) => axios.get(`${API_URL}api/v1/class_groups/program_subjects/lessons/class_group_list?branch_id=${params.branch_id}&department_id=${params.department_id}&program_id=${params.program_id}&paginate=false`, { headers: authHeader() }),  
   getStudentClassGroup: (params: any) => axios.get(`${API_URL}api/v1/schools/class_groups/student_class_group?${queryStringFormatter(params)}`, { headers: authHeader() }),
+  getStaffClassGroups: (params: any) => axios.get(`${API_URL}api/v1/class_groups/program_subjects/lessons/staff_class_group_list?${queryStringFormatter(params)}`, { headers: authHeader() }),
 };
 
 export default ClassGroupService;

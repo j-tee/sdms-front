@@ -12,20 +12,27 @@ import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import { Assessment } from '../models/assessment';
 import { addAssessment, getAssessments } from '../redux/slices/assessmentSlice';
 import { showToastify } from '../utility/Toastify';
+import { getStaffSubjectList } from '../redux/slices/subjectSlice';
+import StaffSubjectDropDown from './StaffSubjectDropDown';
+import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
+import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 
 const ContinuousAssessmentCard = (props: any) => {
   const { schoolId, branchId, index } = props;
-  const {academic_term} = useSelector((state: RootState) => state.calendar)
-  const {assessments} = useSelector((state: RootState) => state.assessment)
+  const { academic_term } = useSelector((state: RootState) => state.calendar)
+  const { assessments } = useSelector((state: RootState) => state.assessment)
   const dispatch = useDispatch<AppDispatch>()
   const [showToast, setShowToast] = useState(false);
-  
+
   const [formData, setFormData] = useState<Assessment>({
-    lesson_id: 0,
+    subject_id: 0,
     assessment_type_id: 0,
     assessment_name: '',
     base_mark: 0,
     pass_mark: 0,
+    academic_term_id: 0,
+    staff_id: 0,
+
   });
 
   const [params, setParams] = useState({
@@ -49,21 +56,27 @@ const ContinuousAssessmentCard = (props: any) => {
     [key: string]: string;
   };
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    setParams((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
     switch (field) {
       case 'staff_id':
-        dispatch(getAssessmentTypes({ ...params, branch_id: branchId, paginate: false }))
-        dispatch(getLessons({ ...params,staff_id: parseInt(value),academic_term_id:academic_term.id, branch_id: branchId, paginate: false }))
-        break;
-      // case 'assessment_type_id':
-      //   dispatch(getLessons({ ...params,staff_id: parseInt(value), assessment_type_id: parseInt(value), branch_id: branchId, paginate: false }))
-      //   break;
-      default:
+        dispatch(getLessons({ ...params, staff_id: parseInt(value), academic_term_id: academic_term.id, branch_id: branchId, paginate: false }))
+        dispatch(getStaffClassGroups({ ...params,academic_term_id:academic_term.id,staff_id: parseInt(value), branch_id: branchId, paginate: false }))
+        dispatch(getStaffSubjectList({ ...params, staff_id: parseInt(value), branch_id: branchId, academic_term_id: academic_term.id, paginate: false }))
+       break;
+       case 'subject_id':
+        dispatch(getStaffClassGroups({ ...params,academic_term_id:academic_term.id,subject_id: parseInt(value), branch_id: branchId, paginate: false }))
         break;
     }
+    dispatch(getAssessmentTypes({ ...params, branch_id: branchId, paginate: false }))
+    
+
   }
   useEffect(() => {
     setParams({
@@ -71,103 +84,108 @@ const ContinuousAssessmentCard = (props: any) => {
       branch_id: branchId,
     });
 
-    if(index === 'ca'){
+    if (index === 'ca') {
       dispatch(getAssessments({ ...params, branch_id: branchId, paginate: false }))
-      dispatch(getCurrentTerm(branchId)) 
+      dispatch(getCurrentTerm(branchId))
       dispatch(getStaffs({ ...params, branch_id: branchId, paginate: false }))
     }
-  },  [branchId, index])
+  }, [branchId, index])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const assessment: Assessment = {
       ...formData,
-      lesson_id: parseInt(formData.lesson_id.toString()),
+      subject_id: parseInt(formData.subject_id.toString()),
+      staff_id: parseInt(formData.staff_id.toString()),
+      academic_term_id: academic_term.id ?? 0,
       assessment_type_id: parseInt(formData.assessment_type_id.toString()),
       base_mark: parseInt(formData.base_mark.toString()),
       pass_mark: parseInt(formData.pass_mark.toString()),
       assessment_name: formData.assessment_name,
     }
     dispatch(addAssessment(assessment))
-    .then((res: any) => {
-      setShowToast(true)
-      showToastify(res.payload.message, res.payload.status)
-      dispatch(getAssessments({ ...params, branch_id: branchId, paginate: false }))
-    })
+      .then((res: any) => {
+        setShowToast(true)
+        showToastify(res.payload.message, res.payload.status)
+        dispatch(getAssessments({ ...params, branch_id: branchId, paginate: false }))
+      })
   }
   return (
     <>
-    <Form onSubmit={handleSubmit}>
-      <Row>
-        <Col>
-        <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
-        </Col>
-        <Col>
-          <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-        </Col>
-        <Col>
-        <LessonDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} staffId={0} academicTermId={0} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Group controlId="assessment_name">
-            <Form.Label>Assessment</Form.Label>
-            <Form.Control type="text" 
-            onChange={(e) => handleInputChange('assessment_name', e.target.value)}
-            value={formData.assessment_name}
-            placeholder="E.g Class Work, Home Work etc" />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group controlId="base_mark">
-            <Form.Label>Base Mark</Form.Label>
-            <Form.Control type="number" 
-            onChange={(e) => handleInputChange('base_mark', e.target.value)}
-            value={formData.base_mark}
-            placeholder="Base Mark" />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group controlId="pass_mark">
-            <Form.Label>Pass Mark</Form.Label>
-            <Form.Control type="number" 
-            onChange={(e) => handleInputChange('pass_mark', e.target.value)}
-            value={formData.pass_mark}
-            placeholder="Pass Mark" />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row className='mt-2'>
-        <Col>
-          <button className="btn btn-primary" type="submit">Add Assessment</button>
-        </Col>  
-      </Row>
-    </Form>
-    <Table striped bordered hover size="sm" className='mt-4' variant='light'>
-      <thead>
-        <tr>
-          <th>Assessment Name</th>
-          <th>Base Mark</th>
-          <th>Pass Mark</th>
-          <th>Assessment Type</th>
-          <th>Subject</th>
-          <th>Class</th>
-        </tr>
-      </thead>
-      <tbody>
-        {assessments.map((assessment) => (
-          <tr key={assessment.id}>
-            <td>{assessment.assessment_name}</td>
-            <td>{assessment.base_mark}</td>
-            <td>{assessment.pass_mark}</td>
-            <td>{assessment.category}</td>
-            <td>{assessment.subject_name}</td>
-            <td>{assessment.class_group_name}</td>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <Col>
+            <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
+          </Col>
+          <Col>
+            <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+          </Col>
+          <Col>
+            <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+          </Col>
+          <Col>
+          <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group controlId="assessment_name">
+              <Form.Label>Assessment</Form.Label>
+              <Form.Control type="text"
+                onChange={(e) => handleInputChange('assessment_name', e.target.value)}
+                value={formData.assessment_name}
+                placeholder="E.g Class Work, Home Work etc" />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="base_mark">
+              <Form.Label>Base Mark</Form.Label>
+              <Form.Control type="number"
+                onChange={(e) => handleInputChange('base_mark', e.target.value)}
+                value={formData.base_mark}
+                placeholder="Base Mark" />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="pass_mark">
+              <Form.Label>Pass Mark</Form.Label>
+              <Form.Control type="number"
+                onChange={(e) => handleInputChange('pass_mark', e.target.value)}
+                value={formData.pass_mark}
+                placeholder="Pass Mark" />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className='mt-2'>
+          <Col>
+            <button className="btn btn-primary" type="submit">Add Assessment</button>
+          </Col>
+        </Row>
+      </Form>
+      <Table striped bordered hover size="sm" className='mt-4' variant='light'>
+        <thead>
+          <tr>
+            <th>Assessment Name</th>
+            <th>Base Mark</th>
+            <th>Pass Mark</th>
+            <th>Assessment Type</th>
+            <th>Subject</th>
+            <th>Class</th>
           </tr>
-        ))}
-      </tbody>  
-    </Table>
+        </thead>
+        <tbody>
+          {assessments.map((assessment) => (
+            <tr key={assessment.id}>
+              <td>{assessment.assessment_name}</td>
+              <td>{assessment.base_mark}</td>
+              <td>{assessment.pass_mark}</td>
+              <td>{assessment.category}</td>
+              <td>{assessment.subject_name}</td>
+              <td>{assessment.class_group_name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </>
   )
 }

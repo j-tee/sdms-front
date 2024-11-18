@@ -32,6 +32,7 @@ export interface ClassGroupViewModel {
 }
 
 export interface ClassGroupState {
+  class_group_list: string[];
   class_groups: ClassGroupViewModel[],
   class_group: ClassGroupViewModel;
   message: string;

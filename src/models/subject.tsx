@@ -11,7 +11,7 @@ export interface ProgramSubjectParams {
   subject_id?: number;
   program_id?: number;
   stage_id?: number;
-  academic_term_id?: number;
+  academic_year_id?: number;
   department_id?: number;
   branch_id?: number;
   school_id?: number;
@@ -33,7 +33,7 @@ export interface ProgramSubjectState {
 
 export interface ProgramSubject {
   stage_id: number;
-  academic_term_id: number;
+  academic_year_id: number;
   subject_id: number;
   program_id: number;
   optional: number;
@@ -57,6 +57,7 @@ export interface ProgramSubjectViewModel {
 
 export interface SubjectState {
   subject_list:string[]
+  staff_subject_list: string[];
   subjects: SubjectViewModel[];
   subject: SubjectViewModel;
   status: string;

@@ -4,6 +4,7 @@ import SubjectService from '../../services/subjectService';
 
 const initialState: SubjectState = {
   subject_list: [],
+  staff_subject_list: [],
   subjects: [],
   subject: {
     id: 0,
@@ -98,11 +99,32 @@ export const getClassSubjectList = createAsyncThunk(
   },
 )
 
+export const getStaffSubjectList = createAsyncThunk(
+  'subject/getStaffSubjectList',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SubjectService.getStaffSubjectList(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const subjectSlice = createSlice({
   name: 'subject',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getStaffSubjectList.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        staff_subject_list: action.payload.subjects, isLoading: false, message: action.payload.message,
+        status: action.payload.status,
+      }));
+    builder.addCase(getSubjectList.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getSubjectList.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
     builder.addCase(getSubjectList.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
       subjects: action.payload.subjects, isLoading: false, message: action.payload.message,

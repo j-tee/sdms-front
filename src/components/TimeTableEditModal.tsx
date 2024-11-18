@@ -24,6 +24,8 @@ const TimeTableEditModal = (props: any) => {
     const { subjects } = useSelector((state: any) => state.subject)
     const dispatch = useDispatch<AppDispatch>()
     const { setShowToast } = useContext(ToastContext)
+
+    // State initialization
     const [programId, setProgramId] = useState<number>(0);
     const [stageId, setStageId] = useState<number>(0);
     const [departmentId, setDepartmentId] = useState<number>(0);
@@ -31,23 +33,45 @@ const TimeTableEditModal = (props: any) => {
     const [staffId, setStaffId] = useState<number>(0);
     const [programSubjectId, setProgramSubjectId] = useState<number>(0);
     const [dayOfWeek, setDayOfWeek] = useState<string>('');
-    const [startTime, setStartTime] = useState<string>('7:45');
-    const [endTime, setEndTime] = useState<string>('9:15');
+    
+    // Start and end time state
+    const [startTime, setStartTime] = useState<string>('07:45');
+    const [endTime, setEndTime] = useState<string>('09:15');
 
+    // Form data initialization
     const [formData, setFormData] = useState<Lesson>({
-        class_group_id: 0,
-        staff_id: 0,
-        program_subject_id: 0,
-        day_of_week: '',
-        start_time: '',
-        end_time: '',
-    })
+        id: lesson.id,
+        class_group_id: lesson.class_group_id,
+        staff_id: lesson.staff_id,
+        program_subject_id: lesson.program_subject_id,
+        day_of_week: lesson.day_of_week,
+        start_time: lesson.start_time,
+        end_time: lesson.end_time,
+    });
 
+    // Helper function to format time to "HH:mm"
+    const formatTime = (time: string) => {
+        const date = new Date(time);
+        return date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+    };
 
     useEffect(() => {
-        setStartTime(new Date(lesson.start_time).toLocaleTimeString())
-        setEndTime(new Date(lesson.end_time).toLocaleTimeString())
-        console.log('lesson from timetable editmodal open==========', lesson)
+        // Initialize start and end time with formatted values
+        setFormData((prevData) => ({
+            ...prevData,
+            id: lesson.id,
+            class_group_id: lesson.class_group_id,
+            staff_id: lesson.staff_id,
+            program_subject_id: lesson.program_subject_id,
+            day_of_week: lesson.day_of_week,
+            start_time: lesson.start_time,
+            end_time: lesson.end_time,
+        }));
+        setStartTime(lesson.start_time ? formatTime(lesson.start_time) : formatTime(new Date().toISOString()));
+        setEndTime(lesson.end_time ? formatTime(lesson.end_time) : formatTime(new Date().toISOString()));
+
+        console.log('lesson========>>>>>>>>>', lesson)
+        // Dispatch subjects fetching
         dispatch(getSubjects({
             ...params, school_id: schoolId, branch_id: branchId, pagination: {
                 per_page: 100000,
@@ -55,17 +79,8 @@ const TimeTableEditModal = (props: any) => {
                 total_items: 0,
                 total_pages: 0
             }
-        }))
-        // setFormData((prevData) => ({
-        //     ...prevData,
-        //     class_group_id: lesson.class_group_id,
-        //     staff_id: lesson.staff_id,
-        //     program_subject_id: lesson.program_subject_id,
-        //     day_of_week: lesson.day_of_week,
-        //     start_time: lesson.start_time,
-        //     end_time: lesson.end_time,
-        // }))
-    }, [branchId, dispatch, lesson, params, schoolId])
+        }));
+    }, [branchId, dispatch, lesson, lesson.id, params, schoolId]);
 
     type AnyType = {
         [key: string]: string;
@@ -103,6 +118,7 @@ const TimeTableEditModal = (props: any) => {
                 break;
         }
     };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(updateLesson({ ...formData, start_time: startTime, end_time: endTime }))
@@ -122,8 +138,9 @@ const TimeTableEditModal = (props: any) => {
                     pagination: params.pagination, paginate: true
                 }))
                 setTimeTableEditModalOpen(false)
-            })
-    }
+            });
+    };
+
     return (
         <Modal animation show={isOpen} centered onHide={onRequestClose} size='xl'>
             <Modal.Header closeButton>
@@ -156,20 +173,24 @@ const TimeTableEditModal = (props: any) => {
                     <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>
                         <Col md={4} className='d-flex flex-row gap-5'>
                             <span className='pt-2'>Start Time</span>
-                            <span> <TimePicker
-                                onChange={(e) => setStartTime(e as string)}
-                                value={startTime}
-                            /></span>
+                            <span>
+                                <TimePicker
+                                    onChange={(e) => setStartTime(e as string)}
+                                    value={startTime}
+                                />
+                            </span>
                         </Col>
                         <Col md={4} className='d-flex flex-row gap-5'>
                             &nbsp;
                         </Col>
                         <Col md={4} className='d-flex flex-row gap-5'>
                             <span className='pt-2'>End Time</span>
-                            <span><TimePicker
-                                onChange={(e) => setEndTime(e as string)}
-                                value={endTime}
-                            /></span>
+                            <span>
+                                <TimePicker
+                                    onChange={(e) => setEndTime(e as string)}
+                                    value={endTime}
+                                />
+                            </span>
                         </Col>
                     </Row>
                     <Row>
@@ -180,7 +201,7 @@ const TimeTableEditModal = (props: any) => {
                 </Form>
             </Modal.Body>
         </Modal>
-    )
+    );
 }
 
-export default TimeTableEditModal
+export default TimeTableEditModal;

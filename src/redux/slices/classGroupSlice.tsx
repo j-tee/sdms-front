@@ -4,6 +4,7 @@ import ClassGroupService from '../../services/classGroupService';
 
 const initialState: ClassGroupState = {
   class_groups: [],
+  class_group_list: [],
   status: '',
   message: '',
   class_group: {
@@ -97,11 +98,32 @@ export const getStudentClassGroup = createAsyncThunk(
     }
   },
 )
+
+export const getStaffClassGroups = createAsyncThunk(
+  'classGroup/getStaffClassGroups',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ClassGroupService.getStaffClassGroups(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const classGroupSlice = createSlice({
   name: 'classGroup',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStaffClassGroups.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      class_group_list: action.payload.class_groups, isLoading: false, message: action.payload.message, 
+      status: action.payload.status
+    }))
+    builder.addCase(getStaffClassGroups.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStaffClassGroups.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
     builder.addCase(deleteClassGroup.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
       classGroup: action.payload.class_group, isLoading: false, message: action.payload.message, status: action.payload.status

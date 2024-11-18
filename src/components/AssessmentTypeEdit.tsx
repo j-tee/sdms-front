@@ -54,8 +54,8 @@ const AssessmentTypeEdit = (props: any) => {
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   required
                 >
-                  <option value="CAT">CAT</option>
-                  <option value="EXAM">EXAM</option>
+                  <option value="CA">Contunuous Assessment</option>
+                  <option value="TA">Terminal Assessment</option>
                 </Form.Select>
               </Form.Group>
             </Col>

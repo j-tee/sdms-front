@@ -6,7 +6,7 @@ import { AssessmentType } from '../models/assessmentTypes';
 import { addAssessmentType, getAssessmentTypes } from '../redux/slices/assesmentTypeSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
-import { Button, Card, Col, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import AssessmentTypeEdit from './AssessmentTypeEdit';
 import UserSession from '../utility/userSession';
 
@@ -59,6 +59,7 @@ const AssessmentTypeCard = (props: any) => {
     setShowToast(true)
     dispatch(addAssessmentType({ ...formData, branch_id: branchId }))
       .then((res: any) => {
+        dispatch(getAssessmentTypes({ ...params, branch_id: branchId, school_id: schoolId }))
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
       })
@@ -105,7 +106,7 @@ const AssessmentTypeCard = (props: any) => {
       <Card.Body>
         <Card.Title>Assessment Types</Card.Title>
         <Card.Text>
-          <table className='table table-striped table-hover'>
+          <Table size='sm' variant='' responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -139,7 +140,7 @@ const AssessmentTypeCard = (props: any) => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </Table>
         </Card.Text>  
       </Card.Body>
       <AssessmentTypeEdit isOpen={isAssessmentTypeEditModalOpen} 

@@ -15,7 +15,7 @@ import { getSubjects } from '../redux/slices/subjectSlice';
 import { addCourseOption, getCourseOptions } from '../redux/slices/programSubjectSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
-import { getCurrentTerm } from '../redux/slices/calendarSlice';
+import { getCurrentAcademicYear, getCurrentTerm } from '../redux/slices/calendarSlice';
 import ProgramSubjectDetails from './ProgramSubjectDetails';
 import PaginationComponent from './PaginationComponent';
 import UserSession from '../utility/userSession';
@@ -26,7 +26,7 @@ const CourseOption = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const { subjects } = useSelector((state: RootState) => state.subject);
   const { showToast, setShowToast } = useContext(ToastContext)
-  const { academic_term } = useSelector((state: RootState) => state.calendar)
+  const { academic_term, academic_year } = useSelector((state: RootState) => state.calendar)
   const [deptId, setDeptId] = useState<number>(0);
   const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
   const [roles, setRoles] = useState<string[]>([]);
@@ -38,7 +38,7 @@ const CourseOption = (props: any) => {
   } as ProgramSubjectParams);
   const [formData, setFormData] = useState<ProgramSubject>({
     stage_id: 0,
-    academic_term_id: 0,
+    academic_year_id: 0,
     subject_id: 0,
     program_id: 0,
     optional: 0,
@@ -74,7 +74,7 @@ const CourseOption = (props: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    dispatch(addCourseOption({ ...formData, academic_term_id: academic_term.id ?? 0 })).then((resp: any) => {
+    dispatch(addCourseOption({ ...formData, academic_year_id: academic_year.id ?? 0 })).then((resp: any) => {
       setShowToast(true)
       showToastify(resp.payload.message, resp.payload.status)
       dispatch(getCourseOptions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true  }))
@@ -87,17 +87,23 @@ const CourseOption = (props: any) => {
       dispatch(getCourseOptions({...params})).then((resp: any) => {
         showToastify(resp.payload.message, resp.payload.status)
       })
-      dispatch(getCurrentTerm(branchId)).then((resp: any) => {
+      dispatch(getCurrentAcademicYear(branchId)).then((resp: any) => {  
         setFormData((prevData) => ({
           ...prevData,
-          academic_term_id: academic_term.id as number,
+          academic_year_id: academic_year.id as number, 
         }));
       })
+      // dispatch(getCurrentTerm(branchId)).then((resp: any) => {
+      //   setFormData((prevData) => ({
+      //     ...prevData,
+      //     academic_term_id: academic_term.id as number,
+      //   }));
+      // })
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))
       dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: false, pagination: { current_page: 1, per_page: 10000 } }))
     }
     
-  }, [schoolId, branchId, tabKey, dispatch, params])
+  }, [schoolId, branchId, tabKey, dispatch, params, academic_year.id])
 
   const handlePageChange = (page: number) => {    
     // setCurrentPage(page);

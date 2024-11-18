@@ -34,7 +34,7 @@ const TimeTable = (props: any) => {
   const [programSubjectId, setProgramSubjectId] = useState<number>(0);
   const [dayOfWeek, setDayOfWeek] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('7:45');
-  const [endTime, setEndTime] = useState<string>('9:15');
+  const [endTime, setEndTime] = useState<string>('8:45');
   const { setShowToast } = useContext(ToastContext);
   const [isTimeTableEditModalOpen,setTimeTableEditModalOpen] = useState(false);
   const [params, setParams] = useState<QueryParams>({ })

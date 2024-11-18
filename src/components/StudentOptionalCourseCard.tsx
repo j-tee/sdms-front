@@ -12,7 +12,7 @@ import { getStages } from '../redux/slices/stageSlice';
 import { getDepartments } from '../redux/slices/departmentSlice';
 import { getPrograms } from '../redux/slices/programSlice';
 import { getSubjectList } from '../redux/slices/subjectSlice';
-import { getCurrentTerm } from '../redux/slices/calendarSlice';
+import { getCurrentAcademicYear, getCurrentTerm } from '../redux/slices/calendarSlice';
 import { getClassGroupList } from '../redux/slices/classGroupSlice';
 import { getRegisteredStudents } from '../redux/slices/studentRegSlice';
 import { getCourseOption } from '../redux/slices/programSubjectSlice';
@@ -23,7 +23,7 @@ import UserSession from '../utility/userSession';
 const StudentOptionalCourseCard = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
   const { course_option } = useSelector((state: RootState) => state.programSubject)
-  const { academic_term } = useSelector((state: RootState) => state.calendar);
+  const { academic_term, academic_year } = useSelector((state: RootState) => state.calendar);
   const dispatch = useDispatch<AppDispatch>();
   const [optinalCourses, setOptionalCourses] = useState<StudentOptionalCourse[]>([])
   const { setShowToast } = useContext(ToastContext)
@@ -31,6 +31,7 @@ const StudentOptionalCourseCard = (props: any) => {
   const [roles, setRoles] = useState<string[]>([]);
   const { registrations } = useSelector((state: RootState) => state.studentReg)
   const [params, setParams] = useState({
+    academic_year_id: academic_year.id,
     program_id: 0,
     branch_id: branchId,
     school_id: schoolId,
@@ -67,7 +68,7 @@ const StudentOptionalCourseCard = (props: any) => {
         dispatch(getSubjectList({
           ...params,
           school_id: schoolId, branch_id: branchId,
-          academic_term_id: academic_term.id,
+          academic_year_id: academic_year.id,
           department_id: params.department_id,
           stage_id: params.stage_id,
           program_id: params.program_id, paginate: false,
@@ -79,46 +80,46 @@ const StudentOptionalCourseCard = (props: any) => {
           ...params,
           school_id: schoolId,
           branch_id: branchId,
-          academic_term_id: academic_term.id,
+          academic_year_id: academic_year.id,
           department_id: params.department_id,
           stage_id: params.stage_id, program_id: parseInt(value), paginate: false,
           pagination: {}, optional: true
         }))
         break;
-      case 'subject_id':
-        dispatch(getCourseOption({
-          ...params,
-          academic_term_id: academic_term.id,
-          stage_id: params.stage_id,
-          program_id: params.program_id,
-          subject_id: parseInt(value),
-          paginate: false,
-          pagination: {}, optional: true
-        })).then((resp: any) => {
-          setFormData({ ...formData, program_subject_id: resp.payload?.course_option?.id })
-        })
-        dispatch(getClassGroupList({
-          ...params,
-          school_id: schoolId,
-          branch_id: branchId,
-          academic_term_id: academic_term.id,
-          department_id: params.department_id,
-          stage_id: params.stage_id, program_id: params.program_id, paginate: false,
-          pagination: {}, optional: true
-        }))
-        break;
-      case 'class_group_id':
-        dispatch(getRegisteredStudents({
-          ...params,
-          school_id: schoolId,
-          branch_id: branchId,
-          academic_term_id: academic_term.id,
-          department_id: params.department_id,
-          stage_id: params.stage_id,
-          program_id: params.program_id,
-          class_group_id: parseInt(value),
-        }))
-        break
+      // case 'subject_id':
+        // dispatch(getCourseOption({
+        //   ...params,
+        //   academic_term_id: academic_term.id,
+        //   stage_id: params.stage_id,
+        //   program_id: params.program_id,
+        //   subject_id: parseInt(value),
+        //   paginate: false,
+        //   pagination: {}, optional: true
+        // })).then((resp: any) => {
+        //   setFormData({ ...formData, program_subject_id: resp.payload?.course_option?.id })
+        // })
+        // dispatch(getClassGroupList({
+        //   ...params,
+        //   school_id: schoolId,
+        //   branch_id: branchId,
+        //   academic_term_id: academic_term.id,
+        //   department_id: params.department_id,
+        //   stage_id: params.stage_id, program_id: params.program_id, paginate: false,
+        //   pagination: {}, optional: true
+        // }))
+        // break;
+      // case 'class_group_id':
+      //   dispatch(getRegisteredStudents({
+      //     ...params,
+      //     school_id: schoolId,
+      //     branch_id: branchId,
+      //     academic_term_id: academic_term.id,
+      //     department_id: params.department_id,
+      //     stage_id: params.stage_id,
+      //     program_id: params.program_id,
+      //     class_group_id: parseInt(value),
+      //   }))
+      //   break
       default:
         break;
     }
@@ -157,8 +158,9 @@ const StudentOptionalCourseCard = (props: any) => {
       const user_roles = UserSession.getroles()
       setRoles(user_roles)
       dispatch(getCurrentTerm(branchId))
+      dispatch(getCurrentAcademicYear(branchId))
       if (branchId) {
-        dispatch(getSubjectList({ ...params,paginate:false, school_id: schoolId, branch_id: branchId }))
+        dispatch(getSubjectList({ ...params, academic_year_id:academic_year.id, paginate:false, school_id: schoolId, branch_id: branchId }))
         dispatch(getDepartments({ school_id: schoolId, branch_id: branchId, paginate: false }))
         dispatch(getStages({ school_id: schoolId, branch_id: branchId, paginate: false }))
       }
