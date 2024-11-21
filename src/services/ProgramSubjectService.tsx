@@ -2,6 +2,7 @@
 import axios from 'axios';
 import authHeader from '../utility/authHeader';
 import { ProgramSubject, ProgramSubjectParams, ProgramSubjectViewModel } from '../models/subject';
+import queryStringFormatter from '../utility/queryStringFormatter';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -10,6 +11,6 @@ const ProgramSubjectService = {
   addCourseOption: (subject: ProgramSubject) => axios.post(`${API_URL}api/v1/program_subjects`, subject, { headers: authHeader() }),
   deleteCoureseOption: (subject: ProgramSubjectViewModel) => axios.delete(`${API_URL}api/v1/subjects/${subject.id}`, { headers: authHeader() }),
   updateCourseOption: (subject: ProgramSubject, id: number) => axios.put(`${API_URL}api/v1/subjects/${id}`, subject, { headers: authHeader() }),
-  getCourseOption: (params: any) => axios.get(`${API_URL}api/v1/program_subjects/${params.id}?program_id=${params.program_id}&subject_id=${params.subject_id}&stage_id=${params.stage_id}&academic_term_id=${params.academic_term_id}&optional=${params.optional}`, { headers: authHeader() }),
+  getCourseOption: (params: any) => axios.get(`${API_URL}api/v1/program_subjects/lessons/student_course_option?${queryStringFormatter(params)}`, { headers: authHeader() }),
 };
 export default ProgramSubjectService;

@@ -13,7 +13,7 @@ const SubjectService = {
   deleteSubject: (subject: SubjectViewModel) => axios.delete(`${API_URL}api/v1/subjects/${subject.id}`, { headers: authHeader() }),
   updateSubject: (subject: Subject, id: number|undefined) => axios.put(`${API_URL}api/v1/subjects/${id}`, subject, { headers: authHeader() }),
   getSubject: (id: number) => axios.get(`${API_URL}api/v1/subjects/${id}`, { headers: authHeader() }),
-  getSubjectList: (params: any) => axios.get(`${API_URL}api/v1/subjects/program_subjects/lessons/subject_list?branch_id=${params.branch_id}&department_id=${params.department_id}&program_id=${params.program_id}&optional=${params.optional}&academic_term_id=${params.academic_term_id}&paginate=false`, { headers: authHeader() }),  
+  getSubjectListFromTimeTable: (params: any) => axios.get(`${API_URL}api/v1/subjects/program_subjects/lessons/subject_list_from_time_table?${queryStringFormatter(params)}`, { headers: authHeader() }),  
   getClassSubjectList: (params: any) => axios.get(`${API_URL}api/v1/schools/class_groups/subjects/class_subject_list?${queryStringFormatter(params)}`, { headers: authHeader() }),  
   getStaffSubjectList:(params: any) => axios.get(`${API_URL}api/v1/subjects/program_subjects/lessons/staff_subject_list?${queryStringFormatter(params)}`, { headers: authHeader() }),  
 };

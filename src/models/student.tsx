@@ -104,6 +104,8 @@ export interface StudentRegViewModel {
 
 export interface StudentRegState {
   registrations: StudentRegViewModel[];
+  unregistered_students: StudentRegViewModel[];
+  registered_students: StudentRegViewModel[];
   isLoading: boolean;
   pagination?: PaginationParams;
   status:string;

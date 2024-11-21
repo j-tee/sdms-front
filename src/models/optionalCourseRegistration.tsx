@@ -35,7 +35,7 @@ export interface StudentOptionalCourseViewModel {
 export interface StudentOptionalCourseParams {
   student_id?: number;
   program_subject_id?: number;
-  academic_term_id?: number;
+  // academic_term_id?: number;
   department_id?: number;
   academic_year_id?: number;
   branch_id?: number;

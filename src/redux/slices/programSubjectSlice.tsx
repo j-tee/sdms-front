@@ -57,6 +57,7 @@ export const getCourseOptions = createAsyncThunk(
 export const getCourseOption = createAsyncThunk(
   'course_option/getCourseOption',
   async (params: any, thunkAPI) => {
+    console.log('=====params getCourseOption====', params);
     try {
       const response = await ProgramSubjectService.getCourseOption(params);
       return response.data;

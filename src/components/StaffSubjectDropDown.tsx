@@ -9,6 +9,7 @@ type AnyType = {
   };
   interface StaffSubjectDropDownProps {
     onChange: (field: keyof AnyType, value: string) => void;
+    staffId?: any;
     schoolId: any;
     branchId: any;
   }

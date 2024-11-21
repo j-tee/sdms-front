@@ -4,6 +4,8 @@ import StudentRegService from '../../services/studentRegService';
 import { QueryParams } from '../../models/queryParams';
 
 const initialState: StudentRegState = {
+  unregistered_students: [],
+  registered_students: [],
   registrations: [],
   reg_info: {
     all_unregistered_students: [],
@@ -71,19 +73,41 @@ export const getRegisteredStudentsForRecordingScores = createAsyncThunk(
   },
 );
 
+export const getOptionalCourseRegistrations = createAsyncThunk(
+  'studentReg/getOptionalCourseRegistrations',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await StudentRegService.getOptionalCourseRegistrations(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const studentRegSlice = createSlice({
   name: 'studentReg',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getOptionalCourseRegistrations.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      registered_students: action.payload.registered,
+      unregistered_students: action.payload.unregistered, isLoading: false, message: action.payload.message,
+      std_status: action.payload.status
+    }));
+    builder.addCase(getOptionalCourseRegistrations.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getOptionalCourseRegistrations.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, std_status: action.payload.status, isLoading: false
+    }));
     builder.addCase(getRegisteredStudentsForRecordingScores.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
-      registrations: action.payload.registrations, isLoading: false, std_message: action.payload.message,
+      registrations: action.payload.registrations, isLoading: false, message: action.payload.message,
       std_status: action.payload.status
     }));
     builder.addCase(getRegisteredStudentsForRecordingScores.pending, (state) => ({ ...state, isLoading: true }));
     builder.addCase(getRegisteredStudentsForRecordingScores.rejected, (state, action: PayloadAction<any>) => ({
-      ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+      ...state, message: action.payload.message, std_status: action.payload.status, isLoading: false
     }));
     builder
       .addCase(registerStudents.fulfilled, (state, action: PayloadAction<any>) => ({
@@ -99,26 +123,26 @@ export const studentRegSlice = createSlice({
     builder
       .addCase(getRegistrationInformation.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
-        reg_info: action.payload, isLoading: false, std_message: action.payload.message,
+        reg_info: action.payload, isLoading: false, message: action.payload.message,
         std_status: action.payload.status
       }));
     builder
       .addCase(getRegistrationInformation.pending, (state) => ({ ...state, isLoading: true }));
     builder
       .addCase(getRegistrationInformation.rejected, (state, action: PayloadAction<any>) => ({
-        ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+        ...state, message: action.payload.message, std_status: action.payload.status, isLoading: false
       }));
     builder
       .addCase(getRegisteredStudents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
-        registrations: action.payload.registrations, isLoading: false, std_message: action.payload.message,
+        registrations: action.payload.registrations, isLoading: false, message: action.payload.message,
         std_status: action.payload.status
       }));
     builder
       .addCase(getRegisteredStudents.pending, (state) => ({ ...state, isLoading: true }));
     builder
       .addCase(getRegisteredStudents.rejected, (state, action: PayloadAction<any>) => ({
-        ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+        ...state, message: action.payload.message, std_status: action.payload.status, isLoading: false
       }));
   },
 });

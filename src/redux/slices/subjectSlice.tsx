@@ -75,11 +75,11 @@ export const getSubjects = createAsyncThunk(
   },
 );
 
-export const getSubjectList = createAsyncThunk(
-  'subject/getSubjectList',
+export const getSubjectListFromTimeTable = createAsyncThunk(
+  'subject/getSubjectListFromTimeTable',
   async (params: any, thunkAPI) => {
     try {
-      const response = await SubjectService.getSubjectList(params);
+      const response = await SubjectService.getSubjectListFromTimeTable(params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -121,11 +121,11 @@ export const subjectSlice = createSlice({
         staff_subject_list: action.payload.subjects, isLoading: false, message: action.payload.message,
         status: action.payload.status,
       }));
-    builder.addCase(getSubjectList.pending, (state) => ({ ...state, isLoading: true }));
-    builder.addCase(getSubjectList.rejected, (state, action: PayloadAction<any>) => ({
+    builder.addCase(getSubjectListFromTimeTable.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getSubjectListFromTimeTable.rejected, (state, action: PayloadAction<any>) => ({
       ...state, message: action.payload.message, status: action.payload.status, isLoading: false
     }));
-    builder.addCase(getSubjectList.fulfilled, (state, action: PayloadAction<any>) => ({
+    builder.addCase(getSubjectListFromTimeTable.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
       subjects: action.payload.subjects, isLoading: false, message: action.payload.message,
       status: action.payload.status,
