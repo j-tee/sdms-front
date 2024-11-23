@@ -94,6 +94,7 @@ export const lessonSlice = createSlice({
       .addCase(getLessons.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         lessons: action.payload.lessons, isLoading: false, message: action.payload.message,
+        pagination: action.payload.pagination,
         status: action.payload.status
       }));
     builder

@@ -4,6 +4,7 @@ import AssessmentTypeCard from './AssessmentTypeCard';
 import ContinuousAssessmentCard from './ContinuousAssessmentCard';
 import { Score } from '@mui/icons-material';
 import ScoreSheetCard from './ScoreSheetCard';
+import GradeScale from './GradeScale';
 
 const AssessmentCard = (props: any) => {
     const {schoolId, branchId, tabIndex} = props;
@@ -23,6 +24,9 @@ const AssessmentCard = (props: any) => {
     </Tab>
     <Tab eventKey="sc" title="Score Sheet">
       <ScoreSheetCard index={key} schoolId={schoolId} branchId={branchId} />
+    </Tab>
+    <Tab eventKey="gc" title="Grading Scale">
+      <GradeScale index={key} schoolId={schoolId} branchId={branchId} />
     </Tab>
   </Tabs>
   )

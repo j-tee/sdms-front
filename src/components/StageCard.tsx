@@ -146,24 +146,28 @@ const StageCard = (props: any) => {
           <Card.Link onClick={() => handleDelete(stage)}>Delete</Card.Link></span>
         </div>
       ))}
-      <div className="d-flex px-2 justify-content-between align-items-center">
-        <PaginationComponent
-          params={params}
-          activePage={pagination?.current_page}
-          itemsCountPerPage={pagination?.per_page}
-          totalItemsCount={pagination?.total_items || 0}
-          pageRangeDisplayed={5}
-          totalPages={pagination?.total_pages}
-          hideDisabled={pagination?.total_pages === 0}
-          hideNavigation={pagination?.total_pages === 1}
-          onChange={handlePageChange}
-        />
-        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${pagination?.per_page}`}>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-        </DropdownButton>
-      </div>
+      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
       <StageEdit isOpen={isStageEditModalOpen}
         stage={stage}
         params={params}

@@ -4,16 +4,17 @@ import { AppDispatch, RootState } from '../redux/store';
 import { Col, Form, Row, Tab, Table, Tabs, Toast } from 'react-bootstrap';
 import StaffDropDown from './StaffDropDown';
 import LessonDropDown from './LessonDropDown';
-import ClassGroupDropDown from './ClassGroupDropDown';
 import { getLessons } from '../redux/slices/lessonSlice';
 import { addAttendance, getAttendances, getAttendees } from '../redux/slices/attendanceSlice';
-import { getClassGroups } from '../redux/slices/classGroupSlice';
+import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import { getStaffs } from '../redux/slices/staffSlice';
 import { Attendance, AttendanceViewModel } from '../models/attendance';
 import { StudentRegViewModel } from '../models/student';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { formatDate } from '../models/utilities';
+import { getCurrentTerm } from '../redux/slices/calendarSlice';
+import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
 
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;
@@ -24,13 +25,8 @@ const AttendanceCard = (props: any) => {
   const { setShowToast } = useContext(ToastContext)
   const [key, setKey] = useState<string>('mark-attendance');
   const [field, setField] = useState<any>('');
-  const [formData, setFormData] = useState({
-    student_id: '',
-    lesson_id: '',
-    status: '',
-    attendance_date: '',
-  });
-
+  const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0]);
+ 
   const [params, setParams] = useState({
     staff_id: 0,
     lesson_id: 0,
@@ -58,81 +54,89 @@ const AttendanceCard = (props: any) => {
   };
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+   
     setParams((prevData) => ({
       ...prevData,
       [field]: value,
     }));
     setField(field)
+    switch (field) {
+      case 'attendane_date':
+        setAttendanceDate(value)
+        dispatch(getAttendances({ ...params, attendance_date: value, paginate: true }))
+        break;
+      default:
+        break
+    }
   }
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const student_attendance: any = {
+    const payload: any = { student_attendance: {
       attendance: onRoll.map((student) => {
         return {
           student_id: student.student_id,
           lesson_id: params.lesson_id,
           status: student.status,
-          branch_id: branchId,
-          attendance_date: new Date(Date.now()).toISOString().split('T')[0],
+          academic_term_id: academic_term.id,
+          attendance_date: attendanceDate,
         };
-      }),
+      })},
     }
-    dispatch(addAttendance(student_attendance))
+    dispatch(addAttendance(payload))
       .then((res: any) => {
-        getAttendances({ ...params, attendance_date: new Date(Date.now()).toISOString(), paginate: true })
+        getAttendances({ ...params, attendance_date: attendanceDate, paginate: true })
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
       })
   }
 
   useEffect(() => {
-    setParams({
-      ...params,
-      branch_id: branchId,
-      academic_term_id: academic_term.id ? academic_term.id : 0
-    });
+   
     if (index === 'attendance') {
+      dispatch(getCurrentTerm(branchId))
+      setParams({
+        ...params,
+        branch_id: branchId,
+        academic_term_id: academic_term.id ? academic_term.id : 0
+      });
       dispatch(getStaffs({ ...params, paginate: false }))
       switch (field) {
         case 'staff_id':
           dispatch(getLessons({ ...params, staff_id: params.staff_id, branch_id: branchId, paginate: false }))
           break;
         case 'lesson_id':
-          dispatch(getClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
-          dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: true }))
+          dispatch(getStaffClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
+          dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
           break;
         case 'class_group_id':
-          dispatch(getAttendees({ ...params, class_group_id: params.class_group_id, paginate: true }))
+          dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
           dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: true }))
           break;
         default:
           break;
       }
     }
-    if (attendees && attendees.length > 0) {
-      const students: Attendance[] = attendees.map((attendee: any) => {
-        return {
-          student_id: attendee.student_id,
-          lesson_id: params.lesson_id,
-          status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || '',
-          attendance_date: new Date(Date.now()).toISOString().split('T')[0],
-        };
-      });
-      setOnRoll(students);
-    }
+    // if (attendees && attendees.length > 0) {
+    //   const students: Attendance[] = attendees.map((attendee: any) => {
+    //     return {
+    //       student_id: attendee.student_id,
+    //       lesson_id: params.lesson_id,
+    //       status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || '',
+    //       attendance_date: new Date(Date.now()).toISOString().split('T')[0],
+    //     };
+    //   });
+    //   setOnRoll(students);
+    // }
   }, [branchId, index, field, params.lesson_id, params.class_group_id])
 
-  const handleCheckChange = (e: any) => {
-    const { checked, value } = e.target;
+// let updatedOnRoll: React.SetStateAction<Attendance[]> = []
 
-    // Find the student in onRoll array based on the value (student_id)
-    const updatedOnRoll = onRoll.map((student) => {
+
+const handleCheckChange = (e: any) => {
+  const { checked, value } = e.target;
+  setOnRoll((prevOnRoll) => {
+    const updatedOnRoll = prevOnRoll.map((student) => {
       if (student.student_id === parseInt(value)) {
-        // Update the status based on the checkbox state
         return {
           ...student,
           status: checked ? 'present' : 'absent',
@@ -140,10 +144,22 @@ const AttendanceCard = (props: any) => {
       }
       return student;
     });
-
-    // Update the state with the modified onRoll array
-    setOnRoll(updatedOnRoll);
-  };
+    return updatedOnRoll;
+  });
+};
+useEffect(() => {
+  if (attendees && attendees.length > 0) {
+    const students = attendees.map((attendee: any) => ({
+      student_id: attendee.student_id,
+      lesson_id: params.lesson_id,
+      academic_term_id:academic_term.id,
+      status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || 'absent',
+      attendance_date: attendanceDate,
+    }));
+    setOnRoll(students);
+    console.log('Initialized onRoll:', students); // Debugging output
+  }
+}, [attendees, attendances,params, params.lesson_id]);
 
   return (
     <>
@@ -156,8 +172,13 @@ const AttendanceCard = (props: any) => {
             <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
           </Col>
           <Col>
-            <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={0} stageId={0} departmentId={0} />
+            <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
           </Col>
+          <Col><Form.Group controlId='startDate'>
+            <Form.Label>Start Date</Form.Label>
+            <Form.Control type='date' value={attendanceDate}
+              onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
+          </Form.Group></Col>
         </Row>
       </Form>
       <Tabs
@@ -182,7 +203,7 @@ const AttendanceCard = (props: any) => {
                   <td>{student.last_name} {student.first_name}</td>
                   <td>
                     <Form.Check type='switch'
-                      // checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? true : false}
+                      checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? true : false}
                       label={
                         onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present'
                           ? 'Present'

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { Col, Form, ListGroup, Row, Table } from 'react-bootstrap';
+import { Col, Dropdown, DropdownButton, Form, ListGroup, Row, Table } from 'react-bootstrap';
 import StaffDropDown from './StaffDropDown';
 import AssessmentTypeDropDown from './AssessmentTypeDropDown';
 import AssessmentDropDown from './AssessmentDropDown';
@@ -13,12 +13,13 @@ import { AssessmentViewModel } from '../models/assessment';
 import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
 import { getAssessmentTypes } from '../redux/slices/assesmentTypeSlice';
 import { getStaffSubjectList } from '../redux/slices/subjectSlice';
-import { getAssessments } from '../redux/slices/assessmentSlice';
+import { getAssessments, getNotConductedAssessments } from '../redux/slices/assessmentSlice';
 import { getRegisteredStudentsForRecordingScores } from '../redux/slices/studentRegSlice';
 import { addScoreSheet, getScoreSheets } from '../redux/slices/scoreSheetSlice';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import { getStaffs } from '../redux/slices/staffSlice';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
+import PaginationComponent from './PaginationComponent';
 
 type AnyType = {
   [key: string]: string;
@@ -28,7 +29,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   const { academic_term } = useSelector((state: RootState) => state.calendar);
   const { assessments } = useSelector((state: RootState) => state.assessment);
   const { registrations, registered_students } = useSelector((state: RootState) => state.studentReg);
-  const { score_sheets } = useSelector((state: RootState) => state.scoreSheet);
+  const { score_sheets, pagination } = useSelector((state: RootState) => state.scoreSheet);
 
   const dispatch = useDispatch<AppDispatch>();
   const { showToast, setShowToast } = useContext(ToastContext);
@@ -80,18 +81,22 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     switch (field) {
       case 'staff_id':
         dispatch(getAssessmentTypes(updatedParams));
-        dispatch(getStaffClassGroups({...updatedParams, academic_term_id: academic_term.id}));
-        dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
+        dispatch(getStaffClassGroups({...updatedParams, staff_id:parseInt(value), academic_term_id: academic_term.id}));
+        dispatch(getStaffSubjectList({ ...updatedParams,staff_id: parseInt(value), academic_term_id: academic_term.id }));
+        dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'assessment_type_id':
         dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
-        dispatch(getAssessments({...updatedParams, academic_term_id: academic_term.id}));
+        dispatch(getNotConductedAssessments({...updatedParams, academic_term_id: academic_term.id}));
+        dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'subject_id':
-        dispatch(getAssessments({...updatedParams, academic_term_id: academic_term.id}));
+        dispatch(getNotConductedAssessments({...updatedParams, academic_term_id: academic_term.id}));
+        dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'class_group_id':
         dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
+        dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'assessment_id':
         const selectedAssessment = assessments.find((assmnt) => assmnt.id === parseInt(value));
@@ -122,24 +127,27 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formattedData = {
-      scores: scores.map(({ student_id, score, assessment_id }) => ({ student_id, score, assessment_id })),
+    const formattedData = {student_scores: {
+    score_sheet : scores.map((score)=> ({
+        student_id: score.student_id, 
+        score: score.score, 
+        assessment_id: score.assessment_id}))} 
     };
-
     dispatch(addScoreSheet(formattedData)).then((res: any) => {
       dispatch(getScoreSheets({ ...params, paginate: true }));
+      dispatch(getNotConductedAssessments({...params, academic_term_id: academic_term.id}));
       showToastify(res.payload.message, res.payload.status);
     });
   };
 
   useEffect(() => {
-    setParams((prev) => ({ ...prev, branch_id: branchId, academic_term_id: academic_term.id }));
+    // setParams((prev) => ({ ...prev, branch_id: branchId, academic_term_id: academic_term.id }));
     if (index === 'sc') {
       dispatch(getCurrentTerm(branchId));
       dispatch(getStaffs(params));
       dispatch(getScoreSheets({ ...params, paginate: true }));
     }
-  }, [branchId, index, dispatch, academic_term.id]);
+  }, [branchId, index, dispatch, academic_term.id, params]);
 
   useEffect(() => {
     setScores(
@@ -150,7 +158,27 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
       }))
     );
   }, [registrations, params.assessment_id]);
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
 
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -212,7 +240,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
             <tr key={scoreSheet.id}>
               <td>{scoreSheet.student_name}</td>
               <td>{scoreSheet.class_group_name}</td>
-              <td>{scoreSheet.assessment_name}</td>
+              <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}</td>
               <td>{scoreSheet.category}</td>
               <td>{scoreSheet.subject_name}</td>
               <td>{scoreSheet.student_score}</td>
@@ -220,6 +248,28 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           ))}
         </tbody>
       </Table>
+      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
     </div>
   );
 };

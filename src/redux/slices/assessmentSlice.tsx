@@ -91,11 +91,43 @@ export const getStaffAssessmentSummary = createAsyncThunk(
   },
 );
 
+export const getNotConductedAssessments = createAsyncThunk(
+  'assessment/getNotConductedAssessments',
+  async (params: QueryParams, thunkAPI) => {
+    try {
+      const response = await AssessmentService.getNotConductedAssessments(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const assessmentSlice = createSlice({
   name: 'assessment',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getNotConductedAssessments.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+
+    builder.addCase(getNotConductedAssessments.fulfilled, (state, action: any) => ({
+      ...state,
+      assessments: action.payload.not_conducted_assessments,
+      isLoading: false,
+      message: action.payload.message,
+      status: action.payload.status,
+      pagination: action.payload.pagination
+    }));
+
+    builder.addCase(getNotConductedAssessments.rejected, (state, action: any) => ({
+      ...state,
+      message: action.payload.message,
+      status: action.payload.status,
+      isLoading: false,
+    }));
     builder.addCase(getStaffAssessmentSummary.pending, (state) => ({
       ...state,
       isLoading: true,

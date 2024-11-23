@@ -21,6 +21,7 @@ export interface LessonParams {
   program_subject_id?: number;
   assessment_type_id?: number;
   academic_term_id?: number;
+  academic_year_id?: number;
   day_of_week?: string;
   paginate: boolean;
   pagination: PaginationParams;

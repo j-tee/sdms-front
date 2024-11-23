@@ -11,7 +11,7 @@ const SchoolService = {
 
   addBranch: (branch: Branch) => axios.post(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches`, branch, { headers: authHeader() }),
 
-  getBranches: (params: BranchParams) => axios.get(`${API_URL}api/v1/schools/${params.school_id}d/circuits/${params.circuit_id}/branches?${queryStringFormatter(params)}`, { headers: authHeader() }),
+  getBranches: (params: BranchParams) => axios.get(`${API_URL}api/v1/schools/${params.school_id}/circuits/${params.circuit_id}/branches?${queryStringFormatter(params)}`, { headers: authHeader() }),
 
   addSchool: (school: FormData) => {
     return axios.post(`${API_URL}api/v1/schools`, school, {

@@ -24,9 +24,9 @@ const StaffClassGroupDropDown:FC<StaffClassGroupDropDownProps> = ({onChange, sch
     <Form.Label>Class Groups</Form.Label>
     <Form.Select as="select" onChange={handleInputChange}>
         <option value="0">-----Select Class----</option>
-        {class_group_list.map(([classGroupId, classGroupName]) => (
-          <option key={classGroupId} value={classGroupId}>
-            {classGroupName}
+        {class_group_list.map((clsgrp) => (
+          <option key={clsgrp.id} value={clsgrp.id}>
+            {clsgrp.class_grp_name}
           </option>
         ))}
     </Form.Select>

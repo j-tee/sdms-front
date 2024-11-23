@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Form, Row, Table } from 'react-bootstrap';
+import { Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap';
 import AssessmentTypeDropDown from './AssessmentTypeDropDown';
 import LessonDropDown from './LessonDropDown';
 import StaffDropDown from './StaffDropDown';
@@ -16,11 +16,12 @@ import { getStaffSubjectList } from '../redux/slices/subjectSlice';
 import StaffSubjectDropDown from './StaffSubjectDropDown';
 import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
+import PaginationComponent from './PaginationComponent';
 
 const ContinuousAssessmentCard = (props: any) => {
   const { schoolId, branchId, index } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { assessments } = useSelector((state: RootState) => state.assessment)
+  const { assessments, pagination } = useSelector((state: RootState) => state.assessment)
   const dispatch = useDispatch<AppDispatch>()
   const [showToast, setShowToast] = useState(false);
 
@@ -46,7 +47,7 @@ const ContinuousAssessmentCard = (props: any) => {
     stage_id: 0,
     paginate: false,
     pagination: {
-      per_page: 10000,
+      per_page: 20,
       current_page: 1,
       total_items: 0,
       total_pages: 0
@@ -67,29 +68,25 @@ const ContinuousAssessmentCard = (props: any) => {
     switch (field) {
       case 'staff_id':
         dispatch(getLessons({ ...params, staff_id: parseInt(value), academic_term_id: academic_term.id, branch_id: branchId, paginate: false }))
-        dispatch(getStaffClassGroups({ ...params,academic_term_id:academic_term.id,staff_id: parseInt(value), branch_id: branchId, paginate: false }))
+        dispatch(getStaffClassGroups({ ...params, academic_term_id: academic_term.id, staff_id: parseInt(value), branch_id: branchId, paginate: false }))
         dispatch(getStaffSubjectList({ ...params, staff_id: parseInt(value), branch_id: branchId, academic_term_id: academic_term.id, paginate: false }))
-       break;
-       case 'subject_id':
-        dispatch(getStaffClassGroups({ ...params,academic_term_id:academic_term.id,subject_id: parseInt(value), branch_id: branchId, paginate: false }))
+        break;
+      case 'subject_id':
+        dispatch(getStaffClassGroups({ ...params, academic_term_id: academic_term.id, subject_id: parseInt(value), branch_id: branchId, paginate: false }))
         break;
     }
     dispatch(getAssessmentTypes({ ...params, branch_id: branchId, paginate: false }))
-    
+
 
   }
+  
   useEffect(() => {
-    setParams({
-      ...params,
-      branch_id: branchId,
-    });
-
     if (index === 'ca') {
-      dispatch(getAssessments({ ...params, branch_id: branchId, paginate: false }))
+      dispatch(getAssessments({ ...params, branch_id: branchId, paginate: true }))
       dispatch(getCurrentTerm(branchId))
       dispatch(getStaffs({ ...params, branch_id: branchId, paginate: false }))
     }
-  }, [branchId, index])
+  }, [branchId, index, params])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -107,9 +104,30 @@ const ContinuousAssessmentCard = (props: any) => {
       .then((res: any) => {
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
-        dispatch(getAssessments({ ...params, branch_id: branchId, paginate: false }))
+        dispatch(getAssessments({ ...params, branch_id: branchId, paginate: true }))
       })
   }
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -124,7 +142,7 @@ const ContinuousAssessmentCard = (props: any) => {
             <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
           </Col>
           <Col>
-          <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
           </Col>
         </Row>
         <Row>
@@ -186,6 +204,31 @@ const ContinuousAssessmentCard = (props: any) => {
           ))}
         </tbody>
       </Table>
+      {/* <h2>{params.pagination?.per_page}</h2>
+      <h2>{params.pagination?.total_items || 0}</h2>
+      <h2>{params.pagination?.total_pages}</h2> */}
+     <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
     </>
   )
 }

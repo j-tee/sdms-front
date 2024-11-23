@@ -15,7 +15,7 @@ import PaginationComponent from './PaginationComponent';
 
 const School = () => {
   const { setShowToast } = useContext(ToastContext);
-  const { schools, isLoading } = useSelector((state: RootState) => state.school)
+  const { schools,pagination, isLoading } = useSelector((state: RootState) => state.school)
   const isValid = UserSession.validateToken();
   const userInfo = UserSession.getUserInfo();
   const { openLoginModal, closeLoginModal } = useAuth();
@@ -116,24 +116,28 @@ const School = () => {
             <SchoolCard params={params} school={schoolWithTags} />
           );
         })}
-        <div className="d-flex px-2 justify-content-between align-items-center">
-        <PaginationComponent
-          params={params}
-          activePage={params.pagination?.current_page}
-          itemsCountPerPage={params.pagination?.per_page}
-          totalItemsCount={params.pagination?.total_items || 0}
-          pageRangeDisplayed={5}
-          totalPages={params.pagination?.total_pages}
-          hideDisabled={params.pagination?.total_pages === 0}
-          hideNavigation={params.pagination?.total_pages === 1}
-          onChange={handlePageChange}
-        />
-        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-        </DropdownButton>
-      </div>
+        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
       </Card>
     </>
 
