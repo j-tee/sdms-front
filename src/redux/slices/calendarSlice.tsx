@@ -252,7 +252,8 @@ export const calenderSlice = createSlice({
     builder
       .addCase(getAcademicTerms.fulfilled, (state, action) => ({
         ...state,
-        academic_terms: action.payload.terms, isLoading: false
+        academic_terms: action.payload.terms, isLoading: false,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getAcademicTerms.pending, (state) => ({ ...state, isLoading: true }));
@@ -263,7 +264,7 @@ export const calenderSlice = createSlice({
     builder
       .addCase(getAcademicYears.fulfilled, (state, action) => ({
         ...state,
-        academic_years: action.payload.years, isLoading: false
+        academic_years: action.payload.years, isLoading: false, pagination:action.payload.pagination
       }));
     builder
       .addCase(getAcademicYears.pending, (state) => ({ ...state, isLoading: true }));

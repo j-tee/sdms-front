@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store';
-import { getPaymentSummary } from '../redux/slices/paymentSlice';
+import { getPayments, getPaymentSummary } from '../redux/slices/paymentSlice';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import { Col, Row } from 'react-bootstrap';
 import ClassGroupDropDown from './ClassGroupDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
+import { showToastify } from '../utility/Toastify';
 
 
 type AnyType = {
@@ -13,7 +14,8 @@ type AnyType = {
   };
 
 const Arrears = (props: any) => {
-    const {paymentSummary} = useSelector((state: RootState) => state.payment);
+    const {paymentSummary, payments} = useSelector((state: RootState) => state.payment);
+    const [showToast, setShowToast] = useState(false);
     const {schoolId, branchId} = props;
     const dispatch = useDispatch<AppDispatch>();
     const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
@@ -39,6 +41,7 @@ const Arrears = (props: any) => {
       })
     useEffect(() => {   
         dispatch(getPaymentSummary({ ...params }))
+        
     }, [dispatch, params])
   return (
     <>

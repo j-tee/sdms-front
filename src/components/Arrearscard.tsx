@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store';
-import { getPaymentSummary } from '../redux/slices/paymentSlice';
+import { getPayments, getPaymentSummary } from '../redux/slices/paymentSlice';
 import AcademicYearDropDown from './AcademicYearDropDown';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col, Row, Table } from 'react-bootstrap';
 import ClassGroupDropDown from './ClassGroupDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
+import { showToastify } from '../utility/Toastify';
 
 
 type AnyType = {
@@ -13,8 +14,9 @@ type AnyType = {
   };
 
 const Arrearscard = (props: any) => {
-    const {paymentSummary} = useSelector((state: RootState) => state.payment);
+    const {paymentSummary, payments} = useSelector((state: RootState) => state.payment);
     const {schoolId, branchId, tabIndex} = props;
+    const [showToast, setShowToast] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
         setParams((prevData) => ({
@@ -40,6 +42,10 @@ const Arrearscard = (props: any) => {
     useEffect(() => {   
       if(tabIndex === 'third'){
         dispatch(getPaymentSummary({ ...params }))
+        dispatch(getPayments({ ...params })).then((res: any) => {
+          setShowToast(true);
+          showToastify(res.payload.message, res.payload.status);
+      });
       }
     }, [dispatch, params, tabIndex])
   return (
@@ -61,6 +67,29 @@ const Arrearscard = (props: any) => {
           <h4>Payment Summary</h4>
         </Card.Header>
         <Card.Body>
+          <Card.Title>Arrears</Card.Title>
+          <Card.Text>
+           <Table striped bordered hover responsive>
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Amount Due</th>
+                  <th>Total Payments</th>
+                  <th>Outstanding Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payments.map((payment: any) => (
+                  <tr key={payment.id}>
+                    <td>{payment.student_id} {payment.full_name}</td>
+                    <td>GHC {payment.amt_due}</td>
+                    <td>GHC {payment.total_payments}</td>
+                    <td>GHC {payment.outstanding_balance}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Text>
           <Card.Text>
             <p>Total Payment: GHS {parseFloat(paymentSummary.total_payment.toString()).toFixed(2)}</p>
             <p>Expected Inflows: GHS {parseFloat(paymentSummary.total_expected_inflows.toString()).toFixed(2)}</p>

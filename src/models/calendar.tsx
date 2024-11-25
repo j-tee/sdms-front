@@ -55,6 +55,7 @@ export interface AcademicTermViewModel {
 }
 
 export interface YearParams {
+  paginate:boolean;
   school_id: number | undefined;
   branch_id: number;
   pagination: PaginationParams;

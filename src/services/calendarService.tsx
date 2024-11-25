@@ -11,7 +11,7 @@ const CalendarService = {
   getTermCount: (branch_id: number) => axios.get(`${API_URL}api/v1/academic_years/registration/admission/current_academic_year/get_term_count/${branch_id}`, { headers: authHeader() }), 
   getCurrentAcademicYear: (branch_id: number) => axios.get(`${API_URL}api/v1/academic_years/registration/admission/current_academic_year/${branch_id}`, { headers: authHeader() }),
   getCurrentTerm: (branch_id: number) => axios.get(`${API_URL}api/v1/academic_terms/terms/current_term/${branch_id}`, { headers: authHeader() }),
-  getAcademicYears: (params: YearParams) => axios.get(`${API_URL}api/v1/academic_years?school_id=${params.school_id}&branch_id=${params.branch_id}&current_page=${params.pagination.current_page}&per_page=${params.pagination.per_page}`, { headers: authHeader() }),
+  getAcademicYears: (params: YearParams) => axios.get(`${API_URL}api/v1/academic_years?${queryStringFormatter(params)}`, { headers: authHeader() }),
   addAcademicYear: (year: any) => axios.post(`${API_URL}api/v1/academic_years`, year, { headers: authHeader() }),
   deleteAcaemicYear: (year: any) => axios.delete(`${API_URL}api/v1/academic_years/${year.id}`, { headers: authHeader() }),
   updateAcademicYear: (year: any) => axios.put(`${API_URL}api/v1/academic_years/${year.id}`, year, { headers: authHeader() }),

@@ -7,13 +7,11 @@ const initialState: StudentRegState = {
   unregistered_students: [],
   registered_students: [],
   registrations: [],
-  reg_info: {
-    all_unregistered_students: [],
+  all_unregistered_students: [],
     registered: [],
     registered_in_previous_term: [],
     continuing_students_not_registered: [],
-    admitted_but_not_regsitered: []
-  },
+    admitted_but_not_regsitered: [],
   status: '',
   message: '',
   isLoading: false,
@@ -123,7 +121,14 @@ export const studentRegSlice = createSlice({
     builder
       .addCase(getRegistrationInformation.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
-        reg_info: action.payload, isLoading: false, message: action.payload.message,
+        all_unregistered_students: action.payload.all_unregistered_students.students,
+        registered: action.payload.registered.students,
+        registered_in_previous_term: action.payload.registered_in_previous_term.students,
+        continuing_students_not_registered: action.payload.continuing_students_not_registered.students,
+        admitted_but_not_regsitered: action.payload.admitted_but_not_registered.students
+        .students,
+
+        // reg_info: action.payload, isLoading: false, message: action.payload.message,
         std_status: action.payload.status
       }));
     builder
@@ -136,7 +141,8 @@ export const studentRegSlice = createSlice({
       .addCase(getRegisteredStudents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         registrations: action.payload.registrations, isLoading: false, message: action.payload.message,
-        std_status: action.payload.status
+        std_status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getRegisteredStudents.pending, (state) => ({ ...state, isLoading: true }));

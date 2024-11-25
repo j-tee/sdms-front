@@ -6,18 +6,19 @@ import { getParentByEmail } from '../redux/slices/parentSlice'
 import { showToastify } from '../utility/Toastify'
 import { ToastContext } from '../utility/ToastContext'
 import { addStudent, getCountries } from '../redux/slices/studentSlice'
-import { Student, country } from '../models/student'
+import { Student, StudentViewModel, country } from '../models/student'
 import { ParentViewModel } from '../models/parent'
 
 const StudentDetails = (props: any) => {
   const { index, schoolId, branchId } = props;
-  const { parent, message, status } = useSelector((state: RootState) => state.parent)
+  const { parent, message, status, myWards } = useSelector((state: RootState) => state.parent)
   const [parentInfo, setParentInfo] = useState<ParentViewModel>({})
-  const { student,countries, std_message, std_status } = useSelector((state: RootState) => state.student)
+  const { student, countries, std_message, std_status } = useSelector((state: RootState) => state.student)
   const [studentImagePreview, setStudentImagePreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
   const [email, setEmail] = useState('')
+  const [studentId, setStudentId] = useState('')
   const [formData, setFormData] = useState<Student>({
     first_name: '',
     last_name: '',
@@ -59,6 +60,17 @@ const StudentDetails = (props: any) => {
       showToastify(res.payload.message, res.payload.status)
     })
   };
+  const getNextStudentId = (students: StudentViewModel[]) => {
+    const highestId = students
+      .map((ward) => ward.student_id)
+      .sort()
+      .pop()!; // Get the highest student_id
+
+    const match = highestId.match(/(.*)([A-Z])$/);
+    return match
+      ? `${match[1]}${String.fromCharCode(match[2].charCodeAt(0) + 1)}`
+      : highestId; // Increment the last letter or return the original
+  }
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 
@@ -79,45 +91,56 @@ const StudentDetails = (props: any) => {
   const getParent = (email: string) => {
     setEmail(email);  // Assuming you have a state variable setEmail for storing the email
     dispatch(getParentByEmail(encodeURIComponent(email)))
-    .then((res: any) => {
-      setShowToast(true);
-      showToastify(message, status);
-    })
+      .then((res: any) => {
+
+        setShowToast(true);
+        showToastify(message, status);
+      })
   }
+  useEffect(() => {
+    if (myWards.length > 0) {
+      setStudentId(getNextStudentId(myWards))
+    }
+  }, [studentId, myWards])
+
   useEffect(() => {
     // setParentInfo(JSON.parse(sessionStorage.getItem('parent') || '{}'));
     let parsedParentData = {};
 
-try {
-  // Attempt to parse the data from sessionStorage
-  const parentData = sessionStorage.getItem('parent');
-  parsedParentData = parentData ? JSON.parse(parentData) : {};
-} catch (error) {
-  console.error("Failed to parse 'parent' data from sessionStorage:", error);
-  // If parsing fails, fall back to an empty object
-  parsedParentData = {};
-}
-
-// Set the parent info
-setParentInfo(parsedParentData);
-
-    
-    dispatch(getCountries())
-  },[dispatch])
-  useEffect(() => {
-    if (index === 'student') {
-      setShowToast(true)
-      showToastify(std_message, std_status)
+    try {
+      // Attempt to parse the data from sessionStorage
+      const parentData = sessionStorage.getItem('parent');
+      parsedParentData = parentData ? JSON.parse(parentData) : {};
+    } catch (error) {
+      console.error("Failed to parse 'parent' data from sessionStorage:", error);
+      // If parsing fails, fall back to an empty object
+      parsedParentData = {};
     }
-  }, [index, setShowToast, std_message, std_status])
+
+    // Set the parent info
+    setParentInfo(parsedParentData);
+
+
+    dispatch(getCountries())
+  }, [dispatch])
+  // useEffect(() => {
+  //   if (index === 'student') {
+  //     // setStudentId(getNextStudentId(myWards))
+  //   }
+  // }, [index, setShowToast, std_message, std_status])
   return (
     <Card>
-      <Card.Header>
-        Student Details 
+      <Card.Header className='fs-2'>
+        Student Details
       </Card.Header>
       <Card.Body>
-        {parent?.id && parent.id > 0 &&
-           <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
+        {(parent?.id ?? 0) > 0 &&
+          <Card.Title className='d-flex fs-5 flex-lg-row flex-column gap-1 justify-content-center'>
+            <span>PARENT ID: {parent?.id}</span>
+          </Card.Title>
+        }
+        {(parent?.id ?? 0) > 0 &&
+          <Card.Title className='d-flex fs-5 flex-lg-row flex-column gap-1 justify-content-center'>
             <span>{parent?.fathers_full_name}</span>
             <span className='d-none d-lg-inline'>|</span>
             <span>{parent?.mothers_full_name}</span>
@@ -125,7 +148,17 @@ setParentInfo(parsedParentData);
             <span>{parent?.fathers_contact_number}</span>
             <span className='d-none d-lg-inline'>|</span>
             <span>{parent?.fathers_email_address}</span>
+            <span className='d-none d-lg-inline'>|</span>
+            <span>{parent?.mothers_email_address}</span>
           </Card.Title>}
+       {(parent?.id ?? 0) > 0 && <Card.Title className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
+          <span>Children/Wards</span>
+        </Card.Title>}
+        <Card.Subtitle className='d-flex flex-lg-row flex-column gap-2 justify-content-center'>
+          {myWards.map((ward: StudentViewModel) => (
+            <span key={ward.id}>{ward.student_id} {ward.first_name} {ward.last_name}</span>
+          ))}
+        </Card.Subtitle>
         {!parent?.fathers_email_address && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>
@@ -133,11 +166,11 @@ setParentInfo(parsedParentData);
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Parent</Form.Label>
                   <Form.Control
-                  value={parentInfo ? parentInfo.fathers_email_address:''}
+                    value={parentInfo ? parentInfo.fathers_email_address : ''}
                     style={{ width: '70%' }}
                     placeholder='Enter parent email address'
                     type='text'
-                    onFocus={(e) => getParent(e.target.value)}
+                    // onFocus={(e) => getParent(e.target.value)}
                     onBlur={(e) => getParent(e.target.value)}
                   />
                 </Form.Group>
@@ -191,7 +224,7 @@ setParentInfo(parsedParentData);
 
           <Row className='d-flex flex-lg-row flex-column'>
             <Col>
-            <Form.Group controlId="other_names">
+              <Form.Group controlId="other_names">
                 <Form.Label>Other Names</Form.Label>
                 <Form.Control
                   type="text"
@@ -218,7 +251,7 @@ setParentInfo(parsedParentData);
 
           <Row className='d-flex flex-lg-row flex-column'>
             <Col>
-            <Form.Group controlId="birth_date">
+              <Form.Group controlId="birth_date">
                 <Form.Label>Birth Date</Form.Label>
                 <Form.Control
                   type="date"
@@ -231,14 +264,14 @@ setParentInfo(parsedParentData);
             <Col>
               <Form.Group controlId="nationality">
                 <Form.Label>Nationality</Form.Label>
-                <Form.Control as={'select'} 
+                <Form.Control as={'select'}
                   type="text"
                   name="nationality"
                   value={formData.nationality}
                   onChange={handleChange}
                 >
                   <option value={''}>---Select---</option>
-                  {countries && countries.map((country:country) => (
+                  {countries && countries.map((country: country) => (
                     <option value={country.name}>{country.name}</option>
                   ))}
                 </Form.Control>
@@ -249,7 +282,7 @@ setParentInfo(parsedParentData);
           <Row className='d-flex flex-lg-row flex-column'>
             <Col>
               <Form.Group controlId="parent_id">
-                <Form.Label>Parent ID:{parent?.id}</Form.Label>
+                {/* <Form.Label>Parent ID:{parent?.id}</Form.Label> */}
                 <Form.Control
                   type="hidden"
                   name="parent_id"
@@ -264,7 +297,7 @@ setParentInfo(parsedParentData);
                 <Form.Control
                   type="text"
                   name="student_id"
-                  value={formData.student_id}
+                  value={studentId}
                   onChange={handleChange}
                 />
               </Form.Group>

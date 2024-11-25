@@ -44,6 +44,7 @@ const School = () => {
     user_id: 0,
     parent_id: 0,
     student_id: 0,
+    paginate: true,
     pagination: {
       current_page: 1,
       per_page: 10,
@@ -68,7 +69,7 @@ const School = () => {
 
   };
   useEffect(() => {
-    dispatch(getSchools({ ...params, school_id: 0 }));
+    dispatch(getSchools({ ...params, paginate: true, school_id: 0 }));
   }, [dispatch, params])
 
   const handlePageChange = (page: number) => {

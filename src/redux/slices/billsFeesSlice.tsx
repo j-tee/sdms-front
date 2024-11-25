@@ -102,6 +102,7 @@ export const billsFeesSlice = createSlice({
         fees: action.payload.fees,
         isLoading: false,
         message: action.payload.message,
+        pagination: action.payload.pagination,
         status: 'succeeded',
         }}).addCase(getFees.rejected, (state, action: any) => {
       return {

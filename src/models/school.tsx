@@ -13,6 +13,7 @@ export interface SchoolParams {
   user_id: number;
   parent_id: number;
   student_id: number;
+  paginate:boolean;
   pagination: PaginationParams
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
 import ClassGroupDropDown from './ClassGroupDropDown';
@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { getRegisteredStudents } from '../redux/slices/studentRegSlice';
 import StudentPaymentCard from './StudentPaymentCard';
 import { getPaymentSummary } from '../redux/slices/paymentSlice';
+import PaginationComponent from './PaginationComponent';
 
 type AnyType = {
   [key: string]: string;
@@ -15,7 +16,7 @@ type AnyType = {
 
 const PaymentCard = (props:any) => {
   const {schoolId, branchId, tabIndex} = props;
-  const {registrations} = useSelector((state: RootState) => state.studentReg);
+  const {registrations, pagination} = useSelector((state: RootState) => state.studentReg);
     
   const dispatch = useDispatch<AppDispatch>();
   const [params, setParams] = useState({
@@ -44,7 +45,27 @@ const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => 
   }));
   // console.log('params===>', params);
 } 
+const handlePageChange = (page: number) => {
+  // setCurrentPage(page);
+  setParams((prevParams) => ({
+    ...prevParams,
+    pagination: {
+      ...prevParams.pagination,
+      current_page: page,
+    },
+  }));
+};
 
+const handleItemsPerPageChange = (perPage: number) => {
+  // setItemsPerPage(perPage);
+  setParams((prevParams) => ({
+    ...prevParams,
+    pagination: {
+      ...prevParams.pagination,
+      per_page: perPage,
+    },
+  }));
+};
 useEffect(() => {
   if(tabIndex === 'second'){
     dispatch(getRegisteredStudents({ ...params }));
@@ -72,6 +93,28 @@ useEffect(() => {
       {registrations && registrations.map((reg) => (
         <StudentPaymentCard key={reg.id} registration={reg} params={params} />
       ))}
+      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
     </>
   )
 }

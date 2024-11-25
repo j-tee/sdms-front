@@ -73,12 +73,14 @@ const AcademicTermCard = (props: any) => {
   })
 
   useEffect(() => {
+   if(tabKey === 'at'){
     const user_roles = UserSession.getroles()
     setRoles(user_roles)
     dispatch(getCurrentAcademicYear(branchId))
     if (academic_year.id) {
       dispatch(getAcademicTerms({ ...params, academic_year_id: academic_year.id }))
     }
+   }
   }, [branchId, dispatch, tabKey, academic_year.id])
 
   const addNewTerm = async () => {

@@ -239,7 +239,10 @@ export const schoolSlice = createSlice({
     builder
       .addCase(registerSchool.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
     builder
-      .addCase(getSchools.fulfilled, (state, action) => ({ ...state, schools: action.payload.schools, isLoading: false }));
+      .addCase(getSchools.fulfilled, (state, action) => ({ ...state, 
+        schools: action.payload.schools, 
+        pagination:action.payload.pagination, 
+        isLoading: false }));
     builder
       .addCase(getSchools.pending, (state) => ({ ...state, isLoading: true }));
     builder

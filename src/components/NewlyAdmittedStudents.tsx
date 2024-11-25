@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, Tab, Tabs } from 'react-bootstrap'
+import { Card, Col, Dropdown, DropdownButton, Row, Tab, Tabs } from 'react-bootstrap'
 import AcademicYearDropDown from './AcademicYearDropDown'
 import AcademicTermDropDown from './AcademicTermDropDown'
 import DepartmentDropDown from './DepartmentDropDown'
@@ -14,9 +14,12 @@ import { getPrograms } from '../redux/slices/programSlice'
 import { getStages } from '../redux/slices/stageSlice'
 import RegisteredStudents from './RegisteredStudents'
 import UnregisteredStudent from './UnregisteredStudent'
+import PaginationComponent from './PaginationComponent'
 
 const NewlyAdmittedStudents = (props: any) => {
-  const { schoolId, branchId, handleInputChange, reg_info, registrations, academic_term_id } = props;
+  const { schoolId, branchId } = props;
+  const { academic_term } = useSelector((state: RootState) => state.calendar)
+  const { all_unregistered_students, registrations, pagination } = useSelector((state: RootState) => state.studentReg)  
   const [key, setKey] = useState<string>('registered');
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState<QueryParams>({
@@ -36,7 +39,52 @@ const NewlyAdmittedStudents = (props: any) => {
       total_pages: 0
     }
   });
+  type AnyType = {
+    [key: string]: string;
+  };
+  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    setParams((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+    switch (field) {
+      case 'department_id': {
+        dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
+        break;
+      }
+      case 'program_id': {
+        if (branchId)
+          dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
+        break;
+      }
+    }
+  };
+  const handlePageChange = (page: number) => {
+    // setCurrentPage(page);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
 
+  const handleItemsPerPageChange = (perPage: number) => {
+    // setItemsPerPage(perPage);
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+      },
+    }));
+  };
+useEffect(()=>{
+  dispatch(getCurrentTerm(branchId))
+  dispatch(getRegisteredStudents({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
+  dispatch(getRegistrationInformation({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
+},[params])
   return (
     <Card>
       <Card.Header>
@@ -74,10 +122,32 @@ const NewlyAdmittedStudents = (props: any) => {
               <RegisteredStudents students={registrations} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
             <Tab eventKey="unregistered" title="Unregistered Students">
-              <UnregisteredStudent academic_term_id={academic_term_id} onChange={handleInputChange} students={reg_info.all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <UnregisteredStudent academic_term_id={academic_term.id} onChange={handleInputChange} students={all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
           </Tabs>
         </Row>
+        {key === "registered" && <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>}
       </Card.Body>
     </Card>
   )

@@ -15,7 +15,7 @@ import UnregisteredStudent from './UnregisteredStudent'
 const ContunuingStudents = (props: any) => {
   const { schoolId, branchId, handleInputChange, tabIndex } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { reg_info, registrations } = useSelector((state: RootState) => state.studentReg)
+  const { registered, registrations, continuing_students_not_registered } = useSelector((state: RootState) => state.studentReg)
   const dispatch = useDispatch<AppDispatch>()
   const [key, setKey] = useState<string>('registered');
   const [params, setParams] = useState<QueryParams>({
@@ -67,10 +67,10 @@ const ContunuingStudents = (props: any) => {
         className="mb-3"
       >
         <Tab eventKey="registered" title="Registered Students">
-          <RegisteredStudents students={reg_info.registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+          <RegisteredStudents students={registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
         </Tab>
         <Tab eventKey="unregistered" title="Unregistered Students">
-          <UnregisteredStudent onChange={handleInputChange} students={reg_info.continuing_students_not_registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+          <UnregisteredStudent onChange={handleInputChange} students={continuing_students_not_registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
         </Tab>
       </Tabs>
     </>

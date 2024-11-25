@@ -110,11 +110,9 @@ export interface StudentRegState {
   pagination?: PaginationParams;
   status:string;
   message:string;
-  reg_info: {
-    all_unregistered_students: StudentRegViewModel[];
+  all_unregistered_students: StudentRegViewModel[];
     registered: StudentRegViewModel[];
     registered_in_previous_term: StudentRegViewModel[];
     continuing_students_not_registered: StudentRegViewModel[];
     admitted_but_not_regsitered: StudentRegViewModel[];
-  }
 }

@@ -182,7 +182,7 @@ const UnregisteredStudent = (props: any) => {
                 <span>Select All</span>
               </span>
             </ListGroup.Item>
-            {students.map((student: StudentViewModel) => (
+            {students && students.map((student: StudentViewModel) => (
               <ListGroup.Item className='py-0 gap-2 d-flex' key={student.student_id}>
                 <span>
                   <input

@@ -28,7 +28,7 @@ const Calendar = () => {
             className="mb-3"
           >
             <Tab eventKey="ay" title="Academic Years">
-              <AcademicYearCard schoolId={schoolId} branchId={branchId} />
+              <AcademicYearCard tabKey={tabKey} schoolId={schoolId} branchId={branchId} />
             </Tab>
             <Tab eventKey="at" title="Academic Terms">
               <AcademicTermCard tabKey={tabKey} schoolId={schoolId} branchId={branchId} />

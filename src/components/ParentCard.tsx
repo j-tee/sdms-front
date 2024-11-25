@@ -71,10 +71,14 @@ const ParentCard = (props: any) => {
     } 
   };
   useEffect(() => {
-    if (formData.fathersEmailAddress && index=== 'parent' ) {
-      dispatch(getParentByEmail(encodeURIComponent(formData.fathersEmailAddress)))
+    if (index === 'parent') {
+      const parentEmail = formData.fathersEmailAddress || formData.mothersEmailAddress;
+      if (parentEmail) {
+        dispatch(getParentByEmail(encodeURIComponent(parentEmail)));
+      }
     }
-  }, [dispatch, formData.fathersEmailAddress, index])
+  }, [dispatch, formData.fathersEmailAddress, formData.mothersEmailAddress, index]);
+  
   return (
     <Card>
      

@@ -122,7 +122,10 @@ export const programSlice = createSlice({
       builder
       .addCase(getParentByEmail.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
-        parent: action.payload.parent, isLoading: false, message: action.payload.message, status: action.payload.status
+        parent: action.payload.parent, 
+        myWards: action.payload.my_wards,
+        isLoading: false, message: action.payload.message, 
+        status: action.payload.status
       }));
     builder
       .addCase(getParentByEmail.pending, (state) => ({ ...state, isLoading: true }));

@@ -11,9 +11,9 @@ import { showToastify } from '../utility/Toastify'
 import { ToastContext } from '../utility/ToastContext'
 
 const AcademicYearCard = (props: any) => {
-  const { branchId, schoolId } = props;
+  const { branchId, schoolId, tabKey } = props;
   const { setShowToast } = useContext(ToastContext)
-  const { academic_years } = useSelector((state: RootState) => state.calendar)
+  const { academic_years, pagination } = useSelector((state: RootState) => state.calendar)
   const dispatch = useDispatch<AppDispatch>();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -22,6 +22,7 @@ const AcademicYearCard = (props: any) => {
   const [params, setParams] = useState<YearParams>({
     school_id: 0,
     branch_id: 0,
+    paginate: true,
     pagination: {
       current_page: 1,
       per_page: 10,
@@ -39,7 +40,7 @@ const AcademicYearCard = (props: any) => {
     setShowToast(true)
     dispatch(addAcademicYear({ ...formData, branch_id: branchId && parseInt(branchId) })).then((res) => {
       showToastify(res.payload.message, res.payload.status)
-      dispatch(getAcademicYears({ ...params, school_id: schoolId, branch_id: branchId }));
+      dispatch(getAcademicYears({ ...params, paginate: true, school_id: schoolId, branch_id: branchId }));
     }
     )
   }
@@ -67,19 +68,18 @@ const AcademicYearCard = (props: any) => {
   };
 
   useEffect(() => {
-    setParams((prevParams) => ({
-      ...prevParams,
-      school_id: typeof schoolId === 'number' ? schoolId : prevParams.school_id,
-    }));
-    const user_roles = UserSession.getroles()
-    setRoles(user_roles)
-    dispatch(getAcademicYears({ ...params, school_id: schoolId, branch_id: branchId }));
-  }, [schoolId, branchId]);
+    if (tabKey === 'ay') {
+      const user_roles = UserSession.getroles()
+      setRoles(user_roles)
+      dispatch(getAcademicYears({ ...params, paginate: true, school_id: schoolId, branch_id: branchId }));
+    }
+
+  }, [schoolId, branchId, params]);
 
   return (
     <div>
-      {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>}
-     {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Card.Text>
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>}
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Text>
         {branchId && parseInt(branchId) > 0 ?
           <Form>
             <Row>
@@ -126,13 +126,13 @@ const AcademicYearCard = (props: any) => {
       <div className="d-flex justify-content-between align-items-center">
         <PaginationComponent
           params={params}
-          activePage={params.pagination?.current_page}
-          itemsCountPerPage={params.pagination?.per_page}
-          totalItemsCount={params.pagination?.total_items || 0}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
           pageRangeDisplayed={5}
-          totalPages={params.pagination?.total_pages}
-          hideDisabled={params.pagination?.total_pages === 0}
-          hideNavigation={params.pagination?.total_pages === 1}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
           onChange={handlePageChange}
         />
         <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
