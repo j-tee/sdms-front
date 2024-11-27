@@ -108,7 +108,7 @@ const Register = (props: any) => {
               <option value="Owner">Owner / Manager / Headmaster</option>
               <option value="Parent">Parent</option>
               <option value="Student">Student</option>
-              <option value="Staff">School Staff</option>
+              <option value="Staff">Teacher</option>
               <option value="Employee">Company Staff</option>
             </Form.Control>
           </Form.Group>

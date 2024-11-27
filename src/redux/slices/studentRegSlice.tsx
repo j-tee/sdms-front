@@ -4,6 +4,7 @@ import StudentRegService from '../../services/studentRegService';
 import { QueryParams } from '../../models/queryParams';
 
 const initialState: StudentRegState = {
+  students: [],
   unregistered_students: [],
   registered_students: [],
   registrations: [],
@@ -100,7 +101,7 @@ export const studentRegSlice = createSlice({
     }));
     builder.addCase(getRegisteredStudentsForRecordingScores.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
-      registrations: action.payload.registrations, isLoading: false, message: action.payload.message,
+      students: action.payload.students, isLoading: false, message: action.payload.message,
       std_status: action.payload.status
     }));
     builder.addCase(getRegisteredStudentsForRecordingScores.pending, (state) => ({ ...state, isLoading: true }));

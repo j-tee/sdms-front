@@ -100,7 +100,8 @@ export const programSlice = createSlice({
       .addCase(getParents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         parents: action.payload.parents, isLoading: false, message: action.payload.message,
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
       .addCase(getParents.pending, (state) => ({ ...state, isLoading: true }));

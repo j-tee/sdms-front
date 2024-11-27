@@ -103,6 +103,7 @@ export interface StudentRegViewModel {
 }
 
 export interface StudentRegState {
+  students: StudentViewModel[];
   registrations: StudentRegViewModel[];
   unregistered_students: StudentRegViewModel[];
   registered_students: StudentRegViewModel[];

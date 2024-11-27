@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom'
 import StudentRegistration from './StudentRegistration'
 import ExitProfiles from './ExitProfiles'
 import Navigation from './Navigation'
+import StudentListCard from './StudentListCard'
+import ParentListCard from './ParentListCard'
 
 const Enrolment = () => {
   const [index, SetIndex] = useState<string|null>('first')
@@ -34,6 +36,12 @@ const Enrolment = () => {
                   <Nav.Item>
                     <Nav.Link eventKey="third">Exit Profiles</Nav.Link>
                   </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="fourth">Students</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="fifth">Parents</Nav.Link>
+                  </Nav.Item>
                 </Nav>
               </Col>
               <Col sm={10}>
@@ -41,6 +49,8 @@ const Enrolment = () => {
                   <Tab.Pane eventKey="first"><AdmissionCard tabIndex={index} schoolId={schoolId} branchId={branchId}/></Tab.Pane>
                   <Tab.Pane eventKey="second"><StudentRegistration tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
                   <Tab.Pane eventKey="third"><ExitProfiles tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
+                  <Tab.Pane eventKey="fourth"><StudentListCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
+                  <Tab.Pane eventKey="fifth"><ParentListCard tabIndex={index} schoolId={schoolId} branchId={branchId} /></Tab.Pane>
                 </Tab.Content>
               </Col>
             </Row>

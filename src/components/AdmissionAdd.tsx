@@ -118,10 +118,8 @@ const AdmissionAdd = (props: any) => {
   }, [academic_term.id, branchId, dispatch])
 
   useEffect(() => {
-    const student = sessionStorage.getItem('student');
-    
-    setStudentInfo(student && student !== 'undefined' ? JSON.parse(student) : {});
-
+    const student = JSON.parse(sessionStorage.getItem('student') || '{}');    
+    setStudentInfo(student);
     dispatch(getCurrentTerm(branchId))
     const deptParams: DepartmentParams = {
       ...params,
@@ -144,6 +142,7 @@ const AdmissionAdd = (props: any) => {
         showToastify(res.payload.message, res.payload.status)
       })
   }, [dispatch, index, params])
+
 
   const handleSubmit = () => {
     const admissionObject: Admission = {
@@ -203,7 +202,7 @@ const AdmissionAdd = (props: any) => {
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Student</Form.Label>
                   <Form.Control
-                    value={studentInfo ? studentInfo.student_id : student.student_id}
+                    value={student.student_id}
                     style={{ width: '70%' }}
                     placeholder='Enter student ID'
                     type='text'

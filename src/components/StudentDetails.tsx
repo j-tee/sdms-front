@@ -48,6 +48,7 @@ const StudentDetails = (props: any) => {
     }
     if (parent && parent.id) {
       student.append('student[parent_id]', (parent?.id?.toString() || parentInfo.id?.toString() || ''));
+      student.append('student[student_id]', studentId);
     }
 
     if (formData.avatar instanceof File) {
@@ -100,6 +101,8 @@ const StudentDetails = (props: any) => {
   useEffect(() => {
     if (myWards.length > 0) {
       setStudentId(getNextStudentId(myWards))
+    }else{
+      setStudentId(`${parent.id}-A`)
     }
   }, [studentId, myWards])
 
