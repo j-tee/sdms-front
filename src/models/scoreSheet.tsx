@@ -37,7 +37,7 @@ export interface TerminalReport {
   ta_score: number;
   total: number;
   attendances_count: number;
-  position: string;
+  position_in_subject: string;
   grade: string;
   remark: string;
 }

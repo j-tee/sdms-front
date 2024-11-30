@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import { ToastContext } from '../utility/ToastContext';
-import { showToastify } from '../utility/Toastify';
-import { getAcademicYears } from '../redux/slices/calendarSlice';
+import { getStudentDepartments } from '../redux/slices/departmentSlice';
+import { getStudentStages } from '../redux/slices/stageSlice';
+import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
 
 type AnyType = {
   [key: string]: string;
@@ -12,23 +12,20 @@ type AnyType = {
 interface BranchDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
   params?: any;
-  schoolId: any
+  schoolId?: any
 }
-const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId, params }) => {
-  const { branches, message, status } = useSelector((state: RootState) => state.school)
-  const { showToast, setShowToast } = useContext(ToastContext)
+const StudentBranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, params }) => {
+  const { branches } = useSelector((state: RootState) => state.school)
   const dispatch = useDispatch<AppDispatch>()
  
   const handleBranchChange = (e: React.ChangeEvent<any>) => {
     const selectedBranchId = e.target.value;
-    dispatch(getAcademicYears({ ...params, branch_id: selectedBranchId, paginate: false }));
+    dispatch(getStudentDepartments({ ...params, branch_id: selectedBranchId, paginate: false }));
+    dispatch(getStudentStages({ ...params, branch_id: selectedBranchId, paginate: false }));
+    dispatch(getStudentAcademicYears({ ...params, branch_id: selectedBranchId, paginate: false }));
     onChange('branch_id', selectedBranchId);
   };  
 
-  useEffect(() => {
-    setShowToast(true)
-    showToastify(message, status)
-  }, [message, setShowToast, showToast, status])
   return (
     <Form.Group controlId="branch">
       <Form.Label>Branches</Form.Label>
@@ -43,4 +40,4 @@ const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId, par
   )
 }
 
-export default BranchDropDown
+export default StudentBranchDropDown

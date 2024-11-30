@@ -14,7 +14,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { formatDate } from '../models/utilities';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
-import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
+import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;

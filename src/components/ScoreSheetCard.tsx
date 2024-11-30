@@ -9,7 +9,6 @@ import StaffSubjectDropDown from './StaffSubjectDropDown';
 import { showToastify } from '../utility/Toastify';
 import { ScoreSheet } from '../models/scoreSheet';
 import { AssessmentViewModel } from '../models/assessment';
-import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
 import { getAssessmentTypes } from '../redux/slices/assesmentTypeSlice';
 import { getStaffSubjectList } from '../redux/slices/subjectSlice';
 import { getNotConductedAssessments } from '../redux/slices/assessmentSlice';
@@ -19,6 +18,7 @@ import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import { getStaffs } from '../redux/slices/staffSlice';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
+import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 
 type AnyType = {
   [key: string]: string;

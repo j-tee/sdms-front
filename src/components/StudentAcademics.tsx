@@ -9,7 +9,7 @@ import StudentAssessmentCard from './StudentAssessmentCard';
 import StudentEvaluationCard from './StudentEvaluationCard';
 import StudentAcademicYearDropDown from './StudentAcademicYearDropDown';
 import StudentAcademicTermDropDown from './StudentAcademicTermDropDown';
-import { getStudentClassGroup } from '../redux/slices/classGroupSlice';
+import { getStudentClassGroup, getStudentClassGroups } from '../redux/slices/classGroupSlice';
 import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice';
 import StudentTerminalReport from './StudentTerminalReport';
@@ -44,7 +44,7 @@ const StudentAcademics = (props: any) => {
 
     useEffect(() => {
         if (params.academic_year_id && params.academic_term_id && student) {
-            dispatch(getStudentClassGroup({ ...params }));
+            dispatch(getStudentClassGroups({ ...params }));
         }
     }, [dispatch, params, student])
     return (
@@ -57,10 +57,10 @@ const StudentAcademics = (props: any) => {
                    
                     <Row style={{ marginBottom: '10px' }}>
                         <Col>
-                            <StudentAcademicYearDropDown studentId={student.id} onChange={handleInputChange} />
+                            <StudentAcademicYearDropDown params ={params} onChange={handleInputChange} />
                         </Col>
                         <Col>
-                            <StudentAcademicTermDropDown studentId={student.id} yearId={params.academic_year_id} onChange={handleInputChange} />
+                            <StudentAcademicTermDropDown params={params} onChange={handleInputChange} />
                         </Col>
                     </Row>
                     {/* <Row>

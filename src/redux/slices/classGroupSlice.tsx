@@ -110,11 +110,32 @@ export const getStaffClassGroups = createAsyncThunk(
     }
   },
 )
+
+export const getStudentClassGroups = createAsyncThunk(
+  'classGroup/getStudentClassGroups',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ClassGroupService.getStudentClassGroups(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const classGroupSlice = createSlice({
   name: 'classGroup',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStudentClassGroups.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      class_groups: action.payload.class_groups, isLoading: false, message: action.payload.message, 
+      status: action.payload.status
+    }));
+    builder.addCase(getStudentClassGroups.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentClassGroups.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
     builder.addCase(getStaffClassGroups.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
       class_group_list: action.payload.class_groups, isLoading: false, message: action.payload.message, 

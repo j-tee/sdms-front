@@ -60,6 +60,16 @@ const StudentTerminalReport = (props: any) => {
     }));
     // console.log('params===>', params);
   } 
+  function RenderPosition({ position }: { position: string }) {
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: position,
+        }}
+      ></span>
+    );
+  }
+  
   return (
     <>
     {!student && 
@@ -103,7 +113,7 @@ const StudentTerminalReport = (props: any) => {
                       <span>Name:</span> <span>{report.student.first_name} {report.student.last_name}</span>
                     </div>
                     <div>
-                      <span>Position In Class:</span> <span>{report.over_all_position}</span>
+                      <span>Position In Class:</span><RenderPosition position={report.over_all_position}/>
                     </div>
                     <div>
                       <span>Number on Roll:</span> <span>{report.num_roll}</span>
@@ -144,6 +154,7 @@ const StudentTerminalReport = (props: any) => {
                     <th>CA Score</th>
                     <th>TA Score</th>
                     <th>Total</th>
+                    <th>Position</th>
                     <th>Grade</th>
                     <th>Attendance</th>
                     <th>Remark</th>
@@ -156,6 +167,7 @@ const StudentTerminalReport = (props: any) => {
                       <td>{subjectReport.ca_score.toFixed(2)}</td>
                       <td>{subjectReport.ta_score.toFixed(2)}</td>
                       <td>{subjectReport.total.toFixed(2)}</td>
+                      <td><RenderPosition position={subjectReport.position_in_subject} /></td>
                       <td>{subjectReport.grade}</td>
                       <td>{subjectReport.attendance.present_lessons}/{subjectReport.attendance.total_lessons}</td>
                       <td>{subjectReport.remark}</td>
@@ -164,7 +176,7 @@ const StudentTerminalReport = (props: any) => {
                   <tr>
                     <td colSpan={3}>Total</td>
                     <td>{report.over_all_total.toFixed(2)}</td>
-                    <td colSpan={3}></td>
+                    <td colSpan={4}></td>
                   </tr>
                 </tbody>
               </Table>

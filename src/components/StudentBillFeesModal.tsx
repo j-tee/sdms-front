@@ -61,10 +61,10 @@ const StudentBillFeesModal = (props: any) => {
         <Modal.Body>
           <Row style={{ marginBottom: '10px' }}>
             <Col>
-              <StudentAcademicYearDropDown studentId={student.id} onChange={handleInputChange} />
+              <StudentAcademicYearDropDown params={params} onChange={handleInputChange} />
             </Col>
             <Col>
-              <StudentAcademicTermDropDown studentId={student.id} yearId={params.academic_year_id} onChange={handleInputChange} />
+              <StudentAcademicTermDropDown params={params} onChange={handleInputChange} />
             </Col>
           </Row>
           <Tab.Container onSelect={(e) => SetIndex(e)} id="left-tabs-example" defaultActiveKey="first">

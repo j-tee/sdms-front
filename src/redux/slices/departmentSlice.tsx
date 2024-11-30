@@ -70,11 +70,33 @@ export const deleteDepartment = createAsyncThunk(
   },
 );
 
+export const getStudentDepartments = createAsyncThunk(
+  'department/getStudentDepartments',
+  async (params: DepartmentParams, thunkAPI) => {
+    try {
+      const response = await DepartmentService.getStudentDepartments(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const departmentSlice = createSlice({
   name: 'department',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getStudentDepartments.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        departments: action.payload.depts, isLoading: false, message: action.payload.message, 
+        status: action.payload.status
+      }));
+      builder.addCase(getStudentDepartments.pending, (state) => ({ ...state, isLoading: true })); 
+      builder.addCase(getStudentDepartments.rejected, (state, action) => ({
+        ...state, message: "Action Failed", isLoading: false
+      }));
     builder
       .addCase(deleteDepartment.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

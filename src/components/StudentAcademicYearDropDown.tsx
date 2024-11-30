@@ -9,31 +9,17 @@ type AnyType = {
 };
 interface StudentAcademicYearDropDownProps {
   onChange: (field: keyof AnyType, value: string) => void;
-  studentId: any;
+  params: any
 }
 
 
-const StudentAcademicYearDropDown: FC<StudentAcademicYearDropDownProps> = ({onChange, studentId}) => {
+const StudentAcademicYearDropDown: FC<StudentAcademicYearDropDownProps> = ({onChange, params}) => {
   const { academic_years } = useSelector((state: RootState) => state.calendar)
   const dispatch = useDispatch<AppDispatch>()
-  const [params, setParams] = useState({
-    student_id: studentId,
-    academic_year_id: 0,
-    paginate: false,
-    pagination: {
-        per_page: 10000,
-        current_page: 1,
-        total_items: 0,
-        total_pages: 0
-    }
-  });
+  
   const handleAcademicYearChange = (e: React.ChangeEvent<any>) => {
     const selectedYearId = e.target.value;
-    setParams({
-        ...params,
-        academic_year_id: selectedYearId,
-        student_id: studentId
-    });
+  
     onChange('academic_year_id', selectedYearId);
     dispatch(getAcademicTerms({ ...params, academic_year_id: selectedYearId }));
 };

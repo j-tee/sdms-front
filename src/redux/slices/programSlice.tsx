@@ -71,11 +71,30 @@ export const deleteProgram = createAsyncThunk(
   },
 );
 
+export const getStudentPrograms = createAsyncThunk(
+  'program/getStudentPrograms',
+  async (params: ProgramParams, thunkAPI) => {
+    try {
+      const response = await ProgramService.getStudentPrograms(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const programSlice = createSlice({
   name: 'program',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStudentPrograms.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state, programs: action.payload.programs, isLoading: false, message: action.payload.message, status: action.payload.status 
+    }));
+    builder.addCase(getStudentPrograms.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentPrograms.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
     builder
       .addCase(updateProgram.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state, isLoading: false, message: action.payload.message, status: action.payload.status

@@ -14,9 +14,9 @@ import { addAssessment, getAssessments } from '../redux/slices/assessmentSlice';
 import { showToastify } from '../utility/Toastify';
 import { getStaffSubjectList } from '../redux/slices/subjectSlice';
 import StaffSubjectDropDown from './StaffSubjectDropDown';
-import StaffClassGroupDropDown from '../redux/slices/StaffClassGroupDropDown';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
+import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 
 const ContinuousAssessmentCard = (props: any) => {
   const { schoolId, branchId, index } = props;

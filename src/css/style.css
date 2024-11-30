@@ -736,6 +736,9 @@ span a {
   .page-break {
     page-break-after: always;
   }
+  .no-print {
+    display: none !important;
+  }
 }
 
 

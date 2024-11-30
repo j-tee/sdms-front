@@ -3,10 +3,12 @@ import axios from 'axios';
 import authHeader from '../utility/authHeader';
 import { ClassGroup, ClassGroupParams } from '../models/classGroup';
 import queryStringFormatter from '../utility/queryStringFormatter';
+import { getStudentClassGroup } from '../redux/slices/classGroupSlice';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 const ClassGroupService = {
+  getStudentClassGroups: (params: ClassGroupParams) => axios.get(`${API_URL}api/v1/schools/class_groups/student_class_groups?${queryStringFormatter(params)}`, { headers: authHeader() }), 
   getClassGroups: (params: ClassGroupParams) => 
   axios.get(`${API_URL}api/v1/class_groups?${queryStringFormatter(params)}`, { headers: authHeader() }),
   addClassGroup: (class_group: ClassGroup) => axios.post(`${API_URL}api/v1/class_groups`, class_group, { headers: authHeader() }),

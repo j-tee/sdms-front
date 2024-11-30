@@ -70,11 +70,32 @@ export const deleteStage = createAsyncThunk(
   },
 );
 
+export const getStudentStages = createAsyncThunk(
+  'Stage/getStudentStages',
+  async (params: StageParams, thunkAPI) => {
+    try {
+      const response = await StageService.getStudentStages(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const circuitSlice = createSlice({
   name: 'Stage',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStudentStages.fulfilled, (state, action) => ({
+      ...state,
+      stages: action.payload.stages, isLoading: false, message: action.payload.message, 
+      status: action.payload.status
+    }));
+    builder.addCase(getStudentStages.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentStages.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false 
+    }));
     builder
       .addCase(updateStage.fulfilled, (state, action) => ({
         ...state,

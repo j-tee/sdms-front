@@ -21,6 +21,8 @@ const SchoolService = {
       },
     });
   },
+  getStudentBranches: (params: any) => axios.get(`${API_URL}api/v1/branches/parents/students/student_branches?${queryStringFormatter(params)}`, { headers: authHeader() }),  
+  getStudentSchools: (params: any) => axios.get(`${API_URL}api/v1/schools/parents/my_wards/Student_schools?${queryStringFormatter(params)}`, { headers: authHeader() }),
   getSchool: (school_id: number) => axios.get(`${API_URL}api/v1/schools/${school_id}`, { headers: authHeader() }),
   getCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/categories`, { headers: authHeader() }),
   getOwnershipCategories: () => axios.get(`${API_URL}api/v1/schools/:school_id/ownership_categories`, { headers: authHeader() }),
@@ -34,6 +36,7 @@ const SchoolService = {
   }),
   updateBranch: (branch: Branch) => axios.put(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches/${branch.id}`, branch, { headers: authHeader() }), 
   deleteBranch: (branch: Branch) => axios.delete(`${API_URL}api/v1/schools/${branch.school_id}/circuits/${branch.circuit_id}/branches/${branch.id}`, { headers: authHeader() }), 
+  
 };
 
 export default SchoolService;

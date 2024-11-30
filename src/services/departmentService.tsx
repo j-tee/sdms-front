@@ -7,6 +7,7 @@ import queryStringFormatter from '../utility/queryStringFormatter';
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 const DepartmentService = {
+  getStudentDepartments: (params: DepartmentParams) => axios.get(`${API_URL}api/v1/parents/students/departments/student_departments?${queryStringFormatter(params)}`, { headers: authHeader() }), 
   getDepartments: (params: DepartmentParams) => 
   axios.get(`${API_URL}api/v1/departments?${queryStringFormatter(params)}`, { headers: authHeader() }),
   addDepartment: (department: Department) => axios.post(`${API_URL}api/v1/departments`, department, { headers: authHeader() }),

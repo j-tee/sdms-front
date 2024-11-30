@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SchoolState } from '../../models/school';
 import SchoolService from '../../services/schoolService';
 import { Branch } from '../../models/branch';
@@ -93,6 +93,18 @@ export const getSchools = createAsyncThunk(
     }
   },
 );
+
+export const getStudentSchools = createAsyncThunk(
+  'school/getStudentSchools',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SchoolService.getStudentSchools(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const getBranches = createAsyncThunk(
   'school/getBranches',
   async (params: any, thunkAPI) => {
@@ -187,11 +199,44 @@ export const deleteBranch = createAsyncThunk(
   },
 );
 
+export const getStudentBranches = createAsyncThunk(
+  'school/getStudentBranches',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = SchoolService.getStudentBranches(params);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const schoolSlice = createSlice({
   name: 'school',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getStudentBranches.fulfilled, (state, action) => ({
+        ...state,
+        branches: action.payload.branches, isLoading: false
+      }));
+      builder.addCase(getStudentBranches.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(getStudentBranches.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, isLoading: false
+      }));
+    builder
+      .addCase(getStudentSchools.fulfilled, (state, action) => ({
+        ...state,
+        schools: action.payload.schools, isLoading: false,
+        pagination: action.payload.pagination,
+        message: action.payload.message,
+      }));
+      builder.addCase(getStudentSchools.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(getStudentSchools.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, 
+        isLoading: false
+      }));
     builder
       .addCase(deleteBranch.fulfilled, (state, action) => ({
         ...state,

@@ -70,7 +70,7 @@ const TimeTableEditModal = (props: any) => {
         setStartTime(lesson.start_time ? formatTime(lesson.start_time) : formatTime(new Date().toISOString()));
         setEndTime(lesson.end_time ? formatTime(lesson.end_time) : formatTime(new Date().toISOString()));
 
-        console.log('lesson========>>>>>>>>>', lesson)
+    
         // Dispatch subjects fetching
         dispatch(getSubjects({
             ...params, school_id: schoolId, branch_id: branchId, pagination: {

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import { RootState } from '../store';
 import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
+import { RootState } from '../redux/store';
 
 
 
