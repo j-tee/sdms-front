@@ -118,7 +118,8 @@ export const lessonSlice = createSlice({
       .addCase(getStudentLessons.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         lessons: action.payload.lessons, isLoading: false, message: action.payload.message,
-        status: action.payload.status
+        status: action.payload.status,
+        pagination: action.payload.pagination
       }));
     builder
     .addCase(getStudentLessons.pending, (state) => ({ ...state, isLoading: true }));

@@ -25,6 +25,7 @@ import TerminalReport from './TerminalReport'
 import ReportTimeTable from './ReportTimeTable'
 import StudentBillsFees from './StudentBillsFees'
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice'
+import StudentSubscription from './StudentSubscription'
 
 type AnyType = {
   [key: string]: string;
@@ -63,7 +64,7 @@ const MyWardCard = (props: any) => {
   }
   useEffect(() => {
     dispatch(getParentByEmail(parent?.fathers_email_address || '')).then((res) => {
-      dispatch(getRegisteredStudents({ ...params, parent_id: res.payload.parent.id }))
+      dispatch(getRegisteredStudents({ ...params, parent_id: res.payload.parent?.id }))
     })
   }, [dispatch, params])
   return (
@@ -145,7 +146,7 @@ const MyWardCard = (props: any) => {
             onSelect={(k) => k && setKey(k)}
             className="mb-3"
           >
-            <Tab eventKey="first" title="Terminal Reports">
+            <Tab eventKey="first" title="Assessments / Reports">
               <TerminalReport params={params} />
             </Tab>
             <Tab eventKey="second" title="Time Table">
@@ -154,8 +155,9 @@ const MyWardCard = (props: any) => {
             <Tab eventKey="third" title="Bills & Fees">
               <StudentBillsFees params={params} />
             </Tab>
-            <Tab eventKey="fourth" title="Remarks">
-              <h1>Remarks</h1>
+            <Tab eventKey="fourth" title="Subscriptions">
+              <StudentSubscription index={key} params={params} />
+              {/* <MyWardDetails key={key} student={registrations[0]} parent={parent} params={params} />   */}
             </Tab>
           </Tabs>
         </Card.Body>

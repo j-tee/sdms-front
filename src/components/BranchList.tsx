@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Container, Dropdown, DropdownButton } from 'react-bootstrap'
-import SchoolDropdowns from './SchoolDropdowns'
 import { AppDispatch, RootState } from '../redux/store';
 import { BranchParams } from '../models/branch';
 import BranchCard from './BranchCard';
@@ -15,8 +14,8 @@ const BranchList = () => {
   const { branches, pagination } = useSelector((state: RootState) => state.school)
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
-  // const { school } = location.state;
   const school = location.state ? location.state.school : null;
+
   const [params, setParams] = useState<BranchParams>({
     school_id: 0,
     level_id: 0,
@@ -35,19 +34,20 @@ const BranchList = () => {
       total_items: 0,
       total_pages: 0,
     }
-  })
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics', 'Finance']
-  type AnyType = {
-    [key: string]: string;
+  });
+
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics', 'Finance'];
+
+  const handleInputChange = (field: string | number, value: string) => {
+    if (typeof field === 'string' && field in params) {
+      setParams((prevData) => ({
+        ...prevData,
+        [field]: value,
+      }));
+    }
   };
-  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-    setParams((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
+
   const handlePageChange = (page: number) => {
-    // setCurrentPage(page);
     setParams((prevParams) => ({
       ...prevParams,
       pagination: {
@@ -58,7 +58,6 @@ const BranchList = () => {
   };
 
   const handleItemsPerPageChange = (perPage: number) => {
-    // setItemsPerPage(perPage);
     setParams((prevParams) => ({
       ...prevParams,
       pagination: {
@@ -69,19 +68,21 @@ const BranchList = () => {
   };
 
   useEffect(() => {
-    setParams((prevParams) => ({
-      ...prevParams,
-      school_id: school && school.id
-    }));  
-  }, [school])
+    if (school) {
+      setParams((prevParams) => ({
+        ...prevParams,
+        school_id: school.id,
+      }));
+    }
+  }, [school]);
 
   useEffect(() => {
-    if (school) {
-      if (params.school_id > 0) {
-        dispatch(getBranches(params));
-      }
+    if (school && params.school_id > 0 && params.pagination.current_page && params.pagination.per_page) {
+      // Check that school_id, current_page, and per_page are valid
+      dispatch(getBranches(params));
     }
-  }, [dispatch, params, school])
+  }, [dispatch, params, school]);
+
   return (
     <>
       <Header />
@@ -104,34 +105,35 @@ const BranchList = () => {
         {branches.map((branch) => {
           const branchWithTags = { ...branch, tags };
           return (
-            <BranchCard params={params} branch={branchWithTags} />
+            <BranchCard key={branch.id} params={params} branch={branchWithTags} />
           )
         })}
-       <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+
+        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+          <PaginationComponent
+            params={params}
+            activePage={pagination?.current_page}
+            itemsCountPerPage={pagination?.per_page}
+            totalItemsCount={pagination?.total_items || 0}
+            pageRangeDisplayed={5}
+            totalPages={pagination?.total_pages}
+            hideDisabled={pagination?.total_pages === 0}
+            hideNavigation={pagination?.total_pages === 1}
+            onChange={handlePageChange}
+          />
+          <DropdownButton
+            className="mt-2 mt-md-0 mb-2"
+            id="dropdown-items-per-page"
+            title={`Items per page: ${params.pagination?.per_page}`}
+          >
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+          </DropdownButton>
+        </div>
       </Card>
     </>
-  )
-}
+  );
+};
 
-export default BranchList
+export default BranchList;

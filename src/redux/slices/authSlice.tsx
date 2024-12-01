@@ -172,17 +172,17 @@ export const removeRole = createAsyncThunk(
   },
 );
 
-export const getMomoToken = createAsyncThunk(
-  'auth/getMomoToken',
-  async (_, thunkAPI) => {
-    try {
-      const response = await AuthService.getMomoToken();
-      return response;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  },
-);
+// export const getMomoToken = createAsyncThunk(
+//   'auth/getMomoToken',
+//   async (_, thunkAPI) => {
+//     try {
+//       const response = await AuthService.getMomoToken();
+//       return response;
+//     } catch (error: any) {
+//       return thunkAPI.rejectWithValue(error);
+//     }
+//   },
+// );
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -190,23 +190,23 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getMomoToken.fulfilled, (state, action) => ({
-        ...state,
-        momotoken: action.payload.data,
-        isSuccessful: true,
-        isLoading: false
-      }))
-      .addCase(getMomoToken.rejected, (state, action) => ({
-        ...state,
-        message: 'The action requested has failed',
+      // .addCase(getMomoToken.fulfilled, (state, action) => ({
+      //   ...state,
+      //   momotoken: action.payload.data,
+      //   isSuccessful: true,
+      //   isLoading: false
+      // }))
+      // .addCase(getMomoToken.rejected, (state, action) => ({
+      //   ...state,
+      //   message: 'The action requested has failed',
 
-        isLoading: false,
-      }))
-      .addCase(getMomoToken.pending, (state, action) => ({
-        ...state,
-        message: 'The action requested is pending',
-        isLoading: true,
-      }))
+      //   isLoading: false,
+      // }))
+      // .addCase(getMomoToken.pending, (state, action) => ({
+      //   ...state,
+      //   message: 'The action requested is pending',
+      //   isLoading: true,
+      // }))
       .addCase(removeRole.fulfilled, (state, action) => ({
         ...state,
         message: 'The action requested has completed',

@@ -5,6 +5,7 @@ import StudentAttendances from './StudentAttendances'
 import StudentSubject from './StudentSubject'
 
 const ReportTimeTable = (props: any) => {
+  const {params} = props;
     const [index, SetIndex] = React.useState('first')
     return (
       <Tab.Container onSelect={(e) => e && SetIndex(e)} id="left-tabs-example" defaultActiveKey="first">
@@ -25,8 +26,8 @@ const ReportTimeTable = (props: any) => {
         </Col>
         <Col sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="first"><StudentLessons  /></Tab.Pane>
-            <Tab.Pane eventKey="second"><StudentAttendances /></Tab.Pane>
+            <Tab.Pane eventKey="first"><StudentLessons index={index} params={params}  /></Tab.Pane>
+            <Tab.Pane eventKey="second"><StudentAttendances index={index} params={params} /></Tab.Pane>
             <Tab.Pane eventKey="third"><StudentSubject /></Tab.Pane>
           </Tab.Content>
         </Col>

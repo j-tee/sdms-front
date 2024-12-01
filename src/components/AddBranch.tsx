@@ -10,7 +10,7 @@ import { addBranch } from '../redux/slices/schoolSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 
-const AddBranch = (props: any) => {
+const   AddBranch = (props: any) => {
   const { setAddBranchModalOpen, schoolId, onRequestClose, isOpen } = props;
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext);

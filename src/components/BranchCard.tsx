@@ -70,9 +70,7 @@ const BranchCard = (props: any) => {
             <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>
           </span>}
         </Row>
-        {/* <Button className="card-btn">
-            See Branches
-          </Button> */}
+       
       </Card.Body>
       <BranchDetails branch={branch} params={params}
         isOpen={isBranchDetailsModalOpen}

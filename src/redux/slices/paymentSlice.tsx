@@ -5,6 +5,9 @@ import { PaymentState } from '../../models/payment';
 
 const initialState: PaymentState = {
     payments: [],
+    amt_due: 0,
+    total_payments: 0,
+    outstanding_balance: 0,
     payment: {
         id: 0,
         student_id: 0,
@@ -132,6 +135,9 @@ export const paymentSlice = createSlice({
                     isLoading: false,
                     status: 'success',
                     payments: action.payload.payments,
+                    outstanding_balance: action.payload.outstanding_balance,
+                    total_payments: action.payload.total_payments,
+                    amt_due: action.payload.amt_due,
                     pagination: action.payload.pagination,
                 };
             })

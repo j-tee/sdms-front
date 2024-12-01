@@ -27,7 +27,7 @@ const TerminalReport = (props: any) => {
       <Col sm={10}>
         <Tab.Content>
           <Tab.Pane eventKey="first"><ReportCard params={params}  /></Tab.Pane>
-          <Tab.Pane eventKey="second"><AssignmentExercises /></Tab.Pane>
+          <Tab.Pane eventKey="second"><AssignmentExercises index={index} params={params} /></Tab.Pane>
           <Tab.Pane eventKey="third"><Analytics /></Tab.Pane>
         </Tab.Content>
       </Col>

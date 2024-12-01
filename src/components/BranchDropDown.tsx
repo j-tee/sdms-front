@@ -32,7 +32,7 @@ const BranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, schoolId, par
   return (
     <Form.Group controlId="branch">
       <Form.Label>Branches</Form.Label>
-      <Form.Control as="select" onChange={handleBranchChange} value={params.branch_id}>
+      <Form.Control as="select" onChange={handleBranchChange} value={params?.branch_id}>
         <option value="">---Select---</option>
         {branches.map((branch) => (<option key={branch.id} value={branch.id}>
           {branch.branch_name}

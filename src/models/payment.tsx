@@ -19,19 +19,25 @@ export interface PaymentSummary {
 
 export interface PaymentViewModel {
     id: number;
-    student_id: number;
+    student_id: string;
+    full_name: string;
     amount_paid: number;
+    amt_due: number;
+    total_payments: number;
+    outstanding_balance: number;
     payment_date: string;
     academic_term_id: number;
     academic_year_id: number;
-    academic_year: string;
+    academic_year_name: string;
     class_group_id: number;
-    student_name: string;
-    academic_term_name: string;
-    class_group_name: string;
+    term_name: string;
+    class_grp_name: string;
 }
 
 export interface PaymentState {
+    amt_due: number;
+    total_payments: number;
+    outstanding_balance: number;
     payments: PaymentViewModel[];
     paymentSummary: PaymentSummary;
     payment: Payment;

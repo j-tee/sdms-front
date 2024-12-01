@@ -5,6 +5,10 @@ import { Branch } from '../../models/branch';
 
 
 const initialState: SchoolState = {
+  categoriesLoaded: false,
+  levelsLoaded: false,
+  ownershipCategoriesLoaded: false,
+  religionsLoaded: false,
   branches: [],
   schools: [],
   levels: [],
@@ -300,7 +304,8 @@ export const schoolSlice = createSlice({
       }));
     builder
       .addCase(getLevels.fulfilled, (state, action) => ({
-        ...state, levels: action.payload.levels, isLoading: false
+        ...state, levels: action.payload.levels, isLoading: false,
+        levelsLoaded: true
       }));
     builder
       .addCase(getOwnershipCategories.pending, (state) => ({ ...state, isLoading: true }));
@@ -310,7 +315,8 @@ export const schoolSlice = createSlice({
       }));
     builder
       .addCase(getOwnershipCategories.fulfilled, (state, action) => ({
-        ...state, ownershipCategories: action.payload.ownership_categories, isLoading: false
+        ...state, ownershipCategories: action.payload.ownership_categories, isLoading: false,
+        ownershipCategoriesLoaded: true
       }));
     builder
       .addCase(getReligiousAffiliation.pending, (state) => ({ ...state, isLoading: true }));
@@ -320,7 +326,8 @@ export const schoolSlice = createSlice({
       }));
     builder
       .addCase(getReligiousAffiliation.fulfilled, (state, action) => ({
-        ...state, religions: action.payload.religions, isLoading: false
+        ...state, religions: action.payload.religions, isLoading: false,
+        religionsLoaded: true
       }));
     builder
       .addCase(getCategories.pending, (state) => ({ ...state, isLoading: true }));
@@ -328,7 +335,10 @@ export const schoolSlice = createSlice({
       .addCase(getCategories.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
 
     builder
-      .addCase(getCategories.fulfilled, (state, action) => ({ ...state, categories: action.payload.categories, isLoading: false }));
+      .addCase(getCategories.fulfilled, (state, action) => ({ 
+        ...state, categories: action.payload.categories, 
+        categoriesLoaded: true,
+        isLoading: false }));
 
   },
 });

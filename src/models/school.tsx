@@ -73,6 +73,10 @@ export interface ReligiousAffiliation {
 }
 
 export interface SchoolState {
+  categoriesLoaded: boolean,
+  levelsLoaded: boolean,
+  ownershipCategoriesLoaded: boolean,
+  religionsLoaded: boolean,
   status:string;
   schoolViewModel: SchoolViewModel;
   branch: Branch;

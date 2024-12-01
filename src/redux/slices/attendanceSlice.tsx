@@ -17,6 +17,8 @@ const initialState: AttendanceState = {
     student_id: 0,
     lesson_id: 0,
     status: '',
+    start_time:'',
+    end_time:'',
     attendance_date: '',
     student_name: '',
     lesson_name: '',

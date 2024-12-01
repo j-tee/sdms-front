@@ -38,7 +38,7 @@ const StudentLessonsCard = (props: any) => {
   };
   return (
     <>
-      {subscription.valid_subscription ? (
+      {subscription && subscription.valid_subscription ? (
         <>
         <Form.Group controlId="yearId">
         <Form.Label>Academic Years</Form.Label>
@@ -74,7 +74,7 @@ const StudentLessonsCard = (props: any) => {
         </Table>
       </div>
       </>) : (<>You have no active subscription! <br />
-      Expiry Date: {new Date(subscription.exp_date).toDateString()}
+      Expiry Date: {new Date(subscription && subscription.exp_date).toDateString()}
       </>)}
     </>
   )

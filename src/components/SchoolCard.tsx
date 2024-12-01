@@ -63,7 +63,7 @@ const SchoolCard = (props: any) => {
         </ul>
         <div className="d-flex">
           <Button onClick={() => seeBranches(school)} className="card-btn">
-            See Branches
+            Branches
           </Button>
           {validUser && roles.includes('admin') && <Button onClick={openAddBranchModal} className="card-btn ms-4">
             Add New Branch

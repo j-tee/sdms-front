@@ -192,7 +192,7 @@ const StudentTerminalReport = (props: any) => {
         ))}
         
       </div>
-      <Button onClick={() => handlePrint()}>Print out terminal reports!</Button>
+      <Button className="no-print" onClick={() => handlePrint()}>Print out terminal reports!</Button>
     </>
   );
 };

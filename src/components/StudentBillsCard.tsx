@@ -24,7 +24,7 @@ const StudentBillsCard = (props: any) => {
     }, [student, class_group, tabIndex, params, dispatch]);
     return (
         <>
-            {subscription.id && subscription.valid_subscription ? (
+            {subscription && subscription.valid_subscription ? (
                 <div ref={componentRef}>
                 <Table size='sm' borderless striped hover>
                 <thead>

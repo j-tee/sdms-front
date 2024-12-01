@@ -16,14 +16,13 @@ const StudentBillsFees = (props: any) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="second">Payments</Nav.Link>
-            </Nav.Item>
-                      
+            </Nav.Item>                      
           </Nav>
         </Col>
         <Col sm={10}>
           <Tab.Content>
-            <Tab.Pane eventKey="first"><StudentTerminalBills  /></Tab.Pane>
-            <Tab.Pane eventKey="second"><StudentPayments /></Tab.Pane>
+            <Tab.Pane eventKey="first"><StudentTerminalBills params={params} index={index}  /></Tab.Pane>
+            <Tab.Pane eventKey="second"><StudentPayments params={params} index={index} /></Tab.Pane>
           </Tab.Content>
         </Col>
       </Row>

@@ -30,7 +30,7 @@ const StudentEvaluationCard = (props: any) => {
   
   return (
     <>
-     {subscription.valid_subscription ? (<>{student_reports && student_reports.map((report: any) => (
+     {(subscription && subscription.valid_subscription) ? (<>{student_reports && student_reports.map((report: any) => (
         <div key={report.student_id}>
           <span>
             <h4>ID Number: {report.student.student_id}</h4>

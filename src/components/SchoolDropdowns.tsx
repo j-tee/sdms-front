@@ -1,29 +1,29 @@
-// SchoolDropdowns.tsx
 import React, { useEffect } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { getCategories, getLevels, getOwnershipCategories, getReligiousAffiliation } from '../redux/slices/schoolSlice';
+import { getReligiousAffiliation } from '../redux/slices/schoolSlice';
 
 type AnyType = {
   [key: string]: string;
 };
+
 interface SchoolDropdownsProps {
   onChange: (field: keyof AnyType, value: string) => void;
 }
 
 const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { levels, religions, categories, ownershipCategories } = useSelector((state: RootState) => state.school);
+  const { levels, religions, categories, ownershipCategories, isLoading } = useSelector((state: RootState) => state.school);
 
-  useEffect(() => {
-    dispatch(getLevels());
-    dispatch(getReligiousAffiliation());
-    dispatch(getCategories());
-    dispatch(getOwnershipCategories());
-  }, [dispatch]);
+  useEffect(() => {    
+    if (religions.length === 0 && !isLoading) {      
+      dispatch(getReligiousAffiliation());
+    }
+  }, [dispatch, religions, isLoading]); 
+
   return (
-    <Container fluid className='border p-3'>
+    <Container fluid className="border p-3">
       <Row>
         <Col md={6}>
           <Form.Group controlId="religiousAffiliation">

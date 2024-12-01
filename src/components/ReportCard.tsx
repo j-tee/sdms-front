@@ -38,7 +38,7 @@ const ReportCard = (props: any) => {
 
   return (
     <>
-      {subscription.valid_subscription ? (<>{student_reports && student_reports.map((report: any) => (
+      {(subscription && subscription.valid_subscription) ? (<>{student_reports && student_reports.map((report: any) => (
         <div className="report-container" ref={componentRef}>
           <div className='mt-4 border-4 border-primary' key={report.student_id}>
             <div className="row justify-content-center align-items-start">

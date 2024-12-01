@@ -28,18 +28,18 @@ const AuthService = () => {
         email,
       },
     });
-  const getMomoToken = async () => {
+  // const getMomoToken = async () => {
 
-    try {
-      const response = await axios.get(`${API_URL}api/v1/mobile_moneys/keys/token`, { headers: authHeader() });
-      sessionStorage.setItem('momotoken', JSON.stringify(response.data))
-      return response.data;
-    } catch (error) {
-      // Handle errors here
-      console.error('Error:', error);
-      throw error; // Re-throw the error or handle it according to your application's requirements.
-    }
-  };
+  //   try {
+  //     const response = await axios.get(`${API_URL}api/v1/mobile_moneys/keys/token`, { headers: authHeader() });
+  //     sessionStorage.setItem('momotoken', JSON.stringify(response.data))
+  //     return response.data;
+  //   } catch (error) {
+  //     // Handle errors here
+  //     console.error('Error:', error);
+  //     throw error; // Re-throw the error or handle it according to your application's requirements.
+  //   }
+  // };
 
   const login = (email: string, password: string) => axios
     .post(`${API_URL}login`,
@@ -80,7 +80,7 @@ const AuthService = () => {
     });
 
   return {
-    getMomoToken,
+    // getMomoToken,
     login,
     logout,
     register,
