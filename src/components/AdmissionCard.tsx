@@ -29,7 +29,7 @@ type AnyType = {
 };
 
 const AdmissionCard = (props: any) => {
-  const { schoolId, branchId } = props;
+  const { schoolId, branchId, tabIndex } = props;
   const { setShowToast } = useContext(ToastContext)
   const { admissions, pagination } = useSelector((state: RootState) => state.admission)
   const dispatch = useDispatch<AppDispatch>()
@@ -57,17 +57,24 @@ const AdmissionCard = (props: any) => {
   })
 
   useEffect(() => {
-    dispatch(getCurrentTerm(branchId))
-    const deptParams: DepartmentParams = {
-      ...params,
-      school_id: schoolId,
-      branch_id: branchId,
-      paginate: false
+    if(!academic_term){
+      dispatch(getCurrentTerm(branchId))
     }
-    dispatch(getDepartments(deptParams))
-  }, [branchId, dispatch, schoolId])
+    if (tabIndex === 'first') {
+      
+      const deptParams: DepartmentParams = {
+        ...params,
+        school_id: schoolId,
+        branch_id: branchId,
+        paginate: false
+      }
+      dispatch(getDepartments(deptParams))
+    }
+
+  }, [academic_term, branchId, dispatch, params, schoolId, tabIndex])
 
   useEffect(() => {
+   if(tabIndex === 'first'){
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, department_id: params.department_id }))
       .then((res: any) => {
         setShowToast(true)
@@ -78,6 +85,7 @@ const AdmissionCard = (props: any) => {
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
       })
+   }
   }, [dispatch, params])
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
@@ -132,28 +140,28 @@ const AdmissionCard = (props: any) => {
         isOpen={NewAdmissionModalOpen}
         setNewAdmissionModalOpen={setNewAdmissionModalOpen}
         onRequestClose={setNewAdmissionModalOpen} />
-     <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="mt-2 mt-md-0 mb-2"
+          id="dropdown-items-per-page"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   );
 };

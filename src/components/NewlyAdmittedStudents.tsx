@@ -17,7 +17,7 @@ import UnregisteredStudent from './UnregisteredStudent'
 import PaginationComponent from './PaginationComponent'
 
 const NewlyAdmittedStudents = (props: any) => {
-  const { schoolId, branchId } = props;
+  const { schoolId, branchId, tabIndex } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const { all_unregistered_students, registrations, pagination } = useSelector((state: RootState) => state.studentReg)  
   const [key, setKey] = useState<string>('registered');
@@ -81,10 +81,15 @@ const NewlyAdmittedStudents = (props: any) => {
     }));
   };
 useEffect(()=>{
-  dispatch(getCurrentTerm(branchId))
-  dispatch(getRegisteredStudents({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
+  if(!academic_term){
+    dispatch(getCurrentTerm(branchId))
+  }
+  if(tabIndex === 'second'){    
+  dispatch(getRegisteredStudents({ ...params, paginate:true, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
   dispatch(getRegistrationInformation({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
-},[params])
+
+  }
+  },[params, tabIndex, dispatch, academic_term, branchId, schoolId])
   return (
     <Card>
       <Card.Header>

@@ -32,7 +32,7 @@ const Information = () => {
               <a href="">
                 <img src="images/logo.png" alt="" />
                 <span>
-                  Data Logique
+                  Alpha Logique
                 </span>
               </a>
             </div>

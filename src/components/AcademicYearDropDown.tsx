@@ -37,11 +37,11 @@ const AcademicYearDropDown: FC<AcademicYearDropDownProps> = ({ onChange, schoolI
         dispatch(getAcademicTerms({ ...params, academic_year_id: selectedYearId }));
     };
     useEffect(() => {
-        if(branchId && schoolId){
+        if(branchId && schoolId && academic_years.length === 0) {
             dispatch(getAcademicYears({ ...params, branch_id: branchId, school_id: schoolId }));
         } 
     }
-    , [branchId, dispatch, params, schoolId])
+    , [academic_years.length, branchId, dispatch, params, schoolId])
     return (
         <Form.Group controlId="yearId">
         <Form.Label>Academic Years</Form.Label>

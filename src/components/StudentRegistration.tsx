@@ -19,31 +19,7 @@ const StudentRegistration = (props: any) => {
   
     
   const [tabKey, setTabKey] = useState<string>('newly_admitted');
-  // const dispatch = useDispatch<AppDispatch>()
-  // const [params, setParams] = useState<QueryParams>({
-  //     reg_date: '',
-  //     stage_id: 0,
-  //     program_id: 0,
-  //     department_id: 0,
-  //     branch_id: 0,
-  //     school_id: 0,
-  //     academic_term_id: 0,
-  //     class_group_id: 0,
-  //     student_id: 0,
-  //     pagination: {
-  //       current_page: 1,
-  //       per_page: 10,
-  //       total_items: 0,
-  //       total_pages: 0
-  //     }
-  //   });
- 
-  // useEffect(() => {
-  //   if (tabIndex === 'second')
-  //     dispatch(getCurrentTerm(branchId))
-  // }, [tabIndex, schoolId, branchId, dispatch])
-  
- 
+   
   return (
     <>
     <Tabs
@@ -53,9 +29,9 @@ const StudentRegistration = (props: any) => {
       className="mb-3"
     >
       <Tab eventKey="newly_admitted" title="Newly Admitted Students">
-        <NewlyAdmittedStudents schoolId={schoolId} branchId={branchId} tabIndex={tabKey} />
+        <NewlyAdmittedStudents schoolId={schoolId} branchId={branchId} tabIndex={tabIndex} />
       </Tab>
-      <Tab eventKey="contunuing" title="Contunuing Students">
+      <Tab eventKey="contunuing" title="Continuing Students">
         <ContunuingStudents schoolId={schoolId} branchId={branchId} tabIndex={tabKey} />
       </Tab>
     </Tabs>

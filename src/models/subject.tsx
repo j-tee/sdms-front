@@ -32,6 +32,7 @@ export interface ProgramSubjectState {
 }
 
 export interface ProgramSubject {
+  id?: number;
   stage_id: number;
   academic_year_id: number;
   subject_id: number;
@@ -44,6 +45,7 @@ export interface ProgramSubjectViewModel {
   id: number;
   stage_id: number;
   academic_term_id: number;
+  academic_year_id: number;
   subject_id: number;
   subject_name: string;
   program_id: number;

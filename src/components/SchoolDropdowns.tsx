@@ -14,13 +14,13 @@ interface SchoolDropdownsProps {
 
 const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { levels, religions, categories, ownershipCategories, isLoading } = useSelector((state: RootState) => state.school);
+  const { levels, religions, categories, ownershipCategories,religionsLoaded, isLoading } = useSelector((state: RootState) => state.school);
 
   useEffect(() => {    
-    if (religions.length === 0 && !isLoading) {      
+    if (!religionsLoaded) {      
       dispatch(getReligiousAffiliation());
     }
-  }, [dispatch, religions, isLoading]); 
+  }, [dispatch, religions, religionsLoaded]); 
 
   return (
     <Container fluid className="border p-3">

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap';
 import DepartmentDropDown from './DepartmentDropDown';
 import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDepartments } from '../redux/slices/departmentSlice';
-import { ProgramSubject, ProgramSubjectParams } from '../models/subject';
+import { ProgramSubject, ProgramSubjectParams, ProgramSubjectViewModel } from '../models/subject';
 import { getPrograms } from '../redux/slices/programSlice';
 import { getStages } from '../redux/slices/stageSlice';
 import { ProgramParams } from '../models/program';
@@ -19,6 +19,8 @@ import { getCurrentAcademicYear, getCurrentTerm } from '../redux/slices/calendar
 import ProgramSubjectDetails from './ProgramSubjectDetails';
 import PaginationComponent from './PaginationComponent';
 import UserSession from '../utility/userSession';
+import CourseOptionEditModal from './CourseOptionEditModal';
+import CourseOptionDeleteModal from './CourseOptionDeleteModal';
 
 const CourseOption = (props: any) => {
   const { schoolId, branchId, tabKey } = props;
@@ -30,10 +32,14 @@ const CourseOption = (props: any) => {
   const [deptId, setDeptId] = useState<number>(0);
   const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
   const [roles, setRoles] = useState<string[]>([]);
+  const [courseOption, setCourseOption] = useState<ProgramSubject>({} as ProgramSubject);
+  const [isCoueseOptionDeleteModalOpen, setCourseOptionDeleteModalOpen] = useState(false);
+  const [isCoueseOptionEditModalOpen, setCourseOptionEditModalOpen] = useState(false);
+  const [subjectId, setSubjectId] = useState<number>(0);
   const [params, setParams] = useState<ProgramSubjectParams>({
-    school_id: schoolId, 
-    branch_id: branchId, 
-    pagination: { current_page: 1, per_page: 10 }, 
+    school_id: schoolId,
+    branch_id: branchId,
+    pagination: { current_page: 1, per_page: 10 },
     paginate: true
   } as ProgramSubjectParams);
   const [formData, setFormData] = useState<ProgramSubject>({
@@ -61,36 +67,49 @@ const CourseOption = (props: any) => {
         break;
       }
       case 'program_id': {
-        if(branchId)
-        dispatch(getStages({ ...params, school_id: schoolId, branch_id: branchId, program_id: parseInt(value), paginate: false } as StageParams))
+        if (branchId)
+          dispatch(getStages({ ...params, school_id: schoolId, branch_id: branchId, program_id: parseInt(value), paginate: false } as StageParams))
         break;
       }
       default: {
         break;
       }
     }
-    
+
   };
+
+  const handleEdit = (course_option: ProgramSubjectViewModel) => {
+    setCourseOption({
+      ...course_option
+      // academic_year_id: course_option.academic_year_id ?? academic_year.id
+    } as ProgramSubject);
+    setCourseOptionEditModalOpen(true);
+  }
+
+  const handleDelete = (course_option_id: number) => {
+    setSubjectId(course_option_id);
+    setCourseOptionDeleteModalOpen(true);
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(addCourseOption({ ...formData, academic_year_id: academic_year.id ?? 0 })).then((resp: any) => {
       setShowToast(true)
       showToastify(resp.payload.message, resp.payload.status)
-      dispatch(getCourseOptions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true  }))
+      dispatch(getCourseOptions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
     })
   }
   useEffect(() => {
     if (tabKey === 'course-options') {
       const user_roles = UserSession.getroles()
       setRoles(user_roles)
-      dispatch(getCourseOptions({...params})).then((resp: any) => {
+      dispatch(getCourseOptions({ ...params })).then((resp: any) => {
         showToastify(resp.payload.message, resp.payload.status)
       })
-      dispatch(getCurrentAcademicYear(branchId)).then((resp: any) => {  
+      dispatch(getCurrentAcademicYear(branchId)).then((resp: any) => {
         setFormData((prevData) => ({
           ...prevData,
-          academic_year_id: academic_year.id as number, 
+          academic_year_id: academic_year.id as number,
         }));
       })
       // dispatch(getCurrentTerm(branchId)).then((resp: any) => {
@@ -102,10 +121,10 @@ const CourseOption = (props: any) => {
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))
       dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: false, pagination: { current_page: 1, per_page: 10000 } }))
     }
-    
+
   }, [schoolId, branchId, tabKey, dispatch, params, academic_year.id])
 
-  const handlePageChange = (page: number) => {    
+  const handlePageChange = (page: number) => {
     // setCurrentPage(page);
     setParams((prevParams) => ({
       ...prevParams,
@@ -169,7 +188,7 @@ const CourseOption = (props: any) => {
               </Form.Control>
             </Form.Group>
           </Col>
-          {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Col>
+          {roles && privileged_school_roles.some(role => roles.includes(role)) && <Col>
             <Form.Group controlId='creditHours' className='mb-3'>
               <Form.Label>Credit Hours</Form.Label>
               <Form.Control type="number"
@@ -190,32 +209,75 @@ const CourseOption = (props: any) => {
         <Card.Header>
           Course Options
         </Card.Header>
-        {course_options.map((course_option) => (
-          <ProgramSubjectDetails branchId={branchId} schoolId={schoolId} key={course_option.id} course_option={course_option} />
-        ))}
+        <Table size='sm' striped hover responsive>
+          <thead>
+            <tr>
+              <th>Subject Name</th>
+              <th>Optional</th>
+              <th>Credit Hours</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {course_options.map((course_option) => (
+              <tr key={course_option.id}>
+                <td>{course_option.subject_name}</td>
+                <td>{course_option.optional ? 'Yes' : 'No'}</td>
+                <td>{course_option.credit_hours}</td>
+                <td>
+                  {/* Edit Button */}
+                  <Button className="me-2" variant="primary" onClick={() => handleEdit(course_option)}>
+                    Edit
+                  </Button>
+
+                  {/* Delete Button */}
+                  <Button variant="danger" onClick={() => handleDelete(course_option.id)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
+        </Table>
       </Row>
       <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="mt-2 mt-md-0 mb-2"
+          id="dropdown-items-per-page"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
+      <CourseOptionEditModal
+        schoolId={schoolId} branchId={branchId}
+        isOpen={isCoueseOptionEditModalOpen} 
+        onRequestClose={() => setCourseOptionEditModalOpen(false)}
+        subject={courseOption} 
+        params={params}
+        setCourseOptionEditModalOpen={setCourseOptionEditModalOpen} />
+
+        <CourseOptionDeleteModal
+          subjectId={subjectId}
+          params={params}
+          isOpen={isCoueseOptionDeleteModalOpen}
+          onRequestClose={() => setCourseOptionDeleteModalOpen(false)}
+          setCourseOptionDeleteModalOpen={setCourseOptionDeleteModalOpen}
+        />
     </div>
   )
 }

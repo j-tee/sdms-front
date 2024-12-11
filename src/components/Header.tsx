@@ -133,7 +133,7 @@ const teacherMenu = () => {
     <Navbar className='navbar header_section d-flex justify-content-between mb-4 pb-4' fixed='top' expand="lg">
       <Navbar.Brand href="/"><img src={logo} alt="Academia Logo" />
         <span>
-          Data Logique
+          Alpha Logique
         </span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -26,7 +26,7 @@ const Home = () => {
                 <div className="col-md-6">
                   <div className="detail-box">
                     <h1>
-                      Welcome to Data Logique  <br />
+                      Welcome to Alpha Logique  <br />
                       <span>
                         Empowering Schools, One Subscription at a Time
                       </span>
@@ -54,7 +54,7 @@ const Home = () => {
                     <h1>
                       Manage Attendance Effortlessly <br />
                       <span>
-                        with Data Logique
+                        with Alpha Logique
                       </span>
                     </h1>
                     <p>
@@ -84,7 +84,7 @@ const Home = () => {
                     </h1>
                     <p>
                       Are you a school owner  or do you manage a school? Worried about the high cost of available systems for managing your school?
-                      Subscribe to Data Logique to access exclusive features, priority support, and regular updates. Elevate your school management experience with a subscription that grows with your needs.
+                      Subscribe to Alpha Logique to access exclusive features, priority support, and regular updates. Elevate your school management experience with a subscription that grows with your needs.
                     </p>
                     <div className="btn-box">
                       <a href="htps:" className="btn-1">

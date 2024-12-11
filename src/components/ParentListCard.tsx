@@ -6,6 +6,7 @@ import { ParentParams } from '../models/parent'
 import { Button, Dropdown, DropdownButton, Table } from 'react-bootstrap'
 import PaginationComponent from './PaginationComponent'
 import BranchDropDown from './BranchDropDown'
+import { getBranches } from '../redux/slices/schoolSlice'
 type AnyType = {
     [key: string]: string;
   };
@@ -47,6 +48,7 @@ const ParentListCard = (props: any) => {
       };
     useEffect(() => {
         if (tabIndex === 'fifth') {
+          dispatch(getBranches({ ...params }))
             dispatch(getParents({ ...params }))
         }
     }, [tabIndex, params, dispatch])

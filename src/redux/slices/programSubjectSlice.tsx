@@ -16,7 +16,8 @@ const initialState: ProgramSubjectState = {
     dept_name: '',
     optional: 0,
     credit_hours: 0,
-    subject_name: ''
+    subject_name: '',
+    academic_year_id: 0
   },
   status: '',
   message: '',
@@ -66,11 +67,53 @@ export const getCourseOption = createAsyncThunk(
     }
   },
 );
+
+export const updateCourseOption = createAsyncThunk(
+  'course_option/updateCourseOption',
+  async (course_option: ProgramSubject, thunkAPI) => {
+    try {
+      const response = await ProgramSubjectService.updateCourseOption(course_option);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+export const deleteCourseOption = createAsyncThunk(
+  'course_option/deleteCourseOption',
+  async (subjectId: number, thunkAPI) => {
+    try {
+      const response = await ProgramSubjectService.deleteCourseOption(subjectId);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+
 export const programSubjectSlice = createSlice({
   name: 'course_option',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(deleteCourseOption.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state, isLoading: false, message: action.payload.message, status: action.payload.status
+    }));
+    builder.addCase(deleteCourseOption.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(deleteCourseOption.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, isLoading: false, message: action.payload.message, status: action.payload.status
+    }));
+    builder.addCase(updateCourseOption.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      course_option: action.payload.course_option, 
+      isLoading: false, message: action.payload.message, 
+      status: action.payload.status   
+    }));
+    builder.addCase(updateCourseOption.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateCourseOption.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, isLoading: false, message: action.payload.message, status: action.payload.status
+    }));
     builder
       .addCase(getCourseOption.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

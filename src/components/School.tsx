@@ -49,9 +49,9 @@ const School = () => {
   );
 
   // Fetch schools initially and on `params` changes
-  useEffect(() => {
-    debouncedGetSchools(params);
-  }, []); // Runs only on component mount to fetch initial schools
+  // useEffect(() => {
+  //   debouncedGetSchools(params);
+  // }, []); // Runs only on component mount to fetch initial schools
 
   useEffect(() => {
     debouncedGetSchools(params);
