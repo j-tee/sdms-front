@@ -4,10 +4,10 @@ export default function authHeader(): Record<string, string> {
   if (token) {
     return {
       Authorization: `Bearer ${JSON.parse(token)}`,
-      'Content-Type': 'application/json',  // Add Content-Type header
+      'Content-Type': 'application/x-www-form-urlencoded',  // Add Content-Type header
     };
   }
   return {
-    'Content-Type': 'application/json',  // If there's no token, still add Content-Type header
+    'Content-Type': 'application/x-www-form-urlencoded',  // If there's no token, still add Content-Type header
   };
 }
