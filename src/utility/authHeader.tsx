@@ -2,7 +2,12 @@ export default function authHeader(): Record<string, string> {
   const token = sessionStorage.getItem('token');
 
   if (token) {
-    return {Authorization: `Bearer ${JSON.parse(token)}`, };
+    return {
+      Authorization: `Bearer ${JSON.parse(token)}`,
+      'Content-Type': 'application/json',  // Add Content-Type header
+    };
   }
-  return {};
+  return {
+    'Content-Type': 'application/json',  // If there's no token, still add Content-Type header
+  };
 }
