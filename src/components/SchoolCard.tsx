@@ -12,6 +12,7 @@ const SchoolCard = (props: any) => {
   const [roles, setRoles] = useState<string[]>([]);
   const [isAddBranchModalOpen, setAddBranchModalOpen] = useState(false)
   const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+  console.log('user====>', user)
   const validUser = UserSession.isUserStaffOrOwner(user.id, school.all_users)
   const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
   const seeBranches = (school: any) => {

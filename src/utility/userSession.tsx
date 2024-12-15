@@ -22,6 +22,7 @@ const UserSession = {
   },
 
   isUserStaffOrOwner: (userId:number, users:UserModel[]) => {
+    
     return users.some(user => user.id === userId);
   },
   validMomoToken: () => {

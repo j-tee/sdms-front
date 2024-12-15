@@ -67,13 +67,20 @@ const   AddBranch = (props: any) => {
   // };
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-    // Update the formData state with the new value
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-
+    switch(field) {
+      case 'region_id':
+      case 'district_id':
+        // Don't update formData for these fields
+        break;
+      default:
+        setFormData((prevData) => ({
+          ...prevData,
+          [field]: value,
+        }));
+        break;
+    }
   };
+  
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
