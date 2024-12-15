@@ -281,12 +281,14 @@ export const schoolSlice = createSlice({
     builder
       .addCase(registerSchool.fulfilled, (state, action) => ({
         ...state,
-        school: action.payload, isLoading: false
+        school: action.payload, isLoading: false,
+        message: action.payload.message
       }));
     builder
       .addCase(registerSchool.pending, (state) => ({ ...state, isLoading: true }));
     builder
-      .addCase(registerSchool.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+      .addCase(registerSchool.rejected, (state,  action:PayloadAction<any>) => ({ ...state, 
+        message: action.payload.message, isLoading: false }));
     builder
       .addCase(getSchools.fulfilled, (state, action) => ({ ...state, 
         schools: action.payload.schools, 

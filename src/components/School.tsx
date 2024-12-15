@@ -11,6 +11,10 @@ import Header from './Header';
 import PaginationComponent from './PaginationComponent';
 import { debounce } from 'lodash';
 
+type AnyType = {
+  [key: string]: string;
+};
+
 const School = () => {
   const { setShowToast } = useContext(ToastContext);
   const { schools, pagination, isLoading } = useSelector((state: RootState) => state.school);
@@ -58,7 +62,9 @@ const School = () => {
   }, [params, debouncedGetSchools]); // Runs on parameter changes
 
   // Handle filter/input changes
-  const handleInputChange = <T,>(field: keyof T, value: string) => {
+  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    console.log('===========field,',field, '===========value,', value)
+    
     switch (field) {
       case 'religious_affiliation_id':
         dispatch(getCategories());

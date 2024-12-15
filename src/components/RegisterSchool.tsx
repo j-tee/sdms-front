@@ -100,16 +100,18 @@ const RegisterSchool = () => {
 
     try {
       if (isValid) {
-        const response = await dispatch(registerSchool(school));
+        dispatch(registerSchool(school)).then((res)=>{
+          if (res.meta.requestStatus === 'fulfilled') {
+            showToastify('Congratulations!! Your school has been duly registered with us', 'success');
+            setTimeout(() => {
+              navigate('/schools')
+            }, 3000);
+          } else if (res.meta.requestStatus === 'rejected') {
+            showToastify(`Registration failed ${res}`, 'error');
+          }
+        })
 
-        if (response.meta.requestStatus === 'fulfilled') {
-          showToastify('Congratulations!! Your school has been duly registered with us', 'success');
-          setTimeout(() => {
-            navigate('/schools')
-          }, 3000);
-        } else if (response.meta.requestStatus === 'rejected') {
-          showToastify(`Registration failed ${response.payload.error}`, 'error');
-        }
+       
       } else {
         showToastify(`Session is expired! Please relogin`, 'information');
         navigate('/')

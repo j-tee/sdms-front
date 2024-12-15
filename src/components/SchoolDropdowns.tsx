@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { getReligiousAffiliation } from '../redux/slices/schoolSlice';
+import { getCategories, getLevels, getOwnershipCategories, getReligiousAffiliation } from '../redux/slices/schoolSlice';
 
 type AnyType = {
   [key: string]: string;
@@ -17,10 +17,19 @@ const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
   const { levels, religions, categories, ownershipCategories,religionsLoaded, isLoading } = useSelector((state: RootState) => state.school);
 
   useEffect(() => {    
-    if (!religionsLoaded) {      
-      dispatch(getReligiousAffiliation());
+    if (religions.length <= 0) {      
+      dispatch(getReligiousAffiliation()).then((res) => {
+        dispatch(getCategories())
+        dispatch(getLevels())
+        dispatch(getOwnershipCategories())
+      })
     }
   }, [dispatch, religions, religionsLoaded]); 
+
+  const handleSchoolChange = (e: React.ChangeEvent<any>) =>{
+    console.log('handleSchoolChange===========e.target.value', e.target.value)
+    onChange('religious_affiliation_id', e.target.value)
+  }
 
   return (
     <Container fluid className="border p-3">
@@ -30,7 +39,7 @@ const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
             <Form.Label>Religious Affiliation</Form.Label>
             <Form.Control
               as="select"
-              onChange={(e) => onChange('religious_affiliation_id', e.target.value)}
+              onChange={handleSchoolChange}
             >
               <option value="">---Select---</option>
               {religions.map((religion: any) => (
