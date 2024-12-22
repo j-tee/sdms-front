@@ -61,17 +61,25 @@ const StudentDetails = (props: any) => {
       showToastify(res.payload.message, res.payload.status)
     })
   };
-  const getNextStudentId = (students: StudentViewModel[]) => {
-    const highestId = students
-      .map((ward) => ward.student_id)
-      .sort()
-      .pop()!; // Get the highest student_id
-
-    const match = highestId.match(/(.*)([A-Z])$/);
-    return match
-      ? `${match[1]}${String.fromCharCode(match[2].charCodeAt(0) + 1)}`
-      : highestId; // Increment the last letter or return the original
-  }
+  const generateStudentId = (parentId: string) => {
+    // Get current timestamp in milliseconds
+    const timestamp = Date.now().toString();
+  
+    // Use the last 4 digits of the timestamp for uniqueness
+    const timestampPart = timestamp.slice(-4);
+  
+    // Ensure the parentId contributes enough digits to reach 8 characters
+    const parentPart = parentId.slice(0, 4).padStart(4, '0'); // Limit to 4 digits and pad if needed
+  
+    // Combine both parts to create an 8-digit ID
+    const studentId = `${parentPart}${timestampPart}`;
+    return studentId;
+  };
+  
+  // Example usage:
+  // console.log(generateStudentId("123")); // Output: 01231234 (based on current time)
+  
+  
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 
@@ -100,9 +108,7 @@ const StudentDetails = (props: any) => {
   }
   useEffect(() => {
     if (myWards.length > 0) {
-      setStudentId(getNextStudentId(myWards))
-    }else{
-      setStudentId(`${parent.id}-A`)
+      setStudentId(parent.id?.toString() || '')
     }
   }, [studentId, myWards])
 

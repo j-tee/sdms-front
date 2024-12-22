@@ -169,8 +169,8 @@ export const scoreSheetSlice = createSlice({
       .addCase(addScoreSheet.pending, (state) => ({ ...state, isLoading: true }));
     builder
       .addCase(addScoreSheet.rejected, (state, action: PayloadAction<any>) => ({
-        ...state, message: action.payload.message, status:
-          action.payload.status, isLoading: false
+        ...state, message: action.payload.message, 
+        status: action.payload.status, isLoading: false
       }));
       builder.addCase(getTerminalReport.fulfilled, (state, action) => ({
         ...state,
