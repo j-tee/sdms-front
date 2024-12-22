@@ -36,7 +36,7 @@ const AdmissionList = (props: any) => {
             {admission.student_name}
           </span>
           <span>
-            {admission.admission_stage}
+          {admission.dept_name} {admission.admission_stage}
           </span>
           <span>
             {admission.admission_program}

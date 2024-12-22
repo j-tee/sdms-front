@@ -9,10 +9,10 @@ const initialState: StudentRegState = {
   registered_students: [],
   registrations: [],
   all_unregistered_students: [],
-    registered: [],
-    registered_in_previous_term: [],
-    continuing_students_not_registered: [],
-    admitted_but_not_regsitered: [],
+  registered: [],
+  registered_in_previous_term: [],
+  continuing_students_not_registered: [],
+  admitted_but_not_registered: [],
   status: '',
   message: '',
   isLoading: false,
@@ -126,8 +126,7 @@ export const studentRegSlice = createSlice({
         registered: action.payload.registered.students,
         registered_in_previous_term: action.payload.registered_in_previous_term.students,
         continuing_students_not_registered: action.payload.continuing_students_not_registered.students,
-        admitted_but_not_regsitered: action.payload.admitted_but_not_registered.students
-        .students,
+        admitted_but_not_registered: action.payload.admitted_but_not_registered.students,
 
         // reg_info: action.payload, isLoading: false, message: action.payload.message,
         std_status: action.payload.status

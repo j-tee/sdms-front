@@ -6,7 +6,7 @@ export interface Admission {
   stage_id: number;
   student_id: number;
   admission_date: string;
-  branch_id: number;
+  branch_id?: number;
   program_id: number;
   category: string;
 }

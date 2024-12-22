@@ -84,6 +84,11 @@ const StaffCard = (props: any) => {
     dispatch(addStaff(staff)).then((res: any) => {
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status)
+      if(res.payload.status === 'success'){
+        setTimeout(() => {
+          window.location.reload();
+        }, 6000);
+      }
       dispatch(getStaffs({...params, branch_id: branchId ? parseInt(branchId) : 0,paginate: true, school_id: schoolId ? parseInt(schoolId) : 0})) 
     })
   };

@@ -19,7 +19,7 @@ import PaginationComponent from './PaginationComponent'
 const NewlyAdmittedStudents = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { all_unregistered_students, registrations, pagination } = useSelector((state: RootState) => state.studentReg)  
+  const { all_unregistered_students,admitted_but_not_registered, registrations, pagination } = useSelector((state: RootState) => state.studentReg)  
   const [key, setKey] = useState<string>('registered');
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState<QueryParams>({
@@ -127,7 +127,7 @@ useEffect(()=>{
               <RegisteredStudents students={registrations} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
             <Tab eventKey="unregistered" title="Unregistered Students">
-              <UnregisteredStudent academic_term_id={academic_term.id} onChange={handleInputChange} students={all_unregistered_students} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <UnregisteredStudent students={admitted_but_not_registered} academic_term_id={academic_term.id} onChange={handleInputChange}  index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
           </Tabs>
         </Row>

@@ -89,10 +89,12 @@ const AdmissionAdd = (props: any) => {
   };
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     // Update the formData state with the new value
+   if(field !== 'branch_id'){
     setParams((prevData) => ({
       ...prevData,
       [field]: value,
     }));
+   }
     switch (field) {
       case 'department_id': {
         dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
@@ -150,7 +152,7 @@ const AdmissionAdd = (props: any) => {
       stage_id: params?.stage_id ?? 0,
       student_id: student.id ?? 0,
       admission_date: params?.admission_date ?? "",
-      branch_id: params.branch_id ?? 0,
+      // branch_id: params.branch_id ?? 0,
       program_id: params.program_id ?? 0,
       category: params.category ?? ""
     }
@@ -202,7 +204,7 @@ const AdmissionAdd = (props: any) => {
                 <Form.Group className='d-flex flex-lg-row flex-column justify-content-center gap-3'>
                   <Form.Label>Find Student</Form.Label>
                   <Form.Control
-                    value={student.student_id}
+                    // value={student.student_id}
                     style={{ width: '70%' }}
                     placeholder='Enter student ID'
                     type='text'

@@ -118,5 +118,5 @@ export interface StudentRegState {
     registered: StudentRegViewModel[];
     registered_in_previous_term: StudentRegViewModel[];
     continuing_students_not_registered: StudentRegViewModel[];
-    admitted_but_not_regsitered: StudentRegViewModel[];
+    admitted_but_not_registered: StudentRegViewModel[];
 }

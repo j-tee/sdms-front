@@ -13,7 +13,7 @@ const BranchCard = (props: any) => {
   const [isBranchEditModalOpen, setBranchEditModalOpen] = useState(false)
   const [isBranchDeleteModalOpen, setBranchDeleteModalOpen] = useState(false)
   const [isBranchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false)
-  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const privileged_school_roles = ['owner', 'admin','staff', 'secretary', 'principal', 'vice_principal']
   const [roles, setRoles] = useState<string[]>([]);
   const handleEdit = () => {
     setBranchEditModalOpen(true)
@@ -28,8 +28,10 @@ const BranchCard = (props: any) => {
   }
 
   useEffect(() => {
+    
     const user_roles = UserSession.getroles()
     setRoles(user_roles)
+    console.log('===validUser===', validUser)
   }, [])
 
 

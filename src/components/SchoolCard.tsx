@@ -12,9 +12,8 @@ const SchoolCard = (props: any) => {
   const [roles, setRoles] = useState<string[]>([]);
   const [isAddBranchModalOpen, setAddBranchModalOpen] = useState(false)
   const user = JSON.parse(sessionStorage.getItem('user') || '{}')
-  console.log('user====>', user)
   const validUser = UserSession.isUserStaffOrOwner(user.id, school.all_users)
-  const privileged_school_roles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal']
+  const privileged_school_roles = ['owner', 'admin', 'staff', 'secretary', 'principal', 'vice_principal']
   const seeBranches = (school: any) => {
     navigate(`/branches/${school.id}`, { state: { school } });
   }
@@ -36,8 +35,11 @@ const SchoolCard = (props: any) => {
   }
 
   useEffect(() => {
-    const user_roles = UserSession.getroles()
-    setRoles(user_roles)
+    if (roles.length <= 0) {
+      console.log('roles====>',roles)
+      const user_roles = UserSession.getroles()
+      setRoles(user_roles)
+    }
   }, [])
 
   return (
@@ -66,11 +68,11 @@ const SchoolCard = (props: any) => {
           <Button onClick={() => seeBranches(school)} className="card-btn">
             Branches
           </Button>
-          {validUser && roles.includes('admin') && <Button onClick={openAddBranchModal} className="card-btn ms-4">
+          {validUser && (roles.includes('admin') || roles.includes('owner')) && <Button onClick={openAddBranchModal} className="card-btn ms-4">
             Add New Branch
           </Button>}
         </div>
-        {(roles && privileged_school_roles.some(role=>roles.includes(role))) && <Row className='d-flex flex-row mt-5'>
+        {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Row className='d-flex flex-row mt-5'>
           <span>
             {validUser && <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>}
             {validUser && <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>}

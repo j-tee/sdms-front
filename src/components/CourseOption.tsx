@@ -55,11 +55,17 @@ const CourseOption = (props: any) => {
     [key: string]: string;
   };
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    setParams((prev) => ({
+      ...prev,
+      [field]: value
+    }))
     // Update the formData state with the new value
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+    if(field !== 'department_id'){
+      setFormData((prevData) => ({
+        ...prevData,
+        [field]: value
+      }));
+    }
     switch (field) {
       case 'department_id': {
         setDeptId(parseInt(value))
@@ -75,7 +81,7 @@ const CourseOption = (props: any) => {
         break;
       }
     }
-
+    dispatch(getCourseOptions({...params, school_id: schoolId, branch_id: branchId}))
   };
 
   const handleEdit = (course_option: ProgramSubjectViewModel) => {
@@ -112,14 +118,9 @@ const CourseOption = (props: any) => {
           academic_year_id: academic_year.id as number,
         }));
       })
-      // dispatch(getCurrentTerm(branchId)).then((resp: any) => {
-      //   setFormData((prevData) => ({
-      //     ...prevData,
-      //     academic_term_id: academic_term.id as number,
-      //   }));
-      // })
+      
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId }))
-      dispatch(getSubjects({ ...params, school_id: schoolId, branch_id: branchId, paginate: false, pagination: { current_page: 1, per_page: 10000 } }))
+      dispatch(getSubjects({ ...params, stage_id:0, department_id:0, program_id:0, school_id: schoolId, branch_id: branchId, paginate: false, pagination: { current_page: 1, per_page: 10000 } }))
     }
 
   }, [schoolId, branchId, tabKey, dispatch, params, academic_year.id])

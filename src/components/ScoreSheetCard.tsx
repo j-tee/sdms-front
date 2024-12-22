@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { Col, Dropdown, DropdownButton, Form, ListGroup, Row, Table } from 'react-bootstrap';
@@ -19,6 +19,7 @@ import { getStaffs } from '../redux/slices/staffSlice';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
+import { ToastContext } from '../utility/ToastContext';
 
 type AnyType = {
   [key: string]: string;
@@ -31,6 +32,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   const { score_sheets, pagination } = useSelector((state: RootState) => state.scoreSheet);
 
   const dispatch = useDispatch<AppDispatch>();
+  const { setShowToast } = useContext(ToastContext)
   const [scores, setScores] = useState<ScoreSheet[]>([]);
   const [assessment, setAssessment] = useState<AssessmentViewModel>({
     id: 0,
@@ -138,6 +140,8 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     dispatch(addScoreSheet(formattedData)).then((res: any) => {
       dispatch(getScoreSheets({ ...params, paginate: true }));
       dispatch(getNotConductedAssessments({ ...params, academic_term_id: academic_term.id }));
+      setShowToast(true)
+      console.log('res==========>', res.payload.message)
       showToastify(res.payload.message, res.payload.status);
     });
   };

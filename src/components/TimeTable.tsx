@@ -90,17 +90,20 @@ const TimeTable = (props: any) => {
     const parsedValue = isNumericField ? parseInt(value, 10) : value;
 
     // Update the params and formData with the appropriate value
+   
     setParams((prevData) => ({
       ...prevData,
       [field]: isNumericField ? parsedValue : value,
       paginate: false,
     }));
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-
+   
+    if((field !== 'program_id') && (field !== 'stage_id')){
+      setFormData((prevData) => ({
+        ...prevData,
+        [field]: value,
+      }));
+    }
+   
     const updatedParams = {
       ...params,
       [field]: isNumericField ? parsedValue : value,

@@ -9,6 +9,7 @@ const NewAdmissionModal = (props: any) => {
     const [step, setStep] = useState(0);
     const handleClose = () => {
         setNewAdmissionModalOpen(false)
+        window.location.reload()
     }
 
     const handleNext = () => {

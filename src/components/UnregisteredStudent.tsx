@@ -144,6 +144,11 @@ const UnregisteredStudent = (props: any) => {
     dispatch(registerStudents(formattedPayload)).then((resp) => {
       setShowToast(true);
       showToastify(resp.payload.message, resp.payload.status);
+      // if(resp.payload.status === 'success'){
+      //   setTimeout(() => {
+      //     window.location.reload()
+      //   }, 3000);
+      // }
       dispatch(getRegisteredStudents({ ...params, branch_id: branchId, school_id: schoolId }))
     });
   };
