@@ -80,23 +80,42 @@ const UnregisteredStudent = (props: any) => {
 
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+    const filteredStudents = students.filter((student: StudentViewModel) => selectedCheckboxes.includes(student.id?.toString() ?? '')); 
     setClassParams((prevData) => ({
       ...prevData,
       [field]: value,
     }));
     switch (field) {
+      case 'reg_date': {
+        setFormData((prevData) => ({
+          ...prevData,
+          reg_date: value,
+        }));
+        setRegistrations((prevRegistrations) =>
+          filteredStudents.map((student: StudentViewModel) => ({
+            ...formData,
+              student_id: student.id,
+              class_group_id: classParams.class_group_id,
+              academic_term_id: academic_term.id,
+              reg_date: value,
+            }))
+        );
+        
+        break;
+      }
       case 'stage_id': {
         dispatch(getClassGroups({ ...classParams, program_id: params.program_id, stage_id: parseInt(value), department_id: params.department_id } as ClassGroupParams))
         break;
       }
       case 'class_group_id': {
-        setClassParams((prevData) => ({
-          ...prevData,
-          class_group_id: parseInt(value),
-        }));
-
-        console.log('===academic_term.id=======>>>', academic_term.id)
-        // dispatch(getRegistrationInformation({ ...classParams, class_group_id: parseInt(value) }))
+        setRegistrations((prevRegistrations) =>
+          filteredStudents.map((student: StudentViewModel) => ({
+            ...formData,
+            student_id: student.id,
+            class_group_id: parseInt(value),
+            academic_term_id: academic_term.id,
+          }))
+        );
         break;
       }
     }
@@ -130,7 +149,7 @@ const UnregisteredStudent = (props: any) => {
 
   const registerNewStudents = () => {
     const formattedPayload = {
-      student_registration: {  // This should match the "student_registration" required in Rails
+      student_registration: {
         registration: registrations.map((registration) => ({
           class_group_id: registration.class_group_id,
           student_id: registration.student_id,
@@ -139,18 +158,29 @@ const UnregisteredStudent = (props: any) => {
         })),
       },
     };
-    
-    
-    dispatch(registerStudents(formattedPayload)).then((resp) => {
-      setShowToast(true);
-      showToastify(resp.payload.message, resp.payload.status);
-      // if(resp.payload.status === 'success'){
-      //   setTimeout(() => {
-      //     window.location.reload()
-      //   }, 3000);
-      // }
-      dispatch(getRegisteredStudents({ ...params, branch_id: branchId, school_id: schoolId }))
-    });
+  
+    dispatch(registerStudents(formattedPayload))
+      .then((resp) => {
+        if (resp.payload.status === "success") {
+          setShowToast(true);
+          showToastify(resp.payload.message, resp.payload.status);
+  
+          // Clear the registrations array and selected checkboxes
+          setRegistrations([]);
+          setSelectedCheckboxes([]);
+          setSelectAllChecked(false);
+  
+          // Refresh the list of registered students
+          dispatch(getRegisteredStudents({ ...params, branch_id: branchId, school_id: schoolId }));
+          dispatch(getRegistrationInformation({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
+        } else {
+          showToastify(resp.payload.message, "error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error registering students:", error);
+        showToastify("Failed to register students. Please try again.", "error");
+      });
   };
   
   
@@ -174,7 +204,7 @@ const UnregisteredStudent = (props: any) => {
             <Col>
               <Form.Group controlId="regDate">
                 <Form.Label>Registration Date</Form.Label>
-                <Form.Control value={formData.reg_date} onChange={(e) => setFormData({ ...formData, reg_date: e.target.value })} type="date" placeholder="Enter Registration Date" />
+                <Form.Control value={formData.reg_date} onChange={(e) => handleInputChange('reg_date', e.target.value)} type="date" placeholder="Enter Registration Date" />
               </Form.Group>
             </Col>
           </Row>

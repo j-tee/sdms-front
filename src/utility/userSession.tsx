@@ -22,6 +22,7 @@ const UserSession = {
   },
 
   isUserStaffOrOwner: (userId:number, users:UserModel[]) => {
+    console.log('====userId', userId)
     console.log('====users', users)
     return users.some(user => user.id === userId);
   },

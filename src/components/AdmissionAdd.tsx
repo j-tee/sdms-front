@@ -120,17 +120,26 @@ const AdmissionAdd = (props: any) => {
   }, [academic_term.id, branchId, dispatch])
 
   useEffect(() => {
-    const student = JSON.parse(sessionStorage.getItem('student') || '{}');    
+    setShowToast(true)
+    let student = null;
+    try {
+      student = JSON.parse(sessionStorage.getItem('student') || 'null');
+    } catch (error) {
+      showToastify('Failed to parse student data from sessionStorage:', 'warning');
+    }
     setStudentInfo(student);
-    dispatch(getCurrentTerm(branchId))
+    
+    dispatch(getCurrentTerm(branchId));
+  
     const deptParams: DepartmentParams = {
       ...params,
       school_id: schoolId,
       branch_id: branchId,
       paginate: false
-    }
-    dispatch(getDepartments(deptParams))
-  }, [branchId, dispatch, schoolId])
+    };
+    dispatch(getDepartments(deptParams));
+  }, [branchId, dispatch, schoolId]);
+  
 
   useEffect(() => {
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))
@@ -168,7 +177,7 @@ const AdmissionAdd = (props: any) => {
 
   return (
     <Card>
-      <Card.Header>Admission Details for {studentInfo.student_id} {studentInfo.last_name} {studentInfo.first_name}</Card.Header>
+      <Card.Header>Admission Details for {studentInfo && studentInfo.student_id} {studentInfo && studentInfo.last_name} {studentInfo && studentInfo.first_name}</Card.Header>
       <Container className='mt-5'>
         <Card>
           <Card.Header>Enrolement Data</Card.Header>

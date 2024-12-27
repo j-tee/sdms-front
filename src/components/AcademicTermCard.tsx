@@ -188,7 +188,7 @@ const AcademicTermCard = (props: any) => {
         </Row>
       </Form>}
       <Card.Header className='fs-3 text-muted mb-4'>Academic Terms</Card.Header>
-      <Table striped hover responsive bordered variant='dark' size='sm'>
+      <Table striped hover responsive size='sm'>
         <thead>
           <tr>
             <th>Term / Semester</th>
@@ -204,9 +204,9 @@ const AcademicTermCard = (props: any) => {
               <td>{new Date(term.start_date ?? "").toDateString()}</td>
               <td>{new Date(term.end_date ?? "").toDateString()}</td>
               <td className='d-flex flex-lg-row flex-column gap-2'>
-                <Button onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
-                <Button onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>
-                <Button onClick={() => handleDetails(term)}><i className="fa fa-info-circle" aria-hidden="true">Details</i></Button>
+                <Button size='sm' onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
+                <Button size='sm' onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>
+                <Button size='sm' onClick={() => handleDetails(term)}><i className="fa fa-info-circle" aria-hidden="true">Details</i></Button>
               </td>
             </tr>
           ))}

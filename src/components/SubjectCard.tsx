@@ -42,10 +42,10 @@ const SubjectCard = (props: any) => {
         </Card.Header>
         <SubjectList tabKey={tabKey} params={params} subjects={subjects} schoolId={schoolId} branchId={branchId} /> 
       </Tab>
-      <Tab eventKey="course-options" title="Course Options">
+      <Tab eventKey="course-options" title="Subject/Course Options">
         <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
       </Tab>
-      <Tab eventKey="registration" title="Course Registration">
+      <Tab eventKey="registration" title="Optional Subject/Course Registration">
         <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
       </Tab>
     </Tabs>

@@ -65,16 +65,18 @@ const StudentDetails = (props: any) => {
     // Get current timestamp in milliseconds
     const timestamp = Date.now().toString();
   
-    // Use the last 4 digits of the timestamp for uniqueness
-    const timestampPart = timestamp.slice(-4);
+    // Dynamically determine the length of the timestamp part
+    const timestampPartLength = 12 - parentId.length;
+    const timestampPart = timestamp.slice(-timestampPartLength);
   
-    // Ensure the parentId contributes enough digits to reach 8 characters
-    const parentPart = parentId.slice(0, 4).padStart(4, '0'); // Limit to 4 digits and pad if needed
+    // Use the parentId as is, or trim/pad it to fit the remaining length
+    const parentPart = parentId.padStart(12 - timestampPart.length, '0').slice(0, 12 - timestampPartLength);
   
-    // Combine both parts to create an 8-digit ID
+    // Combine both parts to create a 12-character ID
     const studentId = `${parentPart}${timestampPart}`;
     return studentId;
   };
+  
   
   // Example usage:
   // console.log(generateStudentId("123")); // Output: 01231234 (based on current time)
@@ -107,8 +109,8 @@ const StudentDetails = (props: any) => {
       })
   }
   useEffect(() => {
-    if (myWards.length > 0) {
-      setStudentId(parent.id?.toString() || '')
+    if(!studentId){
+      setStudentId(parent.id ? generateStudentId(parent.id.toString()) : '');
     }
   }, [studentId, myWards])
 
@@ -251,6 +253,7 @@ const StudentDetails = (props: any) => {
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}>
+                    <option value={''}>---Select Gender</option>
                   <option value={'Male'}>Male</option>
                   <option value={'Female'}>Female</option>
                 </Form.Control>
