@@ -125,7 +125,6 @@ const UnregisteredStudent = (props: any) => {
     if (index === 'unregistered') {
       dispatch(getCurrentTerm(branchId))
       dispatch(gettermCount(branchId))
-      console.log('===params', params)
     }
   }, [branchId, params, dispatch, index, term_count])
 

@@ -18,6 +18,7 @@ export interface ParentParams {
 }
 
 export interface Parent {
+  id?:number;
   fathers_full_name: string;
   mothers_full_name: string;
   fathers_occupation: string;

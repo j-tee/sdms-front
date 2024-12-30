@@ -80,11 +80,33 @@ export const getMyWards = createAsyncThunk(
   },
 );
 
+export const updateParent = createAsyncThunk(
+  'parent/updateParent',
+  async (parent: Parent, thunkAPI) => {
+    try {
+      const response = await ParentService.updateParent(parent, parent.id!);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const programSlice = createSlice({
   name: 'parent',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(updateParent.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        parent: action.payload.parent, isLoading: false, message: action.payload.message, status: action.payload.status
+      }));
+    builder.addCase(updateParent.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+      .addCase(updateParent.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+      }));
     builder
       .addCase(getMyWards.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

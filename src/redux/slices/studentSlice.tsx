@@ -82,11 +82,36 @@ export const getCountries = createAsyncThunk(
   },
 );
 
+export const updateStudent = createAsyncThunk(
+  'student/updateStudent',
+  async (student: FormData, thunkAPI) => {
+    try {
+      const studentId = student.get('student[id]') as string;
+      const response = await StudentService.updateStudent(student, parseInt(studentId));
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const studentSlice = createSlice({
   name: 'student',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+    .addCase(updateStudent.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      student: action.payload.student, isLoading: false, std_message: action.payload.message,
+      std_status: action.payload.status
+    }));
+    builder
+    .addCase(updateStudent.pending, (state) => ({ ...state, isLoading: true }));
+    builder
+    .addCase(updateStudent.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, std_message: action.payload.message, std_status: action.payload.status, isLoading: false
+    }));
     builder
     .addCase(getCountries.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
@@ -115,6 +140,7 @@ export const studentSlice = createSlice({
       .addCase(getStudents.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         students: action.payload.students, isLoading: false, std_message: action.payload.message,
+        pagination: action.payload.pagination,
         std_status: action.payload.status
       }));
     builder

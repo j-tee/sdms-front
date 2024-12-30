@@ -1,13 +1,14 @@
 export default function authHeader(): Record<string, string> {
   const token = sessionStorage.getItem('token');
+  const headers: Record<string, string> = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
   if (token) {
-    return {
-      Authorization: `Bearer ${JSON.parse(token)}`,
-      'Content-Type': 'application/x-www-form-urlencoded',  // Add Content-Type header
-    };
+    try {
+      headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    } catch (error) {
+      console.error('Invalid token in sessionStorage:', error);
+    }
   }
-  return {
-    'Content-Type': 'application/x-www-form-urlencoded',  // If there's no token, still add Content-Type header
-  };
+
+  return headers;
 }

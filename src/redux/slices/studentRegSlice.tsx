@@ -1,9 +1,16 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StudentRegParams, StudentRegState, StudentRegistration } from '../../models/student';
+import { Registration, StudentRegParams, StudentRegState, StudentRegistration } from '../../models/student';
 import StudentRegService from '../../services/studentRegService';
 import { QueryParams } from '../../models/queryParams';
 
 const initialState: StudentRegState = {
+  registration:{
+    id: 0,
+    student_id: 0,
+    class_group_id: 0,
+    academic_term_id: 0,
+    reg_date: ''
+  },
   students: [],
   unregistered_students: [],
   registered_students: [],
@@ -84,11 +91,51 @@ export const getOptionalCourseRegistrations = createAsyncThunk(
   },
 )
 
+export const getStudentRegistration = createAsyncThunk(
+  'studentReg/getStudentRegistration',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await StudentRegService.getStudentRegistration(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const updateRegistration = createAsyncThunk(
+  'studentReg/updateRegistration',
+  async (registration: Registration, thunkAPI) => {
+    try {
+      const response = await StudentRegService.updateRegistration(registration);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const studentRegSlice = createSlice({
   name: 'studentReg',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(updateRegistration.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state, status: action.payload.status, message: action.payload.message, isLoading: false
+    }));
+    builder.addCase(updateRegistration.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateRegistration.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
+    builder.addCase(getStudentRegistration.fulfilled, (state, action: PayloadAction<any>) => ({
+      ...state,
+      registration: action.payload.registration, isLoading: false, message: action.payload.message,
+      std_status: action.payload.status
+    }));
+    builder.addCase(getStudentRegistration.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentRegistration.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, std_status: action.payload.status, isLoading: false
+    }));
     builder.addCase(getOptionalCourseRegistrations.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
       registered_students: action.payload.registered,

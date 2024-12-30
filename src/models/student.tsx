@@ -1,6 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Student {
+  id?: number;
   first_name: string;
   last_name: string;
   birth_date: string;
@@ -12,6 +13,13 @@ export interface Student {
   avatar: File | null;
 }
 
+export interface Registration {
+  id?: number;
+  student_id: number;
+  class_group_id: number;
+  academic_term_id: number;
+  reg_date: string;
+}
 export interface StudentViewModel {
   id?: number;
   first_name: string;
@@ -108,6 +116,7 @@ export interface StudentRegViewModel {
 export interface StudentRegState {
   students: StudentViewModel[];
   registrations: StudentRegViewModel[];
+  registration: Registration
   unregistered_students: StudentRegViewModel[];
   registered_students: StudentRegViewModel[];
   isLoading: boolean;

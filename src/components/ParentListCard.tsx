@@ -7,6 +7,7 @@ import { Button, Dropdown, DropdownButton, Table } from 'react-bootstrap'
 import PaginationComponent from './PaginationComponent'
 import BranchDropDown from './BranchDropDown'
 import { getBranches } from '../redux/slices/schoolSlice'
+import ParentEditModal from './ParentEditModal'
 type AnyType = {
     [key: string]: string;
   };
@@ -14,6 +15,8 @@ const ParentListCard = (props: any) => {
     const { tabIndex, schoolId, branchId } = props
     const { parents, pagination } = useSelector((state: RootState) => state.parent)
     const dispatch = useDispatch<AppDispatch>()
+    const [isEditModalOpen, setEditModalOpen] = useState(false)
+    const [parent, setParent] = useState(null)
     const [params, setParams] = useState<ParentParams>({
         school_id: schoolId,
         branch_id: branchId,
@@ -59,6 +62,10 @@ const ParentListCard = (props: any) => {
             [field]: value,
           }));
     }
+    const handleEditModalOpen = (parent: any) => {
+        setParent(parent)
+        setEditModalOpen(true)
+    }
     return (
         <>
         <BranchDropDown schoolId={schoolId} onChange={handleChange}/>
@@ -87,7 +94,7 @@ const ParentListCard = (props: any) => {
                             <td>{parent.fathers_contact_number}</td>
                             <td>{parent.mothers_contact_number}</td>
                             <td className="d-flex flex-column flex-lg-row justify-content-center">
-                                <Button className="m-1" size="sm">
+                                <Button onClick={() => handleEditModalOpen(parent)} className="m-1" size="sm">
                                     Edit
                                 </Button>
                                 <Button className="m-1" size="sm">
@@ -123,6 +130,13 @@ const ParentListCard = (props: any) => {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
             </DropdownButton>
           </div>
+          <ParentEditModal 
+          branchId={branchId}
+          schoolId={schoolId}
+          isOpen={isEditModalOpen} 
+          onRequestClose={() => setEditModalOpen(false)} 
+          setEditModalOpen={setEditModalOpen}
+          parent={parent} />
         </>
     )
 }
