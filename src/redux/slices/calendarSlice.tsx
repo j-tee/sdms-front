@@ -281,8 +281,8 @@ export const calenderSlice = createSlice({
     builder
       .addCase(addAcademicYear.pending, (state) => ({ ...state, isLoading: true }));
     builder
-      .addCase(addAcademicYear.rejected, (state, action) => ({
-        ...state, message: "Action Failed", isLoading: false
+      .addCase(addAcademicYear.rejected, (state, action: PayloadAction<any>) => ({
+        ...state, message: action.payload.message, isLoading: false
       }));
     builder
       .addCase(addAcademicTerm.fulfilled, (state, action) => ({

@@ -1,9 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AuthService from '../../services/authService';
 import { RegisterUserModel, ResetPasswdUserData, UserRole, loginUserInfo } from '../../models/authModel';
 import { UserModel } from '../../models/userModel';
 
 const initialState = {
+  response: {},
   momotoken: {},
   isSuccessful: false,
   isLoggedIn: false,
@@ -172,17 +173,17 @@ export const removeRole = createAsyncThunk(
   },
 );
 
-// export const getMomoToken = createAsyncThunk(
-//   'auth/getMomoToken',
-//   async (_, thunkAPI) => {
-//     try {
-//       const response = await AuthService.getMomoToken();
-//       return response;
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   },
-// );
+export const verifyCapture = createAsyncThunk(
+  'auth/verifyCapture',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await AuthService.verifyCaptcha(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -207,6 +208,23 @@ export const authSlice = createSlice({
       //   message: 'The action requested is pending',
       //   isLoading: true,
       // }))
+      .addCase(verifyCapture.fulfilled, (state, action) => ({
+        ...state,
+        response : action.payload.data,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(verifyCapture.rejected, (state, action: PayloadAction<any>) => ({
+        ...state,
+        message: action.payload.message,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(verifyCapture.pending, (state, action) => ({
+        ...state,
+        message: 'The action requested is pending',
+        isLoading: true,
+      }))
       .addCase(removeRole.fulfilled, (state, action) => ({
         ...state,
         message: 'The action requested has completed',

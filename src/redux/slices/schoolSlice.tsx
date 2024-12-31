@@ -261,7 +261,9 @@ export const schoolSlice = createSlice({
         school: action.payload, isLoading: false
       }));
     builder.addCase(updateSchool.pending, (state) => ({ ...state, isLoading: true }));
-    builder.addCase(updateSchool.rejected, (state, action) => ({ ...state, message: "Action Failed", isLoading: false }));
+    builder.addCase(updateSchool.rejected, (state, action: PayloadAction<any>) => ({ 
+      ...state, 
+      message: action.payload.message, isLoading: false }));
     builder
       .addCase(getBranches.fulfilled, (state, action) => ({ ...state, branches: action.payload.branches, isLoading: false }));
     builder

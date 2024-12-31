@@ -12,7 +12,7 @@ import { ToastContext } from '../utility/ToastContext'
 
 const AcademicYearCard = (props: any) => {
   const { branchId, schoolId, tabKey } = props;
-  const { setShowToast } = useContext(ToastContext)
+  const {showToast,  setShowToast } = useContext(ToastContext)
   const { academic_years, pagination } = useSelector((state: RootState) => state.calendar)
   const dispatch = useDispatch<AppDispatch>();
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +39,7 @@ const AcademicYearCard = (props: any) => {
   const AddNewAcademicYear = () => {
     setShowToast(true)
     dispatch(addAcademicYear({ ...formData, branch_id: branchId && parseInt(branchId) })).then((res) => {
+     
       showToastify(res.payload.message, res.payload.status)
       dispatch(getAcademicYears({ ...params, paginate: true, school_id: schoolId, branch_id: branchId }));
     }

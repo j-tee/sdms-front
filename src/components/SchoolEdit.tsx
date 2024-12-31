@@ -105,18 +105,12 @@ const SchoolEdit = (props: any) => {
 
     try {
       if (isValid) {
-        const response = await dispatch(updateSchool(school));
+        dispatch(updateSchool(school)).then((response) => {
+          setShowToast(true);
+          showToastify(response.payload.message, response.payload.status);
+        })
 
-        if (response.meta.requestStatus === 'fulfilled') {
-          showToastify('School details have been successfully', 'success');
-          dispatch(getSchools(params));
-          setTimeout(() => {
-            navigate('/schools')
-            setSchoolEditModalOpen(false)
-          }, 3000);
-        } else if (response.meta.requestStatus === 'rejected') {
-          showToastify(`Failed to update school information ${response.payload.error}`, 'error');
-        }
+       
       } else {
         showToastify(`Session is expired! Please relogin`, 'information');
         navigate('/')

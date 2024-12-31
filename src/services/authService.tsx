@@ -2,6 +2,7 @@ import axios from "axios";
 import { RegisterUserModel, ResetPasswdUserData, UserRole } from "../models/authModel";
 import authHeader from "../utility/authHeader";
 import UserSession from "../utility/userSession";
+import queryStringFormatter from "../utility/queryStringFormatter";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 const AuthService = () => {
@@ -11,6 +12,7 @@ const AuthService = () => {
   const getRoles = () => axios.get(`${API_URL}current_user/roles`, { headers: authHeader() });
   const getUserRoles = (user_id: number) => axios.get(`${API_URL}current_user/user/roles/${user_id}`, { headers: authHeader() });
   const getCurrentUser = () => axios.get(`${API_URL}current_user`, { headers: authHeader() });
+  const verifyCaptcha = (params:any) => axios.post(`${API_URL}users/current_user/verify_captcha?${queryStringFormatter(params)}`, { headers: authHeader() });  
 
   const resetPassword = (pwd: ResetPasswdUserData) => axios.put(`${API_URL}password`,
     {
@@ -94,6 +96,7 @@ const AuthService = () => {
     addUserToRole,
     removeRole,
     getUserRoles,
+    verifyCaptcha,
   };
 };
 

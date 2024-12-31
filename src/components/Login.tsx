@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
-import { loginUser } from '../redux/slices/authSlice';
+import { loginUser, verifyCapture } from '../redux/slices/authSlice';
 import { Button, Form, Modal, Nav } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { useAuth } from '../utility/AuthContext';
@@ -18,6 +19,7 @@ const Login = (props:any) => {
       const [validated, setValidated] = useState(false);
       const dispatch = useDispatch<AppDispatch>();
       const { isLoginModalOpen, closeLoginModal } = useAuth();
+      const recaptcha = useRef<ReCAPTCHA | null>(null);
         
       const handleSubmit = (event:any) => {
         setShowToast(true);
@@ -45,6 +47,22 @@ const Login = (props:any) => {
         }).catch((error:any) => {
           showToastify(error.message, 'error');
         });
+        // const captcha = recaptcha.current ? recaptcha.current.getValue() : '';
+        // if (!captcha) {
+        //   showToastify('Please verify the reCAPTCHA!', 'error');
+        //   return;
+        // } else{
+        //   dispatch(verifyCapture({captchaValue:captcha})).then((response:any) => {           
+        //     showToastify(response.payload.message, response.payload.status);
+        //     if (response.payload.data.success === true) {
+              
+        //     }else{
+        //       showToastify('Captcha verification failed', 'error');
+        //     }
+        //   });
+        // }
+        
+        
         setValidated(true);
       };
       useEffect(() => {
@@ -53,7 +71,7 @@ const Login = (props:any) => {
       }, [isLoginModalOpen]);
       return (
         <>
-          <Modal centered show={isLoginModalOpen} onHide={onRequestClose} size="sm">
+          <Modal centered show={isLoginModalOpen} onHide={onRequestClose}>
             <Modal.Header closeButton>
               <Modal.Title>Login</Modal.Title>
             </Modal.Header>
@@ -93,6 +111,7 @@ const Login = (props:any) => {
                   </Button>
                 </Modal.Footer>
               </Form>
+              {/* <ReCAPTCHA ref={recaptcha}  sitekey={process.env.REACT_APP_SITE_KEY || ''} /> */}
             </Modal.Body>
           </Modal>
         </>
