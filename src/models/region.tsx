@@ -1,7 +1,7 @@
 import { PaginationParams } from "./pagination";
 
 export interface Region {
-  id: number; // Assuming 'id' is the primary key
+  id?: number; // Assuming 'id' is the primary key
   name: string;
 }
 

@@ -157,7 +157,6 @@ useEffect(() => {
       attendance_date: attendanceDate,
     }));
     setOnRoll(students);
-    console.log('Initialized onRoll:', students); // Debugging output
   }
 }, [attendees, attendances,params, params.lesson_id]);
 

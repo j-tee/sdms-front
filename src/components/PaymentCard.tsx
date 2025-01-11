@@ -35,7 +35,6 @@ const PaymentCard = (props:any) => {
   })
   const handleSubmit = (e: any) => {  
     e.preventDefault();
-    // console.log('submit', formData);
   }
 
 const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
@@ -43,7 +42,6 @@ const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => 
     ...prevData,
     [field]: value,
   }));
-  // console.log('params===>', params);
 } 
 const handlePageChange = (page: number) => {
   // setCurrentPage(page);

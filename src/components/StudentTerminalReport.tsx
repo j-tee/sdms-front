@@ -58,7 +58,6 @@ const StudentTerminalReport = (props: any) => {
       ...prevData,
       [field]: value,
     }));
-    // console.log('params===>', params);
   } 
   function RenderPosition({ position }: { position: string }) {
     return (
@@ -81,7 +80,7 @@ const StudentTerminalReport = (props: any) => {
       <div className="report-container" ref={componentRef}>
         {student_reports.map((report: any) => (
           
-          <div className="page-break">
+          <div className="page-break" key={report.student_id}>
             <Card className="report-card" key={report.student_id}>
             <Card.Header className="card-header">
               <Card.Img
@@ -137,6 +136,9 @@ const StudentTerminalReport = (props: any) => {
                   <div>
                     <span>End Date:</span> <span>{report.term.end_date}</span>
                   </div>
+                  <div>
+                    <span>Next Term Start Date:</span> <span>{report.term.next_term_start_date}</span>
+                  </div>
                 </div>
               </div>
 
@@ -161,8 +163,8 @@ const StudentTerminalReport = (props: any) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {report.reports.map((subjectReport: any) => (
-                    <tr key={subjectReport.id}>
+                  {report.reports.map((subjectReport: any, index:number) => (
+                    <tr key={index}>
                       <td>{subjectReport.subject_name}</td>
                       <td>{subjectReport.ca_score.toFixed(2)}</td>
                       <td>{subjectReport.ta_score.toFixed(2)}</td>

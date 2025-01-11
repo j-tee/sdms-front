@@ -84,7 +84,6 @@ const TimeTable = (props: any) => {
   };
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-    console.log('field==value========>', field, value);
     // Determine whether to parse to an integer or use the string directly
     const isNumericField = ['stage_id', 'program_id', 'staff_id', 'program_subject_id', 'class_group_id'].includes(field as string);
     const parsedValue = isNumericField ? parseInt(value, 10) : value;
@@ -157,7 +156,6 @@ const TimeTable = (props: any) => {
       if (lessonTabIndex === 'second') {
         dispatch(getLessons({ ...params, academic_year_id: academic_year.id, pagination: params.pagination!, paginate: true }))
           .then((res) => {
-            // console.log('res.payload.message ================>>>>', res.payload.pagination)
             setShowToast(true);
             showToastify(res.payload.message, res.payload.status);
           })
@@ -302,7 +300,7 @@ const TimeTable = (props: any) => {
                   <td>{lesson.staff_name}</td>
                   <td>
                     <span>
-                      <Card.Link fw-light onClick={() => handleEdit(lesson)}><em>Edit</em></Card.Link>
+                      <Card.Link fw-light='true' onClick={() => handleEdit(lesson)}><em>Edit</em></Card.Link>
                       {/* <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
                       <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link> */}
                     </span>

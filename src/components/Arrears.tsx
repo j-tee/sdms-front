@@ -23,7 +23,6 @@ const Arrears = (props: any) => {
           ...prevData,
           [field]: value,
         }));
-        // console.log('params===>', params);
       } 
       const [params, setParams] = useState({
         branch_id: branchId,

@@ -15,15 +15,15 @@ const Confirmation = () => {
     const result = searchParams.get('result');
 
     if (result === 'success') {
-      setMessage('Confirmation was successful');
+      // setMessage('Confirmation was successful');
       setShowToast(true);
       showToastify('Confirmation was successful', 'success');
     } else if (result === 'failure') {
       setMessage('Confirmation failed');
-      showToastify('Confirmation failed', 'success');
+      showToastify('Confirmation failed', 'error');
     } else {
       setMessage('Unknown Error');
-      showToastify('Unknown error', 'information');
+      showToastify('Unknown error', 'error');
     }
   }, [location.search, navigate, setShowToast]);
 

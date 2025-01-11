@@ -141,7 +141,6 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
       dispatch(getScoreSheets({ ...params, paginate: true }));
       dispatch(getNotConductedAssessments({ ...params, academic_term_id: academic_term.id }));
       setShowToast(true)
-      console.log('res==========>', res.payload.message)
       showToastify(res.payload.message, res.payload.status);
     });
   };

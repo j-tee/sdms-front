@@ -76,11 +76,7 @@ const StudentDetails = (props: any) => {
     const studentId = `${parentPart}${timestampPart}`;
     return studentId;
   };
-  
-  
-  // Example usage:
-  // console.log(generateStudentId("123")); // Output: 01231234 (based on current time)
-  
+   
   
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;

@@ -51,6 +51,7 @@ const AcademicTermCard = (props: any) => {
       completed: term.completed !== undefined ? term.completed : false,
       academic_year_id: term.academic_year_id || 0,
       academic_year_name: term.academic_year_name ?? '',
+       next_term_start_date: term.next_term_start_date ?? '',
     }))
     setAcademicTermEditModalOpen(true)
   }
@@ -121,6 +122,7 @@ const AcademicTermCard = (props: any) => {
       completed: term.completed !== undefined ? term.completed : false,
       academic_year_id: term.academic_year_id || 0,
       academic_year_name: term.academic_year_name ?? '',
+      next_term_start_date: term.next_term_start_date ?? '',
     }))
     setAcademicTermDetailsModalOpen(true)
   }
@@ -180,6 +182,11 @@ const AcademicTermCard = (props: any) => {
             <Form.Control type='date' value={formData.end_date}
               onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
           </Form.Group></Col>
+          <Col><Form.Group controlId='nextTermStartDate'>
+            <Form.Label>Next Term Start Date</Form.Label>
+            <Form.Control type='date' value={formData.next_term_start_date}
+              onChange={(e) => setFormData({ ...formData, next_term_start_date: e.target.value })} />
+          </Form.Group></Col>
         </Row>
         <Row>
           <Col className='my-2'>
@@ -194,6 +201,7 @@ const AcademicTermCard = (props: any) => {
             <th>Term / Semester</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Next Term Start Date</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -203,6 +211,7 @@ const AcademicTermCard = (props: any) => {
               <td>{term.term_name}</td>
               <td>{new Date(term.start_date ?? "").toDateString()}</td>
               <td>{new Date(term.end_date ?? "").toDateString()}</td>
+              <td>{new Date(term.next_term_start_date ?? "").toDateString()}</td>
               <td className='d-flex flex-lg-row flex-column gap-2'>
                 <Button size='sm' onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
                 <Button size='sm' onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>

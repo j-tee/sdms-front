@@ -53,7 +53,7 @@ const StageCard = (props: any) => {
     if (tabIndex === 'third') {
       dispatch(getBranches({ ...params, school_id: schoolId }))
         .then((res: any) => {
-          console.log(res)
+          showToastify(res.payload.message, res.payload.status)
         })
       if(branchId)
       dispatch(getStages({ ...params, paginate: true, branch_id: branchId }))

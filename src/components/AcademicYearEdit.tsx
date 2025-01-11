@@ -16,7 +16,7 @@ const AcademicYearEdit = (props: any) => {
     branch_id: branchId,
     start_date: academic_year.start_date,
     end_date: academic_year.end_date,
-    term_category: academic_year.term_category,
+    // next_term_start_date: academic_year.next_term_start_date,
   })
   const handleClick = (e: ChangeEvent<any>) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const AcademicYearEdit = (props: any) => {
       branch_id:branchId,
       start_date:formData.start_date,
       end_date:formData.end_date,
-      term_category:formData.term_category
+      // next_term_start_date:formData.next_term_start_date
     }
     dispatch(updateAcademicYear(academic_year)).then((res: any) => {
       setShowToast(true)
@@ -66,18 +66,18 @@ const AcademicYearEdit = (props: any) => {
                   placeholder="Enter end date" />
               </Form.Group>
             </Col>
-            <Col>
+            {/* <Col>
               <Form.Group controlId="termCategory">
                 <Form.Label>Term Category</Form.Label>
-                <Form.Control as={'select'} type="text" value={formData.term_category}
-                  onChange={(e) => setFormData({ ...formData, term_category: e.target.value })}
+                <Form.Control as={'select'} type="text" value={formData.next_term_start_date}
+                  onChange={(e) => setFormData({ ...formData, next_term_start_date: e.target.value })}
                   placeholder="Enter end date">
                   <option value=''>---Select---</option>
                   <option value='semester'>Semester</option>
                   <option value='term'>Term</option>
                 </Form.Control>
               </Form.Group>
-            </Col>
+            </Col> */}
           </Row>
         </Modal.Body>
         <Modal.Footer>

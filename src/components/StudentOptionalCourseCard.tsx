@@ -153,8 +153,7 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
         <span className="text-muted fs-3"></span>
       </Card.Header>
       <Card.Body>
-        <Card.Text>
-          <Row className='d-flex flex-column flex-lg-row'>
+      <Row className='d-flex flex-column flex-lg-row'>
             <Col><DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} /></Col>
             <Col><ProgramDropDown branchId={branchId} onChange={handleInputChange} admission={undefined} departmentId={undefined} /></Col>
             <Col><StageDropDown branchId={branchId} onChange={handleInputChange} /></Col>
@@ -203,7 +202,6 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
               </Card.Footer>
             </Form>
           </Card>
-        </Card.Text>
       </Card.Body>
     </div>
   );

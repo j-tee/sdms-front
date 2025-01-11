@@ -23,7 +23,6 @@ const Arrearscard = (props: any) => {
           ...prevData,
           [field]: value,
         }));
-        // console.log('params===>', params);
       } 
       const [params, setParams] = useState({
         branch_id: branchId,
@@ -68,8 +67,7 @@ const Arrearscard = (props: any) => {
         </Card.Header>
         <Card.Body>
           <Card.Title>Arrears</Card.Title>
-          <Card.Text>
-           <Table striped bordered hover responsive>
+          <Table striped bordered hover responsive>
               <thead>
                 <tr>
                   <th>Student</th>
@@ -89,7 +87,6 @@ const Arrearscard = (props: any) => {
                 ))}
               </tbody>
             </Table>
-          </Card.Text>
           <Card.Text>
             <p>Total Payment: GHS {parseFloat(paymentSummary.total_payment.toString()).toFixed(2)}</p>
             <p>Expected Inflows: GHS {parseFloat(paymentSummary.total_expected_inflows.toString()).toFixed(2)}</p>

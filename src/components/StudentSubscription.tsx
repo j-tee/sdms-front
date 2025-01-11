@@ -38,25 +38,13 @@ const StudentSubscription = (props: any) => {
         ref_id: '',
         duration: 0,
     })
-    //   const [params, setParams] = React.useState<QueryParams>({
-    //     student_id: params.student_id,
-    //     parent_id: parent.id,
-    //     pagination: {
-    //       current_page: 1,
-    //       per_page: 10,
-    //       total_items: 0,
-    //       total_pages: 0
-    //     }
-    //   })
-
+    
     const handleChange = (name: string, value: any) => {
         setFormData({ ...formData, [name]: value })
-        console.log('name', name, 'value', value)
         switch (name) {
             case 'subscription_fee_id':
 
                 const fee = subscriptionFees.find((fee: any) => fee.id === parseInt(value))
-                console.log('name', name, 'value', value, 'fee', fee)
                 if (fee) {
                     setFee(fee.amount)
                 }
@@ -137,7 +125,6 @@ const StudentSubscription = (props: any) => {
 
     useEffect(() => {
     if (index === 'fourth' && (params && params.student_id)) {
-        console.log('params============>params', params)
       dispatch(getTaxes()).then((response: any) => {
         setTotalTax(taxes.reduce((sum, tax) => sum + tax.rate, 0));
         showToastify(response.payload.message, response.payload.status)

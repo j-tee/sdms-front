@@ -8,10 +8,7 @@ const AcademicYearList = (props: any) => {
   return (
     <>
       <Card.Body className="d-flex flex-column">
-        
-        <Card.Text>
-          <AcademicYearDetails schoolId={schoolId} branchId={branchId} year={academicYear} />
-        </Card.Text>
+      <AcademicYearDetails schoolId={schoolId} branchId={branchId} year={academicYear} />
       </Card.Body>
     </>
   )

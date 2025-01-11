@@ -27,7 +27,6 @@ const SchoolDropdowns: React.FC<SchoolDropdownsProps> = ({ onChange }) => {
   }, [dispatch, religions, religionsLoaded]); 
 
   const handleSchoolChange = (e: React.ChangeEvent<any>) =>{
-    console.log('handleSchoolChange===========e.target.value', e.target.value)
     onChange('religious_affiliation_id', e.target.value)
   }
 

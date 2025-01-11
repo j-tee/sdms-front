@@ -1,15 +1,21 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { ToastContext } from '../utility/ToastContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../redux/store';
-import { getCategories, getLevels, getOwnershipCategories, getSchools } from '../redux/slices/schoolSlice';
-import { SchoolParams } from '../models/school';
-import { Card, Container, Dropdown, DropdownButton } from 'react-bootstrap';
-import SchoolCard from './SchoolCard';
-import SchoolDropdowns from './SchoolDropdowns';
-import Header from './Header';
-import PaginationComponent from './PaginationComponent';
-import { debounce } from 'lodash';
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { ToastContext } from "../utility/ToastContext";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import {
+  getCategories,
+  getLevels,
+  getOwnershipCategories,
+  getSchools,
+} from "../redux/slices/schoolSlice";
+import { SchoolParams } from "../models/school";
+import { Card, Container, Dropdown, DropdownButton } from "react-bootstrap";
+import SchoolCard from "./SchoolCard";
+import SchoolDropdowns from "./SchoolDropdowns";
+import Header from "./Header";
+import PaginationComponent from "./PaginationComponent";
+import { debounce } from "lodash";
+import UserSession from "../utility/userSession";
 
 type AnyType = {
   [key: string]: string;
@@ -17,7 +23,18 @@ type AnyType = {
 
 const School = () => {
   const { setShowToast } = useContext(ToastContext);
-  const { schools, pagination, isLoading } = useSelector((state: RootState) => state.school);
+  const { schools, pagination, isLoading } = useSelector(
+    (state: RootState) => state.school
+  );
+  const privileged_school_roles = [
+    "owner",
+    "admin",
+    "staff",
+    "secretary",
+    "principal",
+    "vice_principal",
+  ];
+  const [roles, setRoles] = useState<string[]>([]);
   const dispatch = useDispatch<AppDispatch>();
 
   // Initial parameters
@@ -42,7 +59,14 @@ const School = () => {
     },
   });
 
-  const tags = ['Calendar', 'Admissions', 'Students', 'Staff', 'Organisation/Structures', 'Academics'];
+  const tags = [
+    "Calendar",
+    "Admissions",
+    "Students",
+    "Staff",
+    "Organisation/Structures",
+    "Academics",
+  ];
 
   // Debounced API call
   const debouncedGetSchools = useCallback(
@@ -52,30 +76,28 @@ const School = () => {
     [dispatch]
   );
 
-  // Fetch schools initially and on `params` changes
-  // useEffect(() => {
-  //   debouncedGetSchools(params);
-  // }, []); // Runs only on component mount to fetch initial schools
-
   useEffect(() => {
     debouncedGetSchools(params);
+    const user_roles = UserSession.getroles();
+    setRoles(user_roles);
   }, [params, debouncedGetSchools]); // Runs on parameter changes
 
   // Handle filter/input changes
-  const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-    console.log('===========field,',field, '===========value,', value)
-    
+  const handleInputChange = <T extends AnyType>(
+    field: keyof T,
+    value: string
+  ) => {
     switch (field) {
-      case 'religious_affiliation_id':
+      case "religious_affiliation_id":
         dispatch(getCategories());
-      break;
-      case 'category_id':
+        break;
+      case "category_id":
         dispatch(getOwnershipCategories());
-      break;
+        break;
 
-      case 'ownership_category_id':
+      case "ownership_category_id":
         dispatch(getLevels());
-      break;
+        break;
     }
     setParams((prevParams) => ({
       ...prevParams,
@@ -107,18 +129,25 @@ const School = () => {
   return (
     <>
       <Header />
-      <Container style={{ marginTop: '3rem' }}>&nbsp;</Container>
+      <Container style={{ marginTop: "3rem" }}>&nbsp;</Container>
       <Card className="border-0 shadow-sm d-flex flex-md-column">
         <Card.Header>
-          <span className="text-muted fs-1">Schools</span>
+        {!roles.some((role) => privileged_school_roles.includes(role)) && (
+            <span className="text-muted fs-1">Schools</span>
+          )}
+          
         </Card.Header>
         <Card.Body>
-          <SchoolDropdowns onChange={handleInputChange} />
+          {!roles.some((role) => privileged_school_roles.includes(role)) && (
+            <SchoolDropdowns onChange={handleInputChange} />
+          )}
         </Card.Body>
 
         {schools.map((school, index) => {
           const schoolWithTags = { ...school, tags }; // Add tags to each school object
-          return <SchoolCard key={index} params={params} school={schoolWithTags} />;
+          return (
+            <SchoolCard key={index} params={params} school={schoolWithTags} />
+          );
         })}
 
         <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
@@ -138,9 +167,15 @@ const School = () => {
             id="dropdown-items-per-page"
             title={`Items per page: ${params.pagination?.per_page}`}
           >
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>
+              5
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>
+              10
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
+              20
+            </Dropdown.Item>
           </DropdownButton>
         </div>
       </Card>

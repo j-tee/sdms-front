@@ -17,13 +17,11 @@ const DepartmentEdit = (props: any) => {
   })
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log('formData', formData)
     dispatch(updateDepartment({ ...formData, branch_id: branchId }))
     .then((res: any) => {
       setDepartmentEditModalOpen(false)
       setShowToast(true)
       dispatch(getDepartments({ ...params, school_id: schoolId, branch_id: branchId, paginate:true }))
-      // showToastify(res.payload.message, res.payload.status)
     })
   }
   return (
@@ -35,8 +33,7 @@ const DepartmentEdit = (props: any) => {
         <Card>
           <Card.Body>
             <Card.Title>Department</Card.Title>
-            <Card.Text>
-              <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <Row className='d-flex flex-column flex-lg-row gap-2 mb-4 mb-lg-2'>
                   <Col>
                     <Form.Group controlId='deptName'>
@@ -54,7 +51,6 @@ const DepartmentEdit = (props: any) => {
                   </Button>
                 </Modal.Footer>
               </Form>
-            </Card.Text>
           </Card.Body>
         </Card>
       </Modal.Body>

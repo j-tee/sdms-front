@@ -50,18 +50,42 @@ const GradeScale = (props: any) => {
     field: keyof T,
     value: string
   ) => {
-    setGradingScaleData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+    setGradingScaleData((prevData) => {
+      // Check if the value is numeric and parse it as a float if necessary
+      // const parsedValue = isNaN(Number(value)) ? value : parseFloat(value);
+      switch(field){
+        case 'upper_limit':{
+          return {
+            ...prevData,
+            [field]: parseFloat(value),
+          };
+        }
+        case 'lower_limit':{
+          return {
+            ...prevData,
+            [field]: parseFloat(value),
+          };
+        }
+        default:{
+          return {
+            ...prevData,
+            [field]: value,
+          };
+        }
+      }
+      
+    });
   };
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(addGradingScale(gradingScaleData)).then((result) => {
       setShowToast(true);
+      dispatch(getGradingScales({ branch_id: branchId }));
       showToastify(result.payload.message, result.payload.status);
     });
   };
+  
 
   useEffect(() => {
     if (index === "gc") {

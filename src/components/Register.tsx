@@ -61,7 +61,7 @@ const Register = (props: any) => {
             if (res.meta.requestStatus === "rejected") {
               if (res.error.message === "Rejected") {
                 showToastify(
-                  `Your registration has failed,${res.payload.status.message}`,
+                  `Your registration has failed, ${res.payload.status.message}`,
                   "error"
                 );
               }

@@ -14,7 +14,7 @@ const AcademicYearDetailsModal = (props: any) => {
             <p className='d-flex justify-content-between'><span>School:</span> <span>{year.school_name}, {year.branch_name}</span></p>
             <p className='d-flex justify-content-between'><span>Start Date:</span> <span>{new Date(year.start_date).toDateString()}</span></p>
             <p className='d-flex justify-content-between'><span>End Date:</span> <span>{new Date(year.end_date).toDateString()}</span></p>
-            <p className='d-flex justify-content-between'><span>Term Category:</span> <span>{year.term_category}</span></p>
+            <p className='d-flex justify-content-between'><span>Term Category:</span> <span>{year.next_term_start_date}</span></p>
           </Card.Body>
         </Card>
       </Modal.Body>

@@ -61,9 +61,7 @@ const RegistrationEditModal = (props: any) => {
 			dispatch(getRegistrationInformation({ ...params,branch_id:branchId, paginate: true, pagination: params.pagination }));
 		})
   };
-  // useEffect(() => {
-  //  console.log(registration)
-  // }, [registration]);
+  
   return (
     <Modal show={isOpen} animation centered onHide={onRequestClose} size="xl">
       <Form onSubmit={handleSubmit}>

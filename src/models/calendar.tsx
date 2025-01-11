@@ -17,7 +17,7 @@ export interface AcademicYear {
   start_date: string;
   end_date: string;
   branch_id: number | "" | undefined;
-  term_category: string;
+  // next_term_start_date: string;
 }
 
 export interface AcademicTerm {
@@ -25,6 +25,7 @@ export interface AcademicTerm {
   term_name: string;
   start_date: string;
   end_date: string;
+  next_term_start_date?: string;
   completed: boolean;
   academic_year_id: number;
 }
@@ -52,6 +53,7 @@ export interface AcademicTermViewModel {
   start_year?: number;
   end_year?: number;
   completed?: boolean;
+  next_term_start_date?: string;
 }
 
 export interface YearParams {

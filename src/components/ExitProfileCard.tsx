@@ -28,9 +28,9 @@ const ExitProfileCard = (props: any) => {
                         {student && student.academic_term_name} - {student && student.academic_term_start_date}/{student && student.academic_term_end_date}
 
                     </Card.Text>
-                    <Card.Text>
+                    {/* <Card.Text>
                        
-                    </Card.Text>
+                    </Card.Text> */}
                     <Card.Footer>
                     <button onClick={openModal} className="btn btn-primary">Add Exit Profile</button>
                     </Card.Footer>

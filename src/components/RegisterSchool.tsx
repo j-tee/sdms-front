@@ -133,8 +133,7 @@ const RegisterSchool = () => {
         <Card className='m-2'>
           <Card.Header><h2>Register School</h2></Card.Header>
           <Card.Body>
-            <Card.Text>
-              <Row>
+          <Row>
                 <Col md={6}>
 
                   <Form.Group controlId="crestImage" className='d-flex flex-column gap-1'>
@@ -183,7 +182,6 @@ const RegisterSchool = () => {
                 </Col>
                 <SchoolDropdowns onChange={handleInputChange} />
               </Row>
-            </Card.Text>
             <Button variant="primary" type="submit">
               Submit
             </Button>

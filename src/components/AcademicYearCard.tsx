@@ -34,7 +34,7 @@ const AcademicYearCard = (props: any) => {
     branch_id: 0,
     start_date: '',
     end_date: '',
-    term_category: '',
+    // next_term_start_date: '',
   })
   const AddNewAcademicYear = () => {
     setShowToast(true)
@@ -80,7 +80,8 @@ const AcademicYearCard = (props: any) => {
   return (
     <div>
       {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>}
-      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Text>
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && 
+      <div>
         {branchId && parseInt(branchId) > 0 ?
           <Form>
             <Row>
@@ -98,17 +99,13 @@ const AcademicYearCard = (props: any) => {
                     onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
                 </Form.Group>
               </Col>
-              <Col>
-                <Form.Group controlId='endDate'>
-                  <Form.Label>Term Category</Form.Label>
-                  <Form.Control as='select' type='text' value={formData.term_category}
-                    onChange={(e) => setFormData({ ...formData, term_category: e.target.value })}>
-                    <option value=''>---Select---</option>
-                    <option value='semester'>Semester</option>
-                    <option value='term'>Term</option>
-                  </Form.Control>
+              {/* <Col>
+                <Form.Group controlId='nextTermStartDate'>
+                  <Form.Label>Next Term Start Date</Form.Label>
+                  <Form.Control type='date' value={formData.end_date}
+                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
                 </Form.Group>
-              </Col>
+              </Col> */}
             </Row>
             <Row>
               <Col className='mt-2'>
@@ -117,7 +114,8 @@ const AcademicYearCard = (props: any) => {
             </Row>
           </Form> : "Go to branches to add a new academic year"}
 
-      </Card.Text>}
+      </div>
+      }
       <Card.Header>
         <span className="text-muted fs-3">Academic Years</span>
       </Card.Header>

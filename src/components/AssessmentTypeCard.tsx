@@ -105,8 +105,7 @@ const AssessmentTypeCard = (props: any) => {
       </Form>}
       <Card.Body>
         <Card.Title>Assessment Types</Card.Title>
-        <Card.Text>
-          <Table size='sm' variant='' responsive>
+        <Table size='sm' variant='' responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -141,7 +140,6 @@ const AssessmentTypeCard = (props: any) => {
               ))}
             </tbody>
           </Table>
-        </Card.Text>  
       </Card.Body>
       <AssessmentTypeEdit isOpen={isAssessmentTypeEditModalOpen} 
       assessmentType={assessmentType}

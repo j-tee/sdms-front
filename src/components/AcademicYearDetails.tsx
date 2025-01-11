@@ -32,9 +32,9 @@ const AcademicYearDetails = (props: any) => {
       </Row>
       <Row className='d-flex flex-row mt-3'>
         <span>
-          <Card.Link fw-light onClick={handleEdit}><em>Edit</em></Card.Link>
-          <Card.Link link-info  text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
-          <Card.Link link-info  text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link>
+          <Card.Link className='text-decoration-none' onClick={handleEdit}><em>Edit</em></Card.Link>
+          <Card.Link className='text-decoration-none' onClick={handleDelete}><em>Delete</em></Card.Link>
+          <Card.Link className='text-decoration-none' onClick={handleDetails}><em>Details</em></Card.Link>
         </span>
       </Row>
       <AcademicYearDetailsModal 

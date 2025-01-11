@@ -23,14 +23,7 @@ const ReportCard = (props: any) => {
       ></span>
     );
   }
-  //   useEffect(() => {
-  //     console.log('params===>from Report Card useEffect', params);
-  //     if(params.student_id > 0) {
-  //       dispatch(getStudentRecentSubscription({ student_id: params.student_id }));
-  //     }
-  // }, [dispatch, params]);
-
-
+ 
   useEffect(() => {
     dispatch(getStudentTerminalReport({ ...params }));
   }, [dispatch, params]);

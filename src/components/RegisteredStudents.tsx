@@ -14,10 +14,8 @@ const RegisteredStudents = (props: any) => {
     const { academic_term } = useSelector((state: RootState) => state.calendar);
     const { registration } = useSelector((state: RootState) => state.studentReg);
     const dispatch = useDispatch<AppDispatch>();
-    // const {registrations} = useSelector((state:RootState) => state.studentReg)
 
     const handleOpenModal = (student: StudentRegViewModel) => {
-      // console.log("=======student===>", student)
       dispatch(getCurrentTerm(branchId));
       dispatch(
             getStudentRegistration({

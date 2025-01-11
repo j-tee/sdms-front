@@ -22,6 +22,7 @@ import ResetPasswordComponent from './components/ResetPasswordComponent';
 import Email from './components/Email';
 import Finance from './components/Finance';
 import Subscription from './components/Subscription';
+import SystemAdmin from './components/SystemAdmin';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route caseSensitive path="/" element={<Home />} />
+            <Route path="/system-admin" element={<SystemAdmin />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/register-school" element={<RegisterSchool />} />
             <Route path="/my-wards" element={<MyWardCard />} />
