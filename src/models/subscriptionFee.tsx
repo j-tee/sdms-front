@@ -11,4 +11,5 @@ export interface SubscriptionFeeState {
 export interface SubscriptionFee {
   id?: number
   amount: number
+  duration: number
 }

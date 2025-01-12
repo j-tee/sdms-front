@@ -22,6 +22,9 @@ const initialState: SubscriptionState = {
     exp_date: '',
     valid_subscription: false,
     status: '',
+    parents_info: '',
+    fee: 0,
+    amt_due: 0
   },
   status: '',
   message: '',

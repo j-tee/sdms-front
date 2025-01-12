@@ -37,6 +37,7 @@ export interface SchoolViewModel {
   religion: string;
   level_name: string;
   category_name: string;
+  number_of_branches: number;
   ownership: string;
   bg_image_url: string;
   crest_image_url: string;

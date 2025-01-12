@@ -18,8 +18,8 @@ import PaginationComponent from './PaginationComponent'
 
 const NewlyAdmittedStudents = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
-  const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { all_unregistered_students,admitted_but_not_registered, registrations, pagination } = useSelector((state: RootState) => state.studentReg)  
+  // const { academic_term } = useSelector((state: RootState) => state.calendar)
+  const { all_unregistered_students,admitted_but_not_registered, registered, pagination } = useSelector((state: RootState) => state.studentReg)  
   const [key, setKey] = useState<string>('registered');
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState<QueryParams>({
@@ -81,15 +81,15 @@ const NewlyAdmittedStudents = (props: any) => {
     }));
   };
 useEffect(()=>{
-  if(!academic_term){
-    dispatch(getCurrentTerm(branchId))
-  }
+  // if(!academic_term){
+  //   dispatch(getCurrentTerm(branchId))
+  // }
   if(tabIndex === 'second'){    
-  dispatch(getRegisteredStudents({ ...params, paginate:true, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
-  dispatch(getRegistrationInformation({ ...params, academic_term_id: academic_term.id, branch_id: branchId, school_id: schoolId }))
+  dispatch(getRegisteredStudents({ ...params, paginate:true, branch_id: branchId, school_id: schoolId }))
+  dispatch(getRegistrationInformation({ ...params, branch_id: branchId, school_id: schoolId }))
 
   }
-  },[params, tabIndex, dispatch, academic_term, branchId, schoolId])
+  },[params, tabIndex, dispatch, branchId, schoolId])
   return (
     <Card>
       <Card.Header>
@@ -124,10 +124,10 @@ useEffect(()=>{
             className="mb-3"
           >
             <Tab eventKey="registered" title="Registered Students">
-              <RegisteredStudents students={registrations} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <RegisteredStudents students={registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
             <Tab eventKey="unregistered" title="Unregistered Students">
-              <UnregisteredStudent students={admitted_but_not_registered} academic_term_id={academic_term.id} onChange={handleInputChange}  index={key} params={params} branchId={branchId} schoolId={schoolId} />
+              <UnregisteredStudent students={admitted_but_not_registered} academic_term_id={params.academic_term_id} onChange={handleInputChange}  index={key} params={params} branchId={branchId} schoolId={schoolId} />
             </Tab>
           </Tabs>
         </Row>

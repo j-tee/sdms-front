@@ -21,6 +21,7 @@ const SchoolService = {
       },
     });
   },
+  getSchoolList: (params: any) => axios.get(`${API_URL}api/v1/schools/subscriptions/school_subscriptions/schools_list?${queryStringFormatter(params)}`, { headers: authHeader() }),
   getStudentBranches: (params: any) => axios.get(`${API_URL}api/v1/branches/parents/students/student_branches?${queryStringFormatter(params)}`, { headers: authHeader() }),  
   getStudentSchools: (params: any) => axios.get(`${API_URL}api/v1/schools/parents/my_wards/Student_schools?${queryStringFormatter(params)}`, { headers: authHeader() }),
   getSchool: (school_id: number) => axios.get(`${API_URL}api/v1/schools/${school_id}`, { headers: authHeader() }),

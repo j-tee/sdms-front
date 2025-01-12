@@ -41,6 +41,7 @@ const initialState: SchoolState = {
     ownership: '',
     bg_image_url: '',
     crest_image_url: '',
+    number_of_branches: 0
   },
   school: {
     level_id: 0,
@@ -215,11 +216,34 @@ export const getStudentBranches = createAsyncThunk(
   },
 )
 
+export const getSchoolList = createAsyncThunk(
+  'school/getSchoolList',
+  async (params:any, thunkAPI) => {
+    try {
+      const response = SchoolService.getSchoolList(params);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const schoolSlice = createSlice({
   name: 'school',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(getSchoolList.fulfilled, (state, action) => ({
+        ...state,
+        schools: action.payload.schools, isLoading: false,
+        message: action.payload.message,
+      }));
+      builder.addCase(getSchoolList.pending, (state) => ({ ...state, isLoading: true }));
+      builder.addCase(getSchoolList.rejected, (state, action:PayloadAction<any>) => ({
+        ...state, message: action.payload.message, isLoading: false
+      }));
+
     builder
       .addCase(getStudentBranches.fulfilled, (state, action) => ({
         ...state,

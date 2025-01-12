@@ -33,6 +33,9 @@ export interface SubscriptionViewModel {
   ref_id: string;
   duration: number;
   student_name: string;
+  parents_info: string;
+  fee: number;
+  amt_due: number;
   fee_name: number;
   taxes: number;
   exp_date: string;

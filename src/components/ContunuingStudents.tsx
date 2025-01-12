@@ -11,9 +11,11 @@ import ProgramDropDown from './ProgramDropDown'
 import StageDropDown from './StageDropDown'
 import RegisteredStudents from './RegisteredStudents'
 import UnregisteredStudent from './UnregisteredStudent'
+import { getPrograms } from '../redux/slices/programSlice'
+import { getStages } from '../redux/slices/stageSlice'
 
 const ContunuingStudents = (props: any) => {
-  const { schoolId, branchId, handleInputChange, tabIndex } = props;
+  const { schoolId, branchId, tabIndex } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const { registered, registrations, continuing_students_not_registered } = useSelector((state: RootState) => state.studentReg)
   const dispatch = useDispatch<AppDispatch>()
@@ -35,6 +37,26 @@ const ContunuingStudents = (props: any) => {
       total_pages: 0
     }
   });
+  type AnyType = {
+      [key: string]: string;
+    };
+    const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
+      setParams((prevData) => ({
+        ...prevData,
+        [field]: value,
+      }));
+      switch (field) {
+        case 'department_id': {
+          dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
+          break;
+        }
+        case 'program_id': {
+          if (branchId)
+            dispatch(getStages({ ...params, branch_id: branchId, department_id: 0, paginate: false }))
+          break;
+        }
+      }
+    };
   useEffect(() => {
     if (tabIndex === 'contunuing')
       dispatch(getRegistrationInformation({ ...params, academic_term_id: params.academic_term_id ? params.academic_term_id : academic_term.id, branch_id: branchId, school_id: schoolId }))

@@ -12,7 +12,8 @@ const initialState: SubscriptionFeeState = {
     },
     subscriptionFees: [],
     subscriptionFee: {
-        amount: 0
+      amount: 0,
+      duration: 0
     },
     message: ''
 };
@@ -28,7 +29,6 @@ export const addSubscriptionFee = createAsyncThunk(
     }
   },
 );
-
 
 export const getSubscriptionFees = createAsyncThunk(
   'subscriptionFee/getSubscriptionFees',
