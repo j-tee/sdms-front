@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { ToastContext } from '../utility/ToastContext';
@@ -14,20 +14,19 @@ const ResetPasswordComponent = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState('');
   const { setShowToast } = useContext(ToastContext);
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const resetPasswordToken = searchParams.get('resetPasswordToken');
+    const pathSegments = location.pathname.split('/');
+    const resetPasswordToken = pathSegments[pathSegments.length - 1];
     if (resetPasswordToken) {
-      setToken(resetPasswordToken)
+      setToken(resetPasswordToken);
     }
-
-  }, [location.search, setShowToast]);
+  }, [location.pathname]);
 
   const handleSubmit = (event: any) => {
     setShowToast(true);
@@ -58,6 +57,7 @@ const ResetPasswordComponent = () => {
     }
     setValidated(true);
   };
+
   return (
     <>
       <Header />
@@ -65,25 +65,37 @@ const ResetPasswordComponent = () => {
         &nbsp;
       </Container>
       <Container>
-      <Form className="mt-5" noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <Form.Control.Feedback type="invalid">
-            Please enter a password.
-          </Form.Control.Feedback>
-        </Form.Group>
+        <Form className="mt-5" noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter a password.
+            </Form.Control.Feedback>
+          </Form.Group>
 
-        <Form.Group controlId="formBasicConfirmPassword">
-          <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-          <Form.Control.Feedback type="invalid">
-            Please confirm your password.
-          </Form.Control.Feedback>
-          {error && <div className="text-danger">{error}</div>}
-        </Form.Group>
-        <Button className='mt-3' variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Form.Group controlId="formBasicConfirmPassword">
+            <Form.Control
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please confirm your password.
+            </Form.Control.Feedback>
+            {error && <div className="text-danger">{error}</div>}
+          </Form.Group>
+          <Button className="mt-3" variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
       </Container>
     </>
   );

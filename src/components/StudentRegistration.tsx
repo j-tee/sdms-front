@@ -29,10 +29,10 @@ const StudentRegistration = (props: any) => {
       className="mb-3"
     >
       <Tab eventKey="newly_admitted" title="Newly Admitted Students">
-        <NewlyAdmittedStudents schoolId={schoolId} branchId={branchId} tabIndex={tabIndex} />
+        <NewlyAdmittedStudents schoolId={schoolId} tabKey={tabKey} branchId={branchId} tabIndex={tabIndex} />
       </Tab>
       <Tab eventKey="contunuing" title="Continuing Students">
-        <ContunuingStudents schoolId={schoolId} branchId={branchId} tabIndex={tabKey} />
+        <ContunuingStudents schoolId={schoolId} tabKey={tabKey} branchId={branchId} tabIndex={tabKey} />
       </Tab>
     </Tabs>
     </>

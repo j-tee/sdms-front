@@ -125,6 +125,7 @@ const UnregisteredStudent = (props: any) => {
     if (index === 'unregistered') {
       dispatch(getCurrentTerm(branchId))
       dispatch(gettermCount(branchId))
+      dispatch(getRegistrationInformation({ ...params, branch_id: branchId, school_id: schoolId })) 
     }
   }, [branchId, params, dispatch, index, term_count])
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AppDispatch, RootState } from '../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { Col, Row, Tab, Tabs } from 'react-bootstrap'
+import { Col, Dropdown, DropdownButton, Row, Tab, Tabs } from 'react-bootstrap'
 import AcademicYearDropDown from './AcademicYearDropDown'
 import AcademicTermDropDown from './AcademicTermDropDown'
 import { QueryParams } from '../models/queryParams'
@@ -13,11 +13,14 @@ import RegisteredStudents from './RegisteredStudents'
 import UnregisteredStudent from './UnregisteredStudent'
 import { getPrograms } from '../redux/slices/programSlice'
 import { getStages } from '../redux/slices/stageSlice'
+import PaginationComponent from './PaginationComponent'
 
 const ContunuingStudents = (props: any) => {
-  const { schoolId, branchId, tabIndex } = props;
+  const { schoolId, branchId, tabIndex, tabKey } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { registered, registrations, continuing_students_not_registered } = useSelector((state: RootState) => state.studentReg)
+  const { registered, registered_pagination, 
+    continuing_students_not_registered_pagination,
+    registrations, continuing_students_not_registered, pagination } = useSelector((state: RootState) => state.studentReg)
   const dispatch = useDispatch<AppDispatch>()
   const [key, setKey] = useState<string>('registered');
   const [params, setParams] = useState<QueryParams>({
@@ -57,10 +60,33 @@ const ContunuingStudents = (props: any) => {
         }
       }
     };
+    const handlePageChange = (page: number) => {
+      // setCurrentPage(page);
+      setParams((prevParams) => ({
+        ...prevParams,
+        pagination: {
+          ...prevParams.pagination,
+          current_page: page,
+        },
+      }));
+    };
+  
+    const handleItemsPerPageChange = (perPage: number) => {
+      // setItemsPerPage(perPage);
+      setParams((prevParams) => ({
+        ...prevParams,
+        pagination: {
+          ...prevParams.pagination,
+          per_page: perPage,
+          current_page: 1,
+        },
+      }));
+    };
   useEffect(() => {
-    if (tabIndex === 'contunuing')
+    if (tabKey === 'contunuing')
       dispatch(getRegistrationInformation({ ...params, academic_term_id: params.academic_term_id ? params.academic_term_id : academic_term.id, branch_id: branchId, school_id: schoolId }))
   }, [academic_term.id, branchId, dispatch, params, schoolId, tabIndex])
+  
   return (
     <>
       <Row className='d-flex flex-column flex-lg-row'>
@@ -89,12 +115,59 @@ const ContunuingStudents = (props: any) => {
         className="mb-3"
       >
         <Tab eventKey="registered" title="Registered Students">
-          <RegisteredStudents students={registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+          <RegisteredStudents students={registered} 
+          pagination={registered_pagination} index={key} params={params} branchId={branchId} schoolId={schoolId} />
         </Tab>
         <Tab eventKey="unregistered" title="Unregistered Students">
-          <UnregisteredStudent onChange={handleInputChange} students={continuing_students_not_registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
+          <UnregisteredStudent onChange={handleInputChange} 
+          pagination={continuing_students_not_registered_pagination}
+          students={continuing_students_not_registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />
         </Tab>
       </Tabs>
+      {key === 'registered'&& (<div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={registered_pagination?.current_page}
+              itemsCountPerPage={registered_pagination?.per_page}
+              totalItemsCount={registered_pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={registered_pagination?.total_pages}
+              hideDisabled={registered_pagination?.total_pages === 0}
+              hideNavigation={registered_pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>)}
+          {key === 'unregistered'&& (<div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={continuing_students_not_registered_pagination?.current_page}
+              itemsCountPerPage={continuing_students_not_registered_pagination?.per_page}
+              totalItemsCount={continuing_students_not_registered_pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={continuing_students_not_registered_pagination?.total_pages}
+              hideDisabled={continuing_students_not_registered_pagination?.total_pages === 0}
+              hideNavigation={continuing_students_not_registered_pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>)}
     </>
   )
 }

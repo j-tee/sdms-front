@@ -36,7 +36,7 @@ const ReportCard = (props: any) => {
           <div className='mt-4 border-4 border-primary' key={report.student_id}>
             <div className="row justify-content-center align-items-start">
               {/* School Crest */}
-              <div className="col-auto text-center">
+              <div className="col-auto text-center pt-5">
                 <img
                   src={report.branch.crest_url}
                   alt="School Crest"
@@ -45,7 +45,7 @@ const ReportCard = (props: any) => {
               </div>
 
               {/* School Details */}
-              <div className="col-md-6 text-center">
+              <div className="col-auto text-center">
                 <div className="d-flex flex-column align-items-center">
                   <span className="fs-2 fw-bold">{report.branch.school_name}</span>
                   <span className="fs-6">{report.branch.branch_name}</span>
@@ -57,7 +57,7 @@ const ReportCard = (props: any) => {
               </div>
 
               {/* Student Picture */}
-              <div className="col-auto text-center">
+              <div className="col-auto text-center pt-5" >
                 <img
                   src={report.student.image_url}
                   alt="Student"
@@ -73,6 +73,7 @@ const ReportCard = (props: any) => {
                 <h6>Term</h6>
                 <h6>Class</h6>
                 <h6>Vacation</h6>
+                <h6>Re-opening Date</h6>
               </span>
               <span className="flex-grow-1 text-center"></span>
 
@@ -83,6 +84,7 @@ const ReportCard = (props: any) => {
                 <h6>{report.term.term_name}</h6>
                 <h6>{report.class_name}</h6>
                 <h6>{new Date(report.term.end_date).toDateString()}</h6>
+                <h6>{new Date(report.term.next_term_start_date).toDateString()}</h6>
               </span>
             </div>
             <Table size='sm' striped borderless hover>

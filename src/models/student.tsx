@@ -120,6 +120,11 @@ export interface StudentRegState {
   unregistered_students: StudentRegViewModel[];
   registered_students: StudentRegViewModel[];
   isLoading: boolean;
+  admitted_but_not_registered_pagination?: PaginationParams;
+  continuing_students_not_registered_pagination?: PaginationParams;
+  registered_in_previous_term_pagination?: PaginationParams;
+  registered_pagination?: PaginationParams;
+  all_unregistered_students_pagination?: PaginationParams;
   pagination?: PaginationParams;
   status:string;
   message:string;

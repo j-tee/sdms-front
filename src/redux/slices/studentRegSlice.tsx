@@ -4,6 +4,36 @@ import StudentRegService from '../../services/studentRegService';
 import { QueryParams } from '../../models/queryParams';
 
 const initialState: StudentRegState = {
+  admitted_but_not_registered_pagination: {
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  },
+  continuing_students_not_registered_pagination: {
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  },
+  registered_in_previous_term_pagination: {
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  },
+  registered_pagination:{
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  },
+  all_unregistered_students_pagination: {
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  },
   registration:{
     id: 0,
     student_id: 0,
@@ -170,10 +200,15 @@ export const studentRegSlice = createSlice({
       .addCase(getRegistrationInformation.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         all_unregistered_students: action.payload.all_unregistered_students.students,
+        all_unregistered_students_pagination: action.payload.all_unregistered_students.pagination,
         registered: action.payload.registered.students,
+        registered_pagination: action.payload.registered.pagination,
         registered_in_previous_term: action.payload.registered_in_previous_term.students,
+        registered_in_previous_term_pagination: action.payload.registered_in_previous_term.pagination,
         continuing_students_not_registered: action.payload.continuing_students_not_registered.students,
+        continuing_students_not_registered_pagination: action.payload.continuing_students_not_registered.pagination,
         admitted_but_not_registered: action.payload.admitted_but_not_registered.students,
+        admitted_but_not_registered_pagination: action.payload.admitted_but_not_registered.pagination,
 
         // reg_info: action.payload, isLoading: false, message: action.payload.message,
         std_status: action.payload.status
