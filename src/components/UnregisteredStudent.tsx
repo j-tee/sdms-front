@@ -121,6 +121,7 @@ const UnregisteredStudent = (props: any) => {
     }
 
   };
+  
   useEffect(() => {
     if (index === 'unregistered') {
       dispatch(getCurrentTerm(branchId))

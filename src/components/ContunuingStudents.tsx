@@ -82,6 +82,18 @@ const ContunuingStudents = (props: any) => {
         },
       }));
     };
+  // useEffect(() => {
+  //   if (tabKey === 'contunuing'){
+  //     setParams((prevData) => ({
+  //       ...prevData,
+  //       pagination: {
+  //         ...prevData.pagination,
+  //         current_page: 1,
+  //       },
+  //     }))
+  //   }
+   
+  // }, [])
   useEffect(() => {
     if (tabKey === 'contunuing')
       dispatch(getRegistrationInformation({ ...params, academic_term_id: params.academic_term_id ? params.academic_term_id : academic_term.id, branch_id: branchId, school_id: schoolId }))
@@ -111,7 +123,13 @@ const ContunuingStudents = (props: any) => {
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
-        onSelect={(k) => k && setKey(k)}
+        onSelect={(k) => {k && setKey(k); setParams((prevData) => ({
+          ...prevData,
+          pagination: {
+            ...prevData.pagination,
+            current_page: 1,
+          },
+        }))}}
         className="mb-3"
       >
         <Tab eventKey="registered" title="Registered Students">

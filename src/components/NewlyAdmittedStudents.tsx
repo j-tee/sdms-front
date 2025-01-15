@@ -83,6 +83,17 @@ const NewlyAdmittedStudents = (props: any) => {
       },
     }));
   };
+// useEffect(()=>{
+//   if(tabKey === 'newly_admitted'){
+//      setParams((prevData) => ({
+//           ...prevData,
+//           pagination: {
+//             ...prevData.pagination,
+//             current_page: 1,
+//           },
+//         }))
+//   }
+// },[])
 useEffect(()=>{
   // if(!academic_term){
   //   dispatch(getCurrentTerm(branchId))
@@ -123,7 +134,13 @@ useEffect(()=>{
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
-            onSelect={(k) => k && setKey(k)}
+            onSelect={(k) => {k && setKey(k); setParams((prevData) => ({
+              ...prevData,
+              pagination: {
+                ...prevData.pagination,
+                current_page: 1,
+              },
+            }))}}
             className="mb-3"
           >
             <Tab eventKey="registered" title="Registered Students">

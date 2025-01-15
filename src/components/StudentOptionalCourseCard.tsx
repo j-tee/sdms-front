@@ -104,7 +104,7 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
         })),
       },
     };
-  
+  console.log('payload==========>',payload);
     // Determine the action based on the form name
     switch (formName) {
       case 'register':
@@ -163,13 +163,13 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
             <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
           </Row>
           <Card className='my-3'>
-            <Card.Header><span className='text-muted fs-1'>List of Unregistered students </span></Card.Header>
+            <Card.Header><span className='text-muted fs-3'>List of Unregistered Students for Selected Optional Subject </span></Card.Header>
             <Form name='register' onSubmit={handleSubmit}>
               <Card.Body>
                 {unregistered_students.map((reg) => (
                   <Form.Check
                     key={reg.student_id}
-                    type="checkbox"
+                    type="switch"
                     label={reg.full_name}
                     onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
                   />
@@ -183,13 +183,13 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
             </Form>
           </Card>
           <Card className='my-3'>
-            <Card.Header><span className='text-muted fs-1'>List of Registered students </span></Card.Header>
+            <Card.Header><span className='text-muted fs-3'>List of Registered Students for Selected Optional Subject </span></Card.Header>
             <Form name='unregister' onSubmit={handleSubmit}>
               <Card.Body>
                 {registered_students.map((reg) => (
                   <Form.Check
                     key={reg.student_id}
-                    type="checkbox"
+                    type="switch"
                     label={reg.full_name}
                     onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
                   />

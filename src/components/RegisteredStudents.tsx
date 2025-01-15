@@ -13,9 +13,12 @@ const RegisteredStudents = (props: any) => {
     const [isEditModalOpen, setEditModalOpen] = React.useState(false);
     const { academic_term } = useSelector((state: RootState) => state.calendar);
     const { registration } = useSelector((state: RootState) => state.studentReg);
+    const [updateModalOpen, setUpdateModalOpen] = useState(false);
+    const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
 
-    const handleOpenModal = (student: StudentRegViewModel) => {
+    const handleOpenEditModal = (student: StudentRegViewModel) => {
       dispatch(getCurrentTerm(branchId));
       dispatch(
             getStudentRegistration({
@@ -53,9 +56,9 @@ const RegisteredStudents = (props: any) => {
       </Card.Body>
         <Card.Footer className='d-flex justify-content-start gap-2'>        
           {index === 'registered' && (
-            <><Button variant='outline-primary' size='sm'>Edit</Button>
-            <Button variant='outline-info' size='sm'>Details</Button>
-            <Button variant='outline-danger' size='sm'>Delete</Button></>
+            <><Button onClick={(e) => handleOpenEditModal(student)} variant='outline-primary' size='sm'>Update Registration Details</Button>
+            <Button variant='outline-info' size='sm'>View Registration Details</Button>
+            <Button variant='outline-danger' size='sm'>Delete Registration Details</Button></>
           )}        
         </Card.Footer>
     </Card>
