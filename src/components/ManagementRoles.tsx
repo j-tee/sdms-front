@@ -39,10 +39,11 @@ const ManagementRoles = (props: any) => {
                 <option value="secretary">Secretary</option>
                 <option value="student">Student</option>
                 <option value="parent">Parent</option>
+                <option value="data_entry">Data Entry</option>
               </Form.Select>
             </Form.Group>
             <Button variant="primary" type="submit">
-              Submit
+              Add User to Role
             </Button>
           </Form>
     </>  )

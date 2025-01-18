@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { AppDispatch } from '../redux/store';
 import { useDispatch } from 'react-redux';
 import { ToastContext } from '../utility/ToastContext';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import AdmissionEdit from './AdmissionEdit';
 import AdmissionDelete from './AdmissionDelete';
 import AdmissionDetails from './AdmissionDetails';
@@ -31,7 +31,7 @@ const AdmissionList = (props: any) => {
     <>
       <Card.Body className='d-flex flex-column flex-lg-row gap-3'>
         <Card.Img variant="top" src={admission.picture} style={{ width: "100px" }} />
-        <Card.Title className='d-flex flex-column text-muted'>
+        <Card.Text className='d-flex flex-column text-muted'>
           <span>
             {admission.student_name}
           </span>
@@ -44,20 +44,20 @@ const AdmissionList = (props: any) => {
           <span>
             {new Date(admission.admission_date).toDateString()}
           </span>
-        </Card.Title>
+        </Card.Text>
       </Card.Body>
       <Card.Footer className='d-flex flex-row gap-2'>
-        <Card.Link onClick={handleEdit} className='pe-3'>
+        <Button variant='outline-primary' size='sm' onClick={handleEdit} className='pe-3'>
           Edit
-        </Card.Link>
-        |
-        <Card.Link onClick={handleDelete} className='pe-3'>
+        </Button>
+      
+        <Button variant='outline-danger' size='sm' onClick={handleDelete} className='pe-3'>
           Delete
-        </Card.Link>
-        |
-        <Card.Link onClick={handleDetails}>
+        </Button>
+        
+        <Button variant='outline-info' size='sm' onClick={handleDetails}>
           Details
-        </Card.Link>
+        </Button>
       </Card.Footer>
       <AdmissionDetails admission={admission}
         isOpen={isAdmissionDetailsModalOpen}

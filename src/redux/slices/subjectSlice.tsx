@@ -5,6 +5,7 @@ import SubjectService from '../../services/subjectService';
 const initialState: SubjectState = {
   subject_list: [],
   staff_subject_list: [],
+  subjects_from_timetable: [],
   subjects: [],
   subject: {
     id: 0,
@@ -127,7 +128,7 @@ export const subjectSlice = createSlice({
     }));
     builder.addCase(getSubjectListFromTimeTable.fulfilled, (state, action: PayloadAction<any>) => ({
       ...state,
-      subjects: action.payload.subjects, isLoading: false, message: action.payload.message,
+      subjects_from_timetable: action.payload.subjects, isLoading: false, message: action.payload.message,
       status: action.payload.status,
     }));
     builder

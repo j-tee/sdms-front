@@ -42,7 +42,10 @@ const StaffCard = (props: any) => {
   })
   const handleFileChange = (field: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
-
+if (file && file.size > 102400) {
+      showToastify('Image size should not exceed 100KB', 'error');
+      return;
+    }
     setFormData((prevData) => ({
       ...prevData,
       [field]: file // Assuming you want to store the filename

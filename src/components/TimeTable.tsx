@@ -148,6 +148,17 @@ const TimeTable = (props: any) => {
     }
   };
 
+  useEffect(() => { 
+    if (tabKey === 'time-table') {
+     setEndTime('8:45')
+      setStartTime('7:45')
+      setFormData((prevData) => ({
+        ...prevData,
+        start_time: startTime || '7:45',
+        end_time: endTime || '8:45',
+      }));
+    }
+   }, []);
   useEffect(() => {
     if (tabKey === 'time-table') {
       const user_roles = UserSession.getroles()

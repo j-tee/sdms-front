@@ -21,7 +21,7 @@ const BranchEdit = (props: any) => {
     phone2: branch.phone2,
     postal_address: branch.postal_address,
     residential_address: branch.residential_address,
-    school_id: branch.location_id,
+    school_id: branch.school_id,
     circuit_id: branch.circuit_id, // Add the missing circuit_id property
   });
   type AnyType = {

@@ -59,6 +59,7 @@ export interface ProgramSubjectViewModel {
 
 export interface SubjectState {
   subject_list:string[]
+  subjects_from_timetable:SubjectViewModel[];
   staff_subject_list: string[];
   subjects: SubjectViewModel[];
   subject: SubjectViewModel;

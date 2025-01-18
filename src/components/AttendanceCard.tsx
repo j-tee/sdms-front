@@ -106,11 +106,11 @@ const AttendanceCard = (props: any) => {
           break;
         case 'lesson_id':
           dispatch(getStaffClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
-          dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
+          dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
           break;
         case 'class_group_id':
-          dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
-          dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: true }))
+          dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
+          dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: false }))
           break;
         default:
           break;
@@ -174,7 +174,7 @@ useEffect(() => {
             <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
           </Col>
           <Col><Form.Group controlId='startDate'>
-            <Form.Label>Start Date</Form.Label>
+            <Form.Label>Attendance Date</Form.Label>
             <Form.Control type='date' value={attendanceDate}
               onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
           </Form.Group></Col>

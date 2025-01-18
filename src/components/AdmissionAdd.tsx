@@ -175,6 +175,25 @@ const AdmissionAdd = (props: any) => {
       )
   }
 
+  const handlePageChange = (page: number): void => {
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  }
+  const handleItemsPerPageChange = (perPage: number) => {
+    setParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+        current_page: 1,
+      },
+    }));
+  }
   return (
     <Card>
       <Card.Header>Admission Details for {studentInfo && studentInfo.student_id} {studentInfo && studentInfo.last_name} {studentInfo && studentInfo.first_name}</Card.Header>
@@ -271,6 +290,28 @@ const AdmissionAdd = (props: any) => {
         {admissions && admissions.map((admission: AdmissionViewModel) => (
           <AdmissionList params={params} setParams={setParams} onChange={handleInputChange} key={admission.id} admission={admission} schoolId={schoolId} branchId={branchId} />
         ))}
+        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
       </Card.Body>
     </Card>
   )

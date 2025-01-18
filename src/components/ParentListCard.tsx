@@ -46,6 +46,7 @@ const ParentListCard = (props: any) => {
           pagination: {
             ...prevParams.pagination,
             per_page: perPage,
+            current_page: 1,
           },
         }));
       };
@@ -70,7 +71,7 @@ const ParentListCard = (props: any) => {
         <>
         <BranchDropDown schoolId={schoolId} onChange={handleChange}/>
             <h1>Parent List</h1>
-            <Table striped size="sm" hover>
+            <Table striped size="sm" hover responsive>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -94,13 +95,13 @@ const ParentListCard = (props: any) => {
                             <td>{parent.fathers_contact_number}</td>
                             <td>{parent.mothers_contact_number}</td>
                             <td className="d-flex flex-column flex-lg-row justify-content-center">
-                                <Button onClick={() => handleEditModalOpen(parent)} className="m-1" size="sm">
+                                <Button size='sm' variant='link' onClick={() => handleEditModalOpen(parent)} className="m-1">
                                     Edit
                                 </Button>
-                                <Button className="m-1" size="sm">
+                                <Button variant='link' className="m-1" size="sm">
                                     View
                                 </Button>
-                                <Button className="m-1" size="sm">
+                                <Button variant='link' className="m-1" size="sm">
                                     Delete
                                 </Button>
                             </td>

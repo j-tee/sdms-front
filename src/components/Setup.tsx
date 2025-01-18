@@ -3,6 +3,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import RegionCard from "./RegionCard";
 import DistrictCard from "./DistrictCard";
 import CircuitCard from "./CircuitCard";
+import Miscellaneous from "./Miscellaneous";
 
 const Setup = (props: any) => {
   const [key, setKey] = React.useState("region");
@@ -23,6 +24,9 @@ const Setup = (props: any) => {
 				<Tab eventKey="circuit" title="Circuit">
 					<CircuitCard index={key}/>
 				</Tab>
+        <Tab eventKey="religion" title="Miscellaneous">
+          <Miscellaneous index={key}/>
+        </Tab>
       </Tabs>
     </>
   );

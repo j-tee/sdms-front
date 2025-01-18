@@ -228,11 +228,255 @@ export const getSchoolList = createAsyncThunk(
   },
 )
 
+export const addOwnershipCategory = createAsyncThunk(
+  'school/addOwnershipCategory',
+  async (category: any, thunkAPI) => {
+    try {
+      const response = SchoolService.addOwnershipCategory(category);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const updateOwnershipCategory = createAsyncThunk(
+  'school/updateOwnershipCategory',
+  async (category: any, thunkAPI) => {
+    try {
+      const response = SchoolService.updateOwnershipCategory(category);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const deleteOwnershipCategory = createAsyncThunk(
+  'school/deleteOwnershipCategory',
+  async (category: any, thunkAPI) => {
+    try {
+      const response = SchoolService.deleteOwnershipCategory(category);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const addCategory = createAsyncThunk(
+  'school/addCategory',
+  async (category: any, thunkAPI) => {
+    try {
+      const response = SchoolService.addCategory(category);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const updateCategory = createAsyncThunk(
+  'school/updateCategory',
+  async (category: any, thunkAPI) => {
+    try {
+      const response = SchoolService.updateCategory(category);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const deleteCategory = createAsyncThunk(
+  'school/deleteCategory',
+  async (id: any, thunkAPI) => {
+    try {
+      const response = SchoolService.deleteCategory(id);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const addLevel = createAsyncThunk(
+  'school/addLevel',
+  async (level: any, thunkAPI) => {
+    try {
+      const response = SchoolService.addLevel(level);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const updateLevel = createAsyncThunk(
+  'school/updateLevel',
+  async (level: any, thunkAPI) => {
+    try {
+      const response = SchoolService.updateLevel(level);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const deleteLevel = createAsyncThunk(
+  'school/deleteLevel',
+  async (id: any, thunkAPI) => {
+    try {
+      const response = SchoolService.deleteLevel(id);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const addReligiousAffiliation = createAsyncThunk(
+  'school/addReligiousAffiliation',
+  async (affiliation: any, thunkAPI) => {
+    try {
+      const response = SchoolService.addReligiousAffiliation(affiliation);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const updateReligiousAffiliation = createAsyncThunk(
+  'school/updateReligiousAffiliation',
+  async (affiliation: any, thunkAPI) => {
+    try {
+      const response = SchoolService.updateReligiousAffiliation(affiliation);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
+export const deleteReligiousAffiliation = createAsyncThunk(
+  'school/deleteReligiousAffiliation',
+  async (id: any, thunkAPI) => {
+    try {
+      const response = SchoolService.deleteReligiousAffiliation(id);
+      return (await response).data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+) 
+
 export const schoolSlice = createSlice({
   name: 'school',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+    .addCase(addReligiousAffiliation.fulfilled, (state, action) => ({
+      ...state,
+      religions: action.payload, isLoading: false
+    }));
+    builder.addCase(addReligiousAffiliation.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(addReligiousAffiliation.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
+    builder
+    .addCase(updateReligiousAffiliation.fulfilled, (state, action) => ({
+      ...state,
+      religions: action.payload, isLoading: false
+    }));
+    builder.addCase(updateReligiousAffiliation.pending, (state) => ({ ...state, isLoading: true }));  
+    builder.addCase(updateReligiousAffiliation.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+    builder.addCase(deleteReligiousAffiliation.fulfilled, (state, action) => ({
+      ...state,
+      religions: action.payload, isLoading: false
+    }));
+    builder.addCase(deleteReligiousAffiliation.pending, (state) => ({ ...state, isLoading: true }));  
+    builder.addCase(deleteReligiousAffiliation.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+    builder.addCase(addLevel.fulfilled, (state, action) => ({
+      ...state,
+      levels: action.payload, isLoading: false
+    }));
+    builder.addCase(addLevel.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(addLevel.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+    builder.addCase(updateLevel.fulfilled, (state, action) => ({
+      ...state,
+      levels: action.payload, isLoading: false
+    }));
+    builder.addCase(updateLevel.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateLevel.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+    builder.addCase(deleteLevel.fulfilled, (state, action) => ({
+      ...state,
+      levels: action.payload, isLoading: false
+    }));
+    builder.addCase(deleteLevel.pending, (state) => ({ ...state, isLoading: true })); 
+    builder.addCase(deleteLevel.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+    builder.addCase(addCategory.fulfilled, (state, action) => ({
+      ...state,
+      categories: action.payload, isLoading: false
+    }));
+    builder.addCase(addCategory.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(addCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
+    builder.addCase(updateCategory.fulfilled, (state, action) => ({
+      ...state,
+      categories: action.payload, isLoading: false
+    }));
+    builder.addCase(updateCategory.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
+    builder.addCase(deleteCategory.fulfilled, (state, action) => ({
+      ...state,
+      categories: action.payload, isLoading: false
+    }));
+    builder.addCase(deleteCategory.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(deleteCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
+    builder.addCase(addOwnershipCategory.fulfilled, (state, action) => ({
+      ...state,
+      ownershipCategories: action.payload, isLoading: false
+    }));
+    builder.addCase(addOwnershipCategory.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(addOwnershipCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));  
+
+    builder.addCase(deleteOwnershipCategory.fulfilled, (state, action) => ({
+      ...state,
+      ownershipCategories: action.payload, isLoading: false
+    }));
+    builder.addCase(deleteOwnershipCategory.pending, (state) => ({ ...state, isLoading: true })); 
+    builder.addCase(deleteOwnershipCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
+
+    builder.addCase(updateOwnershipCategory.fulfilled, (state, action) => ({
+      ...state,
+      ownershipCategories: action.payload, isLoading: false
+    }));
+    builder.addCase(updateOwnershipCategory.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(updateOwnershipCategory.rejected, (state, action:PayloadAction<any>) => ({
+      ...state, message: action.payload.message, isLoading: false
+    }));
     builder
       .addCase(getSchoolList.fulfilled, (state, action) => ({
         ...state,
@@ -332,7 +576,7 @@ export const schoolSlice = createSlice({
       }));
     builder
       .addCase(getLevels.fulfilled, (state, action) => ({
-        ...state, levels: action.payload.levels, isLoading: false,
+        ...state, levels: action.payload, isLoading: false,
         levelsLoaded: true
       }));
     builder
@@ -343,7 +587,7 @@ export const schoolSlice = createSlice({
       }));
     builder
       .addCase(getOwnershipCategories.fulfilled, (state, action) => ({
-        ...state, ownershipCategories: action.payload.ownership_categories, isLoading: false,
+        ...state, ownershipCategories: action.payload, isLoading: false,
         ownershipCategoriesLoaded: true
       }));
     builder

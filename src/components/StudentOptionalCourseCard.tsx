@@ -20,6 +20,7 @@ import { registerOptionalCourses, unregisterOptionalCourses } from '../redux/sli
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import UserSession from '../utility/userSession';
+import SubjectsFromTimetale from './SubjectsFromTimetale';
 
 const privilegedSchoolRoles = ['owner', 'admin', 'secretary', 'principal', 'vice_principal'];
 type AnyType = {
@@ -104,7 +105,6 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
         })),
       },
     };
-  console.log('payload==========>',payload);
     // Determine the action based on the form name
     switch (formName) {
       case 'register':
@@ -159,7 +159,7 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
             <Col><StageDropDown branchId={branchId} onChange={handleInputChange} /></Col>
           </Row>
           <Row className='d-flex flex-column flex-lg-row'>
-            <Col><SubjectDropDown params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
+            <Col><SubjectsFromTimetale params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
             <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
           </Row>
           <Card className='my-3'>
