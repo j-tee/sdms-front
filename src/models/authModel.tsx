@@ -8,7 +8,14 @@ export interface AuthState {
     roles: any[]; // Replace 'any[]' with the actual type for roles
     role: any; // Replace 'any' with the actual type for role
   }
-
+  export interface RoleModel {
+    id: number;
+    name: string;
+    resource_type: string;
+    resource_id: number;
+    resource_name: string;
+  }
+  
  export interface UserRole {
     user_id: number;
     role_id: number;

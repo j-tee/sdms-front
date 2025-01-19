@@ -6,6 +6,7 @@ import queryStringFormatter from "../utility/queryStringFormatter";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 const AuthService = () => {
+  const getAssignedRoles = (params: any) => axios.get(`${API_URL}api/v1/roles?${queryStringFormatter(params)}`, { headers: authHeader() }); 
   const addUserToRole = (userRole: UserRole) => axios.post(`${API_URL}current_user/addUserToRole`, userRole, { headers: authHeader() });
   const removeRole = (userId: number, roleId: number) => axios.get(`${API_URL}current_user/removeRole/${userId}/${roleId}`, { headers: authHeader() });
   const getCurrentUserRoles = () => (UserSession.getroles());
@@ -97,6 +98,7 @@ const AuthService = () => {
     removeRole,
     getUserRoles,
     verifyCaptcha,
+    getAssignedRoles,
   };
 };
 

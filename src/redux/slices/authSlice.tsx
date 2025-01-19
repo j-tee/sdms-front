@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AuthService from '../../services/authService';
-import { RegisterUserModel, ResetPasswdUserData, UserRole, loginUserInfo } from '../../models/authModel';
+import { RegisterUserModel, ResetPasswdUserData, UserRole, loginUserInfo, RoleModel } from '../../models/authModel';
 import { UserModel } from '../../models/userModel';
+import RoleService from '../../services/roleService';
 
 const initialState = {
+  status: '',
   response: {},
   momotoken: {},
   isSuccessful: false,
@@ -14,6 +16,7 @@ const initialState = {
   roles: [] as string[],
   user_roles: [] as string[],
   role: {},
+  assigned_roles: [] as RoleModel[]
 };
 
 export const resetMessage = createAsyncThunk(
@@ -185,6 +188,30 @@ export const verifyCapture = createAsyncThunk(
   },
 )
 
+export const getAssignedRoles = createAsyncThunk(
+  'auth/getAssignedRoles',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await AuthService.getAssignedRoles(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
+export const removeUserFromRole = createAsyncThunk(
+  'auth/removeUserFromRole',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await RoleService.removeUserFromRole(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -208,6 +235,38 @@ export const authSlice = createSlice({
       //   message: 'The action requested is pending',
       //   isLoading: true,
       // }))
+      .addCase(removeUserFromRole.fulfilled, (state, action) => ({
+        ...state,
+        message: 'The action requested has completed',
+        isLoading: false,
+      }))
+      .addCase(removeUserFromRole.rejected, (state, action) => ({
+        ...state,
+        message: 'The action requested has failed',
+        isLoading: false,
+      }))
+      .addCase(removeUserFromRole.pending, (state, action) => ({
+        ...state,
+        message: 'The action requested is pending',
+        isLoading: true,
+      })) 
+      .addCase(getAssignedRoles.fulfilled, (state, action) => ({
+        ...state,
+        assigned_roles: action.payload.roles,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(getAssignedRoles.rejected, (state, action:PayloadAction<any>) => ({
+        ...state,
+        message: action.payload.message,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(getAssignedRoles.pending, (state, action) => ({
+        ...state,
+        message: 'The action requested is pending',
+        isLoading: true,
+      }))
       .addCase(verifyCapture.fulfilled, (state, action) => ({
         ...state,
         response : action.payload.data,
@@ -258,6 +317,7 @@ export const authSlice = createSlice({
       }))
       .addCase(getRoles.fulfilled, (state, action) => ({
         ...state,
+        roles: action.payload.roles,
         message: 'The action requested has completed',
         isLoading: false,
       }))
