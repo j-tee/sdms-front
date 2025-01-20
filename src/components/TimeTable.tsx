@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap'
+import { Button, Card, Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap'
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStaffs } from '../redux/slices/staffSlice';
@@ -311,7 +311,7 @@ const TimeTable = (props: any) => {
                   <td>{lesson.staff_name}</td>
                   <td>
                     <span>
-                      <Card.Link fw-light='true' onClick={() => handleEdit(lesson)}><em>Edit</em></Card.Link>
+                      <Button size='sm' variant='link' onClick={() => handleEdit(lesson)}>Edit</Button>
                       {/* <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
                       <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link> */}
                     </span>

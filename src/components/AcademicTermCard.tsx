@@ -213,9 +213,9 @@ const AcademicTermCard = (props: any) => {
               <td>{new Date(term.end_date ?? "").toDateString()}</td>
               <td>{new Date(term.next_term_start_date ?? "").toDateString()}</td>
               <td className='d-flex flex-lg-row flex-column gap-2'>
-                <Button size='sm' onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
-                <Button size='sm' onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>
-                <Button size='sm' onClick={() => handleDetails(term)}><i className="fa fa-info-circle" aria-hidden="true">Details</i></Button>
+                <Button variant='link' size='sm' onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
+                <Button variant='link' size='sm' onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>
+                <Button variant='link' size='sm' onClick={() => handleDetails(term)}><i className="fa fa-info-circle" aria-hidden="true">Details</i></Button>
               </td>
             </tr>
           ))}

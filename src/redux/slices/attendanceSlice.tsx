@@ -103,6 +103,7 @@ export const attendanceSlice = createSlice({
       .addCase(getAttendees.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         attendees: action.payload.registrations, isLoading: false, message: action.payload.message,
+        pagination : action.payload.pagination,
         status: action.payload.status
       }));
     builder.addCase(getAttendees.pending, (state) => ({ ...state, isLoading: true }));

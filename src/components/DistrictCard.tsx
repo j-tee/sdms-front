@@ -118,8 +118,8 @@ const DistrictCard = (props: any) => {
               <td>{district.name}</td>
               <td>{district.region_name}</td>
               <td>
-                <Button onClick={() => handleDelete(district)} className="btn btn-danger">Delete</Button>
-                <Button onClick={() => handleEdit(district)} className="btn btn-primary">Edit</Button>
+                <Button onClick={() => handleDelete(district)} variant='link'>Delete</Button>
+                <Button onClick={() => handleEdit(district)} variant='link'>Edit</Button>
               </td>
             </tr>
           ))}

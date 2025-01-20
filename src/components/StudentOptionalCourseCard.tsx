@@ -177,7 +177,7 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
               </Card.Body>
               <Card.Footer>
                 {roles.some(role => privilegedSchoolRoles.includes(role)) && (
-                  <Button type="submit">Register</Button>
+                  <Button variant='outline-info' type="submit">Register</Button>
                 )}
               </Card.Footer>
             </Form>
@@ -197,7 +197,7 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
               </Card.Body>
               <Card.Footer>
                 {roles.some(role => privilegedSchoolRoles.includes(role)) && (
-                  <Button type="submit">Unregister</Button>
+                  <Button variant='outline-info' type="submit">Unregister</Button>
                 )}
               </Card.Footer>
             </Form>

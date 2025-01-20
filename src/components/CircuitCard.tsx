@@ -137,8 +137,8 @@ const CircuitCard = (props: any) => {
               <td>{index + 1}</td>
               <td>{circuit.name}</td>
               <th>
-                <Button onClick={() => handleEdit(circuit)} variant="primary">Edit</Button>
-                <Button onClick={() => handleDelete(circuit)} variant="danger">Delete</Button>
+                <Button variant='link' onClick={() => handleEdit(circuit)}>Edit</Button>
+                <Button variant='link' onClick={() => handleDelete(circuit)}>Delete</Button>
               </th>
             </tr>
           ))}

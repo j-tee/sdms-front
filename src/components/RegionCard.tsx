@@ -96,11 +96,11 @@ const RegionCard = (props: any) => {
               <th>
                 <Button
                   onClick={() => handleEditModalOpen(region)}
-                  variant="primary"
+                  variant="link"
                 >
                   Edit
                 </Button>
-                <Button onClick={() => handleDelete(region)} variant="danger">
+                <Button onClick={() => handleDelete(region)} variant="link">
                   Delete
                 </Button>
               </th>

@@ -227,12 +227,12 @@ const CourseOption = (props: any) => {
                 <td>{course_option.credit_hours}</td>
                 <td>
                   {/* Edit Button */}
-                  <Button className="me-2" variant="primary" onClick={() => handleEdit(course_option)}>
+                  <Button variant='link text-info' className="me-2" onClick={() => handleEdit(course_option)}>
                     Edit
                   </Button>
 
                   {/* Delete Button */}
-                  <Button variant="danger" onClick={() => handleDelete(course_option.id)}>
+                  <Button variant="link text-danger" onClick={() => handleDelete(course_option.id)}>
                     Delete
                   </Button>
                 </td>

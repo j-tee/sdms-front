@@ -193,10 +193,10 @@ const GradeScale = (props: any) => {
               <td>{gradingScale.grade}</td>
               <td>{gradingScale.remarks}</td>
               <td>
-                <Button onClick={() => handleDelete(gradingScale)} size="sm" className="btn btn-danger me-2">
+                <Button variant='link' onClick={() => handleDelete(gradingScale)} size="sm" className="me-2">
                   Delete
                 </Button>
-                <Button onClick={() => handleEdit(gradingScale)} size="sm" className="btn btn-primary me-2">
+                <Button variant='link' onClick={() => handleEdit(gradingScale)} size="sm" className="me-2">
                   Edit
                 </Button>
                 {/* <Button size="sm" className="btn btn-info">

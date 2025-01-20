@@ -113,13 +113,13 @@ const StudentListCard = (props: any) => {
                     Edit
                   </Button>
                   <Button
-                    variant="danger"
+                    variant="link"
 										size="sm"
                     onClick={() => handleDelete(student)}
                   >
                     Delete
                   </Button>
-                  <Button size="sm" variant="info" onClick={() => handleView(student)}>
+                  <Button size="sm" variant="link" onClick={() => handleView(student)}>
                     View
                   </Button>
                 </ButtonGroup>

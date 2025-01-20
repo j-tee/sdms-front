@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { Col, Form, Row, Tab, Table, Tabs, Toast } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, Row, Tab, Table, Tabs, Toast } from 'react-bootstrap';
 import StaffDropDown from './StaffDropDown';
 import LessonDropDown from './LessonDropDown';
 import { getLessons } from '../redux/slices/lessonSlice';
@@ -15,11 +15,12 @@ import { showToastify } from '../utility/Toastify';
 import { formatDate } from '../models/utilities';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
+import PaginationComponent from './PaginationComponent';
 
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { attendees, attendances } = useSelector((state: RootState) => state.attendance)
+  const { attendees, attendances, pagination } = useSelector((state: RootState) => state.attendance)
   const [onRoll, setOnRoll] = useState<Attendance[]>([])
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
@@ -65,8 +66,19 @@ const AttendanceCard = (props: any) => {
         setAttendanceDate(value)
         dispatch(getAttendances({ ...params, attendance_date: value, paginate: true }))
         break;
+      case 'staff_id':
+        dispatch(getLessons({ ...params, staff_id: params.staff_id, branch_id: branchId, paginate: false }))
+        break;
+      case 'lesson_id':
+        dispatch(getStaffClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
+        dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
+        break;
+      case 'class_group_id':
+        dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
+        dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: false }))
+        break;
       default:
-        break
+        break;
     }
   }
   const handleSubmit = (e: any) => {
@@ -91,43 +103,8 @@ const AttendanceCard = (props: any) => {
   }
 
   useEffect(() => {
-   
-    if (index === 'attendance') {
-      dispatch(getCurrentTerm(branchId))
-      setParams({
-        ...params,
-        branch_id: branchId,
-        academic_term_id: academic_term.id ? academic_term.id : 0
-      });
-      dispatch(getStaffs({ ...params, paginate: false }))
-      switch (field) {
-        case 'staff_id':
-          dispatch(getLessons({ ...params, staff_id: params.staff_id, branch_id: branchId, paginate: false }))
-          break;
-        case 'lesson_id':
-          dispatch(getStaffClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
-          dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
-          break;
-        case 'class_group_id':
-          dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
-          dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: false }))
-          break;
-        default:
-          break;
-      }
-    }
-    // if (attendees && attendees.length > 0) {
-    //   const students: Attendance[] = attendees.map((attendee: any) => {
-    //     return {
-    //       student_id: attendee.student_id,
-    //       lesson_id: params.lesson_id,
-    //       status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || '',
-    //       attendance_date: new Date(Date.now()).toISOString().split('T')[0],
-    //     };
-    //   });
-    //   setOnRoll(students);
-    // }
-  }, [branchId, index, field, params.lesson_id, params.class_group_id])
+  
+  }, [branchId, index, field, params.lesson_id,params, params.class_group_id])
 
 // let updatedOnRoll: React.SetStateAction<Attendance[]> = []
 
@@ -148,18 +125,49 @@ const handleCheckChange = (e: any) => {
   });
 };
 useEffect(() => {
-  if (attendees && attendees.length > 0) {
-    const students = attendees.map((attendee: any) => ({
-      student_id: attendee.student_id,
-      lesson_id: params.lesson_id,
-      academic_term_id:academic_term.id,
-      status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || 'absent',
-      attendance_date: attendanceDate,
-    }));
-    setOnRoll(students);
+  if (index === 'attendance') {
+    dispatch(getCurrentTerm(branchId))
+    setParams({
+      ...params,
+      branch_id: branchId,
+      academic_term_id: academic_term.id ? academic_term.id : 0
+    });
+    dispatch(getStaffs({ ...params, paginate: false }))
+    dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
+    if (attendees && attendees.length > 0) {
+      const students = attendees.map((attendee: any) => ({
+        student_id: attendee.student_id,
+        lesson_id: params.lesson_id,
+        academic_term_id:academic_term.id,
+        status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || 'absent',
+        attendance_date: attendanceDate,
+      }));
+      setOnRoll(students);
+    }
   }
 }, [attendees, attendances,params, params.lesson_id]);
 
+const handleItemsPerPageChange = (perPage: number) => {
+  setParams((prevParams) => ({
+    ...prevParams,
+    pagination: {
+      ...prevParams.pagination,
+      per_page: perPage,
+      current_page: 1,
+    },
+  }));
+  dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
+};
+const handlePageChange = (page: number) => {
+  setParams((prevParams) => ({
+    ...prevParams,
+    pagination: {
+      ...prevParams.pagination,
+      current_page: page,
+    },
+  }));
+  dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
+}
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -217,9 +225,31 @@ useEffect(() => {
           </Table>
           <Row>
             <Col>
-              <button className='btn btn-primary' onClick={handleSubmit}>Submit Attendance</button>
+              <Button variant='outline-info' className='mb-4' onClick={handleSubmit}>Submit Attendance</Button>
             </Col>
           </Row>
+          <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={params}
+              activePage={pagination?.current_page}
+              itemsCountPerPage={pagination?.per_page}
+              totalItemsCount={pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={pagination?.total_pages}
+              hideDisabled={pagination?.total_pages === 0}
+              hideNavigation={pagination?.total_pages === 1}
+              onChange={handlePageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${params.pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
         </Tab>
         <Tab eventKey="student" title="View Class Attendance">
           <Table striped bordered hover size="sm">

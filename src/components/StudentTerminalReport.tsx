@@ -178,6 +178,7 @@ const StudentTerminalReport = (props: any) => {
                   <th>Position</th>
                   <th>Grade</th>
                   <th>Remark</th>
+                  <th>Attendance</th>
                 </tr>
               </thead>
               <tbody>
@@ -192,6 +193,7 @@ const StudentTerminalReport = (props: any) => {
                     </td>
                     <td>{report.grade}</td>
                     <td>{report.remark}</td>
+                    <td>{report.attendance.present_lessons }/{report.attendance.total_lessons }</td>
                   </tr>
                 ))}
                 <tr
