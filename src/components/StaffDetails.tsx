@@ -33,10 +33,10 @@ const StaffDetails = (props: any) => {
           <span>{staff.branch_name}</span>
           <span><Button className='border border-0 p-1' variant='link' onClick={() => setManageUserModalOpen(true)}>Manage User Account</Button></span>
           <span>
-            <Card.Footer className='d-flex flex-row gap-0'>
-              <Card.Link onClick={() => handleEdit(staff)}>Edit</Card.Link>
-              <Card.Link onClick={handleDelete}>Delete</Card.Link>
-              <Card.Link onClick={handleDetails}>Details</Card.Link>
+            <Card.Footer className='d-flex flex-row gap-3'>
+              <Button size='sm' variant='outline-primary' onClick={() => handleEdit(staff)}>Edit</Button>
+              <Button size='sm' variant='outline-danger' onClick={handleDelete}>Delete</Button>
+              <Button size='sm' variant='outline-info' onClick={handleDetails}>Details</Button>
             </Card.Footer>
           </span>
         </Col>

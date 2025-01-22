@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import AssessmentTypeCard from './AssessmentTypeCard';
 import ContinuousAssessmentCard from './ContinuousAssessmentCard';
-import { Score } from '@mui/icons-material';
 import ScoreSheetCard from './ScoreSheetCard';
 import GradeScale from './GradeScale';
 
