@@ -1,200 +1,235 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { Button, Col, Dropdown, DropdownButton, Form, Row, Tab, Table, Tabs, Toast } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, Row, Tab, Table, Tabs } from 'react-bootstrap';
 import StaffDropDown from './StaffDropDown';
 import LessonDropDown from './LessonDropDown';
 import { getLessons } from '../redux/slices/lessonSlice';
 import { addAttendance, getAttendances, getAttendees } from '../redux/slices/attendanceSlice';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
-import { getStaffs } from '../redux/slices/staffSlice';
-import { Attendance, AttendanceViewModel } from '../models/attendance';
-import { StudentRegViewModel } from '../models/student';
+import PaginationComponent from './PaginationComponent';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
-import { formatDate } from '../models/utilities';
-import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
-import PaginationComponent from './PaginationComponent';
+import { StudentRegViewModel } from '../models/student';
+import { AttendanceViewModel } from '../models/attendance';
+import { formatDate } from '../models/utilities';
 
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;
-  const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { attendees, attendances, pagination } = useSelector((state: RootState) => state.attendance)
-  const [onRoll, setOnRoll] = useState<Attendance[]>([])
-  const dispatch = useDispatch<AppDispatch>()
-  const { setShowToast } = useContext(ToastContext)
-  const [key, setKey] = useState<string>('mark-attendance');
-  const [field, setField] = useState<any>('');
+  const { academic_term } = useSelector((state: RootState) => state.calendar);
+  const { attendees, attendances,attendances_pagination, attendees_pagination } = useSelector((state: RootState) => state.attendance);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { setShowToast } = useContext(ToastContext);
+
   const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0]);
- 
-  const [params, setParams] = useState({
+  const [key, setKey] = useState<string>('mark-attendance');
+  const [onRoll, setOnRoll] = useState<{ student_id: number; status: string }[]>([]);
+
+  const [attendeeParams, setAttendeeParams] = useState({
     staff_id: 0,
     lesson_id: 0,
     program_id: 0,
-    attendance_date: '',
+    attendance_date: '' as string,
     branch_id: branchId,
     school_id: schoolId,
-    assessment_type_id: 0,
-    academic_term_id: 0,
-    subject_id: 0,
     class_group_id: 0,
-    department_id: 0,
-    stage_id: 0,
-    paginate: false,
+    paginate: true,
     pagination: {
       per_page: 10,
       current_page: 1,
       total_items: 0,
       total_pages: 0
     }
-  })
+  });
 
+  const [attendanceParams, setAttendanceParams] = useState({
+    staff_id: 0,
+    lesson_id: 0,
+    program_id: 0,
+    attendance_date: '',
+    branch_id: branchId,
+    school_id: schoolId,
+    class_group_id: 0,
+    paginate: true,
+    pagination: {
+      per_page: 10,
+      current_page: 1,
+      total_items: 0,
+      total_pages: 0
+    }
+  });
   type AnyType = {
     [key: string]: string;
   };
-
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
-   
-    setParams((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-    setField(field)
+  
+    if (field === 'attendance_date') {
+      setAttendanceDate(value as string);
+    }
+
+    setAttendeeParams((prev) => ({ ...prev, [field]: value }));
+    setAttendanceParams((prev) => ({ ...prev, [field]: value }));
+
     switch (field) {
-      case 'attendane_date':
-        setAttendanceDate(value)
-        dispatch(getAttendances({ ...params, attendance_date: value, paginate: true }))
+      case 'attendance_date':
+        dispatch(getAttendees({ ...attendeeParams, attendance_date: value as string }));
+        dispatch(getAttendances({ ...attendanceParams, attendance_date: value as string }));
         break;
       case 'staff_id':
-        dispatch(getLessons({ ...params, staff_id: params.staff_id, branch_id: branchId, paginate: false }))
+        dispatch(getLessons({ ...attendeeParams, staff_id: parseInt(value.toString()) }));
         break;
       case 'lesson_id':
-        dispatch(getStaffClassGroups({ ...params, lesson_id: params.lesson_id, paginate: false }))
-        dispatch(getAttendances({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: false }))
+        dispatch(getStaffClassGroups({ ...attendeeParams, lesson_id: parseInt(value.toString()) }));
         break;
       case 'class_group_id':
-        dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
-        dispatch(getAttendances({ ...params, class_group_id: params.class_group_id, paginate: false }))
+        dispatch(getAttendees({ ...attendeeParams, class_group_id: parseInt(value.toString()) }));
+        dispatch(getAttendances({ ...attendanceParams, class_group_id: parseInt(value.toString()) }));
         break;
       default:
         break;
     }
-  }
-  const handleSubmit = (e: any) => {
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const payload: any = { student_attendance: {
       attendance: onRoll.map((student) => {
         return {
           student_id: student.student_id,
-          lesson_id: params.lesson_id,
+          lesson_id: attendeeParams.lesson_id,
           status: student.status,
           academic_term_id: academic_term.id,
           attendance_date: attendanceDate,
         };
       })},
-    }
-    dispatch(addAttendance(payload))
-      .then((res: any) => {
-        getAttendances({ ...params, attendance_date: attendanceDate, paginate: true })
-        setShowToast(true)
-        showToastify(res.payload.message, res.payload.status)
-      })
-  }
+    };
+    dispatch(addAttendance(payload)).then((res: any) => {
+      dispatch(getAttendances(attendanceParams));
+      setShowToast(true);
+      showToastify(res.payload.message, res.payload.status);
+    });
+  };
 
+  // useEffect(() => {
+  //   if (key === 'mark-attendance') {
+  //     setAttendeeParams((prevParams) => ({
+  //       ...prevParams,
+  //       attendance_date: new Date().toISOString().split('T')[0],
+  //     }));
+  //   }
+  // }, []);
   useEffect(() => {
-  
-  }, [branchId, index, field, params.lesson_id,params, params.class_group_id])
-
-// let updatedOnRoll: React.SetStateAction<Attendance[]> = []
-
-
-const handleCheckChange = (e: any) => {
-  const { checked, value } = e.target;
-  setOnRoll((prevOnRoll) => {
-    const updatedOnRoll = prevOnRoll.map((student) => {
-      if (student.student_id === parseInt(value)) {
-        return {
-          ...student,
-          status: checked ? 'present' : 'absent',
-        };
+    if (key === 'mark-attendance') {
+           dispatch(getAttendances(attendanceParams));
+      dispatch(getAttendees(attendeeParams));
+      if (attendees && attendees.length > 0) {
+        const students = attendees.map((attendee: any) => ({
+          student_id: attendee.student_id,
+          lesson_id: attendeeParams.lesson_id,
+          academic_term_id: academic_term.id,
+          status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || 'absent',
+          attendance_date: attendanceDate,
+        }));
+        setOnRoll(students);
       }
-      return student;
-    });
-    return updatedOnRoll;
-  });
-};
-useEffect(() => {
-  if (index === 'attendance') {
-    dispatch(getCurrentTerm(branchId))
-    setParams({
-      ...params,
-      branch_id: branchId,
-      academic_term_id: academic_term.id ? academic_term.id : 0
-    });
-    dispatch(getStaffs({ ...params, paginate: false }))
-    dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
-    if (attendees && attendees.length > 0) {
-      const students = attendees.map((attendee: any) => ({
-        student_id: attendee.student_id,
-        lesson_id: params.lesson_id,
-        academic_term_id:academic_term.id,
-        status: attendances.find((attendance: AttendanceViewModel) => attendance.student_id === attendee.student_id)?.status || 'absent',
-        attendance_date: attendanceDate,
-      }));
-      setOnRoll(students);
     }
-  }
-}, [attendees, attendances,params, params.lesson_id]);
+    if (key === 'student') {
+      dispatch(getAttendances(attendanceParams));
+    } 
+  }, [key, attendanceParams, attendeeParams]);
 
-const handleItemsPerPageChange = (perPage: number) => {
-  setParams((prevParams) => ({
-    ...prevParams,
-    pagination: {
-      ...prevParams.pagination,
-      per_page: perPage,
-      current_page: 1,
-    },
-  }));
-  dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
-};
-const handlePageChange = (page: number) => {
-  setParams((prevParams) => ({
-    ...prevParams,
-    pagination: {
-      ...prevParams.pagination,
-      current_page: page,
-    },
-  }));
-  dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
-}
+  const handleAttendeePageChange = (page: number) => {
+    setAttendeeParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+    // dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }));
+  };
+  const handleAttendeesItemsPerPageChange = (perPage: number) => {
+    setAttendeeParams((prevParams) => ({
+      ...prevParams,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+        current_page: 1,
+      },
+    }));
+    // dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }));
+  };
+  const handleCheckChange = (e: any) => {
+    const { checked, value } = e.target;
+    console.log(checked,'<======>', value);
+    setOnRoll((prevOnRoll) => {
+      return prevOnRoll.map((student) => {
+        if (student.student_id === parseInt(value)) {
+          return {
+            ...student,
+            status: checked ? 'present' : 'absent', // Update the status correctly
+          };
+        }
+        return student;
+      });
+    });
+  };
+
+  const handleAttendancesPageChange = (page: number) => {
+    setAttendanceParams((prevParams) => ({
+      ...prevParams,
+      paginate: true,
+      pagination: {
+        ...prevParams.pagination,
+        current_page: page,
+      },
+    }));
+  };
+
+  const handleAttendanceItemsPerPageChange = (perPage: number) => {
+    setAttendanceParams((prevParams) => ({
+      ...prevParams,
+      paginate: true,
+      pagination: {
+        ...prevParams.pagination,
+        per_page: perPage,
+        current_page: 1,
+      },
+    }));  
+  }
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Row className='d-flex flex-column flex-lg-row'>
+        <Row className="d-flex flex-column flex-lg-row">
           <Col>
-            <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} value={undefined} />
+          <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} value={undefined} />
           </Col>
           <Col>
-            <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
+          <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
           </Col>
           <Col>
-            <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
+          <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
           </Col>
-          <Col><Form.Group controlId='startDate'>
-            <Form.Label>Attendance Date</Form.Label>
-            <Form.Control type='date' value={attendanceDate}
-              onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
-          </Form.Group></Col>
+          <Col>
+            <Form.Group controlId="startDate">
+              <Form.Label>Attendance Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={attendanceDate}
+                onChange={(e) => handleInputChange('attendance_date', e.target.value)}
+              />
+            </Form.Group>
+          </Col>
         </Row>
+        <Button type="submit" className="mt-3">
+          Save Attendance
+        </Button>
       </Form>
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={key}
-        onSelect={(k) => k && setKey(k)}
-        className="mb-3"
-      >
-        <Tab eventKey="mark-attendance" title="Mark Class Attendance">
+
+      <Tabs id="attendance-tabs" activeKey={key} onSelect={(k) => setKey(k || 'mark-attendance')} className="mt-4">
+        <Tab eventKey="mark-attendance" title="Mark Attendance">
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
@@ -205,23 +240,22 @@ const handlePageChange = (page: number) => {
             </thead>
             <tbody>
               {attendees && attendees.map((student: StudentRegViewModel) => (
-                <tr key={student.student_id}>
+                <tr key={`attendee-${student.student_id}`}>
                   <td>{student.admission_id}</td>
                   <td>{student.last_name} {student.first_name}</td>
                   <td>
-                    <Form.Check type='switch'
-                      checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? true : false}
-                      label={
-                        onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present'
-                          ? 'Present'
-                          : 'Absent'
-                      }
+                    <Form.Check
+                      type="switch"
+                      checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present'}
+                      label={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? 'Present' : 'Absent'}
                       onChange={(e) => handleCheckChange(e)}
-                      value={student.student_id} />
+                      value={student.student_id}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
+
           </Table>
           <Row>
             <Col>
@@ -230,24 +264,24 @@ const handlePageChange = (page: number) => {
           </Row>
           <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
             <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
+              params={attendeeParams}
+              activePage={attendees_pagination?.current_page}
+              itemsCountPerPage={attendees_pagination?.per_page}
+              totalItemsCount={attendees_pagination?.total_items || 0}
               pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
+              totalPages={attendees_pagination?.total_pages}
+              hideDisabled={attendees_pagination?.total_pages === 0}
+              hideNavigation={attendees_pagination?.total_pages === 1}
+              onChange={handleAttendeePageChange}
             />
             <DropdownButton
               className="mt-2 mt-md-0 mb-2"
               id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
+              title={`Items per page: ${attendees_pagination?.per_page}`}
             >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleAttendeesItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleAttendeesItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleAttendeesItemsPerPageChange(20)}>20</Dropdown.Item>
             </DropdownButton>
           </div>
         </Tab>
@@ -264,22 +298,43 @@ const handlePageChange = (page: number) => {
             </thead>
             <tbody>
               {attendances && attendances.map((student: AttendanceViewModel) => (
-                <tr key={student.student_id}>
+                <tr key={`attendance-${student.student_id}-${student.attendance_date}`}>
                   <td>{student.day_of_week}</td>
                   <td>{student.lesson_name}</td>
                   <td>{formatDate(student.attendance_date)}</td>
                   <td>{student.last_name} {student.first_name}</td>
-                  <td>
-                    {student.status === 'present' ? 'Present' : 'Absent'}
-                  </td>
+                  <td>{student.status === 'present' ? 'Present' : 'Absent'}</td>
                 </tr>
               ))}
             </tbody>
+
           </Table>
+          <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+            <PaginationComponent
+              params={attendeeParams}
+              activePage={attendances_pagination?.current_page}
+              itemsCountPerPage={attendances_pagination?.per_page}
+              totalItemsCount={attendances_pagination?.total_items || 0}
+              pageRangeDisplayed={5}
+              totalPages={attendances_pagination?.total_pages}
+              hideDisabled={attendances_pagination?.total_pages === 0}
+              hideNavigation={attendances_pagination?.total_pages === 1}
+              onChange={handleAttendancesPageChange}
+            />
+            <DropdownButton
+              className="mt-2 mt-md-0 mb-2"
+              id="dropdown-items-per-page"
+              title={`Items per page: ${attendances_pagination?.per_page}`}
+            >
+              <Dropdown.Item onClick={() => handleAttendanceItemsPerPageChange(5)}>5</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleAttendanceItemsPerPageChange(10)}>10</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleAttendanceItemsPerPageChange(20)}>20</Dropdown.Item>
+            </DropdownButton>
+          </div>
         </Tab>
       </Tabs>
     </>
-  )
-}
+  );
+};
 
-export default AttendanceCard
+export default AttendanceCard;

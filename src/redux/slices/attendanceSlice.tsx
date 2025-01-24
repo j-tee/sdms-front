@@ -5,7 +5,7 @@ import { QueryParams } from '../../models/queryParams';
 
 const initialState: AttendanceState = {
   isLoading: false,
-  pagination: {
+  attendees_pagination: {
     current_page: 1,
     per_page: 10,
     total_items: 0,
@@ -17,8 +17,8 @@ const initialState: AttendanceState = {
     student_id: 0,
     lesson_id: 0,
     status: '',
-    start_time:'',
-    end_time:'',
+    start_time: '',
+    end_time: '',
     attendance_date: '',
     student_name: '',
     lesson_name: '',
@@ -30,7 +30,13 @@ const initialState: AttendanceState = {
   },
   message: '',
   status: '',
-  attendees: []
+  attendees: [],
+  attendances_pagination: {
+    current_page: 1,
+    per_page: 10,
+    total_items: 0,
+    total_pages: 0
+  }
 };
 
 export const getAttendees = createAsyncThunk(
@@ -103,7 +109,7 @@ export const attendanceSlice = createSlice({
       .addCase(getAttendees.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,
         attendees: action.payload.registrations, isLoading: false, message: action.payload.message,
-        pagination : action.payload.pagination,
+        attendees_pagination : action.payload.pagination,
         status: action.payload.status
       }));
     builder.addCase(getAttendees.pending, (state) => ({ ...state, isLoading: true }));
@@ -138,7 +144,7 @@ export const attendanceSlice = createSlice({
         ...state,
         attendances: action.payload.attendances, isLoading: false, message: action.payload.message,
         status: action.payload.status,
-        pagination: action.payload.pagination
+        attendances_pagination: action.payload.pagination
       }));
     builder
       .addCase(getAttendances.pending, (state) => ({ ...state, isLoading: true }));

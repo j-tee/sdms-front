@@ -8,7 +8,7 @@ import PaginationComponent from './PaginationComponent'
 
 const StudentAttendances = (props: any) => {
   const { params, index } = props
-  const { attendances, pagination } = useSelector((state: RootState) => state.attendance)
+  const { attendances, attendees_pagination: pagination } = useSelector((state: RootState) => state.attendance)
   const dispatch = useDispatch<AppDispatch>()
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage, setItemsPerPage] = React.useState(5);
