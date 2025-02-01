@@ -23,7 +23,8 @@ const initialState: ScoreSheetState = {
     category: '',
     student_score: '',
     percentage_score: 0,
-    class_group_name: ''
+    class_group_name: '',
+    remarks: ''
   },
   message: '',
   status: '',

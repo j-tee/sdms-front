@@ -5,6 +5,8 @@ export interface ScoreSheet {
   student_id?: number;
   score?: number;
   assessment_id?: number;
+  assessment_date?: string;
+  remarks?: string;
 }
 
 export interface ScoreSheetState {
@@ -29,6 +31,7 @@ export interface ScoreSheetViewModel {
   student_score: string;
   percentage_score: number;
   class_group_name: string;
+  remarks: string;
 }
 
 export interface TerminalReport {

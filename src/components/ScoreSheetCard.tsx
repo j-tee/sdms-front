@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { Col, Dropdown, DropdownButton, Form, ListGroup, Row, Table } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, ListGroup, Row, Table } from 'react-bootstrap';
 import StaffDropDown from './StaffDropDown';
 import AssessmentTypeDropDown from './AssessmentTypeDropDown';
 import AssessmentDropDown from './AssessmentDropDown';
@@ -86,18 +86,18 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         break;
       case 'assessment_type_id':
         dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
-        dispatch(getNotConductedAssessments({ ...updatedParams, paginate:false, academic_term_id: academic_term.id }));
+        dispatch(getNotConductedAssessments({ ...updatedParams, paginate: false, academic_term_id: academic_term.id }));
         dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'subject_id':
-        dispatch(getNotConductedAssessments({ ...updatedParams, paginate:false, academic_term_id: academic_term.id }));
+        dispatch(getNotConductedAssessments({ ...updatedParams, paginate: false, academic_term_id: academic_term.id }));
         dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
-        dispatch(getRegisteredStudentsForRecordingScores({...updatedParams}));
+        dispatch(getRegisteredStudentsForRecordingScores({ ...updatedParams }));
         break;
       case 'class_group_id':
         dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
         dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
-        
+
         break;
       case 'assessment_id':
         const selectedAssessment = assessments.find((assmnt) => assmnt.id === parseInt(value));
@@ -123,6 +123,14 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     );
   };
 
+  const handleRemarksChange = (studentId: number, newRemarks: string) => {
+    setScores((prevScores) =>
+      prevScores.map((score) =>
+        score.student_id === studentId ? { ...score, remarks: newRemarks } : score
+      )
+    );
+  }
+
   const getScoreForStudent = (studentId: number): number =>
     scores.find((s) => s.student_id === studentId)?.score || 0;
 
@@ -133,13 +141,14 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         score_sheet: scores.map((score) => ({
           student_id: score.student_id,
           score: score.score,
-          assessment_id: score.assessment_id
+          assessment_id: score.assessment_id,
+          remarks: score.remarks
         }))
       }
     };
     dispatch(addScoreSheet(formattedData)).then((res: any) => {
       dispatch(getScoreSheets({ ...params, paginate: true }));
-      dispatch(getNotConductedAssessments({ ...params, paginate:false, academic_term_id: academic_term.id }));
+      dispatch(getNotConductedAssessments({ ...params, paginate: false, academic_term_id: academic_term.id }));
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status);
     });
@@ -217,22 +226,41 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <h5>Base Mark: {assessment.base_mark}</h5>
         </div>
       )}
-      <ListGroup variant="dark">
+      <ListGroup variant="flush">
         {students.map((student: any) => (
-          <ListGroup.Item key={student.id} className="d-flex justify-content-between">
-            <span>
-              <button
-                type="button"
-                className="btn btn-link p-0"
+          <ListGroup.Item
+            key={student.id}
+            className="border rounded bg-light d-flex align-items-center gap-2 px-2 py-1"
+            style={{ display: "flex", gap: "12px" }}
+          >
+            {/* Student Name */}
+            <div style={{ minWidth: "500px" }}> {/* Ensures all names align */}
+              <Button
+                variant="link"
+                className="text-decoration-none fw-bold text-dark text-start"
                 onClick={() => handleLinkClick(student)}
+                style={{ padding: "0", margin: "0", whiteSpace: "nowrap" }}
               >
-                {student.last_name} {student.first_name}
-              </button>
-            </span>
+               {student.student_id} {student.last_name} {student.first_name}
+              </Button>
+            </div>
+
+            {/* Score Input - Fixed Width */}
             <Form.Control
               type="number"
+              className="form-control-sm text-center border-primary"
+              style={{ width: "80px", textAlign: "center" }}
               value={getScoreForStudent(student.id)}
               onChange={(e) => handleScoreChange(student.id, parseFloat(e.target.value))}
+            />
+
+            {/* Remarks Input - Takes Remaining Space */}
+            <Form.Control
+              type="text"
+              className="form-control-sm border-secondary flex-grow-1"
+              placeholder="Enter remarks"
+              value={scores.find((s) => s.student_id === student.id)?.remarks || ""}
+              onChange={(e) => handleRemarksChange(student.id, e.target.value)}
             />
           </ListGroup.Item>
         ))}
@@ -249,6 +277,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
             <th>Assessment Type</th>
             <th>Subject</th>
             <th>Score</th>
+            <th>Remarks</th>
           </tr>
         </thead>
         <tbody>
@@ -260,6 +289,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
               <td>{scoreSheet.category}</td>
               <td>{scoreSheet.subject_name}</td>
               <td>{scoreSheet.student_score}</td>
+              <td>{scoreSheet.remarks}</td>
             </tr>
           ))}
         </tbody>
