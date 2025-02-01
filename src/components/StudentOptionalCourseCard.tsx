@@ -167,12 +167,11 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
             <Form name='register' onSubmit={handleSubmit}>
               <Card.Body>
                 {unregistered_students.map((reg) => (
-                  <Form.Check
+                  <><span></span><Form.Check
                     key={reg.student_id}
                     type="switch"
-                    label={reg.full_name}
-                    onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
-                  />
+                    label={`${reg.student_id} - ${reg.full_name}`}
+                    onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)} /></>
                 ))}
               </Card.Body>
               <Card.Footer>
@@ -187,12 +186,11 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
             <Form name='unregister' onSubmit={handleSubmit}>
               <Card.Body>
                 {registered_students.map((reg) => (
-                  <Form.Check
+                  <><span></span><Form.Check
                     key={reg.student_id}
                     type="switch"
-                    label={reg.full_name}
-                    onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
-                  />
+                    label={`${reg.student_id} - ${reg.full_name}`}
+                    onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)} /></>
                 ))}
               </Card.Body>
               <Card.Footer>

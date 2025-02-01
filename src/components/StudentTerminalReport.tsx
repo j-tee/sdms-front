@@ -161,7 +161,7 @@ const StudentTerminalReport = (props: any) => {
                   <RenderPosition position={report.over_all_position} />
                 </h6>
                 <h6>{report.term.term_name}</h6>
-                <h6>{report.class_name}</h6>
+                <h6>{report.class_group.class_grp_name}</h6>
                 <h6>{new Date(report.term.end_date).toDateString()}</h6>
                 <h6>
                   {new Date(report.term.next_term_start_date).toDateString()}

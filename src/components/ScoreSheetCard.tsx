@@ -86,11 +86,11 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         break;
       case 'assessment_type_id':
         dispatch(getStaffSubjectList({ ...updatedParams, academic_term_id: academic_term.id }));
-        dispatch(getNotConductedAssessments({ ...updatedParams, academic_term_id: academic_term.id }));
+        dispatch(getNotConductedAssessments({ ...updatedParams, paginate:false, academic_term_id: academic_term.id }));
         dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         break;
       case 'subject_id':
-        dispatch(getNotConductedAssessments({ ...updatedParams, academic_term_id: academic_term.id }));
+        dispatch(getNotConductedAssessments({ ...updatedParams, paginate:false, academic_term_id: academic_term.id }));
         dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
         dispatch(getRegisteredStudentsForRecordingScores({...updatedParams}));
         break;
@@ -139,7 +139,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     };
     dispatch(addScoreSheet(formattedData)).then((res: any) => {
       dispatch(getScoreSheets({ ...params, paginate: true }));
-      dispatch(getNotConductedAssessments({ ...params, academic_term_id: academic_term.id }));
+      dispatch(getNotConductedAssessments({ ...params, paginate:false, academic_term_id: academic_term.id }));
       setShowToast(true)
       showToastify(res.payload.message, res.payload.status);
     });
