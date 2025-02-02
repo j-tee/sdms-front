@@ -20,6 +20,9 @@ import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 import { ToastContext } from '../utility/ToastContext';
+import ScoreSheetEditModal from './ScoreSheetEditModal';
+import ScoreSheetDetailsModal from './ScoreSheetDetailsModal';
+import ScoreSheetDeleteModal from './ScoreSheetDeleteModal';
 
 type AnyType = {
   [key: string]: string;
@@ -34,6 +37,10 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const { setShowToast } = useContext(ToastContext)
   const [scores, setScores] = useState<ScoreSheet[]>([]);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [scoreSheet, setScoreSheet] = useState<ScoreSheet | null>(null);
   const [assessment, setAssessment] = useState<AssessmentViewModel>({
     id: 0,
     assessment_name: '',
@@ -186,6 +193,20 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
 
   };
 
+  const handleEditModalOpen = (scoreSheet: ScoreSheet) => {
+    setScoreSheet(scoreSheet);
+    setEditModalOpen(true);
+  }
+
+  const handleDetailsModalOpen = (scoreSheet: ScoreSheet) => {
+    setScoreSheet(scoreSheet);
+    setDetailsModalOpen(true);
+  }
+
+  const handleDeleteModalOpen = (scoreSheet: ScoreSheet) => {
+    setScoreSheet(scoreSheet);
+    setDeleteModalOpen(true);
+  }
   const handleItemsPerPageChange = (perPage: number) => {
     // setItemsPerPage(perPage);
     setParams((prevParams) => ({
@@ -272,24 +293,36 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         <thead>
           <tr>
             <th>Student Name</th>
-            <th>Class</th>
+            {/* <th>Class</th> */}
             <th>Assessment</th>
-            <th>Assessment Type</th>
+            {/* <th>Assessment Type</th> */}
             <th>Subject</th>
             <th>Score</th>
             <th>Remarks</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {score_sheets.map((scoreSheet: any) => (
             <tr key={scoreSheet.id}>
               <td>{scoreSheet.student_name}</td>
-              <td>{scoreSheet.class_group_name}</td>
+              {/* <td>{scoreSheet.class_group_name}</td> */}
               <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}</td>
-              <td>{scoreSheet.category}</td>
+              {/* <td>{scoreSheet.category}</td> */}
               <td>{scoreSheet.subject_name}</td>
               <td>{scoreSheet.student_score}</td>
               <td>{scoreSheet.remarks}</td>
+                <td>
+                <Button variant="link" onClick={() => handleEditModalOpen(scoreSheet)} className="text-primary" size="sm">
+                  Edit
+                </Button>
+                <Button variant="link" onClick = {() => handleDetailsModalOpen(scoreSheet)} className="text-info" size="sm">
+                  Details
+                </Button>
+                <Button variant="link" onClick={() => handleDeleteModalOpen(scoreSheet)} className="text-danger" size="sm">
+                  Delete
+                </Button>
+                </td>
             </tr>
           ))}
         </tbody>
@@ -316,6 +349,33 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
         </DropdownButton>
       </div>
+      <ScoreSheetEditModal
+        isOpen={editModalOpen}
+        params={params}
+        schoolId={schoolId}
+        branchId={branchId}
+        setEditModalOpen={setEditModalOpen}
+        onRequestClose={() => setEditModalOpen(false)}
+        scoreSheet={scoreSheet}
+      />
+      <ScoreSheetDetailsModal
+        isOpen={detailsModalOpen}
+        params={params}
+        schoolId={schoolId}
+        branchId={branchId}
+        setDetailsModalOpen={setDetailsModalOpen}
+        onRequestClose={() => setDetailsModalOpen(false)}
+        scoreSheet={scoreSheet}
+      />
+      <ScoreSheetDeleteModal
+        isOpen={deleteModalOpen}
+        params={params}
+        schoolId={schoolId}
+        branchId={branchId}
+        setDeleteModalOpen={setDeleteModalOpen}
+        onRequestClose={() => setDeleteModalOpen(false)}
+        scoreSheet={scoreSheet}
+      />
     </div>
   );
 };

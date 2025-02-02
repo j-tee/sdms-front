@@ -32,6 +32,7 @@ export interface ScoreSheetViewModel {
   percentage_score: number;
   class_group_name: string;
   remarks: string;
+  assessment_date: string;
 }
 
 export interface TerminalReport {

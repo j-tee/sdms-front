@@ -24,7 +24,8 @@ const initialState: ScoreSheetState = {
     student_score: '',
     percentage_score: 0,
     class_group_name: '',
-    remarks: ''
+    remarks: '',
+    assessment_date: ''
   },
   message: '',
   status: '',
