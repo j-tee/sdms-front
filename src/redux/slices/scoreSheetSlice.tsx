@@ -14,6 +14,8 @@ const initialState: ScoreSheetState = {
   score_sheets: [],
   score_sheet: {
     id: 0,
+    base_mark: 0,
+    pass_mark: 0,
     student_id: 0,
     subject_name: '',
     score: 0,

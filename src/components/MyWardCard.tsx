@@ -32,8 +32,10 @@ type AnyType = {
 };
 
 const MyWardCard = (props: any) => {
-  const { parent } = useSelector((state: RootState) => state.parent)
-  const { registrations } = useSelector((state: RootState) => state.studentReg)
+  const { parent, myWards } = useSelector((state: RootState) => state.parent)
+  const {student_reports} = useSelector((state: RootState) => state.scoreSheet)
+  // const { registrations } = useSelector((state: RootState) => state.studentReg)
+
   const dispatch = useDispatch<AppDispatch>()
   const [key, setKey] = useState<string>('first');
 
@@ -43,13 +45,6 @@ const MyWardCard = (props: any) => {
     school_id: 0,
     branch_id: 0,
     academic_year_id: 0,
-    paginate: false,
-    pagination: {
-      per_page: 10,
-      current_page: 1,
-      total_items: 0,
-      total_pages: 0
-    }
   })
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     switch (field) {
@@ -64,7 +59,7 @@ const MyWardCard = (props: any) => {
   }
   useEffect(() => {
     dispatch(getParentByEmail(parent?.fathers_email_address || '')).then((res) => {
-      dispatch(getRegisteredStudents({ ...params, parent_id: res.payload.parent?.id }))
+      dispatch(getMyWards({ ...params, parent_id: res.payload.parent?.id }))
     })
   }, [dispatch, params])
   return (
@@ -83,7 +78,7 @@ const MyWardCard = (props: any) => {
               <MyWardsDropDown
                 onChange={handleInputChange}
                 params={params}
-                myWards={registrations}
+                myWards={myWards}
               />
             </Col>
             <Col xs={12} md={4}>

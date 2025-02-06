@@ -714,6 +714,89 @@ span a {
   display: flex;
   justify-content: space-between;
 }
+.score-container {
+  padding: 20px;
+}
+
+.animated-card {
+  transition: 0.3s ease-in-out;
+  border-left: 5px solid #007bff;
+}
+
+.animated-card:hover {
+  transform: scale(1.02);
+}
+
+.score-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.assessment-name {
+  font-weight: bold;
+  color: #6c757d; /* Corrected */
+}
+
+
+.category-date {
+  font-size: 14px;
+  color: gray;
+}
+
+.score-details {
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.progress-section {
+  margin-top: 10px;
+}
+
+.remarks-section {
+  background: #e9ecef;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.remarks {
+  font-style: italic;
+  color: #343a40;
+}
+
+@media (max-width: 768px) {
+  .score-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .subject-name {
+    font-size: 1.3rem;
+  }
+
+  .assessment-name {
+    font-size: 1rem;
+  }
+
+  .score-details {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+  }
+
+  .progress-section {
+    width: 100%;
+  }
+
+  .remarks {
+    font-size: 0.9rem;
+  }
+}
 
 @media (max-width: 480px) {
   .flex-container {

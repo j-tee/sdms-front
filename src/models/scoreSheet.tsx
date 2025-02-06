@@ -23,6 +23,8 @@ export interface ScoreSheetViewModel {
   id: number;
   student_id: number;
   score: number;
+  base_mark?: number;
+  pass_mark?: number;
   assessment_id: number;
   student_name: string;
   assessment_name: string;
