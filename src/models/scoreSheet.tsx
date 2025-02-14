@@ -9,7 +9,18 @@ export interface ScoreSheet {
   remarks?: string;
 }
 
+export interface ChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    borderColor: string;
+    hidden?: boolean;
+  }[];
+}
+
 export interface ScoreSheetState {
+  student_subject_averages: ChartData;
   student_reports: StudentReport[];
   score_sheets: ScoreSheetViewModel[];
   score_sheet: ScoreSheetViewModel;
@@ -53,4 +64,10 @@ export interface StudentReport {
   student_id: string;
   over_all_total: number;
   over_all_position: string;
+}
+
+export interface StudentSubjectAverages{
+  labels: string[];
+  datasets: any[];
+
 }

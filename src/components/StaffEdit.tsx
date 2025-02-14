@@ -11,6 +11,7 @@ const StaffEdit = (props: any) => {
   const { staff, isOpen, params, setStaffEditModalOpen, onRequestClose, branchId, schoolId } = props;
   const { setShowToast } = useContext(ToastContext)
   const dispatch = useDispatch<AppDispatch>()
+  const [fileError, setFileError] = useState<string | null>(null);
   
   const [staffImagePreview, setStaffImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState<Staff>({
@@ -30,6 +31,10 @@ const StaffEdit = (props: any) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 if (file && file.size > 5120) {
       showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
+      setFileError(
+        "Image size should not exceed 5KB. Visit " +
+          "https://image.pi7.org/compress-image-to-20kb to resize your image."
+      );
       return;
     }
     setFormData((prevData) => ({
@@ -68,6 +73,14 @@ if (file && file.size > 5120) {
     })
   }
   useEffect(() => {
+    if (fileError) {
+      const timer = setTimeout(() => {
+        setFileError(null);
+      }, 15000);
+      return () => clearTimeout(timer); // Cleanup function
+    }
+  }, [fileError]);
+  useEffect(() => {
     setStaffImagePreview((prevData) => (staff.image_url ? staff.image_url : null))
   }, [staff])
   return (
@@ -77,6 +90,16 @@ if (file && file.size > 5120) {
           <Modal.Title>Edit Staff</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Row>
+          {fileError && (
+        <div className="alert alert-danger" role="alert">
+          {fileError} <br />
+          <a href="https://image.pi7.org/compress-image-to-20kb" target="_blank" rel="noopener noreferrer">
+            Click here to resize your image
+          </a>
+        </div>
+      )}
+          </Row>
         <Row>
           <Col>
             <Form.Group controlId="picture" className='d-flex flex-column gap-1'>

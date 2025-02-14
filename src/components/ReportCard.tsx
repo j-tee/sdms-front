@@ -97,6 +97,7 @@ const ReportCard = (props: any) => {
                   <th>Position</th>
                   <th>Grade</th>
                   <th>Remark</th>
+                  <th>Attendance</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,12 +110,13 @@ const ReportCard = (props: any) => {
                     <td><RenderPosition position={report.position_in_subject} /></td>
                     <td>{report.grade}</td>
                     <td>{report.remark}</td>
+                    <td>{report.attendance.present_lessons}/ {report.attendance.total_lessons}</td>
                   </tr>
                 ))}
                 <tr style={{ borderTop: '3px solid black',borderBottom: '3px solid black'}}>
                   <td className='fs-5' colSpan={3}>Total</td>
                   <td className='fs-5'>{parseFloat(report.over_all_total.toString()).toFixed(2)}</td>
-                  <td colSpan={3}></td>
+                  <td colSpan={4}></td>
                 </tr>
               </tbody>
             </Table>

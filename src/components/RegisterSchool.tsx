@@ -19,6 +19,7 @@ const RegisterSchool = () => {
   const isValid = UserSession.validateToken();
   const userInfo = UserSession.getUserInfo();
   const navigate = useNavigate()
+  const [fileError, setFileError] = useState<string | null>(null);
 
   type AnyType = {
     [key: string]: string;
@@ -56,9 +57,13 @@ const RegisterSchool = () => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
     if (file && file.size > 5120) {
       showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
+      setFileError(
+        "Image size should not exceed 5KB. Visit " +
+        "https://image.pi7.org/compress-image-to-20kb to resize your image."
+      );
       return;
     }
-    
+
     setSchoolData((prevData) => ({
       ...prevData,
       [field]: file // Assuming you want to store the filename
@@ -104,7 +109,7 @@ const RegisterSchool = () => {
 
     try {
       if (isValid) {
-        dispatch(registerSchool(school)).then((res)=>{
+        dispatch(registerSchool(school)).then((res) => {
           if (res.meta.requestStatus === 'fulfilled') {
             showToastify('Congratulations!! Your school has been duly registered with us', 'success');
             setTimeout(() => {
@@ -115,7 +120,7 @@ const RegisterSchool = () => {
           }
         })
 
-       
+
       } else {
         showToastify(`Session is expired! Please relogin`, 'information');
         navigate('/')
@@ -126,7 +131,14 @@ const RegisterSchool = () => {
       showToastify('An error occurred during registration', 'error');
     }
   };
-
+  useEffect(() => {
+    if (fileError) {
+      const timer = setTimeout(() => {
+        setFileError(null);
+      }, 15000);
+      return () => clearTimeout(timer); // Cleanup function
+    }
+  }, [fileError]);
   return (
     <Container>
       <Header />
@@ -137,55 +149,65 @@ const RegisterSchool = () => {
         <Card className='m-2'>
           <Card.Header><h2>Register School</h2></Card.Header>
           <Card.Body>
-          <Row>
-                <Col md={6}>
+            <Row>
+              {fileError && (
+                <div className="alert alert-danger" role="alert">
+                  {fileError} <br />
+                  <a href="https://image.pi7.org/compress-image-to-20kb" target="_blank" rel="noopener noreferrer">
+                    Click here to resize your image
+                  </a>
+                </div>
+              )}
+            </Row>
+            <Row>
+              <Col md={6}>
 
-                  <Form.Group controlId="crestImage" className='d-flex flex-column gap-1'>
-                    <Form.Label>School Crest</Form.Label>
-                    <span>
-                      {crestImagePreview && <Image src={crestImagePreview} alt="Crest Preview" thumbnail
-                        style={{ maxWidth: '100px', maxHeight: '100px' }} />}
-                    </span>
-                    <Form.Control style={{ maxWidth: '100px' }}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleFileChange('crest_image', e)
-                      }
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="backgroundPictureImage" className='d-flex flex-column gap-1'>
-                    <Form.Label>Background Picture</Form.Label>
-                    {backgroundImagePreview && (
-                      <Image src={backgroundImagePreview} alt="Background Preview" thumbnail
-                        style={{ maxWidth: '100px', maxHeight: '100px' }} />
-                    )}
-                    <Form.Control style={{ maxWidth: '100px' }}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleFileChange('background_picture_image', e)
-                      }
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <hr className="solid" />
-              <Row>
-                <Col md={12}>
-                  <Form.Group controlId="schoolName">
-                    <Form.Label>School Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={schoolData.school_name}
-                      onChange={(e) => handleInputChange('school_name', e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <SchoolDropdowns onChange={handleInputChange} />
-              </Row>
+                <Form.Group controlId="crestImage" className='d-flex flex-column gap-1'>
+                  <Form.Label>School Crest</Form.Label>
+                  <span>
+                    {crestImagePreview && <Image src={crestImagePreview} alt="Crest Preview" thumbnail
+                      style={{ maxWidth: '100px', maxHeight: '100px' }} />}
+                  </span>
+                  <Form.Control style={{ maxWidth: '100px' }}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleFileChange('crest_image', e)
+                    }
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="backgroundPictureImage" className='d-flex flex-column gap-1'>
+                  <Form.Label>Background Picture</Form.Label>
+                  {backgroundImagePreview && (
+                    <Image src={backgroundImagePreview} alt="Background Preview" thumbnail
+                      style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                  )}
+                  <Form.Control style={{ maxWidth: '100px' }}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleFileChange('background_picture_image', e)
+                    }
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <hr className="solid" />
+            <Row>
+              <Col md={12}>
+                <Form.Group controlId="schoolName">
+                  <Form.Label>School Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={schoolData.school_name}
+                    onChange={(e) => handleInputChange('school_name', e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <SchoolDropdowns onChange={handleInputChange} />
+            </Row>
             <Button variant="primary" type="submit">
               Submit
             </Button>

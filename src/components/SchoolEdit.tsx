@@ -18,6 +18,7 @@ const SchoolEdit = (props: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const [crestImagePreview, setCrestImagePreview] = useState<string | null>();
   const [backgroundImagePreview, setBackgroundImagePreview] = useState<string | null>();
+  const [fileError, setFileError] = useState<string | null>(null);
   const navigate = useNavigate()
   const { openLoginModal, closeLoginModal } = useAuth();
   const [schoolData, setSchoolData] = useState<School>({
@@ -30,7 +31,14 @@ const SchoolEdit = (props: any) => {
     crest_image: school.crest_image,
     background_picture_image: school.background_picture_image,
   });
-
+  useEffect(() => {
+    if (fileError) {
+      const timer = setTimeout(() => {
+        setFileError(null);
+      }, 15000);
+      return () => clearTimeout(timer); // Cleanup function
+    }
+  }, [fileError]);
   useEffect(() => {
     setCrestImagePreview(school.crest_image_url)
     setBackgroundImagePreview(school.bg_image_url)
@@ -62,6 +70,10 @@ const SchoolEdit = (props: any) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 if (file && file.size > 5120) {
       showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
+      setFileError(
+        "Image size should not exceed 5KB. Visit " +
+          "https://image.pi7.org/compress-image-to-20kb to resize your image."
+      );
       return;
     }
     setSchoolData((prevData) => ({
@@ -120,8 +132,7 @@ if (file && file.size > 5120) {
         openLoginModal && openLoginModal();
       }
     } catch (error) {
-      console.error('Error during registration:', error);
-      showToastify('An error occurred during registration', 'error');
+      showToastify('An error occurred during registration '+error, 'error');
     }
   };
   return (
@@ -132,7 +143,16 @@ if (file && file.size > 5120) {
           <Modal.Title>Edit: {school.school_name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        
+          <Row>
+          {fileError && (
+        <div className="alert alert-danger" role="alert">
+          {fileError} <br />
+          <a href="https://image.pi7.org/compress-image-to-20kb" target="_blank" rel="noopener noreferrer">
+            Click here to resize your image
+          </a>
+        </div>
+      )}
+          </Row>
           <Row>
             <Col md={6}>
               <Form.Group controlId="crestImage" className='d-flex flex-column gap-1'>

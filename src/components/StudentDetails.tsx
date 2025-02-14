@@ -17,6 +17,7 @@ const StudentDetails = (props: any) => {
   const [studentImagePreview, setStudentImagePreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
+  const [fileError, setFileError] = useState<string | null>(null);
   const [email, setEmail] = useState('')
   const [studentId, setStudentId] = useState('')
   const [formData, setFormData] = useState<Student>({
@@ -82,6 +83,10 @@ const StudentDetails = (props: any) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 if (file && file.size > 5120) {
       showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
+      setFileError(
+        "Image size should not exceed 5KB. Visit " +
+          "https://image.pi7.org/compress-image-to-20kb to resize your image."
+      );
       return;
     }
     setFormData((prevData) => ({
@@ -107,6 +112,14 @@ if (file && file.size > 5120) {
         showToastify(message, status);
       })
   }
+  useEffect(() => {
+    if (fileError) {
+      const timer = setTimeout(() => {
+        setFileError(null);
+      }, 15000);
+      return () => clearTimeout(timer); // Cleanup function
+    }
+  }, [fileError]);
   useEffect(() => {
     if(!studentId){
       setStudentId(parent.id ? generateStudentId(parent.id.toString()) : '');
@@ -169,6 +182,14 @@ if (file && file.size > 5120) {
             <span key={ward.id}>{ward.student_id} {ward.first_name} {ward.last_name}</span>
           ))}
         </Card.Subtitle>
+        {fileError && (
+        <div className="alert alert-danger" role="alert">
+          {fileError} <br />
+          <a href="https://image.pi7.org/compress-image-to-20kb" target="_blank" rel="noopener noreferrer">
+            Click here to resize your image
+          </a>
+        </div>
+      )}
         {!parent?.fathers_email_address && (
           <Row className='my-3 d-flex flex-row justify-content-center'>
             <Col>

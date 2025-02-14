@@ -60,6 +60,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@types/react-chartjs-2": "^2.5.7",
     "@types/react-google-recaptcha": "^2.1.9",
     "env-cmd": "^10.1.0"
   },

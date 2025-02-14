@@ -4,7 +4,7 @@ import { QueryParams } from '../../models/queryParams';
 import ScoreSheetService from '../../services/scoreSheetService';
 
 const initialState: ScoreSheetState = {
-  isLoading: false,
+  isLoading: false,  
   pagination: {
     current_page: 1,
     per_page: 10,
@@ -31,7 +31,11 @@ const initialState: ScoreSheetState = {
   },
   message: '',
   status: '',
-  student_reports: []
+  student_reports: [],
+  student_subject_averages: {
+    labels: [],
+    datasets: []
+  }
 };
 
 export const addScoreSheet = createAsyncThunk(
@@ -117,11 +121,34 @@ export const getStudentScoreSheets = createAsyncThunk(
     }
   },
 )
+
+export const getStudentSubjectAverages = createAsyncThunk(
+  'scoreSheet/getStudentSubjectAverages',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await ScoreSheetService.getStudentSubjectAverages(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
 export const scoreSheetSlice = createSlice({
   name: 'scoreSheet',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getStudentSubjectAverages.fulfilled, (state, action) => ({
+      ...state,
+      student_subject_averages: action.payload.student_subject_averages, isLoading: false, 
+      message: action.payload.message,
+      status: action.payload.status 
+    }));
+    builder.addCase(getStudentSubjectAverages.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(getStudentSubjectAverages.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, 
+      status: action.payload.status, isLoading: false
+    }));
     builder
       .addCase(deleteScoreSheet.fulfilled, (state, action) => ({
         ...state,

@@ -3,6 +3,7 @@ import { Col, Nav, Row, Tab } from 'react-bootstrap'
 import ReportCard from './ReportCard'
 import AssignmentExercises from './AssignmentExercises'
 import { Analytics } from '@mui/icons-material'
+import StudentPerformanceAnalytics from './StudentPerformanceAnalytics'
 
 const TerminalReport = (props: any) => {
   const{params} = props
@@ -28,7 +29,7 @@ const TerminalReport = (props: any) => {
         <Tab.Content>
           <Tab.Pane eventKey="first"><ReportCard params={params}  /></Tab.Pane>
           <Tab.Pane eventKey="second"><AssignmentExercises index={index} params={params} /></Tab.Pane>
-          <Tab.Pane eventKey="third"><Analytics /></Tab.Pane>
+          <Tab.Pane eventKey="third"><StudentPerformanceAnalytics index={index} params={params} /></Tab.Pane>
         </Tab.Content>
       </Col>
     </Row>

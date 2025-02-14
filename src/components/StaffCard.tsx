@@ -19,6 +19,7 @@ const StaffCard = (props: any) => {
   const [staffImagePreview, setStaffImagePreview] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>()
   const { showToast, setShowToast } = useContext(ToastContext)
+  const [fileError, setFileError] = useState<string | null>(null);
   const [params, setParams] = useState<StaffParams>({
     branch_id: branchId ? parseInt(branchId) : 0,
     department_id: 0,
@@ -44,6 +45,10 @@ const StaffCard = (props: any) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
 if (file && file.size > 5120) {
       showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
+      setFileError(
+        "Image size should not exceed 5KB. Visit " +
+          "https://image.pi7.org/compress-image-to-20kb to resize your image."
+      );
       return;
     }
     setFormData((prevData) => ({
@@ -60,6 +65,14 @@ if (file && file.size > 5120) {
       reader.readAsDataURL(file);
     }
   };
+  useEffect(() => {
+    if (fileError) {
+      const timer = setTimeout(() => {
+        setFileError(null);
+      }, 15000);
+      return () => clearTimeout(timer); // Cleanup function
+    }
+  }, [fileError]);
   useEffect(() => {
     dispatch(getStaffs({...params, branch_id: branchId ? parseInt(branchId) : 0 }))
   }, [branchId, dispatch, params])
@@ -130,6 +143,16 @@ if (file && file.size > 5120) {
         <Card.Body>
           <Container fluid>
             <Form onSubmit={handleSubmit}>
+              <Row>
+              {fileError && (
+        <div className="alert alert-danger" role="alert">
+          {fileError} <br />
+          <a href="https://image.pi7.org/compress-image-to-20kb" target="_blank" rel="noopener noreferrer">
+            Click here to resize your image
+          </a>
+        </div>
+      )}
+              </Row>
               <Row>
                 <Col>
                   <Form.Group controlId="picture" className='d-flex flex-column gap-1'>
