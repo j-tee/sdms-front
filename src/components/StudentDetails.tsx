@@ -10,7 +10,7 @@ import { Student, StudentViewModel, country } from '../models/student'
 import { ParentViewModel } from '../models/parent'
 
 const StudentDetails = (props: any) => {
-  const { index, schoolId, branchId } = props;
+  const { index, schoolId, branchId, resetState } = props;
   const { parent, message, status, myWards } = useSelector((state: RootState) => state.parent)
   const [parentInfo, setParentInfo] = useState<ParentViewModel>({})
   const { student, countries, std_message, std_status } = useSelector((state: RootState) => state.student)
@@ -146,11 +146,23 @@ if (file && file.size > 5120) {
 
     dispatch(getCountries())
   }, [dispatch])
-  // useEffect(() => {
-  //   if (index === 'student') {
-  //     // setStudentId(getNextStudentId(myWards))
-  //   }
-  // }, [index, setShowToast, std_message, std_status])
+ useEffect(() => {
+  if(resetState){
+    sessionStorage.removeItem('parent');
+    setParentInfo({});
+    setFormData((prevData) => ({
+      first_name: '',
+      last_name: '',
+      birth_date: '',
+      gender: '',
+      other_names: '',
+      nationality: '',
+      parent_id: 0,
+      student_id: '',
+      avatar: null,
+    }));
+  }
+ }, [resetState])
   return (
     <Card>
       <Card.Header className='fs-2'>

@@ -8,7 +8,7 @@ import { showToastify } from '../utility/Toastify'
 import { Parent } from '../models/parent'
 
 const ParentCard = (props: any) => {
-  const { index, schoolId, branchId } = props;
+  const { index, schoolId, branchId, resetState } = props;
   const { parent, message, status } = useSelector((state: RootState) => state.parent)
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
@@ -79,6 +79,26 @@ const ParentCard = (props: any) => {
     }
   }, [dispatch, formData.fathersEmailAddress, formData.mothersEmailAddress, index]);
   
+  useEffect(() => {
+    if(resetState){
+      sessionStorage.removeItem('parent')
+      setFormData({
+        fathersFullName: '',
+        mothersFullName: '',
+        fathersOccupation: '',
+        mothersOccupation: '',
+        fathersGhanaCardNumber: '',
+        mothersGhanaCardNumber: '',
+        fathersEmailAddress: '',
+        mothersEmailAddress: '',
+        fathersContactNumber: '',
+        mothersContactNumber: '',
+        residentialAddress: '',
+        postalAddress: '',
+        title: '',
+      })
+    }
+  }, [resetState]);
   return (
     <Card>
      
@@ -241,7 +261,7 @@ const ParentCard = (props: any) => {
             </Col>
           </Row>
           <Button className='mt-2' variant="primary" type="submit">
-            {parent?.fathers_email_address ? 'Update' : 'Submit'}
+            Save
           </Button>
         </Form>
       </Card.Body>

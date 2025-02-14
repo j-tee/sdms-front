@@ -25,7 +25,7 @@ import AcademicYearDropDown from './AcademicYearDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
 
 const AdmissionAdd = (props: any) => {
-  const { index, schoolId, branchId } = props;
+  const { index, schoolId, branchId, onSuccess, resetState } = props;
 
   const { admissions, pagination } = useSelector((state: RootState) => state.admission)
   const dispatch = useDispatch<AppDispatch>()
@@ -89,12 +89,12 @@ const AdmissionAdd = (props: any) => {
   };
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     // Update the formData state with the new value
-   if(field !== 'branch_id'){
-    setParams((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-   }
+    if (field !== 'branch_id') {
+      setParams((prevData) => ({
+        ...prevData,
+        [field]: value,
+      }));
+    }
     switch (field) {
       case 'department_id': {
         dispatch(getPrograms({ ...params, branch_id: branchId, department_id: parseInt(value), paginate: false }))
@@ -128,9 +128,9 @@ const AdmissionAdd = (props: any) => {
       showToastify('Failed to parse student data from sessionStorage:', 'warning');
     }
     setStudentInfo(student);
-    
+
     dispatch(getCurrentTerm(branchId));
-  
+
     const deptParams: DepartmentParams = {
       ...params,
       school_id: schoolId,
@@ -139,7 +139,7 @@ const AdmissionAdd = (props: any) => {
     };
     dispatch(getDepartments(deptParams));
   }, [branchId, dispatch, schoolId]);
-  
+
 
   useEffect(() => {
     dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, academic_term_id: academic_term.id, department_id: params.department_id }))
@@ -154,7 +154,38 @@ const AdmissionAdd = (props: any) => {
       })
   }, [dispatch, index, params])
 
-
+  useEffect(() => {
+    if (resetState) {
+      setStudentInfo({
+        id: 0,
+        first_name: '',
+        last_name: '',
+        birth_date: '',
+        gender: '',
+        other_names: '',
+        nationality: '',
+        parent_id: 0,
+        student_id: '',
+        image_url: '',
+        fathers_name: '',
+        mothers_name: '',
+        contact_number: '',
+        email_address: '',
+      });
+      setParams({
+        academic_term_id: 0,
+        stage_id: 0,
+        student_id: '',
+        admission_date: '',
+        branch_id: branchId,
+        program_id: 0,
+        department_id: 0,
+        category: '',
+        pagination: { current_page: 1, per_page: 10, total_items: 0, total_pages: 0 },
+        paginate: true
+      });
+    }
+  }, [resetState]);
   const handleSubmit = () => {
     const admissionObject: Admission = {
       academic_term_id: params?.academic_term_id ?? 0,
@@ -170,6 +201,9 @@ const AdmissionAdd = (props: any) => {
         sessionStorage.removeItem('student');
         setShowToast(true)
         showToastify(res.payload.message, res.payload.status)
+        if (res.payload.status === 'success') {
+          onSuccess(); // Reset parent state
+      }
         dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, paginate: true }))
       }
       )
@@ -291,27 +325,27 @@ const AdmissionAdd = (props: any) => {
           <AdmissionList params={params} setParams={setParams} onChange={handleInputChange} key={admission.id} admission={admission} schoolId={schoolId} branchId={branchId} />
         ))}
         <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+          <PaginationComponent
+            params={params}
+            activePage={pagination?.current_page}
+            itemsCountPerPage={pagination?.per_page}
+            totalItemsCount={pagination?.total_items || 0}
+            pageRangeDisplayed={5}
+            totalPages={pagination?.total_pages}
+            hideDisabled={pagination?.total_pages === 0}
+            hideNavigation={pagination?.total_pages === 1}
+            onChange={handlePageChange}
+          />
+          <DropdownButton
+            className="mt-2 mt-md-0 mb-2"
+            id="dropdown-items-per-page"
+            title={`Items per page: ${pagination?.per_page}`}
+          >
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+          </DropdownButton>
+        </div>
       </Card.Body>
     </Card>
   )

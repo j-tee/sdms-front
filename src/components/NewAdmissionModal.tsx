@@ -6,6 +6,7 @@ import AdmissionAdd from './AdmissionAdd';
 
 const NewAdmissionModal = (props: any) => {
     const { schoolId, branchId, params, isOpen, setNewAdmissionModalOpen, onRequestClose } = props;
+    const [resetState, setResetState] = useState(false);
     const [step, setStep] = useState(0);
     const handleClose = () => {
         setNewAdmissionModalOpen(false)
@@ -19,15 +20,19 @@ const NewAdmissionModal = (props: any) => {
     const handleBack = () => {
         if (step > 0) setStep(step - 1);
     };
+    const handleReset = () => {
+        setResetState(prev => !prev); // Toggle to trigger reset in children
+        setStep(0); // Reset step to start over
+    };
     return (
         <Modal show={isOpen} centered animation onHide={onRequestClose} size='xl'>
             <Modal.Header closeButton>
                 <Modal.Title>New Admission</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {step === 0 && <ParentCard schoolId={schoolId} branchId={branchId} />}
-                {step === 1 && <StudentDetails schoolId={schoolId} branchId={branchId} />}
-                {step === 2 && <AdmissionAdd schoolId={schoolId} branchId={branchId} />}
+                {step === 0 && <ParentCard schoolId={schoolId} branchId={branchId} resetState={resetState} />}
+                {step === 1 && <StudentDetails schoolId={schoolId} branchId={branchId} resetState={resetState} />}
+                {step === 2 && <AdmissionAdd schoolId={schoolId} branchId={branchId} resetState={resetState} onSuccess={handleReset}/>}
 
                 <div style={{ marginTop: '20px' }}>
                     <Button onClick={handleBack} disabled={step === 0}>
