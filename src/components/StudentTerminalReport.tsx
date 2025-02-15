@@ -208,7 +208,7 @@ const StudentTerminalReport = (props: any) => {
                   <td className="fs-5">
                     {parseFloat(report.over_all_total.toString()).toFixed(2)}
                   </td>
-                  <td colSpan={3}></td>
+                  <td colSpan={4}></td>
                 </tr>
               </tbody>
             </Table>
