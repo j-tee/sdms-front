@@ -27,7 +27,7 @@ const AssessmentTypeDropDown: React.FC<AssessmentTypeDropDownProps> = ({ onChang
       <Form.Select as="select" onChange={handleAssessmentTypeChange}>
         <option value="">---Select---</option>
         {assessment_types.map((assessment_type) => (
-          <option key={assessment_type.id} value={assessment_type.id}>{assessment_type.category === 'CA' ? 'Continuous Assessment' : 'Terminal Assessment'}</option>
+          <option key={assessment_type.id} value={assessment_type.id}>{assessment_type.category === 'CA' ? 'School Based Assessment' : 'Terminal Assessment'}</option>
         ))}
       </Form.Select>
     </Form.Group>

@@ -154,6 +154,7 @@ const StudentListCard = (props: any) => {
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
             20
           </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
         </DropdownButton>
       </div>
 			<StudentEditModal

@@ -43,6 +43,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   const [scoreSheet, setScoreSheet] = useState<ScoreSheet | null>(null);
   const [assessment, setAssessment] = useState<AssessmentViewModel>({
     id: 0,
+    academic_term_name: '',
     assessment_name: '',
     base_mark: 0,
     pass_mark: 0,
@@ -347,6 +348,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
         </DropdownButton>
       </div>
       <ScoreSheetEditModal

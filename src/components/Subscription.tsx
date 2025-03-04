@@ -25,8 +25,8 @@ const Subscription = () => {
   };
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: "3.5rem" }}>&nbsp;</Container>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: "3.5rem" }}>&nbsp;</Container> */}
       <Card>
         <Card.Header>
           <Card.Title className="fs-1 text-muted">Subscription</Card.Title>

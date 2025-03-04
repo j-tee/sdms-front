@@ -141,10 +141,10 @@ const RegisterSchool = () => {
   }, [fileError]);
   return (
     <Container>
-      <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
         <Card className='m-2'>
           <Card.Header><h2>Register School</h2></Card.Header>

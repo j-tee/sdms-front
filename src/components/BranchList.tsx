@@ -9,10 +9,12 @@ import { getBranches } from '../redux/slices/schoolSlice';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import PaginationComponent from './PaginationComponent';
+import UserSession from '../utility/userSession';
 
 const BranchList = () => {
   const { branches, pagination } = useSelector((state: RootState) => state.school)
   const dispatch = useDispatch<AppDispatch>();
+  const [roles, setRoles] = useState<string[]>([]);
   const location = useLocation();
   const school = location.state ? location.state.school : null;
 
@@ -35,8 +37,14 @@ const BranchList = () => {
       total_pages: 0,
     }
   });
-
-  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics', 'Finance'];
+  const allowed_roles = ["admin", "data_entry", "secretary", "accountant"];
+  const tags = ['Calendar', 'Enrolments', 'Staff', 'Organisation/Structures', 'Academics', 'Finance']
+  .filter(tag => {
+    if (["Enrolments", "Organisation/Structures", "Finance"].includes(tag)) {
+      return roles.some(role => allowed_roles.includes(role));
+    }
+    return true;
+  });
 
   const handleInputChange = (field: string | number, value: string) => {
     if (typeof field === 'string' && field in params) {
@@ -68,6 +76,9 @@ const BranchList = () => {
   };
 
   useEffect(() => {
+    const user_roles = UserSession.getroles();
+    setRoles(user_roles);
+   
     if (school) {
       setParams((prevParams) => ({
         ...prevParams,
@@ -85,10 +96,8 @@ const BranchList = () => {
 
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: '3rem' }}>
-        &nbsp;
-      </Container>
+      {/* <Header /> */}
+      
       <Card className='border-0 shadow-sm d-flex flex-md-column'>
         <Card.Header>
           <span className='text-muted fs-1'></span>
@@ -129,6 +138,7 @@ const BranchList = () => {
             <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
             <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
             <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
           </DropdownButton>
         </div>
       </Card>

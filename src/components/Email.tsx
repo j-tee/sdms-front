@@ -40,10 +40,10 @@ const Email = () => {
   }, [isSuccessful, message, setShowToast]);
   return (
     <>
-        <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+        {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
 
       <Form className="email-form pe-5 ps-5 me-5 ms-5 mt-5" noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">

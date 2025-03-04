@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "../images/logo.png";
-import { Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import UserSession from "../utility/userSession";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
@@ -22,7 +22,7 @@ const Header = () => {
   const [roles, setRoles] = useState(UserSession.getroles());
   const { openLoginModal, isLoginModalOpen, closeLoginModal } = useAuth();
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   const gesRoles = ["supervisor", "staff", "director", "admin"];
   const schoolRoles = [
     "admin",
@@ -52,6 +52,12 @@ const Header = () => {
   const userInfo = UserSession.getUserInfo();
   const dispatch = useDispatch<AppDispatch>();
   const { showToast, setShowToast } = useContext(ToastContext);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setRoles(UserSession.getroles());
+    }
+  }, [isLoggedIn]);
   const handleLoginClick = () => {
     openLoginModal();
   };
@@ -65,21 +71,25 @@ const Header = () => {
         setShowToast(true);
         if (response.meta.requestStatus === "fulfilled") {
           showToastify("User logged out successfully", "success");
+          // window.location.reload();
           setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+            // window.location.reload();
+            sessionStorage.removeItem("user");
+            sessionStorage.removeItem("token");
+            navigate("/");
+          }, 1000);
         }
         if (response.meta.requestStatus === "rejected") {
           showToastify(
             `User log out action failed ${response.payload.error}`,
             "error"
           );
-          localStorage.clear();
+          sessionStorage.clear();
         }
       })
       .catch((error) => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("token");
         showToastify("User log out action failed " + error, "error");
       });
   };
@@ -108,11 +118,20 @@ const Header = () => {
       </>
     );
   };
+  // const welcomeMessage = () => {
+  //   return (
+  //     <>
+  //       <Container className="text-center pt-3">
+  //         Welcome: {userInfo.username}
+  //       </Container>
+  //     </>
+  //   );
+  // }
   const parentMenu = () => {
     return (
       <>
         <Link to="/my-wards">MY WARDS</Link>
-        <Link to="/subscriptions">MY SUBSCRIPTIONS</Link>
+        {/* <Link to="/subscriptions">MY SUBSCRIPTIONS</Link> */}
         {commomMenu()}
       </>
     );
@@ -190,31 +209,35 @@ const Header = () => {
 
   return (
     // <header className="header_section">
-    <Navbar
-      className="navbar header_section d-flex justify-content-between mb-4 pb-4"
-      fixed="top"
-      expand="lg"
-    >
-      <Navbar.Brand href="/">
-        <img src={logo} alt="Academia Logo" />
-        <span>Alpha Logique</span>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
-          {navItems()}
-        </Nav>
-      </Navbar.Collapse>
-      <Login
-        isLoginModalOpen={isLoginModalOpen}
-        onRequestClose={() => closeLoginModal()}
-      />
-      <Register
-        isOpen={registerModalOpen}
-        setRegisterModalOpen={setRegisterModalOpen}
-        onRequestClose={() => setRegisterModalOpen(false)}
-      />
-    </Navbar>
+    <>
+      <Navbar
+        className="navbar header_section d-flex justify-content-between mb-4 pb-4"
+        fixed="top"
+        expand="lg"
+      >
+        <Navbar.Brand href="/">
+          <img src={logo} alt="Academia Logo" />
+          <span>Alpha Logique</span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
+            {navItems()}
+          </Nav>
+        </Navbar.Collapse>
+        <Login
+          isLoginModalOpen={isLoginModalOpen}
+          onRequestClose={() => closeLoginModal()}
+        />
+        <Register
+          isOpen={registerModalOpen}
+          setRegisterModalOpen={setRegisterModalOpen}
+          onRequestClose={() => setRegisterModalOpen(false)}
+        />
+      </Navbar>
+      {/* {welcomeMessage()} */}
+      
+    </>
 
     // </header>
   );

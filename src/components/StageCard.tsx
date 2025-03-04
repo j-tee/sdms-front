@@ -166,6 +166,7 @@ const StageCard = (props: any) => {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
             </DropdownButton>
           </div>
       <StageEdit isOpen={isStageEditModalOpen}

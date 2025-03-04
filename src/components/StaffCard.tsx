@@ -132,10 +132,10 @@ if (file && file.size > 5120) {
   };
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
       <Card>
         <Card.Header>
           <Card.Title className='fs-3 text-muted'>Staffs </Card.Title>
@@ -274,6 +274,7 @@ if (file && file.size > 5120) {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
             </DropdownButton>
           </div>
         <Navigation schoolId={schoolId} branchId={branchId} />

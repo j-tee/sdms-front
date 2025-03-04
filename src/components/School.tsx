@@ -128,8 +128,8 @@ const School = () => {
 
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: "3rem" }}>&nbsp;</Container>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: "3rem" }}>&nbsp;</Container> */}
       <Card className="border-0 shadow-sm d-flex flex-md-column">
         <Card.Header>
         {!roles.some((role) => privileged_school_roles.includes(role)) && (
@@ -176,6 +176,7 @@ const School = () => {
             <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
               20
             </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
           </DropdownButton>
         </div>
       </Card>

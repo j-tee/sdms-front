@@ -6,6 +6,7 @@ import AssessmentService from '../../services/assessmentService';
 const initialState: AssessmentState = {
   assessments: [],
   assessment: {
+    academic_term_name: '',
     id: 0,
     assessment_name: '',
     base_mark: 0,
@@ -59,7 +60,7 @@ export const updateAssessment = createAsyncThunk(
   'assessment/updateAssessment',
   async (assessment: Assessment, thunkAPI) => {
     try {
-      const response = await AssessmentService.updateAssessment(assessment, assessment.id!);
+      const response = await AssessmentService.updateAssessment(assessment);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -69,9 +70,9 @@ export const updateAssessment = createAsyncThunk(
 
 export const deleteAssessment = createAsyncThunk(
   'assessment/deleteAssessment',
-  async (assessment: Assessment, thunkAPI) => {
+  async (assessment_id: number, thunkAPI) => {
     try {
-      const response = await AssessmentService.deleteAssessment(assessment, assessment.id!);
+      const response = await AssessmentService.deleteAssessment(assessment_id!);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

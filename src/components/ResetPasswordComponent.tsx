@@ -60,10 +60,10 @@ const ResetPasswordComponent = () => {
 
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
       <Container>
         <Form className="mt-5" noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group controlId="formBasicPassword">

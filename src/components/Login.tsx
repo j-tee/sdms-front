@@ -8,6 +8,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { useAuth } from '../utility/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (props:any) => {
     const {
@@ -20,7 +21,7 @@ const Login = (props:any) => {
       const dispatch = useDispatch<AppDispatch>();
       const { isLoginModalOpen, closeLoginModal } = useAuth();
       const recaptcha = useRef<ReCAPTCHA | null>(null);
-        
+        const navigate = useNavigate();
       const handleSubmit = (event:any) => {
         setShowToast(true);
         event.preventDefault();
@@ -34,6 +35,7 @@ const Login = (props:any) => {
           if (response.meta) {
             if (response.meta.requestStatus === 'fulfilled') {
               showToastify('User logged in successfully', 'success');
+              navigate("/");
             }
           }
           if (response.error) {

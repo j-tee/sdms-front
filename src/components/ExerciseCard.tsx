@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap';
+import { Button, Col, Dropdown, DropdownButton, Form, Row, Table } from 'react-bootstrap';
 import AssessmentTypeDropDown from './AssessmentTypeDropDown';
 import LessonDropDown from './LessonDropDown';
 import StaffDropDown from './StaffDropDown';
@@ -9,7 +9,7 @@ import { getStaffs } from '../redux/slices/staffSlice';
 import { getAssessmentTypes } from '../redux/slices/assesmentTypeSlice';
 import { getLessons } from '../redux/slices/lessonSlice';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
-import { Assessment } from '../models/assessment';
+import { Assessment, AssessmentViewModel } from '../models/assessment';
 import { addAssessment, getAssessments } from '../redux/slices/assessmentSlice';
 import { showToastify } from '../utility/Toastify';
 import { getStaffSubjectList } from '../redux/slices/subjectSlice';
@@ -17,6 +17,9 @@ import StaffSubjectDropDown from './StaffSubjectDropDown';
 import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
+import ExerciseEditModal from './ExerciseEditModal';
+import ExerciseDeleteModal from './ExerciseDeleteModal';
+import ExerciseDetailsModal from './ExerciseDetailsModal';
 
 const ExerciseCard = (props: any) => {
   const { schoolId, branchId, index } = props;
@@ -24,6 +27,10 @@ const ExerciseCard = (props: any) => {
   const { assessments, pagination } = useSelector((state: RootState) => state.assessment)
   const dispatch = useDispatch<AppDispatch>()
   const [showToast, setShowToast] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
+  const [exercise, setExercise] = useState<AssessmentViewModel | null>(null);
 
   const [formData, setFormData] = useState<Assessment>({
     subject_id: 0,
@@ -128,6 +135,41 @@ const ExerciseCard = (props: any) => {
       },
     }));
   };
+
+  const handleDetails = (assessment: AssessmentViewModel) => {
+    setExercise(assessment)
+    setDetailsModalOpen(true)
+  }
+
+  const handleDelete = (assessment: AssessmentViewModel) => {
+    const assment: Assessment = {
+      id: assessment.id,
+      subject_id: parseInt((assessment.subject_id ?? 0).toString()),
+      staff_id: parseInt((assessment.staff_id ?? 0).toString()),
+      academic_term_id: assessment.academic_term_id ?? 0,
+      assessment_type_id: parseInt(assessment.assessment_type_id.toString()),
+      base_mark: parseInt(assessment.base_mark.toString()),
+      pass_mark: parseInt(assessment.pass_mark.toString()),
+      assessment_name: assessment.assessment_name,
+    }
+    setFormData(assment)
+    setDeleteModalOpen(true)
+  }
+
+  const handleEdit = (assessment: AssessmentViewModel) => {
+    const assment: Assessment = {
+      id: assessment.id,
+      subject_id: parseInt((assessment.subject_id ?? 0).toString()),
+      staff_id: parseInt((assessment.staff_id ?? 0).toString()),
+      academic_term_id: assessment.academic_term_id ?? 0,
+      assessment_type_id: parseInt(assessment.assessment_type_id.toString()),
+      base_mark: parseInt(assessment.base_mark.toString()),
+      pass_mark: parseInt(assessment.pass_mark.toString()),
+      assessment_name: assessment.assessment_name,
+    }
+    setFormData(assment)
+    setEditModalOpen(true)
+  }
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -183,30 +225,36 @@ const ExerciseCard = (props: any) => {
       <Table striped bordered hover size="sm" className='mt-4' variant='light'>
         <thead>
           <tr>
+          <th>Subject</th>
             <th>Assessment Name</th>
             <th>Base Mark</th>
             <th>Pass Mark</th>
             <th>Assessment Type</th>
-            <th>Subject</th>
+            
             <th>Class</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {assessments.map((assessment) => (
             <tr key={assessment.id}>
+              <td>{assessment.subject_name}</td>
               <td>{assessment.assessment_name}</td>
               <td>{assessment.base_mark}</td>
               <td>{assessment.pass_mark}</td>
               <td>{assessment.category}</td>
-              <td>{assessment.subject_name}</td>
+              
               <td>{assessment.class_group_name}</td>
+              <td>
+                <Button onClick={() => handleEdit(assessment)} className='text-info' variant='link'>Edit</Button>
+                <Button onClick={() => handleDetails(assessment)} className='text-info' variant='link'>Details</Button>
+                <Button onClick={() => handleDelete(assessment)} className="text-danger" variant='link'>Delete</Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      {/* <h2>{params.pagination?.per_page}</h2>
-      <h2>{params.pagination?.total_items || 0}</h2>
-      <h2>{params.pagination?.total_pages}</h2> */}
+     
      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
             <PaginationComponent
               params={params}
@@ -227,8 +275,36 @@ const ExerciseCard = (props: any) => {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
             </DropdownButton>
           </div>
+          <ExerciseEditModal 
+          params={params}
+          schoolId={schoolId}
+          branchId={branchId}
+          exercise={formData}
+          isOpen={editModalOpen} 
+          setEditModalOpen={setEditModalOpen}
+          onRequestClose={() => setEditModalOpen(false)}
+           />
+          <ExerciseDeleteModal
+          isOpen={deleteModalOpen}
+          onRequestClose={() => setDeleteModalOpen(false)}
+          exercise={formData}
+          params={params}
+          setDeleteModalOpen={setDeleteModalOpen}
+          branchId={branchId}
+          schoolId={schoolId}
+          />
+          <ExerciseDetailsModal
+          isOpen={detailsModalOpen}
+          onRequestClose={() => setDetailsModalOpen(false)}
+          exercise={exercise}
+          params={params}
+          setDetailsModalOpen={setDetailsModalOpen}
+          branchId={branchId}
+          schoolId={schoolId}
+          />
     </>
   )
 }

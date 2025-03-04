@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
@@ -23,13 +23,62 @@ import Email from './components/Email';
 import Finance from './components/Finance';
 import Subscription from './components/Subscription';
 import SystemAdmin from './components/SystemAdmin';
+import { Container } from 'react-bootstrap';
+import UserSession from './utility/userSession';
+import { UserModel } from './models/userModel';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/store';
+import { FaEnvelope, FaPhone } from 'react-icons/fa';
 
 function App() {
+  const [user, setUser] = useState<UserModel | null>(null);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const userData = JSON.parse(sessionStorage.getItem('user') || 'null');
+  useEffect(() => {
+    if (!user && userData) {
+      setUser(userData);
+    } else if (!userData) {
+      setUser(null);
+    }
+  }, [user, userData]);
   return (
     <div className="hero_area">
-      <ToastProvider>       
+      <ToastProvider>
         <Toast />
         <AuthProvider>
+          <Header />
+          <Container
+            fluid
+            className="pt-3 d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start"
+            style={{
+              borderBottom: '0.05rem solid #90953B',
+              marginTop: '5rem',
+              color: 'black',
+              backgroundColor: 'white',
+              fontStyle: 'italic',
+              padding: '10px',
+            }}
+          >
+            {/* Contact Section */}
+            <div className="d-flex flex-column flex-sm-row align-items-center">
+              <span className="me-3">Contacts:</span>
+              <span>
+                <FaPhone className="me-2" />
+                +233 (0)506534737
+              </span>
+              <span className="ms-sm-4 mt-sm-0">
+                <FaEnvelope className="me-2" />
+                alphalogiquetechnologies@gmail.com
+              </span>
+            </div>
+
+            {/* User Welcome Message */}
+            <div className="mt-md-0">
+              {user?.username && <>Welcome! {user.username}</>}
+            </div>
+          </Container>
+
+
           <Routes>
             <Route caseSensitive path="/" element={<Home />} />
             <Route path="/system-admin" element={<SystemAdmin />} />

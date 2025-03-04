@@ -91,7 +91,7 @@ const ReportCard = (props: any) => {
               <thead>
                 <tr style={{ borderBottom: '3px solid black' }}>
                   <th>Subject</th>
-                  <th>CA Score</th>
+                  <th>SBA Score</th>
                   <th>TA Score</th>
                   <th>Total</th>
                   <th>Position</th>

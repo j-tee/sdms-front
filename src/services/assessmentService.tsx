@@ -19,8 +19,8 @@ const AssessmentService = {
 //   //////////////////////////////////////////////////////////////////////////
 getAssessments: (params: QueryParams) =>axios.get(`${API_URL}api/v1/assessments?${queryStringFormatter(params)}`, { headers: authHeader() }),
   addAssessment: (assessment: Assessment) => axios.post(`${API_URL}api/v1/assessments`, assessment, { headers: authHeader() }),
-  deleteAssessment: (assessment: Assessment, id: number) => axios.delete(`${API_URL}api/v1/assessments/${id}`, { headers: authHeader() }),
-  updateAssessment: (assessment: Assessment, id: number) => axios.put(`${API_URL}api/v1/assessments/${id}`, assessment, { headers: authHeader() }),
+  deleteAssessment: (id: number) => axios.delete(`${API_URL}api/v1/assessments/${id}`, { headers: authHeader() }),
+  updateAssessment: (assessment: Assessment) => axios.put(`${API_URL}api/v1/assessments/${assessment.id}`, assessment, { headers: authHeader() }),
   getAssessment: (assessmentId: number) => axios.get(`${API_URL}api/v1/assessments/${assessmentId}`, { headers: authHeader() }),
   getStaffAssessmentSummary:(params: QueryParams) => axios.get(`${API_URL}api/v1/assessments/summary/staffs/evaluation/lessons/assessment_summary?${queryStringFormatter(params)}`, { headers: authHeader() }), 
   getNotConductedAssessments:(params: QueryParams) => axios.get(`${API_URL}api/v1/assessments/exercises/staff/not_conducted_assessments?${queryStringFormatter(params)}`, { headers: authHeader() }), 

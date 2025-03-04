@@ -26,6 +26,7 @@ import ReportTimeTable from './ReportTimeTable'
 import StudentBillsFees from './StudentBillsFees'
 import { getStudentRecentSubscription } from '../redux/slices/subscriptionSlice'
 import StudentSubscription from './StudentSubscription'
+import UserSession from '../utility/userSession'
 
 type AnyType = {
   [key: string]: string;
@@ -64,10 +65,10 @@ const MyWardCard = (props: any) => {
   }, [dispatch, params])
   return (
     <>
-      <Container style={{ marginTop: '3.5rem' }}>
-        &nbsp;
-      </Container>
-      <Header />
+      {/* <Container style={{ marginTop: '3.5rem' }}>
+      Welcome: {UserSession.getUserInfo().username}
+      </Container> */}
+      {/* <Header /> */}
       <Card>
         <Card.Header>
           <Card.Title className='fs-1 text-muted'>My Wards</Card.Title>

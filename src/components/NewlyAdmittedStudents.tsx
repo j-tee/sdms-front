@@ -110,7 +110,7 @@ useEffect(()=>{
         <Card.Title>Newly Admitted Students Registration</Card.Title>
       </Card.Header>
       <Card.Body>
-        <Row>
+        <Row className='d-flex flex-column flex-lg-row'>
           <Col>
             <AcademicYearDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
           </Col>
@@ -171,6 +171,7 @@ useEffect(()=>{
               <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
             </DropdownButton>
           </div>) }
           {key === "unregistered" &&(<div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
@@ -193,6 +194,7 @@ useEffect(()=>{
               <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
             </DropdownButton>
           </div>) }
         

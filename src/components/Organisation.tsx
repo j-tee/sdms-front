@@ -16,10 +16,10 @@ const Organisation = () => {
 
   return (
     <div>
-      <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
       <Card>
         <Card.Header>
           <Card.Title>

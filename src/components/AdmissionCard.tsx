@@ -57,11 +57,11 @@ const AdmissionCard = (props: any) => {
   })
 
   useEffect(() => {
-    if(!academic_term){
+    if (!academic_term) {
       dispatch(getCurrentTerm(branchId))
     }
     if (tabIndex === 'first') {
-      
+
       const deptParams: DepartmentParams = {
         ...params,
         school_id: schoolId,
@@ -74,18 +74,18 @@ const AdmissionCard = (props: any) => {
   }, [academic_term, branchId, dispatch, params, schoolId, tabIndex])
 
   useEffect(() => {
-   if(tabIndex === 'first'){
-    dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, department_id: params.department_id }))
-      .then((res: any) => {
-        setShowToast(true)
-        showToastify(res.payload.message, res.payload.status)
-      })
-    dispatch(getVacancies({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, department_id: params.department_id }))
-      .then((res: any) => {
-        setShowToast(true)
-        showToastify(res.payload.message, res.payload.status)
-      })
-   }
+    if (tabIndex === 'first') {
+      dispatch(getAdmissions({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, department_id: params.department_id }))
+        .then((res: any) => {
+          setShowToast(true)
+          showToastify(res.payload.message, res.payload.status)
+        })
+      dispatch(getVacancies({ ...params, school_id: schoolId, branch_id: branchId, stage_id: params.stage_id, program_id: params.program_id, department_id: params.department_id }))
+        .then((res: any) => {
+          setShowToast(true)
+          showToastify(res.payload.message, res.payload.status)
+        })
+    }
   }, [dispatch, params])
 
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
@@ -121,12 +121,21 @@ const AdmissionCard = (props: any) => {
   };
   return (
     <div>
-      <Row>
-        <Col><DepartmentDropDown onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
-        <Col><AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} /></Col>
-        <Col><AcademicTermDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} yearId={undefined} /></Col>
-        <Col><StageDropDown onChange={handleInputChange} branchId={undefined} lesson={undefined} /></Col>
+      <Row className="g-2">
+        <Col xs={12} md={6} lg={3}>
+          <DepartmentDropDown onChange={handleInputChange} branchId={0} schoolId={0} />
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} />
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <AcademicTermDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} yearId={undefined} />
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <StageDropDown onChange={handleInputChange} branchId={undefined} lesson={undefined} />
+        </Col>
       </Row>
+
       <div>
         <Button onClick={openNewAdmission}>
           New Admission
@@ -160,6 +169,7 @@ const AdmissionCard = (props: any) => {
           <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(50)}>50</Dropdown.Item>
         </DropdownButton>
       </div>
     </div>

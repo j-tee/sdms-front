@@ -81,7 +81,7 @@ const AssessmentTypeCard = (props: any) => {
                 <Form.Select placeholder="Enter category" name="category" 
                 value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}>
                 <option value="">---Select----</option>
-                  <option value="CA">Continuous Assessment</option>
+                  <option value="CA">School Based Assessment</option>
                   <option value="TA">Terminal Assessment</option>
                 </Form.Select>
               </Form.Group>
@@ -120,7 +120,7 @@ const AssessmentTypeCard = (props: any) => {
               { assessment_types && assessment_types.map((assessment_type: any, index: number) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{assessment_type.category === 'CA'? 'Continuous Assessment':'Terminal Assessment'}</td>
+                  <td>{assessment_type.category === 'CA'? 'School Based Assessment':'Terminal Assessment'}</td>
                   <td>{assessment_type.percentage_score}</td>
                   <td>{assessment_type.branch_name}</td>
                   <td>{assessment_type.school_name}</td>

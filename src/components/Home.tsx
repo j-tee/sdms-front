@@ -6,10 +6,10 @@ const Home = () => {
  
   return (
     <>
-      <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
+      {/* <Header /> */}
+      {/* <Container style={{ marginTop: '3.5rem' }}>
         &nbsp;
-      </Container>
+      </Container> */}
       <section className=" slider_section position-relative py-5">
       <div className="container">
         <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">

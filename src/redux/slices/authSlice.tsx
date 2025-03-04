@@ -212,6 +212,18 @@ export const removeUserFromRole = createAsyncThunk(
   },
 )
 
+export const sendAccountConfirmationLink = createAsyncThunk(
+  'auth/sendAccountConfirmationLink',
+  async (email: string, thunkAPI) => {
+    try {
+      const response = await AuthService.sendAccountConfirmationLink(email);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  },
+)
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -235,6 +247,23 @@ export const authSlice = createSlice({
       //   message: 'The action requested is pending',
       //   isLoading: true,
       // }))
+      .addCase(sendAccountConfirmationLink.fulfilled, (state, action) => ({
+        ...state,
+        message: action.payload.message,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(sendAccountConfirmationLink.rejected, (state, action: PayloadAction<any>) => ({
+        ...state,
+        message: action.payload.message,
+        status: action.payload.status,
+        isLoading: false,
+      }))
+      .addCase(sendAccountConfirmationLink.pending, (state, action) => ({
+        ...state,
+        message: 'The action requested is pending',
+        isLoading: true,
+      }))
       .addCase(removeUserFromRole.fulfilled, (state, action) => ({
         ...state,
         message: 'The action requested has completed',
@@ -258,6 +287,7 @@ export const authSlice = createSlice({
       }))
       .addCase(getAssignedRoles.rejected, (state, action:PayloadAction<any>) => ({
         ...state,
+        assigned_roles: [],
         message: action.payload.message,
         status: action.payload.status,
         isLoading: false,
@@ -462,8 +492,15 @@ export const authSlice = createSlice({
       }))
       .addCase(loginUser.pending, (state) => ({
         ...state,
-        message: 'Login failure!!',
+        // message: 'Login failure!!',
         isLoading: true,
+      }))
+      .addCase(loginUser.fulfilled, (state, action) => ({
+        ...state,
+        isLoggedIn: true,
+        user: action.payload.user,
+        message: 'User logged in successfully',
+        isLoading: false,
       }))
       .addCase(getCurrentUser.fulfilled, (state, action) => ({
         ...state,

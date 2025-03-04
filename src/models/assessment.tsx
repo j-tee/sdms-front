@@ -27,13 +27,17 @@ export interface AssessmentViewModel {
   base_mark: number;
   pass_mark: number;
   category: string;
+  academic_term_id?: number;
   class_group_name: string;
   program_name: string;
   subject_name: string;
+  subject_id?: number;
+  staff_id?: number;
   assessment_category: string;
   class_group_id: number;
   program_subject_id: number;
   assessment_type_id: number;
+  academic_term_name: string;
 }
 
 export interface StaffAssessmentSummary {
