@@ -242,7 +242,7 @@ const ExerciseCard = (props: any) => {
               <td>{assessment.assessment_name}</td>
               <td>{assessment.base_mark}</td>
               <td>{assessment.pass_mark}</td>
-              <td>{assessment.category}</td>
+              <td>{assessment.category === 'CA'?'SBA':assessment.category}</td>
               
               <td>{assessment.class_group_name}</td>
               <td>

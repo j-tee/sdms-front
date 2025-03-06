@@ -33,6 +33,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   const { assessments } = useSelector((state: RootState) => state.assessment);
   const { students } = useSelector((state: RootState) => state.studentReg);
   const { score_sheets, pagination } = useSelector((state: RootState) => state.scoreSheet);
+  // const [searchText, setSearchText] = useState('');
 
   const dispatch = useDispatch<AppDispatch>();
   const { setShowToast } = useContext(ToastContext)
@@ -81,11 +82,15 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
 
   const handleInputChange = (field: keyof AnyType, value: string) => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
-    setParams((prevData) => ({ ...prevData, [field]: parseInt(value) }));
+    setParams((prevData) => ({ ...prevData, [field]: isNaN(Number(value)) ? value : parseInt(value, 10) }));
 
-    const updatedParams = { ...params, [field]: parseInt(value), paginate: false };
+    const updatedParams = { ...params, [field]: isNaN(Number(value)) ? value : parseInt(value, 10), paginate: false };
 
     switch (field) {
+      case 'search_text':
+        dispatch(getRegisteredStudentsForRecordingScores(updatedParams));
+        dispatch(getScoreSheets({ ...updatedParams, paginate: true }));
+        break;
       case 'staff_id':
         dispatch(getAssessmentTypes(updatedParams));
         dispatch(getStaffClassGroups({ ...updatedParams, staff_id: parseInt(value), academic_term_id: academic_term.id }));
@@ -171,6 +176,13 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     }
   }, [branchId, index, dispatch, academic_term.id, params]);
 
+  // useEffect(() => {
+  //   setParams((prevParams) => ({
+  //     ...prevParams,
+  //     search_text: searchText,
+  //   }));
+  // }, [params]);
+
   useEffect(() => {
     setScores(
       students.map((student: any) => ({
@@ -180,6 +192,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
       }))
     );
   }, [students, params.assessment_id]);
+
   const handlePageChange = (page: number) => {
     // setCurrentPage(page);
     setParams((prevParams) => ({
@@ -221,26 +234,30 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col>
+        {/* First Row */}
+        <Row className="g-2"> {/* Adds spacing between columns */}
+          <Col xs={12} md={4}>
             <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
           </Col>
-          <Col>
+          <Col xs={12} md={4}>
             <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
           </Col>
-          <Col>
+          <Col xs={12} md={4}>
             <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
           </Col>
         </Row>
-        <Row>
-          <Col>
+
+        {/* Second Row */}
+        <Row className="g-2">
+          <Col xs={12} md={6}>
             <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} staffId={0} />
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <AssessmentDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
           </Col>
         </Row>
       </Form>
+
       {assessment.assessment_name && (
         <div className="py-4 text-muted">
           <h5>Assessment: {assessment.assessment_name}</h5>
@@ -248,30 +265,38 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <h5>Base Mark: {assessment.base_mark}</h5>
         </div>
       )}
+      <Form className="search-form mt-4 mb-4">
+        <Form.Control
+          type="text"
+          placeholder="🔍 Search student by Id, first name or last name"
+          // value={searchText}
+          onKeyUp={(e) => handleInputChange('search_text', (e.target as HTMLInputElement).value)}
+          className="search-input"
+        />
+      </Form>
+
       <ListGroup variant="flush">
         {students.map((student: any) => (
           <ListGroup.Item
             key={student.id}
-            className="border rounded bg-light d-flex align-items-center gap-2 px-2 py-1"
-            style={{ display: "flex", gap: "12px" }}
+            className="border rounded bg-light d-flex flex-wrap align-items-center mb-4 gap-2 pt-2 pb-3"
           >
             {/* Student Name */}
-            <div style={{ minWidth: "500px" }}> {/* Ensures all names align */}
+            <div className="flex-grow-1">
               <Button
                 variant="link"
                 className="text-decoration-none fw-bold text-dark text-start"
                 onClick={() => handleLinkClick(student)}
                 style={{ padding: "0", margin: "0", whiteSpace: "nowrap" }}
               >
-               {student.student_id} {student.last_name} {student.first_name}
+                {student.student_id} {student.last_name} {student.first_name}
               </Button>
             </div>
 
-            {/* Score Input - Fixed Width */}
             <Form.Control
               type="number"
-              className="form-control-sm text-center border-primary"
-              style={{ width: "80px", textAlign: "center" }}
+              className="form-control-sm text-center border-primary score-input"
+              placeholder="Enter score"
               value={getScoreForStudent(student.id)}
               onChange={(e) => handleScoreChange(student.id, parseFloat(e.target.value))}
             />
@@ -287,6 +312,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           </ListGroup.Item>
         ))}
       </ListGroup>
+
       <button className="btn btn-primary mt-3" onClick={handleSubmit}>
         Save
       </button>
@@ -313,17 +339,17 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
               <td>{scoreSheet.subject_name}</td>
               <td>{scoreSheet.student_score}</td>
               <td>{scoreSheet.remarks}</td>
-                <td>
+              <td>
                 <Button variant="link" onClick={() => handleEditModalOpen(scoreSheet)} className="text-primary" size="sm">
                   Edit
                 </Button>
-                <Button variant="link" onClick = {() => handleDetailsModalOpen(scoreSheet)} className="text-info" size="sm">
+                <Button variant="link" onClick={() => handleDetailsModalOpen(scoreSheet)} className="text-info" size="sm">
                   Details
                 </Button>
                 <Button variant="link" onClick={() => handleDeleteModalOpen(scoreSheet)} className="text-danger" size="sm">
                   Delete
                 </Button>
-                </td>
+              </td>
             </tr>
           ))}
         </tbody>

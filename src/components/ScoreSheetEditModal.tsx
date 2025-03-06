@@ -13,6 +13,7 @@ const ScoreSheetEditModal = (props: any) => {
   const [score_sheet, setScore_sheet] = useState<ScoreSheet>({})
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
+  const [validScore, setValidScore] = useState(false)
 
   useEffect(() => {
     if (scoreSheet) {
@@ -27,9 +28,21 @@ const ScoreSheetEditModal = (props: any) => {
     }
   }, [scoreSheet])
 
+  const validateScore = () => {
+    setShowToast(true)
+    if(score_sheet.score !== undefined && score_sheet.score > scoreSheet.base_mark) {
+      showToastify('Score cannot be greater than the base mark', 'error')
+      return false
+    }
+    return true
+  }
+
   const handleSubmit = (e: any) => {
     e.preventDefault()
     // dispatch(updateScoreSheet(branchId, schoolId, params.id, updatedScoreSheet
+    if (!validateScore()) {
+      return
+    }
     const updatedScoreSheet = {
       id: score_sheet.id,
       assessment_id: score_sheet.assessment_id,
@@ -67,6 +80,7 @@ const ScoreSheetEditModal = (props: any) => {
           <Form.Group controlId="remarks">
             <Form.Label>Remarks</Form.Label>
             <Form.Control as="textarea" placeholder="Comment"
+            onKeyUp={validateScore}
             onChange={(e) => setScore_sheet({ ...scoreSheet, remarks: e.target.value })}
              value={score_sheet.remarks || ''} />
           </Form.Group>
