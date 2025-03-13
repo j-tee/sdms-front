@@ -78,7 +78,7 @@ const AssessmentTypeCard = (props: any) => {
             <Col>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Category</Form.Label>
-                <Form.Select placeholder="Enter category" name="category" 
+                <Form.Select name="category" 
                 value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}>
                 <option value="">---Select----</option>
                   <option value="CA">School Based Assessment</option>

@@ -124,7 +124,7 @@ const ReportCard = (props: any) => {
           <Button className="no-print" onClick={() => handlePrint()}>Print out terminal reports!</Button>      
         </div>
 
-      ))}</>) : (<div><h4>Select Your Wards to view terminal reports</h4></div>)}
+      ))}</>) : (<div><h4>Select Your Wards to view terminal reports</h4><h5>Verify that you have active subscription</h5></div>)}
 
     </>
   )

@@ -28,11 +28,12 @@ import UserSession from './utility/userSession';
 import { UserModel } from './models/userModel';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
-import { FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaEnvelope, FaPhone } from 'react-icons/fa6';
+import { Envelope, Phone, PhoneFill, TelephoneForward, TelephoneForwardFill } from 'react-bootstrap-icons';
 
 function App() {
   const [user, setUser] = useState<UserModel | null>(null);
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  // const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const userData = JSON.parse(sessionStorage.getItem('user') || 'null');
   useEffect(() => {
     if (!user && userData) {
@@ -63,11 +64,11 @@ function App() {
             <div className="d-flex flex-column flex-sm-row align-items-center">
               <span className="me-3">Contacts:</span>
               <span>
-                <FaPhone className="me-2" />
+                <TelephoneForward className="me-2" />
                 +233 (0)506534737
               </span>
               <span className="ms-sm-4 mt-sm-0">
-                <FaEnvelope className="me-2" />
+                <Envelope className="me-2" />
                 alphalogiquetechnologies@gmail.com
               </span>
             </div>

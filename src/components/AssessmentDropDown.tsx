@@ -25,7 +25,7 @@ const AssessmentDropDown: React.FC<AssessmentDropDownProps> = ({ onChange, branc
       <Form.Select as="select" onChange={handleAssessmentChange}>
         <option value="">---Select---</option>
         {assessments.map((assessment) => (
-          <option key={assessment.id} value={assessment.id}>{assessment.id} {assessment.assessment_name}</option>
+          <option key={assessment.id} value={assessment.id}>{assessment.id} {assessment.assessment_name} - {new Date(assessment.assessment_date).toDateString()}</option>
         ))}
       </Form.Select>
     </Form.Group>

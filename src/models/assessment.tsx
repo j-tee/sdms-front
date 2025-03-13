@@ -9,6 +9,7 @@ export interface Assessment {
   academic_term_id: number;
   staff_id: number;
   assessment_type_id: number;
+  assessment_date: string;
 }
 
 export interface AssessmentState {
@@ -38,6 +39,7 @@ export interface AssessmentViewModel {
   program_subject_id: number;
   assessment_type_id: number;
   academic_term_name: string;
+  assessment_date: string;
 }
 
 export interface StaffAssessmentSummary {

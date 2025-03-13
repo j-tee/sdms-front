@@ -40,6 +40,18 @@ const initialState: SubscriptionState = {
   }
 };
 
+export const initializeTransaction = createAsyncThunk(
+  'subscription/initializeTransaction',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await SubscriptionService.initializeTransaction(params);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const addSubscription = createAsyncThunk(
   'subscription/addSubscription',
   async (subscription: Subscription, thunkAPI) => {
@@ -117,6 +129,16 @@ export const subscriptionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder
+      .addCase(initializeTransaction.fulfilled, (state, action: PayloadAction<any>) => ({
+        ...state,
+        subscription: action.payload.response, isLoading: false, message: action.payload.message,
+        status: action.payload.status,
+      }));
+    builder.addCase(initializeTransaction.pending, (state) => ({ ...state, isLoading: true }));
+    builder.addCase(initializeTransaction.rejected, (state, action: PayloadAction<any>) => ({
+      ...state, message: action.payload.message, status: action.payload.status, isLoading: false
+    }));
     builder
       .addCase(requestToPay.fulfilled, (state, action: PayloadAction<any>) => ({
         ...state,

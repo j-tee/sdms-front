@@ -18,7 +18,8 @@ const initialState: AssessmentState = {
     class_group_id: 0,
     program_subject_id: 0,
     assessment_type_id: 0,
-    category: ''
+    category: '',
+    assessment_date: ''
   },
   status: '',
   message: '',

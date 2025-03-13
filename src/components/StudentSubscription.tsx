@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../redux/store'
 import { ToastContext } from '../utility/ToastContext'
 import { QueryParams } from '../models/queryParams'
-import { getSubscriptions, requestToPay, getMomoToken } from '../redux/slices/subscriptionSlice'
+import { getSubscriptions, requestToPay, getMomoToken, initializeTransaction } from '../redux/slices/subscriptionSlice'
 import { showToastify } from '../utility/Toastify'
 import { getTaxes } from '../redux/slices/taxSlice'
 import { getSubscriptionFees } from '../redux/slices/subscriptionFeeSlice'
 import { Subscription } from '../models/subscription'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import PaystackPop from '@paystack/inline-js'
+
 
 const StudentSubscription = (props: any) => {
   const { params, index } = props
@@ -31,7 +33,7 @@ const StudentSubscription = (props: any) => {
 
   const [formData, setFormData] = useState<Subscription>({
     student_id: 0,
-    // amount: 0,
+    amount: 0,
     transaction_id: '',
     subscription_fee_id: 0,
     subscription_date: '',
@@ -58,52 +60,47 @@ const StudentSubscription = (props: any) => {
 
   }
   const makePayment = () => {
-    const requestData = {
-      subscription: {
-        ...formData
-      },
-      amount: amount,
-      currency: 'EUR',
-      externalId: '',
-      payer: payer,
-      payerMessage: '',
-      payeeNote: '',
-    };
-    dispatch(requestToPay(requestData)).then((response: any) => {
-      setShowToast(true)
-      showToastify(response.payload.message, response.payload.status)
-      dispatch(getSubscriptions({ ...params })).then((response: any) => {
-        showToastify(response.payload.message, response.payload.status)
-        const subscription = subscriptions.find((subscription: any) => subscription.student_id === params.student_id)
-        if (subscription) {
-          setFormData((prevState) => ({
-            ...prevState,
-            student_id: subscription.student_id,
-          }))
-        }
-        // setTimeout(() => {
-        //     window.location.reload();
-        // }, 5000);  // 5000ms = 5 seconds
-      })
+    const popup = new PaystackPop()
+    let access_code = '';
+    let auth_url = '';
+    dispatch(initializeTransaction({ ...formData })).then((resp: any) => {
+     if(resp.payload.status === 200){
+      access_code = resp.payload.response.data.access_code
+      popup.resumeTransaction(access_code)
+     }
     })
+    // dispatch(requestToPay(requestData)).then((response: any) => {
+    //   setShowToast(true)
+    //   showToastify(response.payload.message, response.payload.status)
+    //   dispatch(getSubscriptions({ ...params })).then((response: any) => {
+    //     showToastify(response.payload.message, response.payload.status)
+    //     const subscription = subscriptions.find((subscription: any) => subscription.student_id === params.student_id)
+    //     if (subscription) {
+    //       setFormData((prevState) => ({
+    //         ...prevState,
+    //         student_id: subscription.student_id,
+    //       }))
+    //     }
+    //     // setTimeout(() => {
+    //     //     window.location.reload();
+    //     // }, 5000);  // 5000ms = 5 seconds
+    //   })
+    // })
   }
 
+  // useEffect(() => {
+  //   if (index === 'fourth' && (params && params.student_id) && (momo_token.access_token === '' || !momo_token.access_token)) {
+  //     dispatch(getMomoToken()).then((response: any) => {
+  //       sessionStorage.setItem('momo_token', response.payload.momo_token.access_token)
+  //     })
 
-  useEffect(() => {
-    // console.log('params=====>1',index, params)
-    if (index === 'fourth' && (params && params.student_id) && (momo_token.access_token === '' || !momo_token.access_token)) {
-      dispatch(getMomoToken()).then((response: any) => {
-        sessionStorage.setItem('momo_token', response.payload.momo_token.access_token)
-      })
+  //   }
 
-    }
-
-  }, [momo_token, index, params, dispatch, amount, fee, duration, months, payer])
+  // }, [momo_token, index, params, dispatch, amount, fee, duration, months, payer])
 
 
   useEffect(() => {
     if (index === 'fourth' && (params && params.student_id)) {
-      console.log('params=====>3', index, params)
       dispatch(getTaxes()).then((response: any) => {
         setTotalTax(taxes.reduce((sum, tax) => sum + tax.rate, 0));
         showToastify(response.payload.message, response.payload.status)
@@ -112,7 +109,7 @@ const StudentSubscription = (props: any) => {
       setFormData((prevState) => ({
         ...prevState,
         student_id: params.student_id,
-        // amount: amount,
+        amount: amount,
       }))
       dispatch(getSubscriptionFees()).then((response: any) => {
         showToastify(response.payload.message, response.payload.status)

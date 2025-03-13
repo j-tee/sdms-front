@@ -14,6 +14,11 @@ export interface SubscriptionState {
 }
 
 export interface Subscription {
+  status?: boolean;
+  message?: string;
+  authorization_url?: string;
+  access_code?: string;
+  reference?: string;
   id?: number;
   amount?: number;
   student_id: number;

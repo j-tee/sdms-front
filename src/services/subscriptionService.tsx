@@ -18,6 +18,7 @@ const SubscriptionService = {
       headers: headers,
     });
   },
+  initializeTransaction: (params: any) => axios.post(`${API_URL}api/v1/parents/subscriptions/initialize_transaction`, params, { headers: authHeader()}),  // eslint-disable-line max-len 
   getMomoToken: () => axios.get(`${API_URL}api/v1/subscriptions/payments/student/keys/momo_api_key/momo_token`, {headers: authHeader()}),
   requestToPay: (params: any) => axios.post(`${API_URL}api/v1/subscriptions/payments/student/keys/momo_api_key/momo_token/request_to_pay`, params, {headers: {...authHeader(), token:sessionStorage.getItem('momo_token')}}),  // eslint-disable-line max-len  
   getMomoApiKey: () => axios.get(`${API_URL}api/v1/subscriptions/payments/student/keys/momo_api_key`, { headers: authHeader() }),

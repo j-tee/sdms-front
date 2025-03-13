@@ -56,6 +56,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     class_group_id: 0,
     program_subject_id: 0,
     assessment_type_id: 0,
+    assessment_date: '',
   });
 
   const [formData, setFormData] = useState({
@@ -263,9 +264,10 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <h5>Assessment: {assessment.assessment_name}</h5>
           <h5>Subject: {assessment.subject_name}</h5>
           <h5>Base Mark: {assessment.base_mark}</h5>
+          <h5>Date: {new Date(assessment.assessment_date).toDateString()}</h5>
         </div>
       )}
-      <Form className="search-form mt-4 mb-4">
+      <Form className="search-form mt-4 pt-4 mb-4">
         <Form.Control
           type="text"
           placeholder="🔍 Search student by Id, first name or last name"
@@ -313,9 +315,9 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         ))}
       </ListGroup>
 
-      <button className="btn btn-primary mt-3" onClick={handleSubmit}>
+      {students.length > 0 && <button className="btn btn-primary mt-3" onClick={handleSubmit}>
         Save
-      </button>
+      </button>}
       <Table striped bordered hover size="sm" className="mt-4">
         <thead>
           <tr>
@@ -332,7 +334,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         <tbody>
           {score_sheets.map((scoreSheet: any) => (
             <tr key={scoreSheet.id}>
-              <td>{scoreSheet.student_name}</td>
+              <td>{scoreSheet.student_name} - {new Date(assessment.assessment_date).toDateString()}</td>
               {/* <td>{scoreSheet.class_group_name}</td> */}
               <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}</td>
               {/* <td>{scoreSheet.category}</td> */}

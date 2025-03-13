@@ -1,11 +1,11 @@
 import { Card, Badge, ProgressBar } from "react-bootstrap";
-import { FaStar, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { CheckCircle, ExclamationTriangle, Star } from "react-bootstrap-icons";
 
 const getPerformanceBadge = (percentage: number) => {
-  if (percentage >= 80) return { badge: <Badge bg="success"><FaStar /> Outstanding</Badge>, color: "success" };
-  if (percentage >= 60 && percentage <= 79.99) return { badge: <Badge bg="primary"><FaCheckCircle /> Good</Badge>, color: "primary" };
-  if (percentage >= 50 && percentage <= 59.99) return { badge: <Badge bg="warning"><FaExclamationTriangle /> Needs Improvement</Badge>, color: "warning" };
-  return { badge: <Badge bg="danger"><FaExclamationTriangle /> Below Average</Badge>, color: "danger" };
+  if (percentage >= 80) return { badge: <Badge bg="success"><Star /> Outstanding</Badge>, color: "success" };
+  if (percentage >= 60 && percentage <= 79.99) return { badge: <Badge bg="primary"><CheckCircle /> Good</Badge>, color: "primary" };
+  if (percentage >= 50 && percentage <= 59.99) return { badge: <Badge bg="warning"><ExclamationTriangle /> Needs Improvement</Badge>, color: "warning" };
+  return { badge: <Badge bg="danger"><ExclamationTriangle /> Below Average</Badge>, color: "danger" };
 };
 
 

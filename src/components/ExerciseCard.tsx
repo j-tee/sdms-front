@@ -40,6 +40,7 @@ const ExerciseCard = (props: any) => {
     pass_mark: 0,
     academic_term_id: 0,
     staff_id: 0,
+    assessment_date: '',
 
   });
 
@@ -151,6 +152,7 @@ const ExerciseCard = (props: any) => {
       base_mark: parseInt(assessment.base_mark.toString()),
       pass_mark: parseInt(assessment.pass_mark.toString()),
       assessment_name: assessment.assessment_name,
+      assessment_date: assessment.assessment_date
     }
     setFormData(assment)
     setDeleteModalOpen(true)
@@ -166,6 +168,7 @@ const ExerciseCard = (props: any) => {
       base_mark: parseInt(assessment.base_mark.toString()),
       pass_mark: parseInt(assessment.pass_mark.toString()),
       assessment_name: assessment.assessment_name,
+      assessment_date: assessment.assessment_date
     }
     setFormData(assment)
     setEditModalOpen(true)
@@ -215,6 +218,14 @@ const ExerciseCard = (props: any) => {
                 placeholder="Pass Mark" />
             </Form.Group>
           </Col>
+          <Col>
+          <Form.Group controlId='assessment_date'>
+            <Form.Label>Assessment Date</Form.Label>
+            <Form.Control type='date' 
+            onChange={(e) => handleInputChange('assessment_date', e.target.value)} 
+            value={formData.assessment_date} />
+          </Form.Group>
+          </Col>
         </Row>
         <Row className='mt-2'>
           <Col>
@@ -229,8 +240,7 @@ const ExerciseCard = (props: any) => {
             <th>Assessment Name</th>
             <th>Base Mark</th>
             <th>Pass Mark</th>
-            <th>Assessment Type</th>
-            
+            <th>Assessment Type</th>            
             <th>Class</th>
             <th>Actions</th>
           </tr>
@@ -239,7 +249,7 @@ const ExerciseCard = (props: any) => {
           {assessments.map((assessment) => (
             <tr key={assessment.id}>
               <td>{assessment.subject_name}</td>
-              <td>{assessment.assessment_name}</td>
+              <td>{assessment.assessment_name} - {new Date(assessment.assessment_date).toDateString()}</td>
               <td>{assessment.base_mark}</td>
               <td>{assessment.pass_mark}</td>
               <td>{assessment.category === 'CA'?'SBA':assessment.category}</td>
