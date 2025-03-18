@@ -199,14 +199,6 @@ const StudentSubscription = (props: any) => {
               </Form.Select>
             </Form.Group>
           </Col>
-          <Col>
-            <Form.Group className='mb-3'>
-              <Form.Label>Phone Number</Form.Label>
-              <Form.Control type='text' name='phone_number'
-                value={payer.partyId}
-                onChange={(e) => setPayer({ ...payer, partyId: e.target.value })} />
-            </Form.Group>
-          </Col>
         </Row>
         <span>Taxes</span>
         <span>
