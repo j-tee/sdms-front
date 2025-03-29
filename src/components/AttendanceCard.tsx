@@ -203,7 +203,7 @@ const AttendanceCard = (props: any) => {
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
-                <th>#</th>
+                {/* <th>#</th> */}
                 <th>Student ID</th>
                 <th>Student Name</th>
                 <th>
@@ -219,7 +219,7 @@ const AttendanceCard = (props: any) => {
             <tbody>
               {attendees && attendees.map((student: StudentRegViewModel) => (
                 <tr key={`attendee-${student.student_id}`}>
-                  <td>{student.student_id}</td>
+                  {/* <td>{student.student_id}</td> */}
                   <td>{student.admission_id}</td>
                   <td>{student.last_name} {student.first_name}</td>
                   <td>

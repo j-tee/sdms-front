@@ -334,9 +334,9 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
         <tbody>
           {score_sheets.map((scoreSheet: any) => (
             <tr key={scoreSheet.id}>
-              <td>{scoreSheet.student_name} - {new Date(assessment.assessment_date).toDateString()}</td>
+              <td>{scoreSheet.student_name} </td>
               {/* <td>{scoreSheet.class_group_name}</td> */}
-              <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}</td>
+              <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}- {new Date(scoreSheet.assessment_date).toDateString()}</td>
               {/* <td>{scoreSheet.category}</td> */}
               <td>{scoreSheet.subject_name}</td>
               <td>{scoreSheet.student_score}</td>

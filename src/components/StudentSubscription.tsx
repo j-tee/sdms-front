@@ -69,35 +69,7 @@ const StudentSubscription = (props: any) => {
       popup.resumeTransaction(access_code)
      }
     })
-    // dispatch(requestToPay(requestData)).then((response: any) => {
-    //   setShowToast(true)
-    //   showToastify(response.payload.message, response.payload.status)
-    //   dispatch(getSubscriptions({ ...params })).then((response: any) => {
-    //     showToastify(response.payload.message, response.payload.status)
-    //     const subscription = subscriptions.find((subscription: any) => subscription.student_id === params.student_id)
-    //     if (subscription) {
-    //       setFormData((prevState) => ({
-    //         ...prevState,
-    //         student_id: subscription.student_id,
-    //       }))
-    //     }
-    //     // setTimeout(() => {
-    //     //     window.location.reload();
-    //     // }, 5000);  // 5000ms = 5 seconds
-    //   })
-    // })
   }
-
-  // useEffect(() => {
-  //   if (index === 'fourth' && (params && params.student_id) && (momo_token.access_token === '' || !momo_token.access_token)) {
-  //     dispatch(getMomoToken()).then((response: any) => {
-  //       sessionStorage.setItem('momo_token', response.payload.momo_token.access_token)
-  //     })
-
-  //   }
-
-  // }, [momo_token, index, params, dispatch, amount, fee, duration, months, payer])
-
 
   useEffect(() => {
     if (index === 'fourth' && (params && params.student_id)) {
@@ -220,3 +192,33 @@ const StudentSubscription = (props: any) => {
 }
 
 export default StudentSubscription
+
+
+ // dispatch(requestToPay(requestData)).then((response: any) => {
+    //   setShowToast(true)
+    //   showToastify(response.payload.message, response.payload.status)
+    //   dispatch(getSubscriptions({ ...params })).then((response: any) => {
+    //     showToastify(response.payload.message, response.payload.status)
+    //     const subscription = subscriptions.find((subscription: any) => subscription.student_id === params.student_id)
+    //     if (subscription) {
+    //       setFormData((prevState) => ({
+    //         ...prevState,
+    //         student_id: subscription.student_id,
+    //       }))
+    //     }
+    //     // setTimeout(() => {
+    //     //     window.location.reload();
+    //     // }, 5000);  // 5000ms = 5 seconds
+    //   })
+    // })
+
+  // useEffect(() => {
+  //   if (index === 'fourth' && (params && params.student_id) && (momo_token.access_token === '' || !momo_token.access_token)) {
+  //     dispatch(getMomoToken()).then((response: any) => {
+  //       sessionStorage.setItem('momo_token', response.payload.momo_token.access_token)
+  //     })
+
+  //   }
+
+  // }, [momo_token, index, params, dispatch, amount, fee, duration, months, payer])
+
