@@ -14,6 +14,7 @@ interface AssessmentDropDownProps {
 
 const AssessmentDropDown: React.FC<AssessmentDropDownProps> = ({ onChange, branchId, schoolId }) => {
   const { assessments } = useSelector((state: RootState) => state.assessment)
+  
   const handleAssessmentChange = (e: React.ChangeEvent<any>) => {
     const selectedAssessmentId = (e.target.value);
     onChange('assessment_id', selectedAssessmentId);

@@ -75,7 +75,7 @@ export const getCountries = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await StudentService.getCountries();
-      return response.data;
+      return response
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);
     }

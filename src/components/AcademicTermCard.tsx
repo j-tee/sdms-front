@@ -88,7 +88,7 @@ const AcademicTermCard = (props: any) => {
     setShowToast(true)
     await dispatch(addAcademicTerm({ ...formData, academic_year_id: yearId ? yearId : academic_year.id })).then((res) => {
       showToastify(res.payload.message, res.payload.status)
-      dispatch(getAcademicTerms({ ...params, year_id: yearId ? yearId : academic_year.id }))
+      dispatch(getAcademicTerms({ ...params }))
     })
   }
   const handlePageChange = (page: number) => {
@@ -141,7 +141,10 @@ const AcademicTermCard = (props: any) => {
   }
   const handleInputChange = <T extends AnyType>(field: keyof T, value: string) => {
     // Update the formData state with the new value
-
+    setParams((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,

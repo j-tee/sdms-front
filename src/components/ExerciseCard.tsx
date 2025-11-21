@@ -18,7 +18,7 @@ import { getStaffClassGroups } from '../redux/slices/classGroupSlice';
 import PaginationComponent from './PaginationComponent';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 
-const ContinuousAssessmentCard = (props: any) => {
+const ExerciseCard = (props: any) => {
   const { schoolId, branchId, index } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
   const { assessments, pagination } = useSelector((state: RootState) => state.assessment)
@@ -300,4 +300,4 @@ const ContinuousAssessmentCard = (props: any) => {
   )
 }
 
-export default ContinuousAssessmentCard
+export default ExerciseCard

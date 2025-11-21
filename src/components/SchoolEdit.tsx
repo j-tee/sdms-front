@@ -60,8 +60,8 @@ const SchoolEdit = (props: any) => {
 
   const handleFileChange = (field: keyof School, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files.length > 0 ? (e.target.files[0] as File) : null;
-if (file && file.size > 102400) {
-      showToastify('Image size should not exceed 100KB', 'error');
+if (file && file.size > 5120) {
+      showToastify("Image size should not exceed 5KB. Visit 'https://image.pi7.org/compress-image-to-20kb' to resize your image", 'error');
       return;
     }
     setSchoolData((prevData) => ({

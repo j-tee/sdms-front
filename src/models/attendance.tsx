@@ -16,7 +16,8 @@ export interface AttendanceState {
   message: string;
   status: string;
   isLoading: boolean;
-  pagination: PaginationParams
+  attendees_pagination: PaginationParams
+  attendances_pagination: PaginationParams
 }
 
 export interface AttendanceViewModel {
