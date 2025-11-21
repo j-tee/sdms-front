@@ -1,0 +1,307 @@
+/* Modern Exit Profiles Styles */
+
+/* Page header */
+.exit-profiles-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.exit-profiles-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Filter section */
+.exit-profiles-filters {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.exit-profiles-filter-row {
+  gap: 1rem;
+}
+
+/* Student Card Styles */
+.exit-profile-card {
+  background: white;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.exit-profile-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+}
+
+.exit-profile-card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1.5rem;
+  border: none;
+  border-bottom: 3px solid #667eea;
+}
+
+.exit-profile-student-id {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.exit-profile-card-body {
+  padding: 2rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .exit-profile-card-body {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Avatar Section */
+.exit-profile-avatar-wrapper {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.exit-profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #fff;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.exit-profile-avatar-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid #fff;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.exit-profile-avatar-placeholder i {
+  font-size: 3rem;
+  color: white;
+  opacity: 0.9;
+}
+
+/* Info Section */
+.exit-profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.exit-profile-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.exit-profile-info-item:hover {
+  background: #e9ecef;
+  transform: translateX(4px);
+}
+
+.exit-profile-info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.exit-profile-info-icon i {
+  color: white;
+  font-size: 1.1rem;
+}
+
+.exit-profile-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.exit-profile-info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.exit-profile-info-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+/* Card Footer */
+.exit-profile-card-footer {
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+  padding: 1.5rem !important;
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+/* Add Exit Profile Button */
+.add-exit-profile-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 0.875rem 2.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.add-exit-profile-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.add-exit-profile-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-exit-profile-btn i {
+  font-size: 1.2rem;
+}
+
+/* Empty state */
+.exit-profiles-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.exit-profiles-empty-icon {
+  font-size: 5rem;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.exit-profiles-empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.exit-profiles-empty-text {
+  font-size: 1rem;
+  color: #a0aec0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .exit-profiles-title {
+    font-size: 1.75rem;
+  }
+
+  .exit-profiles-header {
+    padding: 1.5rem;
+  }
+
+  .exit-profiles-filters {
+    padding: 1rem;
+  }
+
+  .exit-profile-card-body {
+    padding: 1.5rem !important;
+    text-align: center;
+  }
+
+  .exit-profile-info-item {
+    justify-content: center;
+  }
+
+  .exit-profile-student-id {
+    font-size: 1.2rem;
+  }
+
+  .add-exit-profile-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Loading state */
+.exit-profiles-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  font-size: 1.2rem;
+  color: #667eea;
+}
+
+.exit-profiles-loading i {
+  margin-right: 0.75rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

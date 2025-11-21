@@ -1,0 +1,129 @@
+/* Modern Register Modal Styles */
+
+.register-modal .modal-dialog {
+  max-width: 550px;
+}
+
+.register-modal .modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.register-modal .modal-body {
+  max-height: calc(90vh - 200px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #667eea #f0f0f0;
+}
+
+.register-modal .modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.register-modal .modal-body::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.register-modal .modal-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.modern-select {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.modern-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: white;
+  outline: none;
+}
+
+.modern-select option {
+  padding: 0.5rem;
+}
+
+/* Form validation styles */
+.auth-form-modern .invalid-feedback {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+  color: #e53e3e;
+  font-weight: 500;
+}
+
+.auth-form-modern .is-invalid {
+  border-color: #fc8181;
+  background-color: #fff5f5;
+}
+
+.auth-form-modern .is-invalid:focus {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.1);
+}
+
+.auth-form-modern .is-valid {
+  border-color: #48bb78;
+  background-color: #f0fff4;
+}
+
+.auth-form-modern .is-valid:focus {
+  border-color: #48bb78;
+  box-shadow: 0 0 0 4px rgba(72, 187, 120, 0.1);
+}
+
+/* Additional animations for register form */
+.register-modal .form-group {
+  animation: slideInLeft 0.4s ease-out backwards;
+}
+
+.register-modal .form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.register-modal .form-group:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.register-modal .form-group:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.register-modal .form-group:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.register-modal .form-group:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive adjustments for register modal */
+@media (max-width: 576px) {
+  .register-modal .modal-dialog {
+    max-width: 95%;
+    margin: 1rem auto;
+  }
+
+  .register-modal .modal-body {
+    max-height: calc(90vh - 180px);
+  }
+}

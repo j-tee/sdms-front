@@ -148,61 +148,113 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
   }, [dispatch, schoolId, branchId, tabKey]);
 
   return (
-    <div>
-      <Card.Header>
-        <span className="text-muted fs-3"></span>
-      </Card.Header>
-      <Card.Body>
-      <Row className='d-flex flex-column flex-lg-row'>
-            <Col><DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} /></Col>
-            <Col><ProgramDropDown branchId={branchId} onChange={handleInputChange} admission={undefined} departmentId={undefined} /></Col>
-            <Col><StageDropDown branchId={branchId} onChange={handleInputChange} /></Col>
-          </Row>
-          <Row className='d-flex flex-column flex-lg-row'>
-            <Col><SubjectsFromTimetale params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
-            <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
-          </Row>
-          <Card className='my-3'>
-            <Card.Header><span className='text-muted fs-3'>List of Unregistered Students for Selected Optional Subject </span></Card.Header>
-            <Form name='register' onSubmit={handleSubmit}>
-              <Card.Body>
-                {unregistered_students.map((reg) => (
+    <div className="academic-section-content">
+      {/* Filter Section */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-filter"></i>
+          </div>
+          <h5>Filter Student Registrations</h5>
+        </div>
+        <Row className='d-flex flex-column flex-lg-row mb-3'>
+          <Col><DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} /></Col>
+          <Col><ProgramDropDown branchId={branchId} onChange={handleInputChange} admission={undefined} departmentId={undefined} /></Col>
+          <Col><StageDropDown branchId={branchId} onChange={handleInputChange} /></Col>
+        </Row>
+        <Row className='d-flex flex-column flex-lg-row'>
+          <Col><SubjectsFromTimetale params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
+          <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
+        </Row>
+      </div>
+
+      {/* Unregistered Students Section */}
+      <div className="registration-card mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-user-plus"></i>
+          </div>
+          <h5>List of Unregistered Students for Selected Optional Subject</h5>
+        </div>
+        <Form name='register' onSubmit={handleSubmit}>
+          <div className="students-list">
+            {unregistered_students.length > 0 ? (
+              unregistered_students.map((reg) => (
+                <div key={reg.student_id} className="student-checkbox-item">
                   <Form.Check
-                    key={reg.student_id}
                     type="switch"
-                    label={reg.full_name}
+                    id={`unreg-${reg.student_id}`}
+                    label={
+                      <span className="student-name-label">
+                        <i className="fas fa-user me-2"></i>
+                        {reg.full_name}
+                      </span>
+                    }
                     onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
                   />
-                ))}
-              </Card.Body>
-              <Card.Footer>
-                {roles.some(role => privilegedSchoolRoles.includes(role)) && (
-                  <Button variant='outline-info' type="submit">Register</Button>
-                )}
-              </Card.Footer>
-            </Form>
-          </Card>
-          <Card className='my-3'>
-            <Card.Header><span className='text-muted fs-3'>List of Registered Students for Selected Optional Subject </span></Card.Header>
-            <Form name='unregister' onSubmit={handleSubmit}>
-              <Card.Body>
-                {registered_students.map((reg) => (
+                </div>
+              ))
+            ) : (
+              <div className="empty-state">
+                <i className="fas fa-inbox fa-3x mb-3"></i>
+                <p>No unregistered students found</p>
+              </div>
+            )}
+          </div>
+          {roles.some(role => privilegedSchoolRoles.includes(role)) && unregistered_students.length > 0 && (
+            <div className="registration-footer">
+              <Button className="btn-add-academic-item" type="submit">
+                <i className="fas fa-user-check me-2"></i>
+                Register Students
+              </Button>
+            </div>
+          )}
+        </Form>
+      </div>
+
+      {/* Registered Students Section */}
+      <div className="registration-card">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-user-check"></i>
+          </div>
+          <h5>List of Registered Students for Selected Optional Subject</h5>
+        </div>
+        <Form name='unregister' onSubmit={handleSubmit}>
+          <div className="students-list">
+            {registered_students.length > 0 ? (
+              registered_students.map((reg) => (
+                <div key={reg.student_id} className="student-checkbox-item">
                   <Form.Check
-                    key={reg.student_id}
                     type="switch"
-                    label={reg.full_name}
+                    id={`reg-${reg.student_id}`}
+                    label={
+                      <span className="student-name-label">
+                        <i className="fas fa-user-graduate me-2"></i>
+                        {reg.full_name}
+                      </span>
+                    }
                     onChange={(e) => handleCheckboxChange(reg.student_id, e.target.checked)}
                   />
-                ))}
-              </Card.Body>
-              <Card.Footer>
-                {roles.some(role => privilegedSchoolRoles.includes(role)) && (
-                  <Button variant='outline-info' type="submit">Unregister</Button>
-                )}
-              </Card.Footer>
-            </Form>
-          </Card>
-      </Card.Body>
+                </div>
+              ))
+            ) : (
+              <div className="empty-state">
+                <i className="fas fa-inbox fa-3x mb-3"></i>
+                <p>No registered students found</p>
+              </div>
+            )}
+          </div>
+          {roles.some(role => privilegedSchoolRoles.includes(role)) && registered_students.length > 0 && (
+            <div className="registration-footer">
+              <Button className="btn-unregister-academic" type="submit">
+                <i className="fas fa-user-minus me-2"></i>
+                Unregister Students
+              </Button>
+            </div>
+          )}
+        </Form>
+      </div>
     </div>
   );
 };

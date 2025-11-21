@@ -1,0 +1,13 @@
+/* Enrolment Page - Imports shared styles */
+@import './Finance.css';
+
+/* Enrolment-specific icon color */
+.enrolment-page-modern .hero-icon {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+}
+
+/* Enrolment-specific hero gradient */
+.enrolment-page-modern .page-hero-section {
+  background: linear-gradient(135deg, rgba(72, 187, 120, 0.03) 0%, rgba(56, 161, 105, 0.03) 100%) !important;
+}

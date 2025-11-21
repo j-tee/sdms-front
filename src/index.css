@@ -8,3 +8,34 @@
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css'; */
+
+/* Global fix for fixed navbar - prevent content from hiding underneath */
+body {
+  padding-top: 60px;
+}
+
+/* Add top spacing to main content areas */
+.container:first-child,
+.container-fluid:first-child {
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+/* Exception for hero section on home page */
+.hero-section ~ .container:first-child,
+.hero-section ~ .container-fluid:first-child {
+  margin-top: 0;
+}
+
+/* Ensure footer stays at bottom */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero_area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

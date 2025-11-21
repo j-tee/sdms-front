@@ -5,6 +5,7 @@ import UserSession from '../utility/userSession';
 import BranchEdit from './BranchEdit';
 import BranchDelete from './BranchDelete';
 import BranchDetails from './BranchDetails';
+import '../css/BranchCard.css';
 
 const BranchCard = (props: any) => {
   const { branch, params } = props;
@@ -36,52 +37,137 @@ const BranchCard = (props: any) => {
   }, [validUser]);
 
   return (
-    <Card className="border-0 shadow-sm d-flex flex-md-row my-2">
-      <Card.Img
-        className='m-2 d-flex flex-column'
-        variant="top"
-        src={branch.crest_url}
-        alt={branch.school_name}
-        style={{ height: '20%', width: '20%' }}
-      />
-      <Card.Body className="d-flex flex-column align-items-center">
-        <Card.Title className='fs-3 text-muted'>{branch.branch_name}</Card.Title>
-        <ul className="d-flex flex-lg-row flex-column flex-xs-row gap-lg-4 text-muted ps-0">
-          <li className={`${window.innerWidth <= 768 ? '' : 'list-unstyled'}`}>{branch.ownership} School</li>
-          <li>{branch.website}</li>
-          <li>{branch.email_address}</li>
-          <li style={{ maxWidth: '200px' }}>{branch.postal_address}</li>
-          <li style={{ maxWidth: '200px' }}>{branch.residential_address}</li>
-          <li style={{ maxWidth: '200px' }}>{branch.phone1}</li>
-          <li style={{ maxWidth: '200px' }}>{branch.phone2}</li>
-        </ul>
-        <p>{branch.description}</p>
-        <ul className="d-flex flex-wrap flex-md-row gap-2 list-unstyled ps-0 card-tags">
-          {branch.tags.map((tag: any) => {
-            const cleanedTag = tag.replace(/[^a-zA-Z]+/g, '-').toLowerCase();
-            if (!validUser) return null;
-            return (
-              <li key={`${tag}-${branch.id}`}>
-                <Link to={`/${cleanedTag}/${branch.school_id}/${branch.id}`}>{tag}</Link>
-              </li>
-            );
-          })}
-        </ul>
-        <Row className='d-flex flex-row mt-3'>
-          {(roles && privileged_school_roles.some(role => roles.includes(role))) && validUser && (
-            <span>
-              <Card.Link className="fw-light text-decoration-none" onClick={handleEdit}>
-                <em>Edit</em>
-              </Card.Link>
-              <Card.Link className="fw-light text-decoration-none ms-3" onClick={handleDelete}>
-                <em>Delete</em>
-              </Card.Link>
-              <Card.Link className="fw-light text-decoration-none ms-3" onClick={handleDetails}>
-                <em>Details</em>
-              </Card.Link>
-            </span>
+    <Card className="branch-card-modern">
+      <div className="branch-card-crest">
+        <img
+          src={branch.crest_url}
+          alt={branch.school_name}
+          className="branch-crest-image"
+        />
+      </div>
+      <Card.Body className="branch-card-body-modern">
+        <h2 className="branch-name-modern">{branch.branch_name}</h2>
+        <ul className="branch-info-grid">
+          <li className="branch-info-item">
+            <div className="branch-info-icon">
+              <i className="fas fa-building"></i>
+            </div>
+            <div className="branch-info-content">
+              <div className="branch-info-label">Type</div>
+              <div className="branch-info-value">{branch.ownership} School</div>
+            </div>
+          </li>
+          {branch.website && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-globe"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Website</div>
+                <a href={branch.website} target="_blank" rel="noopener noreferrer" className="branch-info-value branch-info-link">
+                  {branch.website}
+                </a>
+              </div>
+            </li>
           )}
-        </Row>
+          {branch.email_address && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-envelope"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Email</div>
+                <a href={`mailto:${branch.email_address}`} className="branch-info-value branch-info-link">
+                  {branch.email_address}
+                </a>
+              </div>
+            </li>
+          )}
+          {branch.postal_address && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-map-marker-alt"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Postal Address</div>
+                <div className="branch-info-value">{branch.postal_address}</div>
+              </div>
+            </li>
+          )}
+          {branch.residential_address && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-home"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Physical Address</div>
+                <div className="branch-info-value">{branch.residential_address}</div>
+              </div>
+            </li>
+          )}
+          {branch.phone1 && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-phone"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Phone 1</div>
+                <div className="branch-info-value">{branch.phone1}</div>
+              </div>
+            </li>
+          )}
+          {branch.phone2 && (
+            <li className="branch-info-item">
+              <div className="branch-info-icon">
+                <i className="fas fa-phone-alt"></i>
+              </div>
+              <div className="branch-info-content">
+                <div className="branch-info-label">Phone 2</div>
+                <div className="branch-info-value">{branch.phone2}</div>
+              </div>
+            </li>
+          )}
+        </ul>
+        {branch.description && (
+          <p className="branch-description">{branch.description}</p>
+        )}
+        {validUser && branch.tags && branch.tags.length > 0 && (
+          <ul className="branch-tags">
+            {branch.tags.map((tag: any) => {
+              const cleanedTag = tag.replace(/[^a-zA-Z]+/g, '-').toLowerCase();
+              const icon = tag.toLowerCase().includes('calendar') ? 'fa-calendar-alt' :
+                          tag.toLowerCase().includes('enrol') ? 'fa-user-plus' :
+                          tag.toLowerCase().includes('staff') ? 'fa-users' :
+                          tag.toLowerCase().includes('organ') ? 'fa-sitemap' :
+                          tag.toLowerCase().includes('academic') ? 'fa-graduation-cap' :
+                          tag.toLowerCase().includes('finance') ? 'fa-dollar-sign' : 'fa-arrow-right';
+              return (
+                <li key={`${tag}-${branch.id}`}>
+                  <Link to={`/${cleanedTag}/${branch.school_id}/${branch.id}`} className="branch-tag-link">
+                    <i className={`fas ${icon}`}></i>
+                    {tag}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {(roles && privileged_school_roles.some(role => roles.includes(role))) && validUser && (
+          <div className="branch-management-links">
+            <a className="branch-management-link" onClick={handleEdit} style={{cursor: 'pointer'}}>
+              <i className="fas fa-edit"></i>
+              Edit Branch
+            </a>
+            <a className="branch-management-link" onClick={handleDetails} style={{cursor: 'pointer'}}>
+              <i className="fas fa-info-circle"></i>
+              View Details
+            </a>
+            <a className="branch-management-link branch-management-link-delete" onClick={handleDelete} style={{cursor: 'pointer'}}>
+              <i className="fas fa-trash-alt"></i>
+              Delete Branch
+            </a>
+          </div>
+        )}
       </Card.Body>
 
       {/* Modals */}

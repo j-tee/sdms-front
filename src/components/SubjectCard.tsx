@@ -29,26 +29,55 @@ const SubjectCard = (props: any) => {
     }
   }, [branchId, dispatch, params, schoolId, tabIndex]);
   return (
-    <Tabs
-      id="controlled-tab-example"
-      activeKey={tabKey}
-      onSelect={(k) => k && setTabKey(k)}
-      className="mb-3"
-    >
-      <Tab eventKey="subject" title="Subjects">
-        {roles && privileged_school_roles.some(role=>roles.includes(role)) && <AddSubject params={params} schoolId={schoolId} branchId={branchId} />}
-        <Card.Header>
-          <Card.Title className='fs-4 text-muted'>Subject List</Card.Title>
-        </Card.Header>
-        <SubjectList tabKey={tabKey} params={params} subjects={subjects} schoolId={schoolId} branchId={branchId} /> 
-      </Tab>
-      <Tab eventKey="course-options" title="Subject/Course Options">
-        <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
-      </Tab>
-      <Tab eventKey="registration" title="Optional Subject/Course Registration">
-        <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
-      </Tab>
-    </Tabs>
+    <div className="academic-section-content">
+      <Tabs
+        id="controlled-tab-example"
+        activeKey={tabKey}
+        onSelect={(k) => k && setTabKey(k)}
+        className="modern-tabs-horizontal mb-4"
+      >
+        <Tab 
+          eventKey="subject" 
+          title={
+            <span>
+              <i className="fas fa-book me-2"></i>
+              Subjects
+            </span>
+          }
+        >
+          {roles && privileged_school_roles.some(role=>roles.includes(role)) && <AddSubject params={params} schoolId={schoolId} branchId={branchId} />}
+          <div className="academic-section-header">
+            <div className="academic-section-icon">
+              <i className="fas fa-list"></i>
+            </div>
+            <h3 className="academic-section-title">Subject List</h3>
+          </div>
+          <SubjectList tabKey={tabKey} params={params} subjects={subjects} schoolId={schoolId} branchId={branchId} /> 
+        </Tab>
+        <Tab 
+          eventKey="course-options" 
+          title={
+            <span>
+              <i className="fas fa-stream me-2"></i>
+              Course Options
+            </span>
+          }
+        >
+          <CourseOption tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
+        </Tab>
+        <Tab 
+          eventKey="registration" 
+          title={
+            <span>
+              <i className="fas fa-user-check me-2"></i>
+              Course Registration
+            </span>
+          }
+        >
+          <StudentOptionalCourseCard tabKey={tabKey} params={params} schoolId={schoolId} branchId={branchId} />
+        </Tab>
+      </Tabs>
+    </div>
   )
 }
 

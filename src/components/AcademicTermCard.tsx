@@ -159,90 +159,177 @@ const AcademicTermCard = (props: any) => {
   }, [academic_year.id, dispatch, params, yearId])
   return (
     <div>
-      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Term</Card.Header>}
-      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Form>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col>
-            <AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} />
-          </Col>
-          <Col>
-            <Form.Group controlId='termName'>
-              <Form.Label>Term/Sem</Form.Label>
-              <Form.Control type='text' value={formData.term_name}
-                onChange={(e) => setFormData({ ...formData, term_name: e.target.value })} />
-            </Form.Group>
-          </Col>
-          <Col><Form.Group controlId='startDate'>
-            <Form.Label>Start Date</Form.Label>
-            <Form.Control type='date' value={formData.start_date}
-              onChange={(e) => setFormData({ ...formData, start_date: e.target.value })} />
-          </Form.Group></Col>
-          <Col><Form.Group controlId='endDate'>
-            <Form.Label>End Date</Form.Label>
-            <Form.Control type='date' value={formData.end_date}
-              onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
-          </Form.Group></Col>
-          <Col><Form.Group controlId='nextTermStartDate'>
-            <Form.Label>Next Term Start Date</Form.Label>
-            <Form.Control type='date' value={formData.next_term_start_date}
-              onChange={(e) => setFormData({ ...formData, next_term_start_date: e.target.value })} />
-          </Form.Group></Col>
-        </Row>
-        <Row>
-          <Col className='my-2'>
-            <Button size='sm' onClick={addNewTerm}>Add New Term</Button>
-          </Col>
-        </Row>
-      </Form>}
-      <Card.Header className='fs-3 text-muted mb-4'>Academic Terms</Card.Header>
-      <Table striped hover responsive size='sm'>
-        <thead>
-          <tr>
-            <th>Term / Semester</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Next Term Start Date</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {academic_terms && academic_terms.map((term: AcademicTermViewModel) => (
-            <tr>
-              <td>{term.term_name}</td>
-              <td>{new Date(term.start_date ?? "").toDateString()}</td>
-              <td>{new Date(term.end_date ?? "").toDateString()}</td>
-              <td>{new Date(term.next_term_start_date ?? "").toDateString()}</td>
-              <td className='d-flex flex-lg-row flex-column gap-2'>
-                <Button variant='link' size='sm' onClick={() => handleEdit(term)}><i className="fa fa-edit" aria-hidden="true">Edit</i></Button>
-                <Button variant='link' size='sm' onClick={() => handleDelete(term)}><i className="fa fa-trash" aria-hidden="true">Delete</i></Button>
-                <Button variant='link' size='sm' onClick={() => handleDetails(term)}><i className="fa fa-info-circle" aria-hidden="true">Details</i></Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && (
+        <div className="academic-term-add-section">
+          <div className="section-header-modern">
+            <div className="section-icon">
+              <i className="fas fa-plus-circle"></i>
+            </div>
+            <h3 className="section-title">Add New Academic Term</h3>
           </div>
+          <Form className="modern-form">
+            <Row>
+              <Col lg={12}>
+                <Form.Group className="modern-form-group">
+                  <Form.Label className="modern-form-label">
+                    <i className="fas fa-calendar-alt me-2"></i>
+                    Academic Year
+                  </Form.Label>
+                  <AcademicYearDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6} lg={3}>
+                <Form.Group controlId='termName' className="modern-form-group">
+                  <Form.Label className="modern-form-label">
+                    <i className="fas fa-bookmark me-2"></i>
+                    Term/Semester
+                  </Form.Label>
+                  <Form.Control 
+                    type='text' 
+                    value={formData.term_name}
+                    onChange={(e) => setFormData({ ...formData, term_name: e.target.value })}
+                    className="modern-form-control"
+                    placeholder="e.g., Term 1, Fall Semester"
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={3}>
+                <Form.Group controlId='startDate' className="modern-form-group">
+                  <Form.Label className="modern-form-label">
+                    <i className="fas fa-calendar-day me-2"></i>
+                    Start Date
+                  </Form.Label>
+                  <Form.Control 
+                    type='date' 
+                    value={formData.start_date}
+                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                    className="modern-form-control" 
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={3}>
+                <Form.Group controlId='endDate' className="modern-form-group">
+                  <Form.Label className="modern-form-label">
+                    <i className="fas fa-calendar-check me-2"></i>
+                    End Date
+                  </Form.Label>
+                  <Form.Control 
+                    type='date' 
+                    value={formData.end_date}
+                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                    className="modern-form-control" 
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6} lg={3}>
+                <Form.Group controlId='nextTermStartDate' className="modern-form-group">
+                  <Form.Label className="modern-form-label">
+                    <i className="fas fa-calendar-plus me-2"></i>
+                    Next Term Start
+                  </Form.Label>
+                  <Form.Control 
+                    type='date' 
+                    value={formData.next_term_start_date}
+                    onChange={(e) => setFormData({ ...formData, next_term_start_date: e.target.value })}
+                    className="modern-form-control" 
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col className='mt-3'>
+                <Button onClick={addNewTerm} className="btn-add-academic-year">
+                  <i className="fas fa-calendar-week me-2"></i>
+                  Add New Term
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      )}
+      <div className="section-header-modern mt-5">
+        <div className="section-icon">
+          <i className="fas fa-list"></i>
+        </div>
+        <h3 className="section-title">Academic Terms</h3>
+      </div>
+      <div className="academic-terms-table-wrapper">
+        <Table responsive className="academic-terms-table-modern">
+          <thead>
+            <tr>
+              <th>
+                <i className="fas fa-bookmark me-2"></i>
+                Term / Semester
+              </th>
+              <th>
+                <i className="fas fa-calendar-day me-2"></i>
+                Start Date
+              </th>
+              <th>
+                <i className="fas fa-calendar-check me-2"></i>
+                End Date
+              </th>
+              <th>
+                <i className="fas fa-calendar-plus me-2"></i>
+                Next Term Start
+              </th>
+              <th className="actions-column">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {academic_terms && academic_terms.map((term: AcademicTermViewModel, index: number) => (
+              <tr key={term.id || index}>
+                <td className="term-name-cell">
+                  <div className="term-badge">{term.term_name}</div>
+                </td>
+                <td>{new Date(term.start_date ?? "").toDateString()}</td>
+                <td>{new Date(term.end_date ?? "").toDateString()}</td>
+                <td>{new Date(term.next_term_start_date ?? "").toDateString()}</td>
+                <td className="actions-cell">
+                  <div className="table-action-buttons">
+                    <button className="table-action-btn edit-btn-table" onClick={() => handleEdit(term)}>
+                      <i className="fa fa-edit"></i>
+                      <span>Edit</span>
+                    </button>
+                    <button className="table-action-btn details-btn-table" onClick={() => handleDetails(term)}>
+                      <i className="fa fa-info-circle"></i>
+                      <span>Details</span>
+                    </button>
+                    <button className="table-action-btn delete-btn-table" onClick={() => handleDelete(term)}>
+                      <i className="fa fa-trash"></i>
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      <div className="pagination-controls-modern">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-terms"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
       <AcademicTermDetails
         schoolId={schoolId} branchId={branchId} term={term}
         params={params}

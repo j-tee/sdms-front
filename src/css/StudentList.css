@@ -1,0 +1,331 @@
+/* Modern Student List Styles */
+
+/* Page header */
+.student-list-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  text-align: center;
+}
+
+.student-list-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.student-list-title i {
+  font-size: 2.5rem;
+}
+
+/* Table container */
+.student-list-table-container {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Modern table styling */
+.student-list-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+}
+
+.student-list-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.student-list-table thead th {
+  padding: 1.25rem 1rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  text-align: left;
+}
+
+.student-list-table thead th:first-child {
+  border-top-left-radius: 12px;
+  padding-left: 1.5rem;
+}
+
+.student-list-table thead th:last-child {
+  border-top-right-radius: 12px;
+  padding-right: 1.5rem;
+}
+
+.student-list-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.student-list-table tbody tr:hover {
+  background: linear-gradient(to right, #f8f9fa 0%, #ffffff 100%);
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.student-list-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.student-list-table tbody td {
+  padding: 1.25rem 1rem;
+  color: #4a5568;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  border: none;
+}
+
+.student-list-table tbody td:first-child {
+  padding-left: 1.5rem;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.student-list-table tbody td:last-child {
+  padding-right: 1.5rem;
+}
+
+/* Student ID styling */
+.student-id-cell {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 1rem;
+}
+
+/* Action buttons */
+.student-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.student-action-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.student-action-btn-edit {
+  color: #667eea;
+  border-color: #667eea;
+  background: white;
+}
+
+.student-action-btn-edit:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.student-action-btn-delete {
+  color: #dc3545;
+  border-color: #dc3545;
+  background: white;
+}
+
+.student-action-btn-delete:hover {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.student-action-btn-view {
+  color: #17a2b8;
+  border-color: #17a2b8;
+  background: white;
+}
+
+.student-action-btn-view:hover {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+}
+
+/* Pagination section */
+.student-list-pagination {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 768px) {
+  .student-list-pagination {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Items per page dropdown */
+.items-per-page-dropdown .btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.items-per-page-dropdown .btn:hover,
+.items-per-page-dropdown .btn:focus,
+.items-per-page-dropdown .btn:active {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Empty state */
+.student-list-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.student-list-empty-icon {
+  font-size: 5rem;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.student-list-empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.student-list-empty-text {
+  font-size: 1rem;
+  color: #a0aec0;
+}
+
+/* Responsive table for mobile */
+@media (max-width: 768px) {
+  .student-list-table-container {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .student-list-table {
+    min-width: 600px;
+  }
+
+  .student-list-header {
+    padding: 1.5rem;
+  }
+
+  .student-list-title {
+    font-size: 1.5rem;
+  }
+
+  .student-list-title i {
+    font-size: 1.75rem;
+  }
+
+  .student-action-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .student-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .student-list-table tbody td,
+  .student-list-table thead th {
+    padding: 0.875rem 0.5rem;
+  }
+}
+
+/* Loading state */
+.student-list-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  font-size: 1.2rem;
+  color: #667eea;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.student-list-loading i {
+  margin-right: 0.75rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effects for table rows */
+.student-list-table tbody tr {
+  cursor: pointer;
+}
+
+/* Badge styling for student count */
+.student-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* Alternating row colors (subtle) */
+.student-list-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.student-list-table tbody tr:nth-child(even):hover {
+  background: linear-gradient(to right, #f8f9fa 0%, #ffffff 100%);
+}

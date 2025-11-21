@@ -14,6 +14,7 @@ import PaginationComponent from "./PaginationComponent";
 import { showToastify } from "../utility/Toastify";
 import { ToastContext } from "../utility/ToastContext";
 import StudentEditModal from "./StudentEditModal";
+import '../css/StudentList.css';
 
 const StudentListCard = (props: any) => {
   const { tabIndex, schoolId, branchId } = props;
@@ -90,72 +91,108 @@ const StudentListCard = (props: any) => {
 
   return (
     <>
-      <span className="fs-4 fw-bold">Student List</span>
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {students.map((student, index) => (
-            <tr key={student.id}>
-              <td>{student.student_id}</td>
-              <td>{student.first_name}</td>
-              <td>{student.last_name}</td>
-              <td>
-                <ButtonGroup className="d-flex gap-2">
-                  <Button size="sm" variant="primary" onClick={() => handleEdit(student)}>
-                    Edit
-                  </Button>
-                  <Button
-                    variant="link"
-										size="sm"
-                    onClick={() => handleDelete(student)}
-                  >
-                    Delete
-                  </Button>
-                  <Button size="sm" variant="link" onClick={() => handleView(student)}>
-                    View
-                  </Button>
-                </ButtonGroup>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-        <PaginationComponent
-          params={params}
-          activePage={pagination?.current_page}
-          itemsCountPerPage={pagination?.per_page}
-          totalItemsCount={pagination?.total_items || 0}
-          pageRangeDisplayed={5}
-          totalPages={pagination?.total_pages}
-          hideDisabled={pagination?.total_pages === 0}
-          hideNavigation={pagination?.total_pages === 1}
-          onChange={handlePageChange}
-        />
-        <DropdownButton
-          className="mt-2 mt-md-0 mb-2"
-          id="dropdown-items-per-page"
-          title={`Items per page: ${params.pagination?.per_page}`}
-        >
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>
-            5
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>
-            10
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
-            20
-          </Dropdown.Item>
-        </DropdownButton>
+      <div className="student-list-header">
+        <h1 className="student-list-title">
+          <i className="fas fa-user-graduate"></i>
+          Student List
+        </h1>
+        {pagination && pagination.total_items && pagination.total_items > 0 && (
+          <div className="student-count-badge">
+            <i className="fas fa-users"></i>
+            Total Students: {pagination.total_items}
+          </div>
+        )}
       </div>
+
+      <div className="student-list-table-container">
+        {students && students.length > 0 ? (
+          <table className="student-list-table">
+            <thead>
+              <tr>
+                <th><i className="fas fa-hashtag"></i> ID</th>
+                <th><i className="fas fa-user"></i> First Name</th>
+                <th><i className="fas fa-user"></i> Last Name</th>
+                <th><i className="fas fa-cog"></i> Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {students.map((student, index) => (
+                <tr key={student.id}>
+                  <td className="student-id-cell">{student.student_id}</td>
+                  <td>{student.first_name}</td>
+                  <td>{student.last_name}</td>
+                  <td>
+                    <div className="student-action-buttons">
+                      <button 
+                        className="student-action-btn student-action-btn-edit" 
+                        onClick={() => handleEdit(student)}
+                      >
+                        <i className="fas fa-edit"></i>
+                        Edit
+                      </button>
+                      <button
+                        className="student-action-btn student-action-btn-delete"
+                        onClick={() => handleDelete(student)}
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                        Delete
+                      </button>
+                      <button 
+                        className="student-action-btn student-action-btn-view" 
+                        onClick={() => handleView(student)}
+                      >
+                        <i className="fas fa-eye"></i>
+                        View
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="student-list-empty">
+            <div className="student-list-empty-icon">
+              <i className="fas fa-user-graduate"></i>
+            </div>
+            <div className="student-list-empty-title">No Students Found</div>
+            <div className="student-list-empty-text">
+              No student records available at the moment
+            </div>
+          </div>
+        )}
+      </div>
+      {students && students.length > 0 && (
+        <div className="student-list-pagination">
+          <PaginationComponent
+            params={params}
+            activePage={pagination?.current_page}
+            itemsCountPerPage={pagination?.per_page}
+            totalItemsCount={pagination?.total_items || 0}
+            pageRangeDisplayed={5}
+            totalPages={pagination?.total_pages}
+            hideDisabled={pagination?.total_pages === 0}
+            hideNavigation={pagination?.total_pages === 1}
+            onChange={handlePageChange}
+          />
+          <DropdownButton
+            className="items-per-page-dropdown"
+            id="dropdown-items-per-page"
+            title={`Items per page: ${params.pagination?.per_page}`}
+          >
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>
+              5
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>
+              10
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
+              20
+            </Dropdown.Item>
+          </DropdownButton>
+        </div>
+      )}
 			<StudentEditModal
       params={params}
       schoolId={schoolId}

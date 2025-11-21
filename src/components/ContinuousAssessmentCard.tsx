@@ -129,85 +129,151 @@ const ContinuousAssessmentCard = (props: any) => {
     }));
   };
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col>
-            <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
-          </Col>
-          <Col>
-            <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-          <Col>
-            <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-          <Col>
-            <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form.Group controlId="assessment_name">
-              <Form.Label>Assessment</Form.Label>
-              <Form.Control type="text"
-                onChange={(e) => handleInputChange('assessment_name', e.target.value)}
-                value={formData.assessment_name}
-                placeholder="E.g Class Work, Home Work etc" />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="base_mark">
-              <Form.Label>Base Mark</Form.Label>
-              <Form.Control type="number"
-                onChange={(e) => handleInputChange('base_mark', e.target.value)}
-                value={formData.base_mark}
-                placeholder="Base Mark" />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="pass_mark">
-              <Form.Label>Pass Mark</Form.Label>
-              <Form.Control type="number"
-                onChange={(e) => handleInputChange('pass_mark', e.target.value)}
-                value={formData.pass_mark}
-                placeholder="Pass Mark" />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className='mt-2'>
-          <Col>
-            <button className="btn btn-primary" type="submit">Add Assessment</button>
-          </Col>
-        </Row>
-      </Form>
-      <Table striped bordered hover size="sm" className='mt-4' variant='light'>
-        <thead>
-          <tr>
-            <th>Assessment Name</th>
-            <th>Base Mark</th>
-            <th>Pass Mark</th>
-            <th>Assessment Type</th>
-            <th>Subject</th>
-            <th>Class</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assessments.map((assessment) => (
-            <tr key={assessment.id}>
-              <td>{assessment.assessment_name}</td>
-              <td>{assessment.base_mark}</td>
-              <td>{assessment.pass_mark}</td>
-              <td>{assessment.category}</td>
-              <td>{assessment.subject_name}</td>
-              <td>{assessment.class_group_name}</td>
+    <div className="academic-section-content">
+      {/* Add Assessment Form */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-plus-circle"></i>
+          </div>
+          <h5>Add Assessment Exercise</h5>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className='mb-3'>
+            <Col>
+              <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
+            </Col>
+            <Col>
+              <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+            <Col>
+              <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+            <Col>
+              <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={4}>
+              <Form.Group controlId="assessment_name" className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-tasks me-2"></i>
+                  Assessment
+                </Form.Label>
+                <Form.Control type="text" className="academic-form-control"
+                  onChange={(e) => handleInputChange('assessment_name', e.target.value)}
+                  value={formData.assessment_name}
+                  placeholder="E.g Class Work, Home Work etc" />
+              </Form.Group>
+            </Col>
+            <Col md={4}>
+              <Form.Group controlId="base_mark" className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-calculator me-2"></i>
+                  Base Mark
+                </Form.Label>
+                <Form.Control type="number" className="academic-form-control"
+                  onChange={(e) => handleInputChange('base_mark', e.target.value)}
+                  value={formData.base_mark}
+                  placeholder="Base Mark" />
+              </Form.Group>
+            </Col>
+            <Col md={4}>
+              <Form.Group controlId="pass_mark" className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-check-circle me-2"></i>
+                  Pass Mark
+                </Form.Label>
+                <Form.Control type="number" className="academic-form-control"
+                  onChange={(e) => handleInputChange('pass_mark', e.target.value)}
+                  value={formData.pass_mark}
+                  placeholder="Pass Mark" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>
+              <button className="btn btn-add-academic-item" type="submit">
+                <i className="fas fa-plus me-2"></i>
+                Add Assessment
+              </button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
+      {/* Assessments Table */}
+      <div className="academic-table-wrapper">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-clipboard-list"></i>
+          </div>
+          <h5>Assessment Exercises</h5>
+        </div>
+        <Table className="academic-table-modern" size="sm">
+          <thead>
+            <tr>
+              <th><i className="fas fa-tasks me-2"></i>Assessment Name</th>
+              <th><i className="fas fa-calculator me-2"></i>Base Mark</th>
+              <th><i className="fas fa-check-circle me-2"></i>Pass Mark</th>
+              <th><i className="fas fa-clipboard-list me-2"></i>Type</th>
+              <th><i className="fas fa-book me-2"></i>Subject</th>
+              <th><i className="fas fa-users me-2"></i>Class</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      {/* <h2>{params.pagination?.per_page}</h2>
-      <h2>{params.pagination?.total_items || 0}</h2>
-      <h2>{params.pagination?.total_pages}</h2> */}
-     <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+          </thead>
+          <tbody>
+            {assessments && assessments.length > 0 ? (
+              assessments.map((assessment) => (
+                <tr key={assessment.id}>
+                  <td>
+                    <span className="assessment-name-badge">
+                      <i className="fas fa-file-alt me-2"></i>
+                      {assessment.assessment_name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="percentage-badge">
+                      {assessment.base_mark}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="pass-mark-badge">
+                      {assessment.pass_mark}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`assessment-category-badge ${assessment.category === 'CA' ? 'ca-badge' : 'ta-badge'}`}>
+                      {assessment.category}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="subject-badge">
+                      <i className="fas fa-book me-2"></i>
+                      {assessment.subject_name}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="class-badge">
+                      <i className="fas fa-users me-1"></i>
+                      {assessment.class_group_name}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>
+                  <div className="empty-state">
+                    <i className="fas fa-clipboard fa-3x mb-3"></i>
+                    <p>No assessments found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+        
+        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center mt-3">
             <PaginationComponent
               params={params}
               activePage={pagination?.current_page}
@@ -229,7 +295,8 @@ const ContinuousAssessmentCard = (props: any) => {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
             </DropdownButton>
           </div>
-    </>
+      </div>
+    </div>
   )
 }
 

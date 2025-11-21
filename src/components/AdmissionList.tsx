@@ -6,6 +6,7 @@ import { Button, Card } from 'react-bootstrap';
 import AdmissionEdit from './AdmissionEdit';
 import AdmissionDelete from './AdmissionDelete';
 import AdmissionDetails from './AdmissionDetails';
+import '../css/AdmissionList.css';
 
 
 const AdmissionList = (props: any) => {
@@ -27,38 +28,61 @@ const AdmissionList = (props: any) => {
   const handleDetails = () => {
     setAdmissionDetailsModalOpen(true)
   }
+
   return (
     <>
-      <Card.Body className='d-flex flex-column flex-lg-row gap-3'>
-        <Card.Img variant="top" src={admission.picture} style={{ width: "100px" }} />
-        <Card.Text className='d-flex flex-column text-muted'>
-          <span>
-            {admission.student_name}
-          </span>
-          <span>
-          {admission.dept_name} {admission.admission_stage}
-          </span>
-          <span>
-            {admission.admission_program}
-          </span>
-          <span>
-            {new Date(admission.admission_date).toDateString()}
-          </span>
-        </Card.Text>
-      </Card.Body>
-      <Card.Footer className='d-flex flex-row gap-2'>
-        <Button variant='outline-primary' size='sm' onClick={handleEdit} className='pe-3'>
-          Edit
-        </Button>
-      
-        <Button variant='outline-danger' size='sm' onClick={handleDelete} className='pe-3'>
-          Delete
-        </Button>
+      <Card className='admission-card'>
+        <Card.Body className='admission-card-body'>
+          <div className='admission-avatar-wrapper'>
+            <div className='admission-avatar admission-avatar-placeholder'>
+              <i className="fas fa-user"></i>
+            </div>
+          </div>
+          <div className='admission-info'>
+            <div className='admission-name'>
+              {admission.student_name}
+            </div>
+            <div className='admission-detail'>
+              <i className="fas fa-graduation-cap"></i>
+              <span>{admission.dept_name} - {admission.admission_stage}</span>
+            </div>
+            <div className='admission-detail'>
+              <i className="fas fa-book"></i>
+              <span>{admission.admission_program}</span>
+            </div>
+            <div className='admission-detail admission-date'>
+              <i className="fas fa-calendar-alt"></i>
+              <span>{new Date(admission.admission_date).toDateString()}</span>
+            </div>
+          </div>
+        </Card.Body>
+        <Card.Footer className='admission-card-footer'>
+          <Button 
+            onClick={handleEdit} 
+            className='admission-btn admission-btn-edit'
+          >
+            <i className="fas fa-edit"></i>
+            Edit
+          </Button>
         
-        <Button variant='outline-info' size='sm' onClick={handleDetails}>
-          Details
-        </Button>
-      </Card.Footer>
+          <Button 
+            onClick={handleDelete} 
+            className='admission-btn admission-btn-delete'
+          >
+            <i className="fas fa-trash-alt"></i>
+            Delete
+          </Button>
+          
+          <Button 
+            onClick={handleDetails}
+            className='admission-btn admission-btn-details'
+          >
+            <i className="fas fa-info-circle"></i>
+            Details
+          </Button>
+        </Card.Footer>
+      </Card>
+
       <AdmissionDetails admission={admission}
         isOpen={isAdmissionDetailsModalOpen}
         onRequestClose={() => setAdmissionDetailsModalOpen(false)}

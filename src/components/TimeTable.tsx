@@ -233,118 +233,186 @@ const TimeTable = (props: any) => {
     }));
   };
   return (
-    <div>
-      <Card.Header>
-        <span className="text-muted fs-4"></span>
-      </Card.Header>
-      <Form onSubmit={handleSubmit}>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col>
-            <StaffDropDown onChange={handleInputChange} value={undefined} branchId={0} schoolId={0} />
-          </Col>
-          <Col>
-            <ProgramDropDown admission={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
-          </Col>
-          <Col>
-            <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={0} />
-          </Col>
-        </Row>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col>
-            <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={params.program_id || 0} stageId={params.stage_id || 0} departmentId={params.department_id || 0} />
-          </Col>
-          <Col>
-            <ProgramSubjectDropDown onChange={handleInputChange} lesson={undefined} />
-          </Col>
-          <Col>
-            <DayOfWeekDropDown onChange={handleInputChange} lesson={undefined} />
-          </Col>
-        </Row>
-        {roles && privileged_school_roles.some(role => roles.includes(role)) && <Row className='d-flex flex-column flex-lg-row justify-content-between mt-2'>
-          <Col md={4} className='d-flex flex-row gap-5'>
-            <span className='pt-2'>Start Time</span>
-            <span> <TimePicker
-              onChange={(value) => handleInputChange('start_time', value as string)}
-              // onChange={(e) => setStartTime(e as string)}
-              value={startTime}
-            /></span>
-          </Col>
-          <Col md={4} className='d-flex flex-row gap-5'>
-            &nbsp;
-          </Col>
-          <Col md={4} className='d-flex flex-row gap-5'>
-            <span className='pt-2'>End Time</span>
-            <span><TimePicker
-              onChange={(e) => handleInputChange('end_time', e as string)}
-              value={endTime}
-            /></span>
-          </Col>
-        </Row>}
-        {roles && privileged_school_roles.some(role => roles.includes(role)) && <Row>
-          <Col>
-            <button type="submit" className="btn btn-primary mt-2">Save</button>
-          </Col>
-        </Row>}
-      </Form>
-      <Row>
-        <Col>
-          <Table striped hover responsive bordered size='sm'>
-            <thead>
-              <tr>
-                <th scope="col">Day</th>
-                <th scope="col">Start Time</th>
-                <th scope="col">End Time</th>
-                <th scope="col">Subject</th>
-                <th scope="col">Class</th>
-                <th scope="col">Staff</th>
-                <th scope='col'>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              {lessons.map((lesson, index) => (
+    <div className="academic-section-content">
+      {/* Filter and Add Section */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-calendar-plus"></i>
+          </div>
+          <h5>Create Time Table Entry</h5>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className='d-flex flex-column flex-lg-row mb-3'>
+            <Col>
+              <StaffDropDown onChange={handleInputChange} value={undefined} branchId={0} schoolId={0} />
+            </Col>
+            <Col>
+              <ProgramDropDown admission={undefined} onChange={handleInputChange} departmentId={undefined} branchId={0} />
+            </Col>
+            <Col>
+              <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={0} />
+            </Col>
+          </Row>
+          <Row className='d-flex flex-column flex-lg-row mb-3'>
+            <Col>
+              <ClassGroupDropDown lesson={undefined} onChange={handleInputChange} programId={params.program_id || 0} stageId={params.stage_id || 0} departmentId={params.department_id || 0} />
+            </Col>
+            <Col>
+              <ProgramSubjectDropDown onChange={handleInputChange} lesson={undefined} />
+            </Col>
+            <Col>
+              <DayOfWeekDropDown onChange={handleInputChange} lesson={undefined} />
+            </Col>
+          </Row>
+          {roles && privileged_school_roles.some(role => roles.includes(role)) && (
+            <>
+              <Row className='d-flex flex-column flex-lg-row align-items-center mb-3'>
+                <Col md={6}>
+                  <Form.Group className='academic-form-group'>
+                    <Form.Label className="academic-form-label">
+                      <i className="fas fa-clock me-2"></i>
+                      Start Time
+                    </Form.Label>
+                    <TimePicker
+                      onChange={(value) => handleInputChange('start_time', value as string)}
+                      value={startTime}
+                      className="academic-time-picker"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className='academic-form-group'>
+                    <Form.Label className="academic-form-label">
+                      <i className="fas fa-clock me-2"></i>
+                      End Time
+                    </Form.Label>
+                    <TimePicker
+                      onChange={(e) => handleInputChange('end_time', e as string)}
+                      value={endTime}
+                      className="academic-time-picker"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <button type="submit" className="btn btn-add-academic-item">
+                    <i className="fas fa-save me-2"></i>
+                    Save Time Table Entry
+                  </button>
+                </Col>
+              </Row>
+            </>
+          )}
+        </Form>
+      </div>
+
+      {/* Time Table Display */}
+      <div className="academic-table-wrapper">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-calendar-alt"></i>
+          </div>
+          <h5>Time Table</h5>
+        </div>
+        <Table className="academic-table-modern" responsive size='sm'>
+          <thead>
+            <tr>
+              <th><i className="fas fa-calendar-day me-2"></i>Day</th>
+              <th><i className="fas fa-clock me-2"></i>Start Time</th>
+              <th><i className="fas fa-clock me-2"></i>End Time</th>
+              <th><i className="fas fa-book me-2"></i>Subject</th>
+              <th><i className="fas fa-users me-2"></i>Class</th>
+              <th><i className="fas fa-chalkboard-teacher me-2"></i>Staff</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lessons.length > 0 ? (
+              lessons.map((lesson, index) => (
                 <tr key={index}>
-                  <td>{lesson.day_of_week}</td>
-                  <td>{new Date(lesson.start_time).toLocaleTimeString()}</td>
-                  <td>{new Date(lesson.end_time).toLocaleTimeString()}</td>
-                  <td>{lesson.subject_name}</td>
-                  <td>{lesson.class_group_name}</td>
-                  <td>{lesson.staff_name}</td>
                   <td>
-                    <span>
-                      <Button size='sm' variant='link' onClick={() => handleEdit(lesson)}>Edit</Button>
-                      {/* <Card.Link link-info text-decoration-underline onClick={handleDelete}><em>Delete</em></Card.Link>
-                      <Card.Link link-info text-decoration-underline onClick={handleDetails}><em>Details</em></Card.Link> */}
+                    <span className="day-badge">
+                      <i className="fas fa-calendar-day me-2"></i>
+                      {lesson.day_of_week}
                     </span>
                   </td>
+                  <td>
+                    <span className="time-badge">
+                      <i className="fas fa-hourglass-start me-1"></i>
+                      {new Date(lesson.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="time-badge">
+                      <i className="fas fa-hourglass-end me-1"></i>
+                      {new Date(lesson.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="subject-badge">
+                      <i className="fas fa-book me-2"></i>
+                      {lesson.subject_name}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="class-badge">
+                      <i className="fas fa-users me-1"></i>
+                      {lesson.class_group_name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="staff-badge">
+                      <i className="fas fa-user-tie me-1"></i>
+                      {lesson.staff_name}
+                    </span>
+                  </td>
+                  <td>
+                    <Button variant='link' className="table-action-btn edit-btn-table" size='sm' onClick={() => handleEdit(lesson)}>
+                      <i className="fas fa-edit me-1"></i>
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
-
-        </Col>
-      </Row>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={7}>
+                  <div className="empty-state">
+                    <i className="fas fa-calendar-times fa-3x mb-3"></i>
+                    <p>No time table entries found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+        
+        {/* Pagination */}
+        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center mt-3">
+          <PaginationComponent
+            params={params}
+            activePage={pagination?.current_page}
+            itemsCountPerPage={pagination?.per_page}
+            totalItemsCount={pagination?.total_items || 0}
+            pageRangeDisplayed={5}
+            totalPages={pagination?.total_pages}
+            hideDisabled={pagination?.total_pages === 0}
+            hideNavigation={pagination?.total_pages === 1}
+            onChange={handlePageChange}
+          />
+          <DropdownButton
+            className="mt-2 mt-md-0 mb-2"
+            id="dropdown-items-per-page"
+            title={`Items per page: ${params.pagination?.per_page}`}
+          >
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+          </DropdownButton>
+        </div>
+      </div>
       <TimeTableEditModal schoolId={schoolId} lesson={lesson}
         branchId={branchId}
         isOpen={isTimeTableEditModalOpen}

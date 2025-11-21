@@ -9,6 +9,7 @@ import { getBranches } from '../redux/slices/schoolSlice';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import PaginationComponent from './PaginationComponent';
+import './BranchList.css';
 
 const BranchList = () => {
   const { branches, pagination } = useSelector((state: RootState) => state.school)
@@ -86,52 +87,76 @@ const BranchList = () => {
   return (
     <>
       <Header />
-      <Container style={{ marginTop: '3rem' }}>
-        &nbsp;
-      </Container>
-      <Card className='border-0 shadow-sm d-flex flex-md-column'>
-        <Card.Header>
-          <span className='text-muted fs-1'></span>
-        </Card.Header>
-        <Card.Body>
-          <span className='d-flex flex-column align-items-center'>
-            <Card.Title className='fs-1 text-muted'>{school && school.school_name}</Card.Title>
-            <Card.Img variant="bottom" src={school && school.crest_image_url} alt={school && school.school_name} style={{ height: '10%', width: '10%' }} />
-            <span className='fs-3 text-muted'>List of Branches</span>
-          </span>
-          <LocationDropDown onLocationChange={handleInputChange} />
-        </Card.Body>
+      <div className="branch-list-page-modern">
+        <img src="/images/cap.jpg" alt="" className="floating-cap-decoration floating-cap-top-right" />
+        <img src="/images/cap.jpg" alt="" className="floating-cap-decoration floating-cap-bottom-left" />
+        <Container fluid>
+          <div className="page-hero-section text-center">
+            <div className="hero-content-wrapper">
+              {school && school.crest_image_url && (
+                <div className="school-crest-wrapper">
+                  <img src={school.crest_image_url} alt={school.school_name} className="school-crest-image" />
+                </div>
+              )}
+              <div className="hero-icon">
+                <i className="fas fa-building"></i>
+              </div>
+              <h1 className="page-title-modern">{school ? school.school_name : 'School Branches'}</h1>
+              <p className="page-subtitle-modern">Explore all campus locations and facilities</p>
+            </div>
+          </div>
 
-        {branches.map((branch) => {
-          const branchWithTags = { ...branch, tags };
-          return (
-            <BranchCard key={branch.id} params={params} branch={branchWithTags} />
-          )
-        })}
+          <Card className="filter-card-modern">
+            <Card.Body>
+              <div className="filter-header">
+                <i className="fas fa-map-marker-alt"></i>
+                <h5>Filter by Location</h5>
+              </div>
+              <LocationDropDown onLocationChange={handleInputChange} />
+            </Card.Body>
+          </Card>
 
-        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-          <PaginationComponent
-            params={params}
-            activePage={pagination?.current_page}
-            itemsCountPerPage={pagination?.per_page}
-            totalItemsCount={pagination?.total_items || 0}
-            pageRangeDisplayed={5}
-            totalPages={pagination?.total_pages}
-            hideDisabled={pagination?.total_pages === 0}
-            hideNavigation={pagination?.total_pages === 1}
-            onChange={handlePageChange}
-          />
-          <DropdownButton
-            className="mt-2 mt-md-0 mb-2"
-            id="dropdown-items-per-page"
-            title={`Items per page: ${params.pagination?.per_page}`}
-          >
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-          </DropdownButton>
-        </div>
-      </Card>
+          <div className="branches-grid-modern">
+            {branches.map((branch) => {
+              const branchWithTags = { ...branch, tags };
+              return (
+                <BranchCard key={branch.id} params={params} branch={branchWithTags} />
+              )
+            })}
+          </div>
+
+          {branches.length > 0 && (
+            <Card className="pagination-card-modern">
+              <Card.Body>
+                <div className="pagination-wrapper-modern">
+                  <PaginationComponent
+                    params={params}
+                    activePage={pagination?.current_page}
+                    itemsCountPerPage={pagination?.per_page}
+                    totalItemsCount={pagination?.total_items || 0}
+                    pageRangeDisplayed={5}
+                    totalPages={pagination?.total_pages}
+                    hideDisabled={pagination?.total_pages === 0}
+                    hideNavigation={pagination?.total_pages === 1}
+                    onChange={handlePageChange}
+                  />
+                  <div className="items-per-page-modern">
+                    <DropdownButton
+                      id="dropdown-items-per-page"
+                      title={`${params.pagination?.per_page} per page`}
+                      variant="outline-primary"
+                    >
+                      <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5 per page</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10 per page</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20 per page</Dropdown.Item>
+                    </DropdownButton>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          )}
+        </Container>
+      </div>
     </>
   );
 };

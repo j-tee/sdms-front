@@ -1,162 +1,249 @@
 import React from 'react'
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import Header from './Header';
+import './Home.css';
 
 const Home = () => {
  
   return (
     <>
       <Header />
-      <Container style={{ marginTop: '3.5rem' }}>
-        &nbsp;
-      </Container>
-      <section className=" slider_section position-relative py-5">
-      <div className="container">
-        <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
-          <ol className="carousel-indicators">
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"></li>
-            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"></li>
-          </ol>
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="detail-box">
-                    <h1>
-                      Welcome to Alpha Logique  <br />
-                      <span>
-                        Empowering Schools, One Subscription at a Time
-                      </span>
-                    </h1>
-                    <p>
-                      Join a community of schools that have chosen [Your Platform Name] for their management needs. We're committed to providing a seamless and efficient experience for all our subscribers.
-                    </p>
+      
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-overlay"></div>
+        <div className="hero-decoration">
+          <img src="/images/cap.jpg" alt="" className="floating-cap floating-cap-1" />
+          <img src="/images/cap.jpg" alt="" className="floating-cap floating-cap-2" />
+          <img src="/images/cap.jpg" alt="" className="floating-cap floating-cap-3" />
+          <div className="decoration-circle circle-1"></div>
+          <div className="decoration-circle circle-2"></div>
+          <div className="decoration-circle circle-3"></div>
+        </div>
+        <Container className="hero-content">
+          <Row className="align-items-center min-vh-80">
+            <Col lg={6} className="hero-text">
+              <div className="hero-badge">
+                <span className="badge-icon">🎓</span>
+                <span>Welcome to Alpha Logique</span>
+              </div>
+              <h1 className="hero-title">
+                Empowering Schools <br />
+                <span className="gradient-text">One Subscription at a Time</span>
+              </h1>
+              <p className="hero-description">
+                Join a community of forward-thinking schools that have chosen Alpha Logique 
+                for their management needs. Experience seamless operations with our 
+                comprehensive, cloud-based platform.
+              </p>
+              <div className="hero-buttons">
+                <button className="btn-primary-modern">
+                  Get Started Free
+                  <span className="btn-arrow">→</span>
+                </button>
+                <button className="btn-secondary-modern">
+                  Watch Demo
+                  <span className="play-icon">▶</span>
+                </button>
+              </div>
+              <div className="hero-stats">
+                <div className="stat-item">
+                  <div className="stat-number">500+</div>
+                  <div className="stat-label">Schools</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-number">50K+</div>
+                  <div className="stat-label">Students</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-number">99.9%</div>
+                  <div className="stat-label">Uptime</div>
+                </div>
+              </div>
+            </Col>
+            <Col lg={6} className="hero-image">
+              <div className="hero-illustration">
+                <div className="hero-cap-showcase">
+                  <img src="/images/cap.jpg" alt="Academic Excellence" className="main-cap-image" />
+                  <div className="cap-glow"></div>
+                </div>
+                <div className="floating-card card-1">
+                  <div className="card-icon">📊</div>
+                  <div className="card-text">Real-time Analytics</div>
+                </div>
+                <div className="floating-card card-2">
+                  <div className="card-icon">✅</div>
+                  <div className="card-text">Attendance Tracking</div>
+                </div>
+                <div className="floating-card card-3">
+                  <div className="card-icon">📚</div>
+                  <div className="card-text">Academic Management</div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
-                    <div className="btn-box">
-                      <a href="htps:" className="btn-1">
-                        Read More
-                      </a>
-                      <a href="htps:" className="btn-2">
-                        Contact us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="detail-box">
-                    <h1>
-                      Manage Attendance Effortlessly <br />
-                      <span>
-                        with Alpha Logique
-                      </span>
-                    </h1>
-                    <p>
-                      Track student attendance, generate reports, and streamline administrative tasks with our user-friendly application
-                    </p>
-                    <div className="btn-box">
-                      <a href="htps:" className="btn-1">
-                        Read More
-                      </a>
-                      <a href="htps:" className="btn-2">
-                        Contact us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="detail-box">
-                    <h1>
-                      Subscribe for free!! <br />
-                      <span>
-                        And Unleash Your full potential
-                      </span>
-                    </h1>
-                    <p>
-                      Are you a school owner  or do you manage a school? Worried about the high cost of available systems for managing your school?
-                      Subscribe to Alpha Logique to access exclusive features, priority support, and regular updates. Elevate your school management experience with a subscription that grows with your needs.
-                    </p>
-                    <div className="btn-box">
-                      <a href="htps:" className="btn-1">
-                        Read More
-                      </a>
-                      <a href="htps:" className="btn-2">
-                        Contact us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="detail-box">
-                    <h1>
-                      A Perfect Solution <br />
-                      <span>
-                        For School Management
-                      </span>
-                    </h1>
-                    <p>
-                      It is a long established fact that a reader will be distracted
-                      by the readable content of a page when looking at its layout.
-                      The point of using Lorem Ipsum is that it has a more-or-less
-                      normal distribution of letters, as
-                    </p>
-                    <div className="btn-box">
-                      <a href="htps:" className="btn-1">
-                        Read More
-                      </a>
-                      <a href="htps:" className="btn-2">
-                        Contact us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-item">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="detail-box">
-                    <h1>
-                      Find the perfect school  <br />
-                      <span>
-                        For Your Kids
-                      </span>
-                    </h1>
-                    <p>
-                      Are you a parent? Have just moved into a new area or town? Are looking for a school for your kids?
-                      Browse through our directory of school. Check out data on academic performance and facilities.
-                      You a find student teacher ratio and class capacity all made available on the platform
-                    </p>
-                    <div className="btn-box">
-                      <a href="htps:" className="btn-1">
-                        Read More
-                      </a>
-                      <a href="htps:" className="btn-2">
-                        Contact us
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Features Section */}
+      <section className="features-section">
+        <div className="features-decoration">
+          <div className="decoration-cap cap-left">
+            <img src="/images/cap.jpg" alt="" />
+          </div>
+          <div className="decoration-cap cap-right">
+            <img src="/images/cap.jpg" alt="" />
           </div>
         </div>
-      </div>
-    </section>
+        <Container>
+          <div className="section-header">
+            <span className="section-tag">FEATURES</span>
+            <h2 className="section-title">Everything Your School Needs</h2>
+            <p className="section-description">
+              Comprehensive tools designed to streamline every aspect of school management
+            </p>
+          </div>
+          
+          <Row className="g-4">
+            <Col lg={4} md={6}>
+              <Card className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">📋</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Attendance Management</h3>
+                  <p className="feature-description">
+                    Track student attendance effortlessly with automated reports 
+                    and real-time notifications for parents.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <Card className="feature-card featured">
+                <div className="popular-badge">Most Popular</div>
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">💰</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Finance & Billing</h3>
+                  <p className="feature-description">
+                    Manage fees, payments, and financial records with our 
+                    integrated billing system and detailed reports.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <Card className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">📊</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Academic Analytics</h3>
+                  <p className="feature-description">
+                    Make data-driven decisions with comprehensive analytics 
+                    and performance insights.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <Card className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">👨‍🏫</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Staff Management</h3>
+                  <p className="feature-description">
+                    Coordinate teachers, administrators, and support staff 
+                    with role-based access control.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <Card className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">🔔</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Parent Communication</h3>
+                  <p className="feature-description">
+                    Keep parents informed with instant notifications, 
+                    progress reports, and direct messaging.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <Card className="feature-card">
+                <div className="feature-icon-wrapper">
+                  <div className="feature-icon">📱</div>
+                </div>
+                <Card.Body>
+                  <h3 className="feature-title">Mobile Access</h3>
+                  <p className="feature-description">
+                    Access your school data anywhere, anytime with our 
+                    responsive web application.
+                  </p>
+                  <a href="#" className="feature-link">
+                    Learn more <span>→</span>
+                  </a>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="cta-decoration">
+          <img src="/images/cap.jpg" alt="" className="cta-cap-1" />
+          <img src="/images/cap.jpg" alt="" className="cta-cap-2" />
+        </div>
+        <Container>
+          <Row className="align-items-center">
+            <Col lg={7}>
+              <h2 className="cta-title">Ready to Transform Your School?</h2>
+              <p className="cta-description">
+                Join hundreds of schools already using Alpha Logique. 
+                Start your free trial today—no credit card required.
+              </p>
+            </Col>
+            <Col lg={5} className="text-lg-end">
+              <button className="btn-cta-primary">
+                Start Free Trial
+                <span className="btn-arrow">→</span>
+              </button>
+              <button className="btn-cta-secondary">
+                Schedule Demo
+              </button>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
     
   )

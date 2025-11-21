@@ -169,65 +169,129 @@ const handlePageChange = (page: number) => {
   dispatch(getAttendees({ ...params, attendance_date:attendanceDate, class_group_id: params.class_group_id, paginate: true }))
 }
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col>
-            <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} value={undefined} />
-          </Col>
-          <Col>
-            <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
-          </Col>
-          <Col>
-            <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
-          </Col>
-          <Col><Form.Group controlId='startDate'>
-            <Form.Label>Attendance Date</Form.Label>
-            <Form.Control type='date' value={attendanceDate}
-              onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
-          </Form.Group></Col>
-        </Row>
-      </Form>
+    <div className="academic-section-content">
+      {/* Filter Section */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-filter"></i>
+          </div>
+          <h5>Filter Attendance</h5>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className='d-flex flex-column flex-lg-row'>
+            <Col>
+              <StaffDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} value={undefined} />
+            </Col>
+            <Col>
+              <LessonDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} staffId={0} academicTermId={0} />
+            </Col>
+            <Col>
+              <StaffClassGroupDropDown onChange={handleInputChange} schoolId={schoolId} branchId={branchId} />
+            </Col>
+            <Col>
+              <Form.Group controlId='startDate' className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-calendar me-2"></i>
+                  Attendance Date
+                </Form.Label>
+                <Form.Control type='date' className="academic-form-control" value={attendanceDate}
+                  onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
+      {/* Tabs */}
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
         onSelect={(k) => k && setKey(k)}
-        className="mb-3"
+        className="modern-tabs-horizontal mb-4"
       >
-        <Tab eventKey="mark-attendance" title="Mark Class Attendance">
-          <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>Student ID</th>
-                <th>Student Name</th>
-                <th>Attendance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendees && attendees.map((student: StudentRegViewModel) => (
-                <tr key={student.student_id}>
-                  <td>{student.admission_id}</td>
-                  <td>{student.last_name} {student.first_name}</td>
-                  <td>
-                    <Form.Check type='switch'
-                      checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? true : false}
-                      label={
-                        onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present'
-                          ? 'Present'
-                          : 'Absent'
-                      }
-                      onChange={(e) => handleCheckChange(e)}
-                      value={student.student_id} />
-                  </td>
+        <Tab 
+          eventKey="mark-attendance" 
+          title={
+            <span>
+              <i className="fas fa-user-check me-2"></i>
+              Mark Class Attendance
+            </span>
+          }
+        >
+          <div className="academic-table-wrapper">
+            <div className="academic-section-header mb-3">
+              <div className="academic-section-icon">
+                <i className="fas fa-clipboard-check"></i>
+              </div>
+              <h5>Student Attendance Register</h5>
+            </div>
+            <Table className="academic-table-modern" size="sm">
+              <thead>
+                <tr>
+                  <th><i className="fas fa-id-badge me-2"></i>Student ID</th>
+                  <th><i className="fas fa-user me-2"></i>Student Name</th>
+                  <th><i className="fas fa-check-circle me-2"></i>Attendance</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Row>
-            <Col>
-              <Button variant='outline-info' className='mb-4' onClick={handleSubmit}>Submit Attendance</Button>
-            </Col>
-          </Row>
+              </thead>
+              <tbody>
+                {attendees && attendees.length > 0 ? (
+                  attendees.map((student: StudentRegViewModel) => (
+                    <tr key={student.student_id}>
+                      <td>
+                        <span className="student-id-badge">
+                          <i className="fas fa-hashtag me-1"></i>
+                          {student.admission_id}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="student-name-label">
+                          <i className="fas fa-user-graduate me-2"></i>
+                          {student.last_name} {student.first_name}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="attendance-switch-wrapper">
+                          <Form.Check 
+                            type='switch'
+                            id={`attendance-${student.student_id}`}
+                            checked={onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? true : false}
+                            label={
+                              <span className={`attendance-status-label ${onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? 'present' : 'absent'}`}>
+                                <i className={`fas ${onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? 'fa-check-circle' : 'fa-times-circle'} me-2`}></i>
+                                {onRoll.find((roll) => roll.student_id === student.student_id)?.status === 'present' ? 'Present' : 'Absent'}
+                              </span>
+                            }
+                            onChange={(e) => handleCheckChange(e)}
+                            value={student.student_id} 
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3}>
+                      <div className="empty-state">
+                        <i className="fas fa-user-times fa-3x mb-3"></i>
+                        <p>No students found for this class</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+            
+            {attendees && attendees.length > 0 && (
+              <Row>
+                <Col>
+                  <Button className='btn-add-academic-item mb-4' onClick={handleSubmit}>
+                    <i className="fas fa-check-double me-2"></i>
+                    Submit Attendance
+                  </Button>
+                </Col>
+              </Row>
+            )}
           <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
             <PaginationComponent
               params={params}
@@ -250,35 +314,94 @@ const handlePageChange = (page: number) => {
               <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
             </DropdownButton>
           </div>
+          </div>
         </Tab>
-        <Tab eventKey="student" title="View Class Attendance">
-          <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>Day of Week</th>
-                <th>Lesson</th>
-                <th>Attendance Date</th>
-                <th>Student Name</th>
-                <th>Attendance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attendances && attendances.map((student: AttendanceViewModel) => (
-                <tr key={student.student_id}>
-                  <td>{student.day_of_week}</td>
-                  <td>{student.lesson_name}</td>
-                  <td>{formatDate(student.attendance_date)}</td>
-                  <td>{student.last_name} {student.first_name}</td>
-                  <td>
-                    {student.status === 'present' ? 'Present' : 'Absent'}
-                  </td>
+
+        <Tab 
+          eventKey="student" 
+          title={
+            <span>
+              <i className="fas fa-list-alt me-2"></i>
+              View Class Attendance
+            </span>
+          }
+        >
+          <div className="academic-table-wrapper">
+            <div className="academic-section-header mb-3">
+              <div className="academic-section-icon">
+                <i className="fas fa-clipboard-list"></i>
+              </div>
+              <h5>Attendance Records</h5>
+            </div>
+            <Table className="academic-table-modern" size="sm">
+              <thead>
+                <tr>
+                  <th><i className="fas fa-calendar-day me-2"></i>Day of Week</th>
+                  <th><i className="fas fa-book me-2"></i>Lesson</th>
+                  <th><i className="fas fa-calendar me-2"></i>Attendance Date</th>
+                  <th><i className="fas fa-user me-2"></i>Student Name</th>
+                  <th><i className="fas fa-check-circle me-2"></i>Attendance</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {attendances && attendances.length > 0 ? (
+                  attendances.map((student: AttendanceViewModel) => (
+                    <tr key={student.student_id}>
+                      <td>
+                        <span className="day-badge">
+                          <i className="fas fa-calendar-day me-2"></i>
+                          {student.day_of_week}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="subject-badge">
+                          <i className="fas fa-book me-2"></i>
+                          {student.lesson_name}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="date-badge">
+                          <i className="fas fa-calendar-alt me-1"></i>
+                          {formatDate(student.attendance_date)}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="student-name-label">
+                          <i className="fas fa-user-graduate me-2"></i>
+                          {student.last_name} {student.first_name}
+                        </span>
+                      </td>
+                      <td>
+                        {student.status === 'present' ? (
+                          <span className="badge bg-success">
+                            <i className="fas fa-check me-1"></i>
+                            Present
+                          </span>
+                        ) : (
+                          <span className="badge bg-danger">
+                            <i className="fas fa-times me-1"></i>
+                            Absent
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5}>
+                      <div className="empty-state">
+                        <i className="fas fa-clipboard fa-3x mb-3"></i>
+                        <p>No attendance records found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
         </Tab>
       </Tabs>
-    </>
+    </div>
   )
 }
 

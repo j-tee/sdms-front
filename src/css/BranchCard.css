@@ -1,0 +1,354 @@
+/* Modern Branch Card Styles */
+
+.branch-card-modern {
+  background: white;
+  border: none !important;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: row;
+  margin: 1.5rem 0;
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.branch-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Branch Crest Section */
+.branch-card-crest {
+  width: 200px;
+  min-width: 200px;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 3px solid #667eea;
+  position: relative;
+  overflow: hidden;
+}
+
+.branch-card-crest::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 50%;
+}
+
+.branch-crest-image {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.branch-card-modern:hover .branch-crest-image {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Card Body */
+.branch-card-body-modern {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Branch Name */
+.branch-name-modern {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Branch Info Grid */
+.branch-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.branch-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.branch-info-item:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  transform: translateY(-2px);
+}
+
+.branch-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.branch-info-icon i {
+  color: white;
+  font-size: 0.95rem;
+}
+
+.branch-info-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.branch-info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.branch-info-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2d3748;
+  word-break: break-word;
+}
+
+.branch-info-link {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.branch-info-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* Branch Description */
+.branch-description {
+  color: #4a5568;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+/* Branch Tags */
+.branch-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+
+.branch-tag-link {
+  padding: 0.5rem 1.25rem;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 20px;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.branch-tag-link i {
+  font-size: 0.85rem;
+}
+
+.branch-tag-link:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Management Links */
+.branch-management-links {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.branch-management-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.branch-management-link i {
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
+}
+
+.branch-management-link:hover {
+  color: #764ba2;
+  transform: translateX(3px);
+}
+
+.branch-management-link:hover i {
+  transform: translateX(2px);
+}
+
+.branch-management-link-delete {
+  color: #dc3545;
+}
+
+.branch-management-link-delete:hover {
+  color: #c82333;
+}
+
+/* Empty state */
+.branches-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.branches-empty-icon {
+  font-size: 5rem;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.branches-empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.branches-empty-text {
+  font-size: 1rem;
+  color: #a0aec0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .branch-card-modern {
+    flex-direction: column;
+  }
+
+  .branch-card-crest {
+    width: 100%;
+    min-width: 100%;
+    padding: 2rem;
+    border-right: none;
+    border-bottom: 3px solid #667eea;
+  }
+
+  .branch-crest-image {
+    max-height: 150px;
+  }
+
+  .branch-card-body-modern {
+    padding: 1.5rem;
+  }
+
+  .branch-name-modern {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .branch-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .branch-card-body-modern {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .branch-name-modern {
+    font-size: 1.25rem;
+  }
+
+  .branch-info-item {
+    padding: 0.75rem;
+  }
+
+  .branch-info-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .branch-description {
+    font-size: 0.9rem;
+  }
+
+  .branch-tags {
+    gap: 0.5rem;
+  }
+
+  .branch-tag-link {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .branch-management-links {
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .branch-management-link {
+    font-size: 0.85rem;
+  }
+}

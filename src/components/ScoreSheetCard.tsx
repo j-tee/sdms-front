@@ -188,82 +188,167 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
     }));
   };
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col>
-            <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
-          </Col>
-          <Col>
-            <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-          <Col>
-            <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} staffId={0} />
-          </Col>
-          <Col>
-            <AssessmentDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
-          </Col>
-        </Row>
-      </Form>
+    <div className="academic-section-content">
+      {/* Filter Section */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-filter"></i>
+          </div>
+          <h5>Filter Score Sheet</h5>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className='mb-3'>
+            <Col>
+              <StaffDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} value={undefined} />
+            </Col>
+            <Col>
+              <StaffClassGroupDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+            <Col>
+              <AssessmentTypeDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <StaffSubjectDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} staffId={0} />
+            </Col>
+            <Col>
+              <AssessmentDropDown branchId={branchId} schoolId={schoolId} onChange={handleInputChange} />
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
+      {/* Assessment Info Card */}
       {assessment.assessment_name && (
-        <div className="py-4 text-muted">
-          <h5>Assessment: {assessment.assessment_name}</h5>
-          <h5>Subject: {assessment.subject_name}</h5>
-          <h5>Base Mark: {assessment.base_mark}</h5>
+        <div className="assessment-info-card mb-4">
+          <div className="assessment-info-header">
+            <i className="fas fa-info-circle me-2"></i>
+            Assessment Information
+          </div>
+          <div className="assessment-info-body">
+            <div className="info-item">
+              <i className="fas fa-clipboard-check me-2"></i>
+              <strong>Assessment:</strong> {assessment.assessment_name}
+            </div>
+            <div className="info-item">
+              <i className="fas fa-book me-2"></i>
+              <strong>Subject:</strong> {assessment.subject_name}
+            </div>
+            <div className="info-item">
+              <i className="fas fa-calculator me-2"></i>
+              <strong>Base Mark:</strong> {assessment.base_mark}
+            </div>
+          </div>
         </div>
       )}
-      <ListGroup variant="dark">
-        {students.map((student: any) => (
-          <ListGroup.Item key={student.id} className="d-flex justify-content-between">
-            <span>
-              <button
-                type="button"
-                className="btn btn-link p-0"
-                onClick={() => handleLinkClick(student)}
-              >
-                {student.last_name} {student.first_name}
-              </button>
-            </span>
-            <Form.Control
-              type="number"
-              value={getScoreForStudent(student.id)}
-              onChange={(e) => handleScoreChange(student.id, parseFloat(e.target.value))}
-            />
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-      <button className="btn btn-primary mt-3" onClick={handleSubmit}>
-        Save
-      </button>
-      <Table striped bordered hover size="sm" className="mt-4">
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Class</th>
-            <th>Assessment</th>
-            <th>Assessment Type</th>
-            <th>Subject</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {score_sheets.map((scoreSheet: any) => (
-            <tr key={scoreSheet.id}>
-              <td>{scoreSheet.student_name}</td>
-              <td>{scoreSheet.class_group_name}</td>
-              <td>{scoreSheet.assessment_id} {scoreSheet.assessment_name}</td>
-              <td>{scoreSheet.category}</td>
-              <td>{scoreSheet.subject_name}</td>
-              <td>{scoreSheet.student_score}</td>
+
+      {/* Student Score Input */}
+      {students && students.length > 0 && (
+        <div className="score-input-section mb-4">
+          <div className="academic-section-header">
+            <div className="academic-section-icon">
+              <i className="fas fa-edit"></i>
+            </div>
+            <h5>Enter Student Scores</h5>
+          </div>
+          <ListGroup className="student-score-list">
+            {students.map((student: any) => (
+              <ListGroup.Item key={student.id} className="student-score-item">
+                <span className="student-name-label">
+                  <i className="fas fa-user-graduate me-2"></i>
+                  {student.last_name} {student.first_name}
+                </span>
+                <Form.Control
+                  type="number"
+                  className="score-input-control"
+                  value={getScoreForStudent(student.id)}
+                  onChange={(e) => handleScoreChange(student.id, parseFloat(e.target.value))}
+                  placeholder="Enter score"
+                />
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+          <button className="btn btn-add-academic-item mt-3" onClick={handleSubmit}>
+            <i className="fas fa-save me-2"></i>
+            Save Scores
+          </button>
+        </div>
+      )}
+
+      {/* Score Sheet Table */}
+      <div className="academic-table-wrapper">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-file-alt"></i>
+          </div>
+          <h5>Score Sheet Records</h5>
+        </div>
+        <Table className="academic-table-modern" size="sm">
+          <thead>
+            <tr>
+              <th><i className="fas fa-user me-2"></i>Student Name</th>
+              <th><i className="fas fa-users me-2"></i>Class</th>
+              <th><i className="fas fa-tasks me-2"></i>Assessment</th>
+              <th><i className="fas fa-clipboard-list me-2"></i>Type</th>
+              <th><i className="fas fa-book me-2"></i>Subject</th>
+              <th><i className="fas fa-chart-bar me-2"></i>Score</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {score_sheets && score_sheets.length > 0 ? (
+              score_sheets.map((scoreSheet: any) => (
+                <tr key={scoreSheet.id}>
+                  <td>
+                    <span className="student-name-label">
+                      <i className="fas fa-user-graduate me-2"></i>
+                      {scoreSheet.student_name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="class-badge">
+                      <i className="fas fa-users me-1"></i>
+                      {scoreSheet.class_group_name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="assessment-name-badge">
+                      <i className="fas fa-file-alt me-2"></i>
+                      {scoreSheet.assessment_name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`assessment-category-badge ${scoreSheet.category === 'CA' ? 'ca-badge' : 'ta-badge'}`}>
+                      {scoreSheet.category}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="subject-badge">
+                      <i className="fas fa-book me-2"></i>
+                      {scoreSheet.subject_name}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="score-badge">
+                      <i className="fas fa-star me-1"></i>
+                      {scoreSheet.student_score}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>
+                  <div className="empty-state">
+                    <i className="fas fa-file-alt fa-3x mb-3"></i>
+                    <p>No score sheet records found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
       <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
         <PaginationComponent
           params={params}
@@ -285,6 +370,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
           <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
         </DropdownButton>
+      </div>
       </div>
     </div>
   );

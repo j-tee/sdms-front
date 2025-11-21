@@ -66,20 +66,39 @@ const AssessmentReport = (props: any) => {
     dispatch(getStaffs({ ...params, school_id: schoolId, branch_id: branchId }))
   } , [branchId, dispatch, params, schoolId, staff_assessment_summary])
   return (
-    <div>
-      <Row className='d-flex flex-column flex-lg-row'>
-        <Col>
-          <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} value={undefined} />
-        </Col>
-        <Col>
-        <LessonDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} staffId={0} academicTermId={academic_term.id|| 0} />
-        </Col>
-      </Row>
-      <Row className='d-flex flex-wrap flex-lg-row mt-3 p-4'>
-      {staff_assessment_summary.map((s) =>(        
-          <StaffAssessmentDetails summary={s} index={index} schoolId={schoolId} branchId={branchId} lessonId={0} />         
-      ))}
-      </Row>   
+    <div className="academic-section-content">
+      {/* Filter Section */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-filter"></i>
+          </div>
+          <h5>Filter Assessment Reports</h5>
+        </div>
+        <Row className='d-flex flex-column flex-lg-row'>
+          <Col>
+            <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} value={undefined} />
+          </Col>
+          <Col>
+            <LessonDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} staffId={0} academicTermId={academic_term.id|| 0} />
+          </Col>
+        </Row>
+      </div>
+
+      {/* Assessment Summary Cards */}
+      <div className="assessment-reports-grid">
+        {staff_assessment_summary && staff_assessment_summary.length > 0 ? (
+          staff_assessment_summary.map((s) => (        
+            <StaffAssessmentDetails summary={s} index={index} schoolId={schoolId} branchId={branchId} lessonId={0} />         
+          ))
+        ) : (
+          <div className="empty-state-full">
+            <i className="fas fa-chart-line fa-3x mb-3"></i>
+            <p>No assessment reports found</p>
+            <small>Select staff and lesson to view reports</small>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

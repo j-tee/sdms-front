@@ -79,50 +79,75 @@ const AcademicYearCard = (props: any) => {
 
   return (
     <div>
-      {(roles && privileged_school_roles.some(role => roles.includes(role))) && <Card.Header className='fs-3 text-muted mb-4'>Add New Academic Year</Card.Header>}
-      {(roles && privileged_school_roles.some(role => roles.includes(role))) && 
-      <div>
-        {branchId && parseInt(branchId) > 0 ?
-          <Form>
-            <Row>
-              <Col>
-                <Form.Group controlId='startDate'>
-                  <Form.Label>Start Date</Form.Label>
-                  <Form.Control type='date' value={formData.start_date}
-                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group controlId='endDate'>
-                  <Form.Label>End Date</Form.Label>
-                  <Form.Control type='date' value={formData.end_date}
-                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
-                </Form.Group>
-              </Col>
-              {/* <Col>
-                <Form.Group controlId='nextTermStartDate'>
-                  <Form.Label>Next Term Start Date</Form.Label>
-                  <Form.Control type='date' value={formData.end_date}
-                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
-                </Form.Group>
-              </Col> */}
-            </Row>
-            <Row>
-              <Col className='mt-2'>
-                <Button onClick={AddNewAcademicYear} variant="primary">Add New Academic Year</Button>
-              </Col>
-            </Row>
-          </Form> : "Go to branches to add a new academic year"}
-
+      {(roles && privileged_school_roles.some(role => roles.includes(role))) && (
+        <div className="academic-year-add-section">
+          <div className="section-header-modern">
+            <div className="section-icon">
+              <i className="fas fa-plus-circle"></i>
+            </div>
+            <h3 className="section-title">Add New Academic Year</h3>
+          </div>
+          {branchId && parseInt(branchId) > 0 ? (
+            <Form className="modern-form">
+              <Row>
+                <Col md={6}>
+                  <Form.Group controlId='startDate' className="modern-form-group">
+                    <Form.Label className="modern-form-label">
+                      <i className="fas fa-calendar-day me-2"></i>
+                      Start Date
+                    </Form.Label>
+                    <Form.Control 
+                      type='date' 
+                      value={formData.start_date}
+                      onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                      className="modern-form-control" 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId='endDate' className="modern-form-group">
+                    <Form.Label className="modern-form-label">
+                      <i className="fas fa-calendar-check me-2"></i>
+                      End Date
+                    </Form.Label>
+                    <Form.Control 
+                      type='date' 
+                      value={formData.end_date}
+                      onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                      className="modern-form-control" 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col className='mt-4'>
+                  <Button onClick={AddNewAcademicYear} className="btn-add-academic-year">
+                    <i className="fas fa-calendar-plus me-2"></i>
+                    Add New Academic Year
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          ) : (
+            <div className="info-message-modern">
+              <i className="fas fa-info-circle me-2"></i>
+              Go to branches to add a new academic year
+            </div>
+          )}
+        </div>
+      )}
+      <div className="section-header-modern mt-5">
+        <div className="section-icon">
+          <i className="fas fa-list"></i>
+        </div>
+        <h3 className="section-title">Academic Years</h3>
       </div>
-      }
-      <Card.Header>
-        <span className="text-muted fs-3">Academic Years</span>
-      </Card.Header>
-      {academic_years.length && academic_years.map((year: AcademicYearViewModel) => (
-        <AcademicYearList schoolId={schoolId} branchId={branchId} academicYear={year} />
-      ))}
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="academic-years-list-container">
+        {academic_years.length && academic_years.map((year: AcademicYearViewModel) => (
+          <AcademicYearList key={year.id} schoolId={schoolId} branchId={branchId} academicYear={year} />
+        ))}
+      </div>
+      <div className="pagination-controls-modern">
         <PaginationComponent
           params={params}
           activePage={pagination?.current_page}
@@ -134,7 +159,7 @@ const AcademicYearCard = (props: any) => {
           hideNavigation={pagination?.total_pages === 1}
           onChange={handlePageChange}
         />
-        <DropdownButton className="mb-2" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
+        <DropdownButton className="items-per-page-dropdown" id="dropdown-items-per-page" title={`Items per page: ${params.pagination?.per_page}`}>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
           <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>

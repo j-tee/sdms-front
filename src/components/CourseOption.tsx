@@ -148,69 +148,104 @@ const CourseOption = (props: any) => {
     }));
   };
   return (
-    <div>
-      <Row className='d-flex flex-column flex-lg-row'>
-        <Col>
-          <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
-        </Col>
-        <Col>
-          <ProgramDropDown admission={undefined} branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
-        </Col>
-        <Col>
-          <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
-        </Col>
-      </Row>
-      <Form onSubmit={handleSubmit}>
+    <div className="academic-section-content">
+      {/* Filter Row */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-filter"></i>
+          </div>
+          <h5>Filter Course Options</h5>
+        </div>
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
-            <Form.Group controlId='subjectName' className='mb-3'>
-              <Form.Label>Subject Name</Form.Label>
-              <Form.Control as={'select'} type="text" value={formData.subject_id}
-                onChange={(e) => setFormData({ ...formData, subject_id: parseInt(e.target.value) })}
-                placeholder="Enter subject name">
-                <option value="">---Select---</option>
-                {subjects.map((subject) => (<option key={subject.id} value={subject.id}>
-                  {subject.subject_name}
-                </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+            <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
           </Col>
           <Col>
-            <Form.Group controlId='options' className='mb-3'>
-              <Form.Label>Optional</Form.Label>
-              <Form.Control as={'select'} type="text"
-                onChange={(e) => setFormData({ ...formData, optional: parseInt(e.target.value) })}
-                value={formData.optional}
-                placeholder="Enter subject name">
-                <option value="">---Select---</option>
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-              </Form.Control>
-            </Form.Group>
+            <ProgramDropDown admission={undefined} branchId={branchId} onChange={handleInputChange} departmentId={undefined} />
           </Col>
-          {roles && privileged_school_roles.some(role => roles.includes(role)) && <Col>
-            <Form.Group controlId='creditHours' className='mb-3'>
-              <Form.Label>Credit Hours</Form.Label>
-              <Form.Control type="number"
-                onChange={(e) => setFormData({ ...formData, credit_hours: parseFloat(e.target.value) })}
-                value={formData.credit_hours}
-                placeholder="Enter credit hours" />
+          <Col>
+            <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
+          </Col>
+        </Row>
+      </div>
 
-            </Form.Group>
-          </Col>}
-        </Row>
-        <Row>
-          <Col>
-            <button type="submit" className="btn btn-primary">Add Course Option</button>
-          </Col>
-        </Row>
-      </Form>
-      <Row>
-        <Card.Header>
-          Course Options
-        </Card.Header>
-        <Table size='sm' striped hover responsive>
+      {/* Add Form */}
+      <div className="academic-add-section mb-4">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-plus-circle"></i>
+          </div>
+          <h5>Add Course Option</h5>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Row className='d-flex flex-column flex-lg-row'>
+            <Col>
+              <Form.Group controlId='subjectName' className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-book me-2"></i>
+                  Subject Name
+                </Form.Label>
+                <Form.Control as={'select'} className="academic-form-control" type="text" value={formData.subject_id}
+                  onChange={(e) => setFormData({ ...formData, subject_id: parseInt(e.target.value) })}
+                  placeholder="Enter subject name">
+                  <option value="">---Select---</option>
+                  {subjects.map((subject) => (<option key={subject.id} value={subject.id}>
+                    {subject.subject_name}
+                  </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId='options' className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-check-circle me-2"></i>
+                  Optional
+                </Form.Label>
+                <Form.Control as={'select'} className="academic-form-control" type="text"
+                  onChange={(e) => setFormData({ ...formData, optional: parseInt(e.target.value) })}
+                  value={formData.optional}
+                  placeholder="Enter subject name">
+                  <option value="">---Select---</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            {roles && privileged_school_roles.some(role => roles.includes(role)) && <Col>
+              <Form.Group controlId='creditHours' className='academic-form-group'>
+                <Form.Label className="academic-form-label">
+                  <i className="fas fa-clock me-2"></i>
+                  Credit Hours
+                </Form.Label>
+                <Form.Control type="number" className="academic-form-control"
+                  onChange={(e) => setFormData({ ...formData, credit_hours: parseFloat(e.target.value) })}
+                  value={formData.credit_hours}
+                  placeholder="Enter credit hours" />
+              </Form.Group>
+            </Col>}
+          </Row>
+          <Row>
+            <Col>
+              <button type="submit" className="btn btn-add-academic-item">
+                <i className="fas fa-plus me-2"></i>
+                Add Course Option
+              </button>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
+      {/* Course Options Table */}
+      <div className="academic-table-wrapper">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-list"></i>
+          </div>
+          <h5>Course Options</h5>
+        </div>
+        <Table className="academic-table-modern" size='sm' responsive>
           <thead>
             <tr>
               <th>Subject Name</th>
@@ -222,27 +257,49 @@ const CourseOption = (props: any) => {
           <tbody>
             {course_options.map((course_option) => (
               <tr key={course_option.id}>
-                <td>{course_option.subject_name}</td>
-                <td>{course_option.optional ? 'Yes' : 'No'}</td>
-                <td>{course_option.credit_hours}</td>
                 <td>
-                  {/* Edit Button */}
-                  <Button variant='link text-info' className="me-2" onClick={() => handleEdit(course_option)}>
+                  <div className="subject-badge">
+                    <i className="fas fa-book me-2"></i>
+                    {course_option.subject_name}
+                  </div>
+                </td>
+                <td>
+                  {course_option.optional ? (
+                    <span className="badge bg-warning text-dark">
+                      <i className="fas fa-check me-1"></i>
+                      Yes
+                    </span>
+                  ) : (
+                    <span className="badge bg-secondary">
+                      <i className="fas fa-times me-1"></i>
+                      No
+                    </span>
+                  )}
+                </td>
+                <td>
+                  <span className="credit-hours-badge">
+                    <i className="fas fa-clock me-1"></i>
+                    {course_option.credit_hours}
+                  </span>
+                </td>
+                <td>
+                  <Button variant='link' className="table-action-btn edit-btn-table me-2" onClick={() => handleEdit(course_option)}>
+                    <i className="fas fa-edit me-1"></i>
                     Edit
                   </Button>
-
-                  {/* Delete Button */}
-                  <Button variant="link text-danger" onClick={() => handleDelete(course_option.id)}>
+                  <Button variant="link" className="table-action-btn delete-btn-table" onClick={() => handleDelete(course_option.id)}>
+                    <i className="fas fa-trash me-1"></i>
                     Delete
                   </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-
         </Table>
-      </Row>
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+      </div>
+
+      {/* Pagination */}
+      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center mt-3">
         <PaginationComponent
           params={params}
           activePage={pagination?.current_page}

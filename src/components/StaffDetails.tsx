@@ -22,26 +22,52 @@ const StaffDetails = (props: any) => {
   }
   return (
     <>
-      <Row className='d-flex flex-column p-2 flex-lg-row border mb-2 border-left-0 border-right-0'>
-        <Col md={2}> <Card.Img className='mt-2' variant="top" src={staff.image_url} style={{ width: "100%", height: "100%" }} /></Col>
-        <Col className='d-flex flex-column pt-2 ps-lg-2 border border-top-0 border-bottom-0 border-right-0' md={9}>
-          <span>{staff.first_name}</span>
-          <span>{staff.last_name}</span>
-          <span>{staff.designation}</span>
-          <span>{staff.email}</span>
-          <span>{staff.phone_number}</span>
-          <span>{staff.branch_name}</span>
-          <span><Button className='border border-0 p-1' variant='link' onClick={() => setManageUserModalOpen(true)}>Manage User Account</Button></span>
-          <span>
-            <Card.Footer className='d-flex flex-row gap-0'>
-              <Card.Link onClick={() => handleEdit(staff)}>Edit</Card.Link>
-              <Card.Link onClick={handleDelete}>Delete</Card.Link>
-              <Card.Link onClick={handleDetails}>Details</Card.Link>
-            </Card.Footer>
-          </span>
-        </Col>
+      <div className="staff-member-card-modern">
+        <div className="staff-photo-section">
+          <img src={staff.image_url} alt={`${staff.first_name} ${staff.last_name}`} className="staff-photo" />
+        </div>
+        <div className="staff-info-section">
+          <div className="staff-header">
+            <h4 className="staff-name">{staff.first_name} {staff.last_name}</h4>
+            <span className="staff-designation-badge">{staff.designation}</span>
+          </div>
+          
+          <div className="staff-contact-grid">
+            <div className="staff-contact-item">
+              <i className="fas fa-envelope"></i>
+              <span>{staff.email}</span>
+            </div>
+            <div className="staff-contact-item">
+              <i className="fas fa-phone"></i>
+              <span>{staff.phone_number}</span>
+            </div>
+            <div className="staff-contact-item">
+              <i className="fas fa-building"></i>
+              <span>{staff.branch_name}</span>
+            </div>
+          </div>
 
-      </Row>
+          <button className="manage-account-btn" onClick={() => setManageUserModalOpen(true)}>
+            <i className="fas fa-user-cog me-2"></i>
+            Manage User Account
+          </button>
+
+          <div className="staff-actions">
+            <button className="staff-action-btn edit-btn-staff" onClick={() => handleEdit(staff)}>
+              <i className="fas fa-edit"></i>
+              <span>Edit</span>
+            </button>
+            <button className="staff-action-btn details-btn-staff" onClick={handleDetails}>
+              <i className="fas fa-info-circle"></i>
+              <span>Details</span>
+            </button>
+            <button className="staff-action-btn delete-btn-staff" onClick={handleDelete}>
+              <i className="fas fa-trash-alt"></i>
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
       <StaffEdit isOpen={isStaffEditModalOpen}
         params={params}
         schoolId={schoolId}

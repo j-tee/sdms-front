@@ -1,0 +1,328 @@
+/* Modern School Card Styles */
+
+.school-card-modern {
+  background: white;
+  border: none !important;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: row;
+  margin: 1.5rem 0;
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.school-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* School Crest Section */
+.school-card-crest {
+  width: 200px;
+  min-width: 200px;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 3px solid #667eea;
+  position: relative;
+  overflow: hidden;
+}
+
+.school-card-crest::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 50%;
+}
+
+.school-crest-image {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.school-card-modern:hover .school-crest-image {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Card Body */
+.school-card-body-modern {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* School Name */
+.school-name-modern {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* School Meta Info */
+.school-meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.school-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6c757d;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.school-meta-item i {
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.school-meta-item:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  transform: translateY(-2px);
+}
+
+/* School Description */
+.school-description {
+  color: #4a5568;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Action Buttons */
+.school-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.school-action-btn {
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.school-action-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.school-action-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.school-action-btn-secondary {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.school-action-btn-secondary:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Management Links */
+.school-management-links {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  margin-top: auto;
+}
+
+.school-management-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.school-management-link i {
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
+}
+
+.school-management-link:hover {
+  color: #764ba2;
+  transform: translateX(3px);
+}
+
+.school-management-link:hover i {
+  transform: translateX(2px);
+}
+
+.school-management-link-delete {
+  color: #dc3545;
+}
+
+.school-management-link-delete:hover {
+  color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .school-card-modern {
+    flex-direction: column;
+  }
+
+  .school-card-crest {
+    width: 100%;
+    min-width: 100%;
+    padding: 2rem;
+    border-right: none;
+    border-bottom: 3px solid #667eea;
+  }
+
+  .school-crest-image {
+    max-height: 150px;
+  }
+
+  .school-card-body-modern {
+    padding: 1.5rem;
+  }
+
+  .school-name-modern {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .school-meta-info {
+    justify-content: center;
+  }
+
+  .school-actions {
+    flex-direction: column;
+  }
+
+  .school-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .school-management-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .school-card-body-modern {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .school-name-modern {
+    font-size: 1.25rem;
+  }
+
+  .school-meta-info {
+    gap: 0.75rem;
+  }
+
+  .school-meta-item {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .school-description {
+    font-size: 0.9rem;
+  }
+
+  .school-action-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .school-management-links {
+    gap: 1rem;
+  }
+
+  .school-management-link {
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading placeholder animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.school-card-skeleton {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 1000px 100%;
+}

@@ -1,0 +1,11 @@
+/* BranchList Page - Imports shared styles */
+@import './School.css';
+
+/* Branch-specific styles */
+.branch-list-page-modern .school-crest-wrapper {
+  border: 4px solid rgba(102, 126, 234, 0.2);
+}
+
+.branch-list-page-modern .page-hero-section {
+  padding-bottom: 2rem;
+}

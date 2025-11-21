@@ -120,54 +120,98 @@ const StageCard = (props: any) => {
     setStageEditModalOpen(true)
   }
   return (
-    <>
-      <Form>
-        <Row className='d-flex flex-lg-row flex-column'>
-          <Col>
-            <BranchDropDown onChange={handleInputChange} schoolId={schoolId} />
-          </Col>
-          <Col>
-            <Form.Group>
-              <Form.Label>Stage Name</Form.Label>
-              <Form.Control placeholder='Stage'
-                onChange={(e) => handleInputChange('stage_name', e.target.value)}
-                value={params.stage_name} />
-            </Form.Group>
-          </Col>
-          <Col className='pt-4'>
-            <Button onClick={handleStageSubmit} className='mt-1'>Add New Stage</Button>
-          </Col>
-        </Row>
-      </Form>
-      {stages && stages.map((stage) => (
-        <div className='fs-5 text-muted p-2 border-bottom d-flex flex-row justify-content-between'>
-          <span>{stage.stage_name} </span>
-          <span><Card.Link onClick={() => handleEdit(stage)}>Edit</Card.Link>
-          <Card.Link onClick={() => handleDelete(stage)}>Delete</Card.Link></span>
+    <div className="org-section-content">
+      <div className="org-section-header">
+        <div className="org-section-icon">
+          <i className="fas fa-stairs"></i>
         </div>
-      ))}
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
+        <h3 className="org-section-title">Stages</h3>
+      </div>
+
+      <div className="org-add-section">
+        <Form className="org-add-form">
+          <Row>
+            <Col md={4}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-building me-2"></i>
+                  Branch
+                </Form.Label>
+                <BranchDropDown onChange={handleInputChange} schoolId={schoolId} />
+              </Form.Group>
+            </Col>
+            <Col md={5}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-level-up-alt me-2"></i>
+                  Stage Name
+                </Form.Label>
+                <Form.Control 
+                  placeholder='Enter stage name'
+                  onChange={(e) => handleInputChange('stage_name', e.target.value)}
+                  value={params.stage_name}
+                  className="org-form-control" 
+                />
+              </Form.Group>
+            </Col>
+            <Col md={3}>
+              <div className="org-form-group">
+                <Form.Label className="org-form-label" style={{opacity: 0}}>Action</Form.Label>
+                <Button onClick={handleStageSubmit} className="btn-add-org-item">
+                  <i className="fas fa-plus-circle me-2"></i>
+                  Add Stage
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+
+      <div className="org-items-list">
+        {stages && stages.map((stage) => (
+          <div key={stage.id} className="org-item-card">
+            <div className="org-item-content">
+              <div className="org-item-icon">
+                <i className="fas fa-stairs"></i>
+              </div>
+              <span className="org-item-name">{stage.stage_name}</span>
+            </div>
+            <div className="org-item-actions">
+              <button className="org-action-btn edit-btn-org" onClick={() => handleEdit(stage)}>
+                <i className="fas fa-edit"></i>
+                <span>Edit</span>
+              </button>
+              <button className="org-action-btn delete-btn-org" onClick={() => handleDelete(stage)}>
+                <i className="fas fa-trash-alt"></i>
+                <span>Delete</span>
+              </button>
+            </div>
           </div>
+        ))}
+      </div>
+      <div className="pagination-controls-modern">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-stage"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
+
       <StageEdit isOpen={isStageEditModalOpen}
         stage={stage}
         params={params}
@@ -182,7 +226,7 @@ const StageCard = (props: any) => {
         schoolId={schoolId}
         onRequestClose={() => { setStageDeleteModalOpen(false) }}
         setStageDeleteModalOpen={setStageDeleteModalOpen} />
-    </>
+    </div>
   )
 }
 

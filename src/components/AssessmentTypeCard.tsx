@@ -71,76 +71,118 @@ const AssessmentTypeCard = (props: any) => {
   }
 
   return (
-    <div>
-      {roles && privileged_school_roles.some(role=>roles.includes(role)) && <Form onSubmit={ handleSubmit }>
-        <Card.Body>
-          <Row>
-            <Col>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Category</Form.Label>
-                <Form.Select placeholder="Enter category" name="category" 
-                value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}>
-                <option value="">---Select----</option>
-                  <option value="CA">Continuous Assessment</option>
-                  <option value="TA">Terminal Assessment</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Percentage Score</Form.Label>
-                <Form.Control type="number" placeholder="Enter percentage score" name="percentage_score" 
-                value={formData.percentage_score} onChange={(e) => setFormData({...formData, percentage_score: parseFloat(e.target.value)})} />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className='mt-3'>
-            <Col>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Form>}
-      <Card.Body>
-        <Card.Title>Assessment Types</Card.Title>
-        <Table size='sm' variant='' responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Category</th>
-                <th>Percentage Score</th>
-                <th>Branch Name</th>
-                <th>School Name</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              { assessment_types && assessment_types.map((assessment_type: any, index: number) => (
+    <div className="academic-section-content">
+      {/* Add Assessment Type Form */}
+      {roles && privileged_school_roles.some(role=>roles.includes(role)) && (
+        <div className="academic-add-section mb-4">
+          <div className="academic-section-header">
+            <div className="academic-section-icon">
+              <i className="fas fa-plus-circle"></i>
+            </div>
+            <h5>Add Assessment Type</h5>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="formBasicEmail" className='academic-form-group'>
+                  <Form.Label className="academic-form-label">
+                    <i className="fas fa-clipboard-list me-2"></i>
+                    Category
+                  </Form.Label>
+                  <Form.Select placeholder="Enter category" name="category" className="academic-form-control"
+                    value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})}>
+                    <option value="">---Select----</option>
+                    <option value="CA">Continuous Assessment</option>
+                    <option value="TA">Terminal Assessment</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="formBasicEmail" className='academic-form-group'>
+                  <Form.Label className="academic-form-label">
+                    <i className="fas fa-percentage me-2"></i>
+                    Percentage Score
+                  </Form.Label>
+                  <Form.Control type="number" className="academic-form-control" placeholder="Enter percentage score" name="percentage_score" 
+                    value={formData.percentage_score} onChange={(e) => setFormData({...formData, percentage_score: parseFloat(e.target.value)})} />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className='mt-3'>
+              <Col>
+                <Button className="btn-add-academic-item" type="submit">
+                  <i className="fas fa-check me-2"></i>
+                  Submit Assessment Type
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      )}
+
+      {/* Assessment Types Table */}
+      <div className="academic-table-wrapper">
+        <div className="academic-section-header">
+          <div className="academic-section-icon">
+            <i className="fas fa-clipboard-list"></i>
+          </div>
+          <h5>Assessment Types</h5>
+        </div>
+        <Table className="academic-table-modern" size='sm' responsive>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th><i className="fas fa-tags me-2"></i>Category</th>
+              <th><i className="fas fa-percentage me-2"></i>Percentage Score</th>
+              <th><i className="fas fa-code-branch me-2"></i>Branch Name</th>
+              <th><i className="fas fa-school me-2"></i>School Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {assessment_types && assessment_types.length > 0 ? (
+              assessment_types.map((assessment_type: any, index: number) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{assessment_type.category === 'CA'? 'Continuous Assessment':'Terminal Assessment'}</td>
-                  <td>{assessment_type.percentage_score}</td>
-                  <td>{assessment_type.branch_name}</td>
-                  <td>{assessment_type.school_name}</td>
-                  <td className='d-flex flex-column flex-lg-row gap -lg-2'>
-                    <span>
-                      <Button onClick={() => handleEdit(assessment_type)} variant="link" size="sm" className='me-2'>
-                        Edit
-                      </Button>
-                    </span>
-                    <span>
-                      <Button variant="link" size="sm">
-                        Delete
-                      </Button>
+                  <td>
+                    <span className={`assessment-category-badge ${assessment_type.category === 'CA' ? 'ca-badge' : 'ta-badge'}`}>
+                      <i className={`fas ${assessment_type.category === 'CA' ? 'fa-tasks' : 'fa-file-alt'} me-2`}></i>
+                      {assessment_type.category === 'CA' ? 'Continuous Assessment' : 'Terminal Assessment'}
                     </span>
                   </td>
+                  <td>
+                    <span className="percentage-badge">
+                      <i className="fas fa-chart-line me-1"></i>
+                      {assessment_type.percentage_score}%
+                    </span>
+                  </td>
+                  <td>{assessment_type.branch_name}</td>
+                  <td>{assessment_type.school_name}</td>
+                  <td>
+                    <Button onClick={() => handleEdit(assessment_type)} variant="link" className="table-action-btn edit-btn-table" size="sm">
+                      <i className="fas fa-edit me-1"></i>
+                      Edit
+                    </Button>
+                    <Button variant="link" className="table-action-btn delete-btn-table" size="sm">
+                      <i className="fas fa-trash me-1"></i>
+                      Delete
+                    </Button>
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-      </Card.Body>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>
+                  <div className="empty-state">
+                    <i className="fas fa-clipboard fa-3x mb-3"></i>
+                    <p>No assessment types found</p>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
       <AssessmentTypeEdit isOpen={isAssessmentTypeEditModalOpen} 
       assessmentType={assessmentType}
       onRequestClose={() => setAssessmentTypeEditModalOpen(false)}

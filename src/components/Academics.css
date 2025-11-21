@@ -1,0 +1,826 @@
+/* Academics Page - Imports shared styles from Organisation.css */
+@import './Organisation.css';
+
+/* Academics Page Modern */
+.academics-page-modern {
+  min-height: 100vh;
+  background: white;
+  padding: 2rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Academics-specific icon color */
+.academics-page-modern .hero-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+/* Academics-specific hero gradient */
+.academics-page-modern .page-hero-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%) !important;
+}
+
+/* Academics Card Modern */
+.academics-card-modern {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  background: white;
+  animation: slideUp 0.6s ease-out;
+}
+
+/* Academics Tabs Sidebar */
+.academics-card-modern .tabs-sidebar-modern {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.academics-card-modern .tabs-header {
+  color: white;
+}
+
+/* Academic Section Content */
+.academic-section-content {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.academic-section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.academic-section-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.academic-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+/* Academic Add Section */
+.academic-add-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.academic-add-form {
+  margin-top: 1.5rem;
+}
+
+.academic-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.academic-form-label {
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.academic-form-control {
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.academic-form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+/* Add Academic Item Button */
+.btn-add-academic-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-add-academic-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  color: white;
+}
+
+/* Academic Table Wrapper */
+.academic-table-wrapper {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-top: 1.5rem;
+}
+
+.academic-table-modern {
+  margin-bottom: 0;
+}
+
+.academic-table-modern thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.academic-table-modern thead th {
+  border: none;
+  padding: 1.25rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.academic-table-modern thead th i {
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.academic-table-modern tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.academic-table-modern tbody tr:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.academic-table-modern tbody tr:last-child {
+  border-bottom: none;
+}
+
+.academic-table-modern tbody td {
+  padding: 1.25rem 1rem;
+  vertical-align: middle;
+  color: #4a5568;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.subject-name-cell {
+  font-weight: 700;
+}
+
+.subject-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-left: 4px solid #667eea;
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.subject-code-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border-left: 3px solid #f59e0b;
+  border-radius: 6px;
+  color: #d97706;
+  font-weight: 600;
+  font-size: 0.875rem;
+  font-family: 'Courier New', monospace;
+}
+
+.credit-hours-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-left: 3px solid #667eea;
+  border-radius: 6px;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Course Registration Section */
+.registration-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.registration-card:hover {
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
+}
+
+.students-list {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+  border-radius: 12px;
+  min-height: 150px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.student-checkbox-item {
+  padding: 0.75rem 1rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.student-checkbox-item:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-color: #667eea;
+  transform: translateX(5px);
+}
+
+.student-checkbox-item .form-check {
+  margin-bottom: 0;
+}
+
+.student-checkbox-item .form-check-input {
+  width: 2.5rem;
+  height: 1.25rem;
+  cursor: pointer;
+  border: 2px solid #667eea;
+}
+
+.student-checkbox-item .form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.student-checkbox-item .form-check-input:focus {
+  border-color: #764ba2;
+  box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+.student-name-label {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.student-name-label i {
+  color: #667eea;
+}
+
+.registration-footer {
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(102, 126, 234, 0.1);
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-unregister-academic {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.btn-unregister-academic:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #a0aec0;
+}
+
+.empty-state i {
+  color: #cbd5e0;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Time Table Badges */
+.day-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-left: 4px solid #667eea;
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border-left: 3px solid #10b981;
+  border-radius: 6px;
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+}
+
+.class-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border-left: 3px solid #f59e0b;
+  border-radius: 6px;
+  color: #d97706;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.staff-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-left: 3px solid #8b5cf6;
+  border-radius: 6px;
+  color: #7c3aed;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Time Picker Styling */
+.academic-time-picker {
+  width: 100%;
+}
+
+.academic-time-picker .react-time-picker__wrapper {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.academic-time-picker .react-time-picker__wrapper:hover {
+  border-color: #667eea;
+}
+
+.academic-time-picker .react-time-picker__inputGroup {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.academic-time-picker .react-time-picker__button {
+  color: #667eea;
+}
+
+.academic-time-picker .react-time-picker__button:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+/* Attendance Styling */
+.attendance-switch-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.attendance-switch-wrapper .form-check {
+  margin-bottom: 0;
+}
+
+.attendance-switch-wrapper .form-check-input {
+  width: 2.5rem;
+  height: 1.25rem;
+  cursor: pointer;
+  border: 2px solid #cbd5e0;
+}
+
+.attendance-switch-wrapper .form-check-input:checked {
+  background-color: #10b981;
+  border-color: #10b981;
+}
+
+.attendance-switch-wrapper .form-check-input:not(:checked) {
+  background-color: #ef4444;
+  border-color: #ef4444;
+}
+
+.attendance-status-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.attendance-status-label.present {
+  color: #10b981;
+}
+
+.attendance-status-label.absent {
+  color: #ef4444;
+}
+
+.student-id-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
+  border-left: 3px solid #3b82f6;
+  border-radius: 6px;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+}
+
+.date-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-left: 3px solid #8b5cf6;
+  border-radius: 6px;
+  color: #7c3aed;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Assessment Name Badge */
+.assessment-name-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-left: 4px solid #667eea;
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Pass Mark Badge */
+.pass-mark-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border-left: 3px solid #10b981;
+  border-radius: 6px;
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Score Badge */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  color: #d97706;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Grade Badge */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-left: 4px solid #8b5cf6;
+  border-radius: 8px;
+  color: #7c3aed;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Assessment Info Card */
+.assessment-info-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+  overflow: hidden;
+}
+
+.assessment-info-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.assessment-info-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-item {
+  color: #2d3748;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.info-item i {
+  color: #667eea;
+}
+
+.info-item strong {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  color: #4a5568;
+}
+
+/* Score Input Section */
+.score-input-section {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+  padding: 1.5rem;
+}
+
+.student-score-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+.student-score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.student-score-item:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-color: #667eea;
+}
+
+.score-input-control {
+  width: 120px;
+  text-align: center;
+  font-weight: 700;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.score-input-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+}
+
+/* Assessment Reports Grid */
+.assessment-reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Terminal Report Wrapper */
+.terminal-report-wrapper {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+  padding: 2rem;
+}
+
+.report-container {
+  background: white;
+}
+
+.page-break {
+  page-break-after: always;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .page-break {
+    page-break-after: always;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .terminal-report-wrapper {
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
+/* Empty State Full Width */
+.empty-state-full {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #a0aec0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.empty-state-full i {
+  color: #cbd5e0;
+  opacity: 0.5;
+}
+
+.empty-state-full p {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #718096;
+}
+
+.empty-state-full small {
+  font-size: 0.95rem;
+  color: #a0aec0;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* Assessment Type Badges */
+.assessment-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-left: 4px solid;
+}
+
+.assessment-category-badge.ca-badge {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+  border-color: #10b981;
+  color: #059669;
+}
+
+.assessment-category-badge.ta-badge {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border-color: #f59e0b;
+  color: #d97706;
+}
+
+.percentage-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-left: 3px solid #667eea;
+  border-radius: 6px;
+  color: #667eea;
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .academic-table-modern thead th {
+    padding: 1rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .academic-table-modern tbody td {
+    padding: 1rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .subject-badge {
+    font-size: 0.85rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .subject-code-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.625rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .academics-page-modern {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .academic-add-section {
+    padding: 1.5rem;
+  }
+
+  .academic-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .academic-section-title {
+    font-size: 1.25rem;
+  }
+
+  .academic-table-wrapper {
+    border-radius: 12px;
+  }
+
+  .academic-table-modern {
+    font-size: 0.875rem;
+  }
+
+  .academic-table-modern thead th {
+    padding: 0.875rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .academic-table-modern tbody td {
+    padding: 0.875rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .subject-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.625rem;
+  }
+
+  .subject-code-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .credit-hours-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

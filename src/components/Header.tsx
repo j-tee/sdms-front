@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "../images/logo.png";
-import { Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserSession from "../utility/userSession";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import { useAuth } from "../utility/AuthContext";
 import { logoutUser } from "../redux/slices/authSlice";
 import { ToastContext } from "../utility/ToastContext";
 import { showToastify } from "../utility/Toastify";
+import "./Header.css";
 
 const Header = () => {
   const {
@@ -86,13 +87,13 @@ const Header = () => {
   const commomMenu = () => {
     return (
       <>
-        <Link to="/schools">SCHOOLS</Link>
-        <Link to="support">SUPPORT</Link>
-        <Link to="/about">ABOUT</Link>
-        <Link to="/sorting">CONTACT US</Link>
+        <Link to="/schools" className="nav-link-modern">Schools</Link>
+        <Link to="support" className="nav-link-modern">Support</Link>
+        <Link to="/about" className="nav-link-modern">About</Link>
+        <Link to="/sorting" className="nav-link-modern">Contact</Link>
         {!isValid && (
-          <Link to="#" onClick={handleRegisterUser}>
-            SIGNUP
+          <Link to="#" onClick={handleRegisterUser} className="nav-link-modern btn-signup">
+            Sign Up
           </Link>
         )}
         {accessControl()}
@@ -102,8 +103,8 @@ const Header = () => {
   const systemAdminMenu = () => {
     return (
       <>
-        <Link to="/system-admin">SYSTEM ADMIN</Link>
-        <Link to="/subscriptions">SUBSCRIPTIONS</Link>
+        <Link to="/system-admin" className="nav-link-modern">System Admin</Link>
+        <Link to="/subscriptions" className="nav-link-modern">Subscriptions</Link>
         {commomMenu()}
       </>
     );
@@ -111,8 +112,8 @@ const Header = () => {
   const parentMenu = () => {
     return (
       <>
-        <Link to="/my-wards">MY WARDS</Link>
-        <Link to="/subscriptions">MY SUBSCRIPTIONS</Link>
+        <Link to="/my-wards" className="nav-link-modern">My Wards</Link>
+        <Link to="/subscriptions" className="nav-link-modern">My Subscriptions</Link>
         {commomMenu()}
       </>
     );
@@ -120,10 +121,10 @@ const Header = () => {
   const schoolAdminMenu = () => {
     return (
       <>
-        <Link to="/subjects">MY SCHOOLS</Link>
-        <Link to="/lessons">LESSONS</Link>
-        <Link to="/assessments">ASSESSMENTS</Link>
-        <Link to="/report-evaluations">REPORTS / EVALUATIONS</Link>
+        <Link to="/subjects" className="nav-link-modern">My Schools</Link>
+        <Link to="/lessons" className="nav-link-modern">Lessons</Link>
+        <Link to="/assessments" className="nav-link-modern">Assessments</Link>
+        <Link to="/report-evaluations" className="nav-link-modern">Reports</Link>
         {commomMenu()}
       </>
     );
@@ -142,7 +143,7 @@ const Header = () => {
   const schoolMenus = () => {
     return (
       <>
-        <Link to="/subscriptions">SUBSCRIPTIONS</Link>
+        <Link to="/subscriptions" className="nav-link-modern">Subscriptions</Link>
         {commomMenu()}
       </>
     );
@@ -150,13 +151,13 @@ const Header = () => {
   const accessControl = () => {
     return isValid ? (
       <>
-        <Link to="#" onClick={handleLogoutClick}>
-          LOGOUT
+        <Link to="#" onClick={handleLogoutClick} className="nav-link-modern btn-logout">
+          Logout
         </Link>
       </>
     ) : (
-      <Link to="#" onClick={handleLoginClick}>
-        LOGIN
+      <Link to="#" onClick={handleLoginClick} className="nav-link-modern btn-login">
+        Login
       </Link>
     );
   };
@@ -176,7 +177,7 @@ const Header = () => {
           roles &&
           schoolRoles.some((item) => roles.includes(item)) && (
             <>
-              <Link to="/register-school">REGISTER SCHOOL</Link>
+              <Link to="/register-school" className="nav-link-modern">Register School</Link>
               {schoolMenus()}
             </>
           )
@@ -189,22 +190,35 @@ const Header = () => {
   };
 
   return (
-    // <header className="header_section">
     <Navbar
-      className="navbar header_section d-flex justify-content-between mb-4 pb-4"
+      className="navbar-modern"
       fixed="top"
       expand="lg"
     >
-      <Navbar.Brand href="/">
-        <img src={logo} alt="Academia Logo" />
-        <span>Alpha Logique</span>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="d-flex ml-auto flex-column flex-lg-row align-items-center gap-4 ">
-          {navItems()}
-        </Nav>
-      </Navbar.Collapse>
+      <Container fluid>
+        <Navbar.Brand href="/" className="brand-modern">
+          <div className="brand-logo-wrapper">
+            <img src={logo} alt="Academia Logo" />
+          </div>
+          <div className="brand-text">
+            <span className="brand-name">Alpha Logique</span>
+            <span className="brand-tagline">School Management</span>
+          </div>
+        </Navbar.Brand>
+        
+        <Navbar.Toggle aria-controls="modern-navbar-nav" className="navbar-toggler-modern">
+          <span></span>
+          <span></span>
+          <span></span>
+        </Navbar.Toggle>
+        
+        <Navbar.Collapse id="modern-navbar-nav">
+          <Nav className="ms-auto align-items-lg-center">
+            {navItems()}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+      
       <Login
         isLoginModalOpen={isLoginModalOpen}
         onRequestClose={() => closeLoginModal()}
@@ -215,8 +229,6 @@ const Header = () => {
         onRequestClose={() => setRegisterModalOpen(false)}
       />
     </Navbar>
-
-    // </header>
   );
 };
 

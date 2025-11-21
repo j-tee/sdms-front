@@ -128,69 +128,116 @@ const ClassGroupCard = (props: any) => {
   };
   
   return (
-    <div>
-      <Card.Title className='d-flex justify-content-center'>
-        Class Groups
-      </Card.Title>
-      <Card.Body>
-        <Form>
-          <Row className='d-flex flex-lg-row flex-column'>
-            <Col>
-              <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
+    <div className="org-section-content">
+      <div className="org-section-header">
+        <div className="org-section-icon">
+          <i className="fas fa-users-class"></i>
+        </div>
+        <h3 className="org-section-title">Class Groups</h3>
+      </div>
+
+      <div className="org-add-section">
+        <Form className="org-add-form">
+          <Row>
+            <Col md={4}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-layer-group me-2"></i>
+                  Department
+                </Form.Label>
+                <DepartmentDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
+              </Form.Group>
             </Col>
-            <Col>
-              <ProgramDropDown admission={undefined} onChange={handleInputChange} branchId={branchId} departmentId={params.department_id} />
+            <Col md={4}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-project-diagram me-2"></i>
+                  Program
+                </Form.Label>
+                <ProgramDropDown admission={undefined} onChange={handleInputChange} branchId={branchId} departmentId={params.department_id} />
+              </Form.Group>
             </Col>
-            <Col>
-              <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={branchId} />
+            <Col md={4}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-stairs me-2"></i>
+                  Stage
+                </Form.Label>
+                <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={branchId} />
+              </Form.Group>
             </Col>
           </Row>
           <Row>
-            <Col>
-              <Form.Group>
-                <Form.Label>Class Name</Form.Label>
-                <Form.Control type='text' value={formData.class_name} onChange={(e) => handleInputChange('class_name', e.target.value)} />
+            <Col md={6}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-chalkboard me-2"></i>
+                  Class Name
+                </Form.Label>
+                <Form.Control 
+                  type='text' 
+                  value={formData.class_name} 
+                  onChange={(e) => handleInputChange('class_name', e.target.value)}
+                  className="org-form-control"
+                  placeholder="Enter class name" 
+                />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label>Class Capacity</Form.Label>
-                <Form.Control value={formData.capacity} onChange={(e) => handleInputChange('capacity', e.target.value)} />
+            <Col md={6}>
+              <Form.Group className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-users me-2"></i>
+                  Class Capacity
+                </Form.Label>
+                <Form.Control 
+                  type='number'
+                  value={formData.capacity} 
+                  onChange={(e) => handleInputChange('capacity', e.target.value)}
+                  className="org-form-control"
+                  placeholder="Enter capacity" 
+                />
               </Form.Group>
             </Col>
           </Row>
           <Row>
-            <Col className='pt-4'>
-              <Button onClick={handleSubmit} className='mt-2'>Add New Class</Button>
+            <Col className='mt-3'>
+              <Button onClick={handleSubmit} className="btn-add-org-item">
+                <i className="fas fa-plus-circle me-2"></i>
+                Add New Class Group
+              </Button>
             </Col>
           </Row>
         </Form>
+      </div>
+
+      <div className="org-items-list">
         {class_groups.map((clsGrp) => (
-          <ClassGroupList params={params} class_group={clsGrp} />
+          <ClassGroupList key={clsGrp.id} params={params} class_group={clsGrp} />
         ))}
-      </Card.Body>
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+      </div>
+
+      <div className="pagination-controls-modern">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-class"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   )
 }

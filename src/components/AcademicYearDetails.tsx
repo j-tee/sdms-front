@@ -21,22 +21,41 @@ const AcademicYearDetails = (props: any) => {
     setAcademicYearDetailsModalOpen(true)
   }
   return (
-    <div className='pb-2 border border-bottom-1 border-top-0 border-right-0 border-left-0'>
-      <Row className='d-flex flex-row'>
-        <Col>Start Date</Col>
-        <Col>End Date</Col>
-      </Row>
-      <Row className='d-flex flex-row'>
-        <Col>{new Date(year.start_date).toDateString()}</Col>
-        <Col>{new Date(year.end_date).toDateString()}</Col>
-      </Row>
-      <Row className='d-flex flex-row mt-3'>
-        <span>
-          <Card.Link className='text-decoration-none' onClick={handleEdit}><em>Edit</em></Card.Link>
-          <Card.Link className='text-decoration-none' onClick={handleDelete}><em>Delete</em></Card.Link>
-          <Card.Link className='text-decoration-none' onClick={handleDetails}><em>Details</em></Card.Link>
-        </span>
-      </Row>
+    <div className='academic-year-item-modern'>
+      <div className="academic-year-dates-grid">
+        <div className="date-info-item">
+          <div className="date-info-icon">
+            <i className="fas fa-calendar-day"></i>
+          </div>
+          <div className="date-info-content">
+            <div className="date-info-label">Start Date</div>
+            <div className="date-info-value">{new Date(year.start_date).toDateString()}</div>
+          </div>
+        </div>
+        <div className="date-info-item">
+          <div className="date-info-icon">
+            <i className="fas fa-calendar-check"></i>
+          </div>
+          <div className="date-info-content">
+            <div className="date-info-label">End Date</div>
+            <div className="date-info-value">{new Date(year.end_date).toDateString()}</div>
+          </div>
+        </div>
+      </div>
+      <div className="academic-year-actions">
+        <button className="academic-year-action-btn edit-btn" onClick={handleEdit}>
+          <i className="fas fa-edit"></i>
+          Edit
+        </button>
+        <button className="academic-year-action-btn details-btn" onClick={handleDetails}>
+          <i className="fas fa-info-circle"></i>
+          Details
+        </button>
+        <button className="academic-year-action-btn delete-btn" onClick={handleDelete}>
+          <i className="fas fa-trash-alt"></i>
+          Delete
+        </button>
+      </div>
       <AcademicYearDetailsModal 
        schoolId={schoolId} branchId={branchId} year={year}
        isOpen={isAcademicYearDetailsModalOpen}

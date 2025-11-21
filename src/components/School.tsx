@@ -16,6 +16,7 @@ import Header from "./Header";
 import PaginationComponent from "./PaginationComponent";
 import { debounce } from "lodash";
 import UserSession from "../utility/userSession";
+import "./School.css";
 
 type AnyType = {
   [key: string]: string;
@@ -129,56 +130,103 @@ const School = () => {
   return (
     <>
       <Header />
-      <Container style={{ marginTop: "3rem" }}>&nbsp;</Container>
-      <Card className="border-0 shadow-sm d-flex flex-md-column">
-        <Card.Header>
-        {!roles.some((role) => privileged_school_roles.includes(role)) && (
-            <span className="text-muted fs-1">Schools</span>
-          )}
-          
-        </Card.Header>
-        <Card.Body>
+      <div className="schools-page-modern">
+        <img src="/images/cap.jpg" alt="" className="floating-cap-decoration floating-cap-top-right" />
+        <img src="/images/cap.jpg" alt="" className="floating-cap-decoration floating-cap-bottom-left" />
+        <Container fluid>
+          <div className="page-hero-section">
+            <div className="hero-content-wrapper">
+              <div className="hero-icon">
+                <i className="fas fa-school"></i>
+              </div>
+              <h1 className="page-title-modern">
+                {!roles.some((role) => privileged_school_roles.includes(role)) ? 
+                  "Discover Schools" : 
+                  "My Schools"
+                }
+              </h1>
+              <p className="page-subtitle-modern">
+                {!roles.some((role) => privileged_school_roles.includes(role)) ?
+                  "Find the perfect educational institution for your child" :
+                  "Manage your educational institutions"
+                }
+              </p>
+            </div>
+          </div>
+
           {!roles.some((role) => privileged_school_roles.includes(role)) && (
-            <SchoolDropdowns onChange={handleInputChange} />
+            <Card className="filter-card-modern">
+              <Card.Body>
+                <div className="filter-header">
+                  <i className="fas fa-filter"></i>
+                  <h5>Filter Schools</h5>
+                </div>
+                <SchoolDropdowns onChange={handleInputChange} />
+              </Card.Body>
+            </Card>
           )}
-        </Card.Body>
 
-        {schools.map((school, index) => {
-          const schoolWithTags = { ...school, tags }; // Add tags to each school object
-          return (
-            <SchoolCard key={index} params={params} school={schoolWithTags} />
-          );
-        })}
+          <div className="schools-grid-modern">
+            {isLoading ? (
+              <div className="loading-state">
+                <div className="spinner-modern"></div>
+                <p>Loading schools...</p>
+              </div>
+            ) : schools.length > 0 ? (
+              schools.map((school, index) => {
+                const schoolWithTags = { ...school, tags };
+                return (
+                  <SchoolCard key={index} params={params} school={schoolWithTags} />
+                );
+              })
+            ) : (
+              <div className="empty-state">
+                <div className="empty-icon">
+                  <i className="fas fa-school"></i>
+                </div>
+                <h3>No Schools Found</h3>
+                <p>Try adjusting your filters to see more results</p>
+              </div>
+            )}
+          </div>
 
-        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-          <PaginationComponent
-            params={params}
-            activePage={pagination?.current_page}
-            itemsCountPerPage={pagination?.per_page}
-            totalItemsCount={pagination?.total_items || 0}
-            pageRangeDisplayed={5}
-            totalPages={pagination?.total_pages}
-            hideDisabled={pagination?.total_pages === 0}
-            hideNavigation={pagination?.total_pages === 1}
-            onChange={handlePageChange}
-          />
-          <DropdownButton
-            className="mt-2 mt-md-0 mb-2"
-            id="dropdown-items-per-page"
-            title={`Items per page: ${params.pagination?.per_page}`}
-          >
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>
-              5
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>
-              10
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
-              20
-            </Dropdown.Item>
-          </DropdownButton>
-        </div>
-      </Card>
+          {schools.length > 0 && (
+            <Card className="pagination-card-modern">
+              <Card.Body>
+                <div className="pagination-wrapper-modern">
+                  <PaginationComponent
+                    params={params}
+                    activePage={pagination?.current_page}
+                    itemsCountPerPage={pagination?.per_page}
+                    totalItemsCount={pagination?.total_items || 0}
+                    pageRangeDisplayed={5}
+                    totalPages={pagination?.total_pages}
+                    hideDisabled={pagination?.total_pages === 0}
+                    hideNavigation={pagination?.total_pages === 1}
+                    onChange={handlePageChange}
+                  />
+                  <DropdownButton
+                    className="items-per-page-modern"
+                    id="dropdown-items-per-page"
+                    title={`${params.pagination?.per_page} per page`}
+                    variant="outline-primary"
+                  >
+                    <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>
+                      5 per page
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>
+                      10 per page
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>
+                      20 per page
+                    </Dropdown.Item>
+                  </DropdownButton>
+                </div>
+              </Card.Body>
+            </Card>
+          )}
+        </Container>
+      </div>
     </>
   );
 };

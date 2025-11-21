@@ -11,6 +11,7 @@ import { ClassGroupParams } from '../models/classGroup';
 import { getRegisteredStudents, getRegistrationInformation, registerStudents } from '../redux/slices/studentRegSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import '../css/Registration.css';
 
 const UnregisteredStudent = (props: any) => {
   const { params, branchId, index, schoolId, students } = props;
@@ -187,13 +188,13 @@ const UnregisteredStudent = (props: any) => {
   
 
   return (
-    <Card>
-      <Card.Header className='fs-3 text-muted'>
-        Unregistered Students
+    <Card className='unregistered-container'>
+      <Card.Header className='unregistered-header'>
+        <div className='unregistered-title'>Unregistered Students</div>
       </Card.Header>
-      <Card.Body>
+      <Card.Body className='unregistered-body'>
         <form>
-          <Row className='d-flex flex-column flex-lg-row'>
+          <Row className='d-flex flex-column flex-lg-row registration-form-row'>
             <Col>
               <StageDropDown lesson={undefined} onChange={handleInputChange} branchId={branchId} />
             </Col>
@@ -209,34 +210,47 @@ const UnregisteredStudent = (props: any) => {
               </Form.Group>
             </Col>
           </Row>
-          <ListGroup>
-            <ListGroup.Item className='py-0 my-2 fs-5 gap-2 d-flex border-bottom-1 border-left-0 border-right-0  border-top-1 border-dark'>
-              <span className='d-flex gap-2'>
-                <span>
-                  <input onChange={selectAll} type="checkbox" checked={selectAllChecked} />
-                </span>
-                <span>Select All</span>
-              </span>
+          <ListGroup className='student-list'>
+            <ListGroup.Item className='select-all-item'>
+              <div className='student-list-content'>
+                <input 
+                  onChange={selectAll} 
+                  type="checkbox" 
+                  checked={selectAllChecked}
+                  className='student-checkbox'
+                />
+                <span><i className="fas fa-check-double"></i> Select All</span>
+              </div>
             </ListGroup.Item>
             {students && students.map((student: StudentViewModel) => (
-              <ListGroup.Item className='py-0 gap-2 d-flex' key={student.student_id}>
-                <span>
+              <ListGroup.Item className='student-list-item' key={student.student_id}>
+                <div className='student-list-content'>
                   <input
                     type="checkbox"
                     value={student.id}
                     checked={selectedCheckboxes.includes((student.id ?? '').toString())}
                     onChange={handleCheckboxChange}
+                    className='student-checkbox'
                   />
-                </span>
-                <span className='d-flex gap-2'>
-                  <span>{student.student_id}</span> <span>{student.last_name}</span> <span>{student.first_name}</span>
-                </span>
+                  <div className='student-name-group'>
+                    <span>{student.student_id}</span>
+                    <span>{student.last_name}</span>
+                    <span>{student.first_name}</span>
+                  </div>
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>
         </form>
         <Row><Col>
-          <button className='btn btn-primary mt-2' onClick={registerNewStudents}>Register</button>
+          <button 
+            className='register-students-btn' 
+            onClick={registerNewStudents}
+            disabled={registrations.length === 0}
+          >
+            <i className="fas fa-user-check"></i>
+            Register Selected Students ({registrations.length})
+          </button>
         </Col></Row>
       </Card.Body>
     </Card>

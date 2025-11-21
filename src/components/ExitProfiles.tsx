@@ -8,6 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import AcademicYearDropDown from "./AcademicYearDropDown";
 import AcademicTermDropDown from "./AcademicTermDropDown";
 import ClassGroupDropDown from "./ClassGroupDropDown";
+import '../css/ExitProfiles.css';
 
 type AnyType = {
   [key: string]: string;
@@ -51,35 +52,42 @@ const ExitProfiles = (props: any) => {
   }, [dispatch, schoolId, branchId, tabIndex, params]);
   return (
     <>
-      <h1>Exit Profiles</h1>
-      <Row>
-        <Col>
-          <AcademicYearDropDown
-            schoolId={schoolId}
-            branchId={branchId}
-            onChange={handleInputChange}
-          />
-        </Col>
-        <Col>
-          <AcademicTermDropDown
-            schoolId={schoolId}
-            branchId={branchId}
-            yearId={params.academic_term_id}
-            onChange={handleInputChange}
-          />
-        </Col>
-        <Col>
-          <ClassGroupDropDown
-            programId={0}
-            stageId={0}
-            departmentId={0}
-            lesson={undefined}
-            onChange={handleInputChange}
-          />
-        </Col>
-      </Row>
+      <div className='exit-profiles-header'>
+        <h1 className='exit-profiles-title'>
+          <i className="fas fa-sign-out-alt"></i> Exit Profiles
+        </h1>
+      </div>
+      
+      <div className='exit-profiles-filters'>
+        <Row className='exit-profiles-filter-row'>
+          <Col md={4}>
+            <AcademicYearDropDown
+              schoolId={schoolId}
+              branchId={branchId}
+              onChange={handleInputChange}
+            />
+          </Col>
+          <Col md={4}>
+            <AcademicTermDropDown
+              schoolId={schoolId}
+              branchId={branchId}
+              yearId={params.academic_term_id}
+              onChange={handleInputChange}
+            />
+          </Col>
+          <Col md={4}>
+            <ClassGroupDropDown
+              programId={0}
+              stageId={0}
+              departmentId={0}
+              lesson={undefined}
+              onChange={handleInputChange}
+            />
+          </Col>
+        </Row>
+      </div>
 
-      {registrations &&
+      {registrations && registrations.length > 0 ? (
         registrations.map((reg: any) => (
           <ExitProfileCard
             tabIndex={tabIndex}
@@ -87,7 +95,18 @@ const ExitProfiles = (props: any) => {
             key={reg.id}
             student={reg}
           />
-        ))}
+        ))
+      ) : (
+        <div className='exit-profiles-empty-state'>
+          <div className='exit-profiles-empty-icon'>
+            <i className="fas fa-user-graduate"></i>
+          </div>
+          <div className='exit-profiles-empty-title'>No Students Found</div>
+          <div className='exit-profiles-empty-text'>
+            Select filters above to view students and add exit profiles
+          </div>
+        </div>
+      )}
     </>
   );
 };

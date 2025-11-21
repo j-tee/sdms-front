@@ -75,36 +75,48 @@ const StudentTerminalReport = (props: any) => {
   }
 
   return (
-    <>
+    <div className="academic-section-content">
+      {/* Filter Section */}
       {!student && (
-        <Row className="mb-3">
-          <Col>
-            <AcademicYearDropDown
-              schoolId={schoolId}
-              branchId={branchId}
-              onChange={handleInputChange}
-            />
-          </Col>
-          <Col>
-            <AcademicTermDropDown
-              schoolId={schoolId}
-              branchId={branchId}
-              onChange={handleInputChange}
-              yearId={undefined}
-            />
-          </Col>
-          <Col>
-            <ClassGroupDropDown
-              programId={0}
-              stageId={0}
-              departmentId={0}
-              lesson={undefined}
-              onChange={handleInputChange}
-            />
-          </Col>
-        </Row>
+        <div className="academic-add-section mb-4">
+          <div className="academic-section-header">
+            <div className="academic-section-icon">
+              <i className="fas fa-filter"></i>
+            </div>
+            <h5>Filter Terminal Reports</h5>
+          </div>
+          <Row>
+            <Col>
+              <AcademicYearDropDown
+                schoolId={schoolId}
+                branchId={branchId}
+                onChange={handleInputChange}
+              />
+            </Col>
+            <Col>
+              <AcademicTermDropDown
+                schoolId={schoolId}
+                branchId={branchId}
+                onChange={handleInputChange}
+                yearId={undefined}
+              />
+            </Col>
+            <Col>
+              <ClassGroupDropDown
+                programId={0}
+                stageId={0}
+                departmentId={0}
+                lesson={undefined}
+                onChange={handleInputChange}
+              />
+            </Col>
+          </Row>
+        </div>
       )}
-      <div className="report-container" ref={componentRef}>
+
+      {/* Terminal Report */}
+      <div className="terminal-report-wrapper">
+        <div className="report-container" ref={componentRef}>
         {student_reports.map((report: any) => (
           <div className="mt-6 pt-6 border-4 border-primary page-break" key={report.student_id}>
             <div className="row justify-content-center align-items-start">
@@ -214,11 +226,26 @@ const StudentTerminalReport = (props: any) => {
             </Table>
           </div>
         ))}
+        </div>
+        
+        {student_reports && student_reports.length > 0 && (
+          <div className="text-center mt-4 no-print">
+            <Button className="btn-add-academic-item" onClick={() => handlePrint()}>
+              <i className="fas fa-print me-2"></i>
+              Print Terminal Reports
+            </Button>
+          </div>
+        )}
+        
+        {(!student_reports || student_reports.length === 0) && (
+          <div className="empty-state-full">
+            <i className="fas fa-file-invoice fa-3x mb-3"></i>
+            <p>No terminal reports found</p>
+            <small>Select academic year, term, and class group to view reports</small>
+          </div>
+        )}
       </div>
-      <Button className="no-print" onClick={() => handlePrint()}>
-        Print out terminal reports!
-      </Button>
-    </>
+    </div>
   );
 };
 

@@ -66,50 +66,52 @@ const SubjectList = (props: any) => {
   }, [params, tabKey, dispatch, schoolId, branchId]);
   return (
     <div>
-      <Table size="sm" striped hover responsive>
-        <thead>
-          <tr>
-            <th>Subject Name</th>
-            <th>Subject Code</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {subjects &&
-            subjects.map((subject: SubjectViewModel, index: number) => (
-              <tr key={index}>
-                <td>{subject.subject_name}</td>
-                <td>{subject.subject_code}</td>
-                <td>
-                  <Button variant="link text-info" className="me-2" onClick={() => handleEdit(subject)}>
-                    <i className="fa fa-edit" aria-hidden="true">
-                      {" "}
-                      Edit
-                    </i>
-                  </Button>
-                  <Button
-                    className="me-2"
-                    variant="link text-danger"
-                    onClick={() => handleDelete(subject.id)}
-                  >
-                    <i className="fa fa-trash" aria-hidden="true">
-                      {" "}
-                      Delete
-                    </i>
-                  </Button>
-                  {/* Uncomment if needed */}
-                  {/* <Button onClick={() => handleDetails(term)}>
-    <i className="fa fa-info-circle" aria-hidden="true"> Details</i>
-  </Button> */}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-      {/* {subjects && subjects.map((subject: SubjectViewModel, index: number) => (
-        <SubjectDetails key={index} subject={subject} />
-      ))} */}
-      <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
+      <div className="academic-table-wrapper">
+        <Table responsive className="academic-table-modern">
+          <thead>
+            <tr>
+              <th>
+                <i className="fas fa-book me-2"></i>
+                Subject Name
+              </th>
+              <th>
+                <i className="fas fa-code me-2"></i>
+                Subject Code
+              </th>
+              <th className="actions-column">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subjects &&
+              subjects.map((subject: SubjectViewModel, index: number) => (
+                <tr key={index}>
+                  <td className="subject-name-cell">
+                    <div className="subject-badge">{subject.subject_name}</div>
+                  </td>
+                  <td>
+                    <span className="subject-code-badge">{subject.subject_code}</span>
+                  </td>
+                  <td className="actions-cell">
+                    <div className="table-action-buttons">
+                      <button className="table-action-btn edit-btn-table" onClick={() => handleEdit(subject)}>
+                        <i className="fa fa-edit"></i>
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        className="table-action-btn delete-btn-table"
+                        onClick={() => handleDelete(subject.id)}
+                      >
+                        <i className="fa fa-trash"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </div>
+      <div className="pagination-controls-modern">
         <PaginationComponent
           params={params}
           activePage={pagination?.current_page}
@@ -122,8 +124,8 @@ const SubjectList = (props: any) => {
           onChange={handlePageChange}
         />
         <DropdownButton
-          className="mt-2 mt-md-0 mb-2"
-          id="dropdown-items-per-page"
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-subjects"
           title={`Items per page: ${params.pagination?.per_page}`}
         >
           <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>

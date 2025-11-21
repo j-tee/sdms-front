@@ -78,51 +78,70 @@ const DepartmentCard = (props: any) => {
     }));
   };
   return (
-    <div>
-      <Card.Subtitle className='d-flex justify-content-center fs-3 text-muted'>
-        Departments
-      </Card.Subtitle>
-      <Card.Body>
-        <Form>
-          <Row className='d-flex flex-column flex-lg-row gap-2 mb-4 mb-lg-2'>
-            <Col>
-              <Form.Group controlId='deptName'>
-                {/* <Form.Label>Department Name</Form.Label> */}
-                <Form.Control placeholder='Department Name' type='text' value={formData.dept_name} onChange={(e) => setFormData({ ...formData, dept_name: e.target.value })} />
+    <div className="org-section-content">
+      <div className="org-section-header">
+        <div className="org-section-icon">
+          <i className="fas fa-layer-group"></i>
+        </div>
+        <h3 className="org-section-title">Departments</h3>
+      </div>
+
+      <div className="org-add-section">
+        <Form className="org-add-form">
+          <Row className="align-items-end">
+            <Col md={8}>
+              <Form.Group controlId='deptName' className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-building me-2"></i>
+                  Department Name
+                </Form.Label>
+                <Form.Control 
+                  placeholder='Enter department name' 
+                  type='text' 
+                  value={formData.dept_name} 
+                  onChange={(e) => setFormData({ ...formData, dept_name: e.target.value })}
+                  className="org-form-control" 
+                />
               </Form.Group>
             </Col>
-            <Col>
-              <Button onClick={addNewDepartment}>Add New Department</Button>
+            <Col md={4}>
+              <Button onClick={addNewDepartment} className="btn-add-org-item">
+                <i className="fas fa-plus-circle me-2"></i>
+                Add Department
+              </Button>
             </Col>
           </Row>
         </Form>
+      </div>
+
+      <div className="org-items-list">
         {departments.map((dept: DepartmentViewModel) => (
           <DepartmentList key={dept.id} department={dept} params={params} branchId={branchId} schoolId={schoolId}/>
         ))}
-        <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
-      
-      </Card.Body>
+      </div>
+
+      <div className="pagination-controls-modern">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-dept"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   )
 }

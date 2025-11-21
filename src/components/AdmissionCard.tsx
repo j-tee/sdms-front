@@ -19,6 +19,7 @@ import { getStages } from '../redux/slices/stageSlice';
 import DepartmentDropDown from './DepartmentDropDown';
 import AcademicYearDropDown from './AcademicYearDropDown';
 import AcademicTermDropDown from './AcademicTermDropDown';
+import '../css/AdmissionList.css';
 import StageDropDown from './StageDropDown';
 import NewAdmissionModal from './NewAdmissionModal';
 import PaginationComponent from './PaginationComponent';
@@ -127,8 +128,9 @@ const AdmissionCard = (props: any) => {
         <Col><AcademicTermDropDown onChange={handleInputChange} schoolId={undefined} branchId={undefined} yearId={undefined} /></Col>
         <Col><StageDropDown onChange={handleInputChange} branchId={undefined} lesson={undefined} /></Col>
       </Row>
-      <div>
-        <Button onClick={openNewAdmission}>
+      <div className='mt-4'>
+        <Button onClick={openNewAdmission} className='new-admission-btn'>
+          <i className="fas fa-plus-circle"></i>
           New Admission
         </Button>
       </div>

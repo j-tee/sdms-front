@@ -15,6 +15,7 @@ import { getStages } from '../redux/slices/stageSlice'
 import RegisteredStudents from './RegisteredStudents'
 import UnregisteredStudent from './UnregisteredStudent'
 import PaginationComponent from './PaginationComponent'
+import '../css/Registration.css'
 
 const NewlyAdmittedStudents = (props: any) => {
   const { schoolId, branchId, tabIndex, tabKey } = props;
@@ -105,12 +106,12 @@ useEffect(()=>{
   }
   },[params, tabIndex, dispatch, branchId, schoolId])
   return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Newly Admitted Students Registration</Card.Title>
+    <Card className='registration-container'>
+      <Card.Header className='registration-header'>
+        <Card.Title className='registration-title'>Newly Admitted Students Registration</Card.Title>
       </Card.Header>
-      <Card.Body>
-        <Row>
+      <Card.Body className='registration-body'>
+        <Row className='filter-row'>
           <Col>
             <AcademicYearDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
           </Col>
@@ -118,8 +119,7 @@ useEffect(()=>{
             <AcademicTermDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} yearId={undefined} />
           </Col>
         </Row>
-        <Row className='d-flex flex-column flex-lg-row'>
-
+        <Row className='d-flex flex-column flex-lg-row filter-row'>
           <Col>
             <DepartmentDropDown onChange={handleInputChange} admission={undefined} branchId={branchId} schoolId={schoolId} />
           </Col>
@@ -130,7 +130,7 @@ useEffect(()=>{
             <StageDropDown lesson={(undefined)} onChange={handleInputChange} admission={undefined} branchId={branchId} />
           </Col>
         </Row>
-        <Row className='my-5'>
+        <Row className='my-4'>
           <Tabs
             id="controlled-tab-example"
             activeKey={key}
@@ -141,7 +141,7 @@ useEffect(()=>{
                 current_page: 1,
               },
             }))}}
-            className="mb-3"
+            className="registration-tabs mb-3"
           >
             <Tab eventKey="registered" title="Registered Students">
               <RegisteredStudents students={registered} index={key} params={params} branchId={branchId} schoolId={schoolId} />

@@ -8,6 +8,7 @@ import PaginationComponent from './PaginationComponent'
 import BranchDropDown from './BranchDropDown'
 import { getBranches } from '../redux/slices/schoolSlice'
 import ParentEditModal from './ParentEditModal'
+import '../css/ParentList.css'
 type AnyType = {
     [key: string]: string;
   };
@@ -69,68 +70,115 @@ const ParentListCard = (props: any) => {
     }
     return (
         <>
-        <BranchDropDown schoolId={schoolId} onChange={handleChange}/>
-            <h1>Parent List</h1>
-            <Table striped size="sm" hover responsive>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Father's Name</th>
-                        <th>Mother's Name</th>
-                        <th>Father's Email</th>
-                        <th>Mother's Email</th>
-                        <th>Father's Contact</th>
-                        <th>Mother's Contact</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {parents.map((parent, index) => (
-                        <tr key={index}>
-                            <td>{parent.id}</td>
-                            <td>{parent.fathers_full_name}</td>
-                            <td>{parent.mothers_full_name}</td>
-                            <td>{parent.fathers_email_address}</td>
-                            <td>{parent.mothers_email_address}</td>
-                            <td>{parent.fathers_contact_number}</td>
-                            <td>{parent.mothers_contact_number}</td>
-                            <td className="d-flex flex-column flex-lg-row justify-content-center">
-                                <Button size='sm' variant='link' onClick={() => handleEditModalOpen(parent)} className="m-1">
-                                    Edit
-                                </Button>
-                                <Button variant='link' className="m-1" size="sm">
-                                    View
-                                </Button>
-                                <Button variant='link' className="m-1" size="sm">
-                                    Delete
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-            <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
+            <div className="parent-list-header">
+                <h1 className="parent-list-title">
+                    <i className="fas fa-users"></i>
+                    Parent List
+                </h1>
+                {pagination && pagination.total_items && pagination.total_items > 0 && (
+                    <div className="parent-count-badge">
+                        <i className="fas fa-user-friends"></i>
+                        Total Parents: {pagination.total_items}
+                    </div>
+                )}
+            </div>
+
+            <div className="parent-list-filters">
+                <BranchDropDown schoolId={schoolId} onChange={handleChange}/>
+            </div>
+
+            <div className="parent-list-table-container">
+                {parents && parents.length > 0 ? (
+                    <table className="parent-list-table">
+                        <thead>
+                            <tr>
+                                <th><i className="fas fa-hashtag"></i> #</th>
+                                <th><i className="fas fa-male"></i> Father's Name</th>
+                                <th><i className="fas fa-female"></i> Mother's Name</th>
+                                <th><i className="fas fa-envelope"></i> Father's Email</th>
+                                <th><i className="fas fa-envelope"></i> Mother's Email</th>
+                                <th><i className="fas fa-phone"></i> Father's Contact</th>
+                                <th><i className="fas fa-phone"></i> Mother's Contact</th>
+                                <th><i className="fas fa-cog"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {parents.map((parent, index) => (
+                                <tr key={index}>
+                                    <td className="parent-id-cell">{parent.id}</td>
+                                    <td>{parent.fathers_full_name}</td>
+                                    <td>{parent.mothers_full_name}</td>
+                                    <td>
+                                        <a href={`mailto:${parent.fathers_email_address}`} className="parent-email">
+                                            {parent.fathers_email_address}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href={`mailto:${parent.mothers_email_address}`} className="parent-email">
+                                            {parent.mothers_email_address}
+                                        </a>
+                                    </td>
+                                    <td className="parent-contact">{parent.fathers_contact_number}</td>
+                                    <td className="parent-contact">{parent.mothers_contact_number}</td>
+                                    <td>
+                                        <div className="parent-action-buttons">
+                                            <button 
+                                                className="parent-action-btn parent-action-btn-edit" 
+                                                onClick={() => handleEditModalOpen(parent)}
+                                            >
+                                                <i className="fas fa-edit"></i>
+                                                Edit
+                                            </button>
+                                            <button className="parent-action-btn parent-action-btn-view">
+                                                <i className="fas fa-eye"></i>
+                                                View
+                                            </button>
+                                            <button className="parent-action-btn parent-action-btn-delete">
+                                                <i className="fas fa-trash-alt"></i>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="parent-list-empty">
+                        <div className="parent-list-empty-icon">
+                            <i className="fas fa-users"></i>
+                        </div>
+                        <div className="parent-list-empty-title">No Parents Found</div>
+                        <div className="parent-list-empty-text">
+                            No parent records available at the moment
+                        </div>
+                    </div>
+                )}
+            </div>
+            {parents && parents.length > 0 && (
+                <div className="parent-list-pagination">
+                    <PaginationComponent
+                        params={params}
+                        activePage={pagination?.current_page}
+                        itemsCountPerPage={pagination?.per_page}
+                        totalItemsCount={pagination?.total_items || 0}
+                        pageRangeDisplayed={5}
+                        totalPages={pagination?.total_pages}
+                        hideDisabled={pagination?.total_pages === 0}
+                        hideNavigation={pagination?.total_pages === 1}
+                        onChange={handlePageChange}
+                    />
+                    <DropdownButton
+                        className="parent-items-per-page-dropdown"
+                        id="dropdown-items-per-page"
+                        title={`Items per page: ${params.pagination?.per_page}`}
+                    >
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+                    </DropdownButton>
+                </div>
+            )}
           <ParentEditModal 
           branchId={branchId}
           schoolId={schoolId}

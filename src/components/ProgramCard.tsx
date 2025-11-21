@@ -76,61 +76,91 @@ const ProgramCard = (props: any) => {
   
 
   return (
-    <div>
-      <Card.Title className='d-flex justify-content-center fs-1 text-muted'>
-        Programs
-      </Card.Title>
-      <Card.Body>
-        <Form>
+    <div className="org-section-content">
+      <div className="org-section-header">
+        <div className="org-section-icon">
+          <i className="fas fa-project-diagram"></i>
+        </div>
+        <h3 className="org-section-title">Programs</h3>
+      </div>
+
+      <div className="org-add-section">
+        <Form className="org-add-form">
           <Row>
-            <Col>
-              <Form.Group controlId='deptId'>
-                <Form.Control as='select' value={formData.department_id}
-                  onChange={(e) => setFormData({ ...formData, department_id: parseInt(e.target.value) })}>
+            <Col md={4}>
+              <Form.Group controlId='deptId' className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-layer-group me-2"></i>
+                  Department
+                </Form.Label>
+                <Form.Control 
+                  as='select' 
+                  value={formData.department_id}
+                  onChange={(e) => setFormData({ ...formData, department_id: parseInt(e.target.value) })}
+                  className="org-form-control"
+                >
                   <option value={''}>---Select Department---</option>
                   {departments.map((dept: DepartmentViewModel) => (
-                    <option value={dept.id} key={dept.id}>{dept.dept_name} Department</option>
+                    <option value={dept.id} key={dept.id}>{dept.dept_name}</option>
                   ))}
                 </Form.Control>
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group controlId='programName'>
-                <Form.Control type='text' placeholder='Program Name' onChange={(e) => setFormData({ ...formData, prog_name: e.target.value })} />
+            <Col md={5}>
+              <Form.Group controlId='programName' className="org-form-group">
+                <Form.Label className="org-form-label">
+                  <i className="fas fa-graduation-cap me-2"></i>
+                  Program Name
+                </Form.Label>
+                <Form.Control 
+                  type='text' 
+                  placeholder='Enter program name' 
+                  onChange={(e) => setFormData({ ...formData, prog_name: e.target.value })}
+                  className="org-form-control" 
+                />
               </Form.Group>
             </Col>
-            <Col>
-              <Button onClick={handleSubmit}>Add New Program</Button>
+            <Col md={3}>
+              <div className="org-form-group">
+                <Form.Label className="org-form-label" style={{opacity: 0}}>Action</Form.Label>
+                <Button onClick={handleSubmit} className="btn-add-org-item">
+                  <i className="fas fa-plus-circle me-2"></i>
+                  Add Program
+                </Button>
+              </div>
             </Col>
           </Row>
         </Form>
+      </div>
+
+      <div className="org-items-list">
         {programs.map((prog: ProgramViewModel) => (
-          // <span>{prog.prog_name}</span>
-          <ProgramList params={params} schoolId={schoolId} branchId={branchId} prog={prog} />
+          <ProgramList key={prog.id} params={params} schoolId={schoolId} branchId={branchId} prog={prog} />
         ))}
-       <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
-            <PaginationComponent
-              params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
-              pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
-              onChange={handlePageChange}
-            />
-            <DropdownButton
-              className="mt-2 mt-md-0 mb-2"
-              id="dropdown-items-per-page"
-              title={`Items per page: ${params.pagination?.per_page}`}
-            >
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
-            </DropdownButton>
-          </div>
-      </Card.Body>
+      </div>
+
+      <div className="pagination-controls-modern">
+        <PaginationComponent
+          params={params}
+          activePage={pagination?.current_page}
+          itemsCountPerPage={pagination?.per_page}
+          totalItemsCount={pagination?.total_items || 0}
+          pageRangeDisplayed={5}
+          totalPages={pagination?.total_pages}
+          hideDisabled={pagination?.total_pages === 0}
+          hideNavigation={pagination?.total_pages === 1}
+          onChange={handlePageChange}
+        />
+        <DropdownButton
+          className="items-per-page-dropdown"
+          id="dropdown-items-per-page-prog"
+          title={`Items per page: ${params.pagination?.per_page}`}
+        >
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(5)}>5</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(10)}>10</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleItemsPerPageChange(20)}>20</Dropdown.Item>
+        </DropdownButton>
+      </div>
     </div>
   )
 }

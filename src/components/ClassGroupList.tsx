@@ -15,14 +15,29 @@ const ClassGroupList = (props: any) => {
 	}
 	return (
 		<>
-			<div className='fs-5 text-muted pt-1 border-bottom d-flex flex-row justify-content-between'>
-				<span>{class_group.stage_name} {class_group.class_name} - Capacity: {class_group.capacity}</span>
-				<span>
-					<Card.Footer className='p-0 m-0 fs-6 d-flex flex-row'>
-						<Card.Link onClick={handleEdit}>Edit</Card.Link>
-						<Card.Link onClick={handleDelete}>Delete</Card.Link>
-					</Card.Footer>
-				</span>
+			<div className="org-item-card class-group-card">
+				<div className="org-item-content">
+					<div className="org-item-icon">
+						<i className="fas fa-chalkboard-teacher"></i>
+					</div>
+					<div className="class-group-info">
+						<span className="org-item-name">{class_group.stage_name} {class_group.class_name}</span>
+						<span className="class-capacity-badge">
+							<i className="fas fa-users me-1"></i>
+							Capacity: {class_group.capacity}
+						</span>
+					</div>
+				</div>
+				<div className="org-item-actions">
+					<button className="org-action-btn edit-btn-org" onClick={handleEdit}>
+						<i className="fas fa-edit"></i>
+						<span>Edit</span>
+					</button>
+					<button className="org-action-btn delete-btn-org" onClick={handleDelete}>
+						<i className="fas fa-trash-alt"></i>
+						<span>Delete</span>
+					</button>
+				</div>
 			</div>
 		<ClassGroupEdit isOpen={isClassGroupEditModalOpen}
 			onRequestClose={() => { setClassGroupEditModalOpen(false) }}
