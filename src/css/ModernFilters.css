@@ -200,6 +200,11 @@
   z-index: 1;
 }
 
+/* Force isolation to create new stacking context - helps with Chrome dropdown bug */
+select.form-control {
+  isolation: isolate;
+}
+
 /* Chrome-specific fix for select dropdown positioning */
 .filter-section select.form-control,
 .filter-card-modern select.form-control {

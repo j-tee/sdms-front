@@ -86,40 +86,46 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
       <div className="location-filter-column">
         <Form.Group controlId="region">
           <Form.Label>Region</Form.Label>
-          <Form.Control as="select" onChange={handleRegionChange} value={params.region_id}>
-              <option value="0">---Select---</option>
-              {regions.map((region) => (
-                <option key={region.id} value={region.id}>
-                  {region.name}
-                </option>
-              ))}
-          </Form.Control>
+          <div style={{ position: 'relative', isolation: 'isolate' }}>
+            <Form.Control as="select" onChange={handleRegionChange} value={params.region_id}>
+                <option value="0">---Select---</option>
+                {regions.map((region) => (
+                  <option key={region.id} value={region.id}>
+                    {region.name}
+                  </option>
+                ))}
+            </Form.Control>
+          </div>
         </Form.Group>
       </div>
       <div className="location-filter-column">
         <Form.Group controlId="district">
           <Form.Label>District</Form.Label>
-          <Form.Control as="select" onChange={handleDistrictChange} value={params.district_id}>
-              <option value="0">---Select---</option>
-              {districts.map((district) => (
-                <option key={district.id} value={district.id}>
-                  {district.name}
-                </option>
-              ))}
-          </Form.Control>
+          <div style={{ position: 'relative', isolation: 'isolate' }}>
+            <Form.Control as="select" onChange={handleDistrictChange} value={params.district_id}>
+                <option value="0">---Select---</option>
+                {districts.map((district) => (
+                  <option key={district.id} value={district.id}>
+                    {district.name}
+                  </option>
+                ))}
+            </Form.Control>
+          </div>
         </Form.Group>
       </div>
       <div className="location-filter-column">
         <Form.Group controlId="circuit">
           <Form.Label>Circuit</Form.Label>
-          <Form.Control as="select" onChange={handleCircuitChange} value={params.circuit_id}>
-              <option value="0">---Select---</option>
-              {circuits.map((circuit) => (
-                <option key={circuit.id} value={circuit.id}>
-                  {circuit.name}
-                </option>
-              ))}
-          </Form.Control>
+          <div style={{ position: 'relative', isolation: 'isolate' }}>
+            <Form.Control as="select" onChange={handleCircuitChange} value={params.circuit_id}>
+                <option value="0">---Select---</option>
+                {circuits.map((circuit) => (
+                  <option key={circuit.id} value={circuit.id}>
+                    {circuit.name}
+                  </option>
+                ))}
+            </Form.Control>
+          </div>
         </Form.Group>
       </div>
     </div>
