@@ -85,17 +85,17 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
   // Prepare options for CustomSelect
   const regionOptions = [
     { value: 0, label: '---Select---' },
-    ...regions.map(region => ({ value: region.id, label: region.name }))
+    ...regions.map(region => ({ value: region.id || 0, label: region.name || '' }))
   ];
 
   const districtOptions = [
     { value: 0, label: '---Select---' },
-    ...districts.map(district => ({ value: district.id, label: district.name }))
+    ...districts.map(district => ({ value: district.id || 0, label: district.name || '' }))
   ];
 
   const circuitOptions = [
     { value: 0, label: '---Select---' },
-    ...circuits.map(circuit => ({ value: circuit.id, label: circuit.name }))
+    ...circuits.map(circuit => ({ value: circuit.id || 0, label: circuit.name || '' }))
   ];
 
   return (
