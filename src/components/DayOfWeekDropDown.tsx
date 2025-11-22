@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -21,7 +22,7 @@ const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange, lesson 
   return (
     <Form.Group controlId="dayOfWeek">
       <Form.Label>Days of The Week</Form.Label>
-      <Form.Select as="select" onChange={handleDayOfWeekChange} value={params.staff_id}>
+      <FormSelect onChange={handleDayOfWeekChange} value={params.staff_id || ''}>
       <option value={lesson ? lesson.day_of_week : ''}>{lesson ? lesson.day_of_week : "-----Select Day of Week----"}</option>
         <option value="Monday">Monday</option>
         <option value="Tuesday">Tuesday</option>
@@ -30,7 +31,7 @@ const DayOfWeekDropDown: React.FC<DayOfWeekDropDownProps> = ({ onChange, lesson 
         <option value="Friday">Friday</option>
         <option value="Saturday">Saturday</option>
         <option value="Sunday">Sunday</option>
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Form } from 'react-bootstrap';
 import { RootState } from '../redux/store';
 import { useSelector } from 'react-redux';
+import FormSelect from './FormSelect';
 
 
 type AnyType = {
@@ -22,14 +23,14 @@ const StaffSubjectDropDown:FC<StaffSubjectDropDownProps> = ({onChange, schoolId,
   return (
     <Form.Group controlId="subjectId">
     <Form.Label>Subjects</Form.Label>
-    <Form.Select as="select" onChange={handleInputChange}>
+    <FormSelect onChange={handleInputChange} value={'0'}>
         <option value="0">-----Select Subject----</option>
         {staff_subject_list.map(([subjectId, subjectName]) => (
           <option key={subjectId} value={subjectId}>
             {subjectName}
           </option>
         ))}
-    </Form.Select>
+    </FormSelect>
 </Form.Group>
   )
 }

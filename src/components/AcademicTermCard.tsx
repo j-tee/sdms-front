@@ -229,10 +229,10 @@ const AcademicTermCard = (props: any) => {
                 <Form.Group controlId='nextTermStartDate' className="modern-form-group">
                   <Form.Label className="modern-form-label">
                     <i className="fas fa-calendar-plus me-2"></i>
-                    Next Term Start
+                    Next Term Start Date
                   </Form.Label>
                   <CustomDatePicker
-                    value={formData.next_term_start_date}
+                    value={formData.next_term_start_date || ''}
                     onChange={(date) => setFormData({ ...formData, next_term_start_date: date })}
                     className="modern-form-control"
                   />

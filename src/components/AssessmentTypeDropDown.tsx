@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { Form } from 'react-bootstrap';
 import { getAssessmentTypes } from '../redux/slices/assesmentTypeSlice';
+import FormSelect from './FormSelect';
 type AnyType = {
   [key: string]: string;
 };
@@ -24,12 +25,12 @@ const AssessmentTypeDropDown: React.FC<AssessmentTypeDropDownProps> = ({ onChang
   return (
     <Form.Group controlId="assessment_type">
       <Form.Label>Assessment Type</Form.Label>
-      <Form.Select as="select" onChange={handleAssessmentTypeChange}>
+      <FormSelect onChange={handleAssessmentTypeChange} value={''}>
         <option value="">---Select---</option>
         {assessment_types.map((assessment_type) => (
           <option key={assessment_type.id} value={assessment_type.id}>{assessment_type.category === 'CA' ? 'Continuous Assessment' : 'Terminal Assessment'}</option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

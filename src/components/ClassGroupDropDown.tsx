@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { ClassGroupParams } from '../models/classGroup';
 import { RootState } from '../redux/store';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -44,14 +45,14 @@ const ClassGroupDropDown: React.FC<ClassGroupDropDownProps> = ({ onChange, progr
   return (
     <Form.Group controlId="department">
       <Form.Label>Class Groups</Form.Label>
-      <Form.Select as="select" onChange={handleClassGroupChange} value={params.class_group_id}>
+      <FormSelect onChange={handleClassGroupChange} value={params.class_group_id || '0'}>
       {/* <option value={lesson ? lesson.class_group_id : ''}>{lesson ? lesson.class_group_name : "-----Select Class----"}</option> */}
       <option value="0">-----Select Class Group----</option>
         {class_groups.map((clsgrp) => (<option key={clsgrp.id} value={clsgrp.id}>
           {clsgrp.class_grp_name}
         </option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

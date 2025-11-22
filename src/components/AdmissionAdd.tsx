@@ -270,7 +270,7 @@ const AdmissionAdd = (props: any) => {
             <Col>
               <Form.Group controlId='admissionDate'>
                 <Form.Label>AdmissionDate</Form.Label>
-                <CustomDatePicker value={params.admission_date}
+                <CustomDatePicker value={params.admission_date || ''}
                   onChange={(date) => handleInputChange('admission_date', date)} />
               </Form.Group>
             </Col>

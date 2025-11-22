@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContext } from '../utility/ToastContext';
 import { Form } from 'react-bootstrap';
 import { getClassGroups } from '../redux/slices/classGroupSlice';
+import FormSelect from './FormSelect';
 
 type AnyType = {
     [key: string]: string;
@@ -47,14 +48,14 @@ const AcademicTermDropDown: React.FC<AcademicTermDropDownProps> = ({ onChange, s
     return (
         <Form.Group controlId="termId">
             <Form.Label>Academic Terms</Form.Label>
-            <Form.Select as="select" onChange={handleAcademicTermChange} value={params.academic_term_id}>
+            <FormSelect onChange={handleAcademicTermChange} value={params.academic_term_id || ''}>
                 <option value="">-----Select Term----</option>
                 {academic_terms.map((term) =>
                 (<option key={term.id} value={term.id}>
                     {term.term_name}
                 </option>
                 ))}
-            </Form.Select>
+            </FormSelect>
         </Form.Group>
         // <div>
         //   <select

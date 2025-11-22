@@ -121,7 +121,7 @@ const AcademicTermEdit = (props: any) => {
                   <Form.Group controlId="nextTermStartDate">
                     <Form.Label>Next Term Start Date</Form.Label>
                     <CustomDatePicker
-                      value={formData.next_term_start_date}
+                      value={formData.next_term_start_date || ''}
                       onChange={(date) =>
                         setFormData({
                           ...formData,

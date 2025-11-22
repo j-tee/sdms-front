@@ -2,6 +2,7 @@ import React from 'react'
 import { RootState } from '../redux/store';
 import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 type AnyType = {
   [key: string]: string;
 };
@@ -22,12 +23,12 @@ const AssessmentDropDown: React.FC<AssessmentDropDownProps> = ({ onChange, branc
   return (
     <Form.Group controlId="assessment">
       <Form.Label>Assessment</Form.Label>
-      <Form.Select as="select" onChange={handleAssessmentChange}>
+      <FormSelect onChange={handleAssessmentChange} value={''}>
         <option value="">---Select---</option>
         {assessments.map((assessment) => (
           <option key={assessment.id} value={assessment.id}>{assessment.id} {assessment.assessment_name}</option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

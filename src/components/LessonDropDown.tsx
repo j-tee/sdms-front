@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -24,12 +25,12 @@ const LessonDropDown: React.FC<LessonDropDownProps> = ({ onChange, staffId, acad
   return (
     <Form.Group controlId="lesson">
       <Form.Label>Lessons</Form.Label>
-      <Form.Select as="select" onChange={handleLessonChange}>
+      <FormSelect onChange={handleLessonChange} value={''}>
         <option value="">---Select---</option>
         {lessons.map((lesson)=>(
           <option key={lesson.id} value={lesson.id}>{lesson.day_of_week} | {lesson.subject_name} | {new Date(lesson.start_time).toLocaleTimeString()} - {new Date(lesson.end_time).toLocaleTimeString()} |</option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

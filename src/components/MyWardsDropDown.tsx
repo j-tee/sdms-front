@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { getStudentSchools } from '../redux/slices/schoolSlice';
+import FormSelect from './FormSelect';
 
 
 type AnyType = {
@@ -27,14 +28,14 @@ const MyWardsDropDown: FC<MywardsDropDownProps> = ({ onChange, myWards, params }
   return (
     <Form.Group controlId="my_wards">
     <Form.Label>My Wards</Form.Label>
-    <Form.Select as="select" onChange={handleMyWarsChange}>
+    <FormSelect onChange={handleMyWarsChange} value={'0'}>
       <option value="0">---Select---</option>
       {/* <option value={admission !== undefined ? admission.program_id : ''}>{admission !== undefined ? admission.admission_program : "-----Select Program----"}</option> */}
       {myWards.map((ward: any) => (<option key={ward.id} value={ward.id}>
         {ward.student_id} {ward.first_name} {ward.last_name}
       </option>
       ))}
-    </Form.Select>
+    </FormSelect>
   </Form.Group>
   )
 }

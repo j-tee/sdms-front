@@ -6,6 +6,7 @@ import { showToastify } from '../utility/Toastify';
 import { getStages } from '../redux/slices/stageSlice';
 import { StageParams } from '../models/stage';
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -55,7 +56,7 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesso
   return (
     <Form.Group controlId="branch">
       <Form.Label>Stages / Levels / Years</Form.Label>
-      <Form.Select as="select" onChange={handleStageChange} value={params.stage_id}>
+      <FormSelect onChange={handleStageChange} value={params.stage_id || '0'}>
       {/* {lesson && <option value={lesson ? lesson.stage_id : ''}>{lesson ? lesson.stage_name : "-----Select Stage----"}</option>}
       {admission && <option value={admission ? admission.stage_id : ''}>{admission ? admission.admission_stage : "-----Select Stage----"}</option>} */}
         <option value="0">-----Select Stage----</option>
@@ -63,7 +64,7 @@ const StageDropDown: React.FC<StageDropDownProps> = ({ onChange, branchId, lesso
           {stage.stage_name}
         </option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

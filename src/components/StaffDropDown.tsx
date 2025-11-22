@@ -3,6 +3,7 @@ import { StaffParams } from '../models/staff';
 import { Form } from 'react-bootstrap';
 import { RootState } from '../redux/store';
 import { useSelector } from 'react-redux';
+import FormSelect from './FormSelect';
 
 type AnyType = {
     [key: string]: string;
@@ -29,13 +30,13 @@ const StaffDropDown: React.FC<StaffDropDownProps> = ({onChange, branchId, value,
   return (
     <Form.Group controlId="branch">
       <Form.Label>Staffs</Form.Label>
-      <Form.Select as="select" onChange={handleStaffChange} value={params.staff_id}>
+      <FormSelect onChange={handleStaffChange} value={params.staff_id || ''}>
         <option value={value ? value.staff_id : ''}>{value ? value.staff_name : "-----Select Staff----"}</option>
         {staffs.map((staff) => (<option key={staff.id} value={staff.id}>
           {staff.id} {staff.last_name} {staff.first_name}
         </option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

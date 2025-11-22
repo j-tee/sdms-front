@@ -72,7 +72,7 @@ const ExitProfileDialog = (props:any) => {
             <Form onSubmit={handleSubmit}>
             <Form.Group controlId='exit_category'>
                 <Form.Label>Exit Category</Form.Label>
-                <FormSelect onChange={handleInputChange} name='exit_category'>
+                <FormSelect value={exitProfileDetails.exit_category || ''} onChange={(e) => handleInputChange({...e, target: {...e.target, name: 'exit_category'}})}>
                     <option value=''>---Select Category---</option>
                     <option value='Graduated'>Graduated</option>
                     <option value='Expelled'>Expelled</option>
@@ -85,9 +85,8 @@ const ExitProfileDialog = (props:any) => {
             <Form.Group controlId='exit_date'>
                 <Form.Label>Exit Date</Form.Label>
                 <CustomDatePicker
-                name='exit_date'
+                value={exitProfileDetails.exit_date || ''}
                 placeholder='Enter Exit Date'
-                // value={exitProfileDetails.exit_date}
                 onChange={(date) => handleInputChange({target: {name: 'exit_date', value: date}})}
                 />
             </Form.Group>

@@ -90,9 +90,8 @@ const PaymentDialog = (props: any) => {
                     <Form.Group controlId='payment_date'>
                         <Form.Label>Payment Date</Form.Label>
                         <CustomDatePicker
-                            name='payment_date'
+                            value={paymentDetails.payment_date || ''}
                             placeholder='Enter Payment Date'
-                            // value={paymentDetails.payment_date}
                             onChange={(date) => handleInputChange({target: {name: 'payment_date', value: date}})}
                         />
                     </Form.Group>

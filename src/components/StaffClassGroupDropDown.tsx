@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { RootState } from '../redux/store';
+import FormSelect from './FormSelect';
 
 
 
@@ -22,14 +23,14 @@ const StaffClassGroupDropDown:FC<StaffClassGroupDropDownProps> = ({onChange, sch
   return (
     <Form.Group controlId="subjectId">
     <Form.Label>Class Groups</Form.Label>
-    <Form.Select as="select" onChange={handleInputChange}>
+    <FormSelect onChange={handleInputChange} value={'0'}>
         <option value="0">-----Select Class----</option>
         {class_group_list.map((clsgrp) => (
           <option key={clsgrp.id} value={clsgrp.id}>
             {clsgrp.class_grp_name}
           </option>
         ))}
-    </Form.Select>
+    </FormSelect>
 </Form.Group>
   )
 }

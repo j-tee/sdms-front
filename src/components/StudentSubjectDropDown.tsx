@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { getSubjects } from '../redux/slices/subjectSlice';
 import { getScoreSheets } from '../redux/slices/scoreSheetSlice';
+import FormSelect from './FormSelect';
 
 type AnyType = {
     [key: string]: string;
@@ -31,14 +32,14 @@ const StudentSubjectDropDown:FC<StudentSubjectDropDownProps> = ({params, index, 
   return (
     <Form.Group controlId="subjectId">
     <Form.Label>Subjects</Form.Label>
-    <Form.Select as="select" onChange={handleInputChange}>
+    <FormSelect onChange={handleInputChange} value={'0'}>
         <option value="0">-----Select Subject----</option>
         {subjects && subjects.map((subject) => (
           <option key={subject.id} value={subject.id}>
             {subject.subject_name}
           </option>
         ))}
-    </Form.Select>
+    </FormSelect>
 </Form.Group>
   )
 }

@@ -5,6 +5,7 @@ import { getPrograms } from '../redux/slices/programSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -49,14 +50,14 @@ const ProgramDropDown: React.FC<ProgramDropDownProps> = ({ onChange, branchId, d
   return (
     <Form.Group controlId="department">
       <Form.Label>Programs</Form.Label>
-      <Form.Select as="select" onChange={handleProgramChange} value={params.program_id}>
+      <FormSelect onChange={handleProgramChange} value={params.program_id || '0'}>
         <option value="0">---Select---</option>
         {/* <option value={admission !== undefined ? admission.program_id : ''}>{admission !== undefined ? admission.admission_program : "-----Select Program----"}</option> */}
         {programs.map((prog) => (<option key={prog.id} value={prog.id}>
           {prog.prog_name}
         </option>
         ))}
-      </Form.Select>
+      </FormSelect>
     </Form.Group>
   )
 }

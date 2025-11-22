@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { ToastContext } from '../utility/ToastContext';
 import { Form } from 'react-bootstrap';
 import { getAcademicTerms, getAcademicYears } from '../redux/slices/calendarSlice';
+import FormSelect from './FormSelect';
 type AnyType = {
     [key: string]: string;
 };
@@ -45,14 +46,14 @@ const AcademicYearDropDown: FC<AcademicYearDropDownProps> = ({ onChange, schoolI
     return (
         <Form.Group controlId="yearId">
         <Form.Label>Academic Years</Form.Label>
-        <Form.Select as="select" onChange={handleAcademicYearChange}>
+        <FormSelect onChange={handleAcademicYearChange} value={params.academic_year_id || '0'}>
             <option value="0">-----Select Year----</option>
             {academic_years.map((year) =>
             (<option key={year.id} value={year.id}>
                 {year.academic_year}
             </option>
             ))}
-        </Form.Select>
+        </FormSelect>
     </Form.Group>
     )
 }

@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBranches, getStudentBranches } from '../redux/slices/schoolSlice';
+import FormSelect from './FormSelect';
 
 
 type AnyType = {
@@ -26,13 +27,13 @@ const MyWardSchoolDropDown:  FC<MywardsSchoolDropDownProps> = ({ onChange, stude
   return (
     <Form.Group controlId="my_wards">
     <Form.Label>Schools Attended</Form.Label>
-    <Form.Select as="select" onChange={handleSchoolChange}>
+    <FormSelect onChange={handleSchoolChange} value={'0'}>
       <option value="0">---Select---</option>
       {schools.map((school: any) => (<option key={school.id} value={school.id}>
         {school.school_name}
       </option>
       ))}
-    </Form.Select>
+    </FormSelect>
   </Form.Group>
   )
 }

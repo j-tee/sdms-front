@@ -250,9 +250,8 @@ if (file && file.size > 5120) {
               <Form.Group controlId="gender">
                 <Form.Label>Gender</Form.Label>
                 <FormSelect
-                  name="gender"
                   value={formData.gender}
-                  onChange={handleChange}>
+                  onChange={(e) => handleChange({...e, target: {...e.target, name: 'gender'}})}>
                     <option value={''}>---Select Gender</option>
                   <option value={'Male'}>Male</option>
                   <option value={'Female'}>Female</option>
@@ -266,7 +265,6 @@ if (file && file.size > 5120) {
               <Form.Group controlId="birth_date">
                 <Form.Label>Birth Date</Form.Label>
                 <CustomDatePicker
-                  name="birth_date"
                   value={formData.birth_date}
                   onChange={(date) => handleChange({target: {name: 'birth_date', value: date}} as any)}
                 />
