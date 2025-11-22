@@ -244,7 +244,11 @@ body.chrome-select-open .enrolment-card-modern,
 body.chrome-select-open .calendar-card-modern,
 body.chrome-select-open .organisation-card-modern,
 body.chrome-select-open .subscription-card-modern,
-body.chrome-select-open .modern-modal {
+body.chrome-select-open .modern-modal,
+body.chrome-select-open .tab-pane,
+body.chrome-select-open .tab-pane.fade,
+body.chrome-select-open .tab-pane.fade.show,
+body.chrome-select-open .fade {
   animation: none !important;
 }
 
@@ -252,7 +256,10 @@ body.chrome-select-open .modern-modal {
 .filter-card-modern:has(select:focus),
 .filter-section:has(select:focus),
 .parent-list-filters:has(select:focus),
-.exit-profiles-filters:has(select:focus) {
+.exit-profiles-filters:has(select:focus),
+.tab-pane:has(select:focus),
+.tab-pane.fade:has(select:focus),
+.fade:has(select:focus) {
   transform: none !important;
 }
 
