@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { getRegions } from '../redux/slices/regionSlice';
 import { getDistricts } from '../redux/slices/districtSlice';
 import { getCircuits } from '../redux/slices/circuitSlice';
+import CustomSelect from './CustomSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -51,81 +52,88 @@ const LocationDropDown: React.FC<LocationDropDownProps> = ({ onLocationChange })
     }
   }, [dispatch, params.current_page, params.per_page]);
 
-  const handleRegionChange = (e: React.ChangeEvent<any>) => {
-    const selectedRegionId = e.target.value;
+  const handleRegionChange = (value: string | number) => {
+    const selectedRegionId = Number(value);
     setParams((prevParams) => ({
       ...prevParams,
       region_id: selectedRegionId,
       district_id: 0, // Reset district and circuit
       circuit_id: 0,
     }));
-    onLocationChange('region_id', selectedRegionId);
+    onLocationChange('region_id', String(selectedRegionId));
   };
 
-  const handleDistrictChange = (e: React.ChangeEvent<any>) => {
-    const selectedDistrictId = e.target.value;
+  const handleDistrictChange = (value: string | number) => {
+    const selectedDistrictId = Number(value);
     setParams((prevParams) => ({
       ...prevParams,
       district_id: selectedDistrictId,
       circuit_id: 0, // Reset circuit
     }));
-    onLocationChange('district_id', selectedDistrictId);
+    onLocationChange('district_id', String(selectedDistrictId));
   };
 
-  const handleCircuitChange = (e: React.ChangeEvent<any>) => {
-    const selectedCircuitId = e.target.value;
+  const handleCircuitChange = (value: string | number) => {
+    const selectedCircuitId = Number(value);
     setParams((prevParams) => ({
       ...prevParams,
       circuit_id: selectedCircuitId,
     }));
-    onLocationChange('circuit_id', selectedCircuitId);
+    onLocationChange('circuit_id', String(selectedCircuitId));
   };
+
+  // Prepare options for CustomSelect
+  const regionOptions = [
+    { value: 0, label: '---Select---' },
+    ...regions.map(region => ({ value: region.id, label: region.name }))
+  ];
+
+  const districtOptions = [
+    { value: 0, label: '---Select---' },
+    ...districts.map(district => ({ value: district.id, label: district.name }))
+  ];
+
+  const circuitOptions = [
+    { value: 0, label: '---Select---' },
+    ...circuits.map(circuit => ({ value: circuit.id, label: circuit.name }))
+  ];
 
   return (
     <div className="location-filter-grid">
       <div className="location-filter-column">
         <Form.Group controlId="region">
           <Form.Label>Region</Form.Label>
-          <div style={{ position: 'relative', isolation: 'isolate' }}>
-            <Form.Control as="select" onChange={handleRegionChange} value={params.region_id}>
-                <option value="0">---Select---</option>
-                {regions.map((region) => (
-                  <option key={region.id} value={region.id}>
-                    {region.name}
-                  </option>
-                ))}
-            </Form.Control>
-          </div>
+          <CustomSelect
+            options={regionOptions}
+            value={params.region_id}
+            onChange={handleRegionChange}
+            placeholder="---Select---"
+            id="region"
+          />
         </Form.Group>
       </div>
       <div className="location-filter-column">
         <Form.Group controlId="district">
           <Form.Label>District</Form.Label>
-          <div style={{ position: 'relative', isolation: 'isolate' }}>
-            <Form.Control as="select" onChange={handleDistrictChange} value={params.district_id}>
-                <option value="0">---Select---</option>
-                {districts.map((district) => (
-                  <option key={district.id} value={district.id}>
-                    {district.name}
-                  </option>
-                ))}
-            </Form.Control>
-          </div>
+          <CustomSelect
+            options={districtOptions}
+            value={params.district_id}
+            onChange={handleDistrictChange}
+            placeholder="---Select---"
+            id="district"
+          />
         </Form.Group>
       </div>
       <div className="location-filter-column">
         <Form.Group controlId="circuit">
           <Form.Label>Circuit</Form.Label>
-          <div style={{ position: 'relative', isolation: 'isolate' }}>
-            <Form.Control as="select" onChange={handleCircuitChange} value={params.circuit_id}>
-                <option value="0">---Select---</option>
-                {circuits.map((circuit) => (
-                  <option key={circuit.id} value={circuit.id}>
-                    {circuit.name}
-                  </option>
-                ))}
-            </Form.Control>
-          </div>
+          <CustomSelect
+            options={circuitOptions}
+            value={params.circuit_id}
+            onChange={handleCircuitChange}
+            placeholder="---Select---"
+            id="circuit"
+          />
         </Form.Group>
       </div>
     </div>
