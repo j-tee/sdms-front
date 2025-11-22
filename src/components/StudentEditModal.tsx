@@ -6,6 +6,7 @@ import { Student } from "../models/student";
 import { ToastContext } from "../utility/ToastContext";
 import { getStudents, updateStudent } from "../redux/slices/studentSlice";
 import { showToastify } from "../utility/Toastify";
+import FormSelect from './FormSelect';
 import '../css/ModernModal.css';
 
 const StudentEditModal = (props: any) => {
@@ -174,23 +175,23 @@ const StudentEditModal = (props: any) => {
             <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Nationality</Form.Label>
-                <Form.Control as="select" value={formData?.nationality || ""} onChange={(e) => handleInputChange("nationality", e.target.value)}>	
+                <FormSelect value={formData?.nationality || ""} onChange={(e) => handleInputChange("nationality", e.target.value)}>	
                   {countries.map((country) => (
                     <option key={country.name} value={country.name}>
                       {country.name}
                     </option>
                   ))}
-                </Form.Control>
+                </FormSelect>
               </Form.Group>
             </Col>
             <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Gender</Form.Label>
-                <Form.Control as="select" value={formData?.gender || ""} onChange={(e) => handleInputChange("gender", e.target.value)}>
+                <FormSelect value={formData?.gender || ""} onChange={(e) => handleInputChange("gender", e.target.value)}>
                   <option value="">---Select Gender----</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
-                </Form.Control>
+                </FormSelect>
               </Form.Group>
             </Col>
           </Row>
