@@ -2,38 +2,26 @@
    MODERN FILTER STYLES - MAGIC TOUCH ✨
    ============================================ */
 
-/* Base Filter Card */
+/* Base Filter Card - STRIPPED DOWN FOR DEBUGGING */
 .filter-card-modern {
   background: white;
-  border: none !important;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.12);
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
   overflow: visible;
-  transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  /* ALL ANIMATIONS AND TRANSFORMS REMOVED */
 }
 
 .filter-card-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-  background-size: 200% 100%;
-  animation: gradientShift 3s ease infinite;
+  /* DISABLED FOR DEBUGGING */
+  display: none;
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.filter-card-modern:hover {
-  box-shadow: 0 16px 50px rgba(102, 126, 234, 0.25);
-}
+/* .filter-card-modern:hover {
+  DISABLED FOR DEBUGGING
+} */
 
 /* Filter Header */
 .filter-header {
@@ -60,16 +48,7 @@
 .filter-header i {
   font-size: 1.5rem;
   color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.1); }
+  /* ALL ANIMATIONS AND TRANSFORMS REMOVED FOR DEBUGGING */
 }
 
 /* Filter Body */
@@ -78,33 +57,22 @@
   background: white;
 }
 
-/* Filter Section (for components not using Card) */
+/* Filter Section (for components not using Card) - STRIPPED DOWN */
 .filter-section {
   background: white;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.12);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   margin-bottom: 2rem;
   position: relative;
   overflow: visible;
-  transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ALL ANIMATIONS AND TRANSFORMS REMOVED */
 }
 
 .filter-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-  background-size: 200% 100%;
-  animation: gradientShift 3s ease infinite;
-}
-
-.filter-section:hover {
-  box-shadow: 0 16px 50px rgba(102, 126, 234, 0.25);
+  /* DISABLED FOR DEBUGGING */
+  display: none;
 }
 
 /* Filter Row */
@@ -269,33 +237,25 @@ body.chrome-select-open *::after {
   will-change: auto !important;
 }
 
-/* Filter Buttons */
+/* Filter Buttons - STRIPPED DOWN */
 .filter-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  /* ALL ANIMATIONS AND TRANSFORMS REMOVED */
 }
 
 .filter-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
-
-.filter-button:active {
-  transform: translateY(-1px);
+  background: #5568d3;
+  /* NO TRANSFORMS */
 }
 
 .filter-button i {
