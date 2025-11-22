@@ -11,6 +11,7 @@ import { ClassGroupParams } from '../models/classGroup';
 import { getRegisteredStudents, getRegistrationInformation, registerStudents } from '../redux/slices/studentRegSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import CustomDatePicker from './CustomDatePicker';
 import '../css/Registration.css';
 
 const UnregisteredStudent = (props: any) => {
@@ -206,7 +207,7 @@ const UnregisteredStudent = (props: any) => {
             <Col>
               <Form.Group controlId="regDate">
                 <Form.Label>Registration Date</Form.Label>
-                <Form.Control value={formData.reg_date} onChange={(e) => handleInputChange('reg_date', e.target.value)} type="date" placeholder="Enter Registration Date" />
+                <CustomDatePicker value={formData.reg_date} onChange={(date) => handleInputChange('reg_date', date)} placeholder="Enter Registration Date" />
               </Form.Group>
             </Col>
           </Row>

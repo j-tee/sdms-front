@@ -8,6 +8,8 @@ import { ToastContext } from '../utility/ToastContext'
 import { addStudent, getCountries } from '../redux/slices/studentSlice'
 import { Student, StudentViewModel, country } from '../models/student'
 import { ParentViewModel } from '../models/parent'
+import CustomDatePicker from './CustomDatePicker'
+import FormSelect from './FormSelect'
 
 const StudentDetails = (props: any) => {
   const { index, schoolId, branchId } = props;
@@ -247,15 +249,14 @@ if (file && file.size > 5120) {
             <Col>
               <Form.Group controlId="gender">
                 <Form.Label>Gender</Form.Label>
-                <Form.Control as='select'
-                  type="text"
+                <FormSelect
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}>
                     <option value={''}>---Select Gender</option>
                   <option value={'Male'}>Male</option>
                   <option value={'Female'}>Female</option>
-                </Form.Control>
+                </FormSelect>
               </Form.Group>
             </Col>
           </Row>
@@ -264,11 +265,10 @@ if (file && file.size > 5120) {
             <Col>
               <Form.Group controlId="birth_date">
                 <Form.Label>Birth Date</Form.Label>
-                <Form.Control
-                  type="date"
+                <CustomDatePicker
                   name="birth_date"
                   value={formData.birth_date}
-                  onChange={handleChange}
+                  onChange={(date) => handleChange({target: {name: 'birth_date', value: date}} as any)}
                 />
               </Form.Group>
             </Col>

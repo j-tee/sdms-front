@@ -11,6 +11,7 @@ import { showToastify } from '../utility/Toastify';
 import ProgramList from './ProgramList';
 import PaginationComponent from './PaginationComponent';
 import { QueryParams } from '../models/queryParams';
+import FormSelect from './FormSelect';
 
 const ProgramCard = (props: any) => {
   const { schoolId, branchId, tabIndex } = props;
@@ -93,8 +94,7 @@ const ProgramCard = (props: any) => {
                   <i className="fas fa-layer-group me-2"></i>
                   Department
                 </Form.Label>
-                <Form.Control 
-                  as='select' 
+                <FormSelect
                   value={formData.department_id}
                   onChange={(e) => setFormData({ ...formData, department_id: parseInt(e.target.value) })}
                   className="org-form-control"
@@ -103,7 +103,7 @@ const ProgramCard = (props: any) => {
                   {departments.map((dept: DepartmentViewModel) => (
                     <option value={dept.id} key={dept.id}>{dept.dept_name}</option>
                   ))}
-                </Form.Control>
+                </FormSelect>
               </Form.Group>
             </Col>
             <Col md={5}>

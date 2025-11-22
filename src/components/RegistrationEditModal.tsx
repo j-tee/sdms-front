@@ -10,6 +10,7 @@ import { Registration } from "../models/student";
 import { getRegistrationInformation, updateRegistration } from "../redux/slices/studentRegSlice";
 import { showToastify } from "../utility/Toastify";
 import { ToastContext } from "../utility/ToastContext";
+import CustomDatePicker from './CustomDatePicker';
 import '../css/ModernModal.css';
 
 const RegistrationEditModal = (props: any) => {
@@ -97,12 +98,11 @@ const RegistrationEditModal = (props: any) => {
             <Col>
               <Form.Group controlId="regDate">
                 <Form.Label>Registration Date</Form.Label>
-                <Form.Control
+                <CustomDatePicker
                   value={registration && registration.reg_date}
-                  onChange={(e) =>
-                    handleInputChange("reg_date", e.target.value)
+                  onChange={(date) =>
+                    handleInputChange("reg_date", date)
                   }
-                  type="date"
                   placeholder="Enter Registration Date"
                 />
               </Form.Group>

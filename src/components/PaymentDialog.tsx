@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { addPayment, getPayments, getPaymentSummary } from '../redux/slices/paymentSlice';
 import { showToastify } from '../utility/Toastify';
 import { formatDate } from '../models/utilities';
+import CustomDatePicker from './CustomDatePicker';
 
 const PaymentDialog = (props: any) => {
     const { isOpen, onClose, onRequestClose, student, params } = props;
@@ -88,12 +89,11 @@ const PaymentDialog = (props: any) => {
                     </Form.Group>
                     <Form.Group controlId='payment_date'>
                         <Form.Label>Payment Date</Form.Label>
-                        <Form.Control
-                            type='date'
+                        <CustomDatePicker
                             name='payment_date'
                             placeholder='Enter Payment Date'
                             // value={paymentDetails.payment_date}
-                            onChange={handleInputChange}
+                            onChange={(date) => handleInputChange({target: {name: 'payment_date', value: date}})}
                         />
                     </Form.Group>
                     <Button variant='primary' type='submit'>

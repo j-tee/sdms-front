@@ -6,6 +6,8 @@ import { Staff } from '../models/staff';
 import { getStaffs, updateStaff } from '../redux/slices/staffSlice';
 import { showToastify } from '../utility/Toastify';
 import { Col, Container, Form, Modal, Image, Row, Button } from 'react-bootstrap';
+import CustomDatePicker from './CustomDatePicker';
+import FormSelect from './FormSelect';
 import '../css/ModernModal.css';
 
 const StaffEdit = (props: any) => {
@@ -134,9 +136,9 @@ if (file && file.size > 5120) {
           <Col>
             <Form.Group controlId="dob">
               <Form.Label>Date of Birth</Form.Label>
-              <Form.Control value={formData.dob}
-                onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                type="date" placeholder="Date Of Birth" />
+              <CustomDatePicker value={formData.dob}
+                onChange={(date) => setFormData({ ...formData, dob: date })}
+                placeholder="Date Of Birth" />
             </Form.Group>
           </Col>
           <Col>
@@ -150,13 +152,13 @@ if (file && file.size > 5120) {
           <Col>
             <Form.Group controlId='gender'>
               <Form.Label>Gender</Form.Label>
-              <Form.Select as='select' value={formData.gender}
+              <FormSelect value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
                 <option value={''}>---Select gender---</option>
                 <option value={'Male'}>Male</option>
                 <option value={'Female'}>Female</option>
                 <option value={'Other'}>Other</option>
-              </Form.Select>
+              </FormSelect>
             </Form.Group>
           </Col>
         </Row>
