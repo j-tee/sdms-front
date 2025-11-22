@@ -4,7 +4,7 @@ import CustomSelect from './CustomSelect';
 
 interface FormSelectProps {
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: any) => void;
   children: React.ReactNode;
   className?: string;
   id?: string;
@@ -41,11 +41,11 @@ const FormSelect: React.FC<FormSelectProps> = ({
     });
 
     const handleCustomChange = (newValue: string | number) => {
-      // Create a synthetic event that matches React.ChangeEvent<HTMLSelectElement>
+      // Create a synthetic event that matches React.ChangeEvent
       const syntheticEvent = {
         target: { value: String(newValue) },
         currentTarget: { value: String(newValue) }
-      } as React.ChangeEvent<HTMLSelectElement>;
+      } as any;
       
       onChange(syntheticEvent);
     };
