@@ -7,6 +7,7 @@ import { ToastContext } from "../utility/ToastContext";
 import { getStudents, updateStudent } from "../redux/slices/studentSlice";
 import { showToastify } from "../utility/Toastify";
 import FormSelect from './FormSelect';
+import CustomDatePicker from './CustomDatePicker';
 import '../css/ModernModal.css';
 
 const StudentEditModal = (props: any) => {
@@ -162,11 +163,10 @@ const StudentEditModal = (props: any) => {
             <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Date of Birth</Form.Label>
-                <Form.Control
-                  type="date"
+                <CustomDatePicker
                   placeholder="Enter Date of Birth"
                   value={formData?.birth_date || ""}
-									onChange={(e) => handleInputChange("birth_date", e.target.value)}
+									onChange={(date) => handleInputChange("birth_date", date)}
                 />
               </Form.Group>
             </Col>
