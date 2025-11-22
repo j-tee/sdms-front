@@ -169,16 +169,34 @@
 }
 
 /* Force isolation to create new stacking context - helps with Chrome dropdown bug */
-select.form-control {
+select.form-control,
+input[type="date"].form-control,
+input[type="datetime-local"].form-control,
+input[type="time"].form-control,
+input[type="month"].form-control,
+input[type="week"].form-control {
   isolation: isolate;
+  transform: translateZ(0);
+  will-change: auto;
 }
 
-/* Chrome-specific fix for select dropdown positioning */
+/* Chrome-specific fix for select and date dropdown positioning */
 .filter-section select.form-control,
-.filter-card-modern select.form-control {
+.filter-card-modern select.form-control,
+.filter-section input[type="date"].form-control,
+.filter-card-modern input[type="date"].form-control,
+.modern-form-group select.form-control,
+.modern-form-group input[type="date"].form-control {
   /* Ensure proper rendering context for Chrome */
   backface-visibility: visible;
   transform-style: flat;
+}
+
+/* Force parent containers of date/select inputs to not have transforms */
+.modern-form-group:has(input[type="date"]),
+.modern-form-group:has(select) {
+  transform: none !important;
+  will-change: auto !important;
 }
 
 /* Location filter grid */
