@@ -9,6 +9,7 @@ import { showToastify } from '../utility/Toastify';
 import PaginationComponent from './PaginationComponent';
 import AcademicTermEdit from './AcademicTermEdit';
 import AcademicTermDelete from './AcademicTermDelete';
+import CustomDatePicker from './CustomDatePicker';
 import AcademicTermDetails from './AcademicTermDetails';
 import { QueryParams } from '../models/queryParams';
 import UserSession from '../utility/userSession';
@@ -204,11 +205,10 @@ const AcademicTermCard = (props: any) => {
                     <i className="fas fa-calendar-day me-2"></i>
                     Start Date
                   </Form.Label>
-                  <Form.Control 
-                    type='date' 
+                  <CustomDatePicker
                     value={formData.start_date}
-                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                    className="modern-form-control" 
+                    onChange={(date) => setFormData({ ...formData, start_date: date })}
+                    className="modern-form-control"
                   />
                 </Form.Group>
               </Col>
@@ -218,10 +218,9 @@ const AcademicTermCard = (props: any) => {
                     <i className="fas fa-calendar-check me-2"></i>
                     End Date
                   </Form.Label>
-                  <Form.Control 
-                    type='date' 
+                  <CustomDatePicker
                     value={formData.end_date}
-                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                    onChange={(date) => setFormData({ ...formData, end_date: date })}
                     className="modern-form-control" 
                   />
                 </Form.Group>
@@ -232,11 +231,10 @@ const AcademicTermCard = (props: any) => {
                     <i className="fas fa-calendar-plus me-2"></i>
                     Next Term Start
                   </Form.Label>
-                  <Form.Control 
-                    type='date' 
+                  <CustomDatePicker
                     value={formData.next_term_start_date}
-                    onChange={(e) => setFormData({ ...formData, next_term_start_date: e.target.value })}
-                    className="modern-form-control" 
+                    onChange={(date) => setFormData({ ...formData, next_term_start_date: date })}
+                    className="modern-form-control"
                   />
                 </Form.Group>
               </Col>

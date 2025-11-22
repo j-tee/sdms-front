@@ -12,6 +12,8 @@ import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import Navigation from './Navigation';
 import PaginationComponent from './PaginationComponent';
+import CustomDatePicker from './CustomDatePicker';
+import FormSelect from './FormSelect';
 import './StaffCard.css';
 
 const StaffCard = (props: any) => {
@@ -248,11 +250,10 @@ if (file && file.size > 5120) {
                           <i className="fas fa-calendar me-2"></i>
                           Date of Birth
                         </Form.Label>
-                        <Form.Control 
+                        <CustomDatePicker
                           value={formData.dob}
-                          onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                          type="date"
-                          className="modern-form-control" 
+                          onChange={(date) => setFormData({ ...formData, dob: date })}
+                          className="modern-form-control"
                         />
                       </Form.Group>
                     </Col>
@@ -277,8 +278,7 @@ if (file && file.size > 5120) {
                           <i className="fas fa-venus-mars me-2"></i>
                           Gender
                         </Form.Label>
-                        <Form.Control 
-                          as='select' 
+                        <FormSelect
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                           className="modern-form-control"
@@ -287,7 +287,7 @@ if (file && file.size > 5120) {
                           <option value={'Male'}>Male</option>
                           <option value={'Female'}>Female</option>
                           <option value={'Other'}>Other</option>
-                        </Form.Control>
+                        </FormSelect>
                       </Form.Group>
                     </Col>
                   </Row>
