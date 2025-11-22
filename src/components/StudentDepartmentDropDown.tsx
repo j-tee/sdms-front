@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { Form } from 'react-bootstrap';
 import { getPrograms } from '../redux/slices/programSlice';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -23,14 +24,14 @@ const StudentDepartmentDropDown: React.FC<DepartmentDropDownProps> = ({ onChange
   return (
     <Form.Group controlId="department">
       <Form.Label>Departments</Form.Label>
-      <Form.Control as="select" onChange={handleDepartmentChange} value={params.department_id}>
+      <FormSelect onChange={handleDepartmentChange} value={params.department_id}>
         {/* {admission && <option value={admission ? admission.department_id : ''}>{admission ? admission.dept_name : "-----Select Department----"}</option>} */}
         <option value='0'>-----Select Department----</option>
         {departments.map((dept) => (<option key={dept.id} value={dept.id}>
           {dept.dept_name}
         </option>
         ))}
-      </Form.Control>
+      </FormSelect>
     </Form.Group>
   )
 }

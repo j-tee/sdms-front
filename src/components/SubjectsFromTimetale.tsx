@@ -3,6 +3,7 @@ import { QueryParams } from '../models/queryParams';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Form } from 'react-bootstrap';
+import FormSelect from './FormSelect';
 
 
 type AnyType = {
@@ -23,13 +24,13 @@ const SubjectsFromTimetale:React.FC<SubjectDropDownProps> = ({ onChange, branchI
   return (
     <Form.Group controlId="department">
     <Form.Label>Subjects</Form.Label>
-    <Form.Control as="select" onChange={handleInputChange} value={params.subject_id}>
+    <FormSelect onChange={handleInputChange} value={params.subject_id || ''}>
       <option value="">---Select---</option>
       {subjects_from_timetable.map((subject) => (<option key={subject.id} value={subject.id}>
         {subject.subject_name}
       </option>
       ))}
-    </Form.Control>
+    </FormSelect>
   </Form.Group>
   )
 }

@@ -9,6 +9,7 @@ import { showToastify } from "../utility/Toastify";
 import { Button, Dropdown, DropdownButton, Form, Tab, Table } from "react-bootstrap";
 import { getRegions } from "../redux/slices/regionSlice";
 import DistrictEditModal from "./DistrictEditModal";
+import FormSelect from './FormSelect';
 import DistrictDeleteModal from "./DistrictDeleteModal";
 import PaginationComponent from "./PaginationComponent";
 import { PaginationParams } from "../models/pagination";
@@ -79,14 +80,14 @@ const DistrictCard = (props: any) => {
       <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicEmail">
           <Form.Label>Region</Form.Label>
-          <Form.Control as="select" onChange={(e) =>
+          <FormSelect onChange={(e) =>
               handleInputChange('region_id', e.target.value)
-            }>
-            <option>Select Region</option>
+            } value={formData.region_id || ''}>
+            <option value="">Select Region</option>
             {regions.map((region: any) => (
-              <option value={region.id}>{region.name}</option>
+              <option key={region.id} value={region.id}>{region.name}</option>
             ))}
-          </Form.Control>          
+          </FormSelect>          
         </Form.Group>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Name</Form.Label>

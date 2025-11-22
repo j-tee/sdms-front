@@ -5,6 +5,7 @@ import { Form } from 'react-bootstrap';
 import { getStudentDepartments } from '../redux/slices/departmentSlice';
 import { getStudentStages } from '../redux/slices/stageSlice';
 import { getStudentAcademicYears } from '../redux/slices/calendarSlice';
+import FormSelect from './FormSelect';
 
 type AnyType = {
   [key: string]: string;
@@ -29,13 +30,13 @@ const StudentBranchDropDown: React.FC<BranchDropDownProps> = ({ onChange, params
   return (
     <Form.Group controlId="branch">
       <Form.Label>Branches</Form.Label>
-      <Form.Control as="select" onChange={handleBranchChange} value={params.branch_id}>
+      <FormSelect onChange={handleBranchChange} value={params.branch_id || ''}>
         <option value="">---Select---</option>
         {branches.map((branch) => (<option key={branch.id} value={branch.id}>
           {branch.branch_name}
         </option>
         ))}
-      </Form.Control>
+      </FormSelect>
     </Form.Group>
   )
 }
