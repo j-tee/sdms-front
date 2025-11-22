@@ -9,6 +9,7 @@ import {
   getAcademicTerms,
   updateAcademicTerm,
 } from "../redux/slices/calendarSlice";
+import CustomDatePicker from './CustomDatePicker';
 import '../css/ModernModal.css';
 
 const AcademicTermEdit = (props: any) => {
@@ -97,11 +98,10 @@ const AcademicTermEdit = (props: any) => {
                 <Col>
                   <Form.Group controlId="startDate">
                     <Form.Label>Start Date</Form.Label>
-                    <Form.Control
-                      type="date"
+                    <CustomDatePicker
                       value={formData.start_date}
-                      onChange={(e) =>
-                        setFormData({ ...formData, start_date: e.target.value })
+                      onChange={(date) =>
+                        setFormData({ ...formData, start_date: date })
                       }
                     />
                   </Form.Group>
@@ -109,11 +109,10 @@ const AcademicTermEdit = (props: any) => {
                 <Col>
                   <Form.Group controlId="endDate">
                     <Form.Label>End Date</Form.Label>
-                    <Form.Control
-                      type="date"
+                    <CustomDatePicker
                       value={formData.end_date}
-                      onChange={(e) =>
-                        setFormData({ ...formData, end_date: e.target.value })
+                      onChange={(date) =>
+                        setFormData({ ...formData, end_date: date })
                       }
                     />
                   </Form.Group>
@@ -121,13 +120,12 @@ const AcademicTermEdit = (props: any) => {
                 <Col>
                   <Form.Group controlId="nextTermStartDate">
                     <Form.Label>Next Term Start Date</Form.Label>
-                    <Form.Control
-                      type="date"
+                    <CustomDatePicker
                       value={formData.next_term_start_date}
-                      onChange={(e) =>
+                      onChange={(date) =>
                         setFormData({
                           ...formData,
-                          next_term_start_date: e.target.value,
+                          next_term_start_date: date,
                         })
                       }
                     />

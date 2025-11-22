@@ -19,6 +19,7 @@ import { getStages } from '../redux/slices/stageSlice';
 import { addAdmission, getAdmissions, getVacancies } from '../redux/slices/admissionSlice';
 import { ParamObject } from '../models/params';
 import AdmissionList from './AdmissionList';
+import CustomDatePicker from './CustomDatePicker';
 import PaginationComponent from './PaginationComponent';
 import { StudentViewModel } from '../models/student';
 import AcademicYearDropDown from './AcademicYearDropDown';
@@ -269,8 +270,8 @@ const AdmissionAdd = (props: any) => {
             <Col>
               <Form.Group controlId='admissionDate'>
                 <Form.Label>AdmissionDate</Form.Label>
-                <Form.Control type='date' value={params.admission_date}
-                  onChange={(e) => handleInputChange('admission_date', e.target.value)} />
+                <CustomDatePicker value={params.admission_date}
+                  onChange={(date) => handleInputChange('admission_date', date)} />
               </Form.Group>
             </Col>
             <Col>

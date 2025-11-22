@@ -7,6 +7,8 @@ import { showToastify } from '../utility/Toastify';
 import { ExitProfile } from '../models/exitProfile';
 import { formatDate } from '../models/utilities';
 import { exit } from 'process';
+import CustomDatePicker from './CustomDatePicker';
+import FormSelect from './FormSelect';
 
 const ExitProfileDialog = (props:any) => {
     const { isOpen, onClose, onRequestClose, student, params, tabIndex } = props;
@@ -70,7 +72,7 @@ const ExitProfileDialog = (props:any) => {
             <Form onSubmit={handleSubmit}>
             <Form.Group controlId='exit_category'>
                 <Form.Label>Exit Category</Form.Label>
-                <Form.Select onChange={handleInputChange} as='select' name='exit_category'>
+                <FormSelect onChange={handleInputChange} name='exit_category'>
                     <option value=''>---Select Category---</option>
                     <option value='Graduated'>Graduated</option>
                     <option value='Expelled'>Expelled</option>
@@ -78,16 +80,15 @@ const ExitProfileDialog = (props:any) => {
                     <option value='Transferred'>Transferred</option>
                     <option value='Deceased'>Deceased</option>
                     <option value='Others'>Others</option>
-                </Form.Select>
+                </FormSelect>
             </Form.Group>
             <Form.Group controlId='exit_date'>
                 <Form.Label>Exit Date</Form.Label>
-                <Form.Control
-                type='date'
+                <CustomDatePicker
                 name='exit_date'
                 placeholder='Enter Exit Date'
                 // value={exitProfileDetails.exit_date}
-                onChange={handleInputChange}
+                onChange={(date) => handleInputChange({target: {name: 'exit_date', value: date}})}
                 />
             </Form.Group>
             <Form.Group controlId='reason'>

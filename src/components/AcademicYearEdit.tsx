@@ -6,6 +6,7 @@ import { AppDispatch } from '../redux/store';
 import { getAcademicYears, updateAcademicYear } from '../redux/slices/calendarSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import CustomDatePicker from './CustomDatePicker';
 import '../css/ModernModal.css';
 
 const AcademicYearEdit = (props: any) => {
@@ -57,17 +58,21 @@ const AcademicYearEdit = (props: any) => {
             <Col>
               <Form.Group controlId="startDate">
                 <Form.Label>Start Date</Form.Label>
-                <Form.Control type="date" value={formData.start_date}
-                  onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                  placeholder="Enter start date" />
+                <CustomDatePicker
+                  value={formData.start_date}
+                  onChange={(date) => setFormData({ ...formData, start_date: date })}
+                  placeholder="Enter start date"
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group controlId="endDate">
                 <Form.Label>End Date</Form.Label>
-                <Form.Control type="date" value={formData.end_date}
-                  onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                  placeholder="Enter end date" />
+                <CustomDatePicker
+                  value={formData.end_date}
+                  onChange={(date) => setFormData({ ...formData, end_date: date })}
+                  placeholder="Enter end date"
+                />
               </Form.Group>
             </Col>
             {/* <Col>

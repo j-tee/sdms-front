@@ -12,6 +12,7 @@ import { getPrograms } from "../redux/slices/programSlice";
 import { getStages } from "../redux/slices/stageSlice";
 import AcademicYearDropDown from "./AcademicYearDropDown";
 import AcademicTermDropDown from "./AcademicTermDropDown";
+import CustomDatePicker from './CustomDatePicker';
 import '../css/ModernModal.css';
 
 const AdmissionEdit = (props: any) => {
@@ -178,11 +179,10 @@ const AdmissionEdit = (props: any) => {
             <Col>
               <Form.Group controlId="admissionDate">
                 <Form.Label>AdmissionDate</Form.Label>
-                <Form.Control
-                  type="date"
+                <CustomDatePicker
                   value={formData.admission_date}
-                  onChange={(e) =>
-                    handleInputChange("admission_date", e.target.value)
+                  onChange={(date) =>
+                    handleInputChange("admission_date", date)
                   }
                 />
               </Form.Group>

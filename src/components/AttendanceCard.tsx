@@ -16,6 +16,7 @@ import { formatDate } from '../models/utilities';
 import { getCurrentTerm } from '../redux/slices/calendarSlice';
 import StaffClassGroupDropDown from './StaffClassGroupDropDown';
 import PaginationComponent from './PaginationComponent';
+import CustomDatePicker from './CustomDatePicker';
 
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;
@@ -196,8 +197,8 @@ const handlePageChange = (page: number) => {
                   <i className="fas fa-calendar me-2"></i>
                   Attendance Date
                 </Form.Label>
-                <Form.Control type='date' className="academic-form-control" value={attendanceDate}
-                  onChange={(e) => handleInputChange('attendane_date',new Date(e.target.value).toISOString().split('T')[0])} />
+                <CustomDatePicker className="academic-form-control" value={attendanceDate}
+                  onChange={(date) => handleInputChange('attendane_date',date)} />
               </Form.Group>
             </Col>
           </Row>
