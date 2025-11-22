@@ -226,29 +226,27 @@
 }
 
 /* Temporarily disable transforms to keep Chrome native selects anchored */
+body.chrome-select-open,
 body.chrome-select-open *,
 body.chrome-select-open *::before,
 body.chrome-select-open *::after {
   transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
 }
 
-body.chrome-select-open .floating-cap-decoration,
-body.chrome-select-open .floating-cap-decoration::before,
-body.chrome-select-open .floating-cap-decoration::after,
-body.chrome-select-open .hero-icon,
-body.chrome-select-open .filter-card-modern,
-body.chrome-select-open .filter-section,
-body.chrome-select-open .finance-card-modern,
-body.chrome-select-open .academics-card-modern,
-body.chrome-select-open .enrolment-card-modern,
-body.chrome-select-open .calendar-card-modern,
-body.chrome-select-open .organisation-card-modern,
-body.chrome-select-open .subscription-card-modern,
-body.chrome-select-open .modern-modal,
+/* Ensure all Bootstrap containers lose transforms during select focus */
+body.chrome-select-open .modal,
+body.chrome-select-open .modal-dialog,
+body.chrome-select-open .modal.fade .modal-dialog,
 body.chrome-select-open .tab-pane,
 body.chrome-select-open .tab-pane.fade,
 body.chrome-select-open .tab-pane.fade.show,
-body.chrome-select-open .fade {
+body.chrome-select-open .fade,
+body.chrome-select-open .collapsing {
+  transform: none !important;
+  transition: none !important;
   animation: none !important;
 }
 
@@ -259,8 +257,11 @@ body.chrome-select-open .fade {
 .exit-profiles-filters:has(select:focus),
 .tab-pane:has(select:focus),
 .tab-pane.fade:has(select:focus),
-.fade:has(select:focus) {
+.fade:has(select:focus),
+.modal:has(select:focus),
+.modal-dialog:has(select:focus) {
   transform: none !important;
+  transition: none !important;
 }
 
 /* Filter Buttons */

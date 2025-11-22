@@ -39,6 +39,17 @@ const useChromeSelectDropdownFix = () => {
       const target = event.target as HTMLElement | null;
       if (target?.tagName === 'SELECT') {
         document.body.classList.add('chrome-select-open');
+        
+        // Force remove transforms from all ancestors
+        let parent = target.parentElement;
+        while (parent) {
+          const currentTransform = parent.style.transform;
+          if (currentTransform) {
+            parent.setAttribute('data-original-transform', currentTransform);
+            parent.style.transform = 'none';
+          }
+          parent = parent.parentElement;
+        }
       }
     };
 
@@ -47,6 +58,17 @@ const useChromeSelectDropdownFix = () => {
         const activeElement = document.activeElement as HTMLElement | null;
         if (!activeElement || activeElement.tagName !== 'SELECT') {
           document.body.classList.remove('chrome-select-open');
+          
+          // Restore transforms
+          const elementsWithStoredTransforms = document.querySelectorAll('[data-original-transform]');
+          elementsWithStoredTransforms.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            const originalTransform = htmlEl.getAttribute('data-original-transform');
+            if (originalTransform) {
+              htmlEl.style.transform = originalTransform;
+              htmlEl.removeAttribute('data-original-transform');
+            }
+          });
         }
       });
     };
