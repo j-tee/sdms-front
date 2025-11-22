@@ -9,6 +9,7 @@ import PaginationComponent from './PaginationComponent'
 import UserSession from '../utility/userSession'
 import { showToastify } from '../utility/Toastify'
 import { ToastContext } from '../utility/ToastContext'
+import CustomDatePicker from './CustomDatePicker'
 
 const AcademicYearCard = (props: any) => {
   const { branchId, schoolId, tabKey } = props;
@@ -96,14 +97,12 @@ const AcademicYearCard = (props: any) => {
                       <i className="fas fa-calendar-day me-2"></i>
                       Start Date
                     </Form.Label>
-                    <div style={{ position: 'relative', isolation: 'isolate', transform: 'translateZ(0)' }}>
-                      <Form.Control 
-                        type='date' 
-                        value={formData.start_date}
-                        onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                        className="modern-form-control" 
-                      />
-                    </div>
+                    <CustomDatePicker
+                      value={formData.start_date}
+                      onChange={(date) => setFormData({ ...formData, start_date: date })}
+                      placeholder="mm/dd/yyyy"
+                      className="modern-form-control"
+                    />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -112,14 +111,12 @@ const AcademicYearCard = (props: any) => {
                       <i className="fas fa-calendar-check me-2"></i>
                       End Date
                     </Form.Label>
-                    <div style={{ position: 'relative', isolation: 'isolate', transform: 'translateZ(0)' }}>
-                      <Form.Control 
-                        type='date' 
-                        value={formData.end_date}
-                        onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                        className="modern-form-control" 
-                      />
-                    </div>
+                    <CustomDatePicker
+                      value={formData.end_date}
+                      onChange={(date) => setFormData({ ...formData, end_date: date })}
+                      placeholder="mm/dd/yyyy"
+                      className="modern-form-control"
+                    />
                   </Form.Group>
                 </Col>
               </Row>
