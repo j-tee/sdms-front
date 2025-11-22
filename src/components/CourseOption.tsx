@@ -150,13 +150,14 @@ const CourseOption = (props: any) => {
   return (
     <div className="academic-section-content">
       {/* Filter Row */}
-      <div className="academic-add-section mb-4">
-        <div className="academic-section-header">
-          <div className="academic-section-icon">
+      <div className="filter-card-modern mb-4">
+        <div className="filter-header">
+          <div className="filter-icon-wrapper">
             <i className="fas fa-filter"></i>
           </div>
           <h5>Filter Course Options</h5>
         </div>
+        <div className="card-body">
         <Row className='d-flex flex-column flex-lg-row'>
           <Col>
             <DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} />
@@ -168,6 +169,7 @@ const CourseOption = (props: any) => {
             <StageDropDown lesson={undefined} branchId={branchId} onChange={handleInputChange} />
           </Col>
         </Row>
+        </div>
       </div>
 
       {/* Add Form */}

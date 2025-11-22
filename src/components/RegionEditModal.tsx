@@ -6,6 +6,7 @@ import { ToastContext } from "../utility/ToastContext";
 import { getRegions, updateRegion } from "../redux/slices/regionSlice";
 import { showToastify } from "../utility/Toastify";
 import { Button, Form, Modal } from "react-bootstrap";
+import '../css/ModernModal.css';
 
 const RegionEditModal = (props: any) => {
   const { region, params, isOpen, onRequestClose, setEditModalOpen } = props;
@@ -27,9 +28,9 @@ const RegionEditModal = (props: any) => {
   };
   return (
     <>
-      <Modal show={isOpen} centered onHide={onRequestClose}>
+      <Modal show={isOpen} centered onHide={onRequestClose} className="modern-modal edit-modal">
         <Modal.Header closeButton>
-          <Modal.Title>Edit Region</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Region</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -48,10 +49,10 @@ const RegionEditModal = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.onRequestClose}>
-            Close
+            <i className="fas fa-times"></i> Close
           </Button>
           <Button variant="primary" onClick={handleUpdate}>
-            Save Changes
+            <i className="fas fa-save"></i> Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

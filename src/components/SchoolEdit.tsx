@@ -10,6 +10,7 @@ import { showToastify } from '../utility/Toastify';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../utility/AuthContext';
 import { getSchools, updateSchool } from '../redux/slices/schoolSlice';
+import '../css/ModernModal.css';
 
 const SchoolEdit = (props: any) => {
   const { school, params, isOpen, onRequestClose, setSchoolEditModalOpen } = props
@@ -126,10 +127,13 @@ if (file && file.size > 5120) {
   };
   return (
     
-      <Modal show={isOpen} onHide={onRequestClose} centered animation size='lg'>
+      <Modal show={isOpen} onHide={onRequestClose} centered animation size='lg' className="modern-modal edit-modal">
         <Form onSubmit={handleSubmit} encType="multipart/form-data">
         <Modal.Header closeButton>
-          <Modal.Title>Edit: {school.school_name}</Modal.Title>
+          <Modal.Title>
+            <i className="fas fa-school"></i>
+            Edit School: {school.school_name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
         
@@ -188,7 +192,10 @@ if (file && file.size > 5120) {
           </Row>          
         </Modal.Body>
         <Modal.Footer>
-        <button className='btn btn-primary' type='submit'>Update</button>
+        <button className='btn btn-primary' type='submit'>
+          <i className="fas fa-save"></i>
+          Update School
+        </button>
         </Modal.Footer>
         </Form>
       </Modal>

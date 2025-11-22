@@ -6,6 +6,7 @@ import { ToastContext } from '../utility/ToastContext';
 import DepartmentDropDown from './DepartmentDropDown';
 import { getPrograms, updateProgram } from '../redux/slices/programSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const ProgramEdit = (props: any) => {
   const { isOpen, onRequestClose, program, params, branchId, schoolId, setProgramEditModalOpen } = props;
@@ -50,10 +51,10 @@ const ProgramEdit = (props: any) => {
     setProgramEditModalOpen(false)
   }
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg'>
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg' className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Program {program.prog_name}</Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit Program {program.prog_name}</Modal.Title>
       </Modal.Header>      
         <Modal.Body>
           <Row>
@@ -71,8 +72,8 @@ const ProgramEdit = (props: any) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <button type='button' className='btn btn-outline-secondary' onClick={handleClose}>Cancel</button>
-          <button type='submit' className='btn btn-outline-primary'>Update</button>
+          <button type='button' className='btn btn-outline-secondary' onClick={handleClose}><i className="fas fa-times"></i> Cancel</button>
+          <button type='submit' className='btn btn-outline-primary'><i className="fas fa-save"></i> Update</button>
         </Modal.Footer>
       </Form>
 

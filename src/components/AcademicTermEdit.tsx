@@ -9,6 +9,7 @@ import {
   getAcademicTerms,
   updateAcademicTerm,
 } from "../redux/slices/calendarSlice";
+import '../css/ModernModal.css';
 
 const AcademicTermEdit = (props: any) => {
   const {
@@ -71,15 +72,14 @@ const AcademicTermEdit = (props: any) => {
     }));
   }, [term, params]);
   return (
-    <Modal animation show={isOpen} centered onHide={onRequestClose} size="lg">
+    <Modal animation show={isOpen} centered onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
       <Modal.Header closeButton>
         <Modal.Title>
-          Edit: {term.academic_year_name} Academic Year - {term.term_name}{" "}
+          <i className="fas fa-calendar-check"></i>
+          Edit Term: {term.term_name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Card>
-          <Card.Body>
             <Form>
               <Row className="d-flex flex-column flex-lg-row">
                 <Col>
@@ -134,17 +134,14 @@ const AcademicTermEdit = (props: any) => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Row>
-                <Col className="my-2">
-                  <Button size="sm" onClick={addUpdateTerm}>
-                    Update Term
-                  </Button>
-                </Col>
-              </Row>
             </Form>
-          </Card.Body>
-        </Card>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={addUpdateTerm}>
+          <i className="fas fa-save"></i>
+          Update Term
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import PaginationComponent from './PaginationComponent';
 import './BranchList.css';
+import '../css/ModernFilters.css';
 
 const BranchList = () => {
   const { branches, pagination } = useSelector((state: RootState) => state.school)
@@ -109,7 +110,9 @@ const BranchList = () => {
           <Card className="filter-card-modern">
             <Card.Body>
               <div className="filter-header">
-                <i className="fas fa-map-marker-alt"></i>
+                <div className="filter-icon-wrapper">
+                  <i className="fas fa-map-marker-alt"></i>
+                </div>
                 <h5>Filter by Location</h5>
               </div>
               <LocationDropDown onLocationChange={handleInputChange} />

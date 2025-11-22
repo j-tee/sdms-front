@@ -78,13 +78,14 @@ const StudentTerminalReport = (props: any) => {
     <div className="academic-section-content">
       {/* Filter Section */}
       {!student && (
-        <div className="academic-add-section mb-4">
-          <div className="academic-section-header">
-            <div className="academic-section-icon">
+        <div className="filter-card-modern mb-4">
+          <div className="filter-header">
+            <div className="filter-icon-wrapper">
               <i className="fas fa-filter"></i>
             </div>
             <h5>Filter Terminal Reports</h5>
           </div>
+          <div className="card-body">
           <Row>
             <Col>
               <AcademicYearDropDown
@@ -111,6 +112,7 @@ const StudentTerminalReport = (props: any) => {
               />
             </Col>
           </Row>
+          </div>
         </div>
       )}
 

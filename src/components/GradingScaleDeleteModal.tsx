@@ -5,6 +5,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { deleteGradingScale, getGradingScales } from '../redux/slices/gradingScaleSlice';
 import { showToastify } from '../utility/Toastify';
 import { Form, Modal } from 'react-bootstrap';
+import '../css/ModernModal.css';
 
 const GradingScaleDeleteModal = (props: any) => {
     const {
@@ -29,24 +30,28 @@ const GradingScaleDeleteModal = (props: any) => {
         });
       };
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg">
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg" className="modern-modal delete-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Grading Scale</Modal.Title>
+          <Modal.Title><i className="fas fa-trash-alt"></i> Delete Grading Scale</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Are you sure you want to delete this grading scale?
+          <div className="delete-icon">
+            <i className="fas fa-exclamation-triangle"></i>
+          </div>
+          <p className="delete-message">Are you sure you want to delete <strong>this grading scale</strong>?</p>
+          <p className="delete-warning">This action cannot be undone.</p>
         </Modal.Body>
         <Modal.Footer>
           <button type="submit" className="btn btn-danger">
-            Delete
+            <i className="fas fa-trash"></i> Delete
           </button>
           <button
             type="button"
             className="btn btn-secondary"
             onClick={onRequestClose}
           >
-            Cancel
+            <i className="fas fa-times"></i> Cancel
           </button>
         </Modal.Footer>
       </Form>

@@ -150,22 +150,24 @@ const StudentOptionalCourseCard = ({ schoolId, branchId, tabKey }: any) => {
   return (
     <div className="academic-section-content">
       {/* Filter Section */}
-      <div className="academic-add-section mb-4">
-        <div className="academic-section-header">
-          <div className="academic-section-icon">
+      <div className="filter-card-modern mb-4">
+        <div className="filter-header">
+          <div className="filter-icon-wrapper">
             <i className="fas fa-filter"></i>
           </div>
           <h5>Filter Student Registrations</h5>
         </div>
+        <div className="card-body">
         <Row className='d-flex flex-column flex-lg-row mb-3'>
           <Col><DepartmentDropDown schoolId={schoolId} branchId={branchId} onChange={handleInputChange} /></Col>
           <Col><ProgramDropDown branchId={branchId} onChange={handleInputChange} admission={undefined} departmentId={undefined} /></Col>
           <Col><StageDropDown branchId={branchId} onChange={handleInputChange} /></Col>
         </Row>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col><SubjectsFromTimetale params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
-          <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
-        </Row>
+          <Row className='d-flex flex-column flex-lg-row'>
+            <Col><SubjectsFromTimetale params={params} onChange={handleInputChange} branchId={0} schoolId={0} /></Col>
+            <Col><ClassGroupDropDown onChange={handleInputChange} programId={0} stageId={0} lesson={undefined} departmentId={0} /></Col>
+          </Row>
+        </div>
       </div>
 
       {/* Unregistered Students Section */}

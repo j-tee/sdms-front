@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { deleteAcademicTerm, getAcademicTerms } from '../redux/slices/calendarSlice';
+import '../css/ModernModal.css';
 
 const AcademicTermDelete = (props: any) => {
   const { term, schoolId, branchId, isOpen, params, onRequestClose, setAcademicTermDeleteModalOpen } = props;
@@ -28,18 +29,27 @@ const AcademicTermDelete = (props: any) => {
     setAcademicTermDeleteModalOpen(false)
   }
   return (
-    <Modal animation show={isOpen} centered onHide={onRequestClose} size='lg'>
+    <Modal animation show={isOpen} centered onHide={onRequestClose} size='lg' className="modern-modal delete-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Delete: {term.academic_year_name} Academic Year - {term.term_name} Term</Modal.Title>
+        <Modal.Title>
+          <i className="fas fa-trash-alt"></i>
+          Delete Term
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete this term?</p>
+        <div className="delete-icon">
+          <i className="fas fa-exclamation-triangle"></i>
+        </div>
+        <p className="delete-message">Are you sure you want to delete <strong>{term.term_name}</strong> from <strong>{term.academic_year_name}</strong>?</p>
+        <p className="delete-warning">This action cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
-          Close
+          <i className="fas fa-times"></i>
+          Cancel
         </Button>
         <Button variant="danger" onClick={deleteTerm}>
+          <i className="fas fa-trash"></i>
           Delete
         </Button>
       </Modal.Footer>

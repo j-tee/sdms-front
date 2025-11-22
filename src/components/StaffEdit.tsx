@@ -6,6 +6,7 @@ import { Staff } from '../models/staff';
 import { getStaffs, updateStaff } from '../redux/slices/staffSlice';
 import { showToastify } from '../utility/Toastify';
 import { Col, Container, Form, Modal, Image, Row, Button } from 'react-bootstrap';
+import '../css/ModernModal.css';
 
 const StaffEdit = (props: any) => {
   const { staff, isOpen, params, setStaffEditModalOpen, onRequestClose, branchId, schoolId } = props;
@@ -71,10 +72,10 @@ if (file && file.size > 5120) {
     setStaffImagePreview((prevData) => (staff.image_url ? staff.image_url : null))
   }, [staff])
   return (
-    <Modal show={isOpen} onHide={onRequestClose} centered animation size='lg'>
+    <Modal show={isOpen} onHide={onRequestClose} centered animation size='lg' className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Staff</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Staff</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Row>
@@ -162,10 +163,10 @@ if (file && file.size > 5120) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onRequestClose}>
-            Close
+            <i className="fas fa-times"></i> Close
           </Button>
           <Button variant="primary" type='submit'>
-            Save Changes
+            <i className="fas fa-save"></i> Save Changes
           </Button>
         </Modal.Footer>
       </Form>

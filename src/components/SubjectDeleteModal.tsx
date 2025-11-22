@@ -4,6 +4,7 @@ import { AppDispatch } from '../redux/store';
 import { Modal, Button } from 'react-bootstrap';
 import { deleteSubject, getSubjects } from '../redux/slices/subjectSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 interface SubjectDeleteModalProps {
     schoolId: number;
@@ -45,19 +46,23 @@ const SubjectDeleteModal: React.FC<SubjectDeleteModalProps> = ({
   };
 
   return (
-    <Modal show={isOpen} onHide={onRequestClose} centered>
+    <Modal show={isOpen} onHide={onRequestClose} centered className="modern-modal delete-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Confirm Deletion</Modal.Title>
+        <Modal.Title><i className="fas fa-trash-alt"></i> Confirm Deletion</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete this subject? This action cannot be undone.</p>
+        <div className="delete-icon">
+          <i className="fas fa-exclamation-triangle"></i>
+        </div>
+        <p className="delete-message">Are you sure you want to delete <strong>this subject</strong>?</p>
+        <p className="delete-warning">This action cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onRequestClose} disabled={isDeleting}>
-          Cancel
+          <i className="fas fa-times"></i> Cancel
         </Button>
         <Button variant="danger" onClick={handleDelete} disabled={isDeleting}>
-          {isDeleting ? 'Deleting...' : 'Delete'}
+          <i className="fas fa-trash"></i> {isDeleting ? 'Deleting...' : 'Delete'}
         </Button>
       </Modal.Footer>
     </Modal>

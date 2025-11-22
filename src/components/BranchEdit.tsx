@@ -7,6 +7,7 @@ import { getBranches, updateBranch } from '../redux/slices/schoolSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
 import { Branch } from '../models/branch';
+import '../css/ModernModal.css';
 
 const BranchEdit = (props: any) => {
   const { branch, params, isOpen, onRequestClose, setBranchEditModalOpen } = props;
@@ -49,10 +50,13 @@ const BranchEdit = (props: any) => {
     );
   }
   return (
-    <Modal show={isOpen} onHide={onRequestClose} centered animation size="lg">
+    <Modal show={isOpen} onHide={onRequestClose} centered animation size="lg" className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit: {formData.branch_name}</Modal.Title>
+          <Modal.Title>
+            <i className="fas fa-edit"></i>
+            Edit Branch: {formData.branch_name}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <LocationDropDown onLocationChange={handleInputChange} />
@@ -132,11 +136,13 @@ const BranchEdit = (props: any) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary" type="submit">
-            Save
+          <button className="btn btn-secondary" type="button" onClick={() => setBranchEditModalOpen(false)}>
+            <i className="fas fa-times"></i>
+            Cancel
           </button>
-          <button className="btn btn-secondary" onClick={() => setBranchEditModalOpen(false)}>
-            Close
+          <button className="btn btn-primary" type="submit">
+            <i className="fas fa-save"></i>
+            Save Changes
           </button>
         </Modal.Footer>
       </Form>

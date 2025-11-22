@@ -12,6 +12,7 @@ import { getPrograms } from "../redux/slices/programSlice";
 import { getStages } from "../redux/slices/stageSlice";
 import AcademicYearDropDown from "./AcademicYearDropDown";
 import AcademicTermDropDown from "./AcademicTermDropDown";
+import '../css/ModernModal.css';
 
 const AdmissionEdit = (props: any) => {
   const {
@@ -111,10 +112,10 @@ const AdmissionEdit = (props: any) => {
   //   }))
   // }, [admission, formData])
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg">
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Admission</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Admission</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="d-flex flex-lg-row flex-column mb-2">
@@ -205,7 +206,7 @@ const AdmissionEdit = (props: any) => {
               </Form.Group>
             </Col>
           </Row>
-          <Button type="submit">Submit</Button>
+          <Button type="submit"><i className="fas fa-save"></i> Submit</Button>
         </Modal.Body>
         {/* <h1>{admission.program_id}</h1> */}
       </Form>

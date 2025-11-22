@@ -59,6 +59,10 @@ const ExitProfiles = (props: any) => {
       </div>
       
       <div className='exit-profiles-filters'>
+        <div className="filter-section-title">
+          <i className="fas fa-sliders-h"></i>
+          Filter Exit Profiles
+        </div>
         <Row className='exit-profiles-filter-row'>
           <Col md={4}>
             <AcademicYearDropDown

@@ -5,6 +5,7 @@ import { ToastContext } from "../utility/ToastContext";
 import { deleteCircuit, getCircuits } from "../redux/slices/circuitSlice";
 import { showToastify } from "../utility/Toastify";
 import { Button, Modal } from "react-bootstrap";
+import '../css/ModernModal.css';
 
 const CircuitDeleteModal = (props: any) => {
   const { isOpen, onRequestClose, setDeleteModalOpen, params, circuit } = props;
@@ -18,19 +19,23 @@ const CircuitDeleteModal = (props: any) => {
     });
   };
   return (
-    <Modal show={isOpen} onHide={onRequestClose}>
+    <Modal show={isOpen} onHide={onRequestClose} className="modern-modal delete-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Delete Circuit</Modal.Title>
+        <Modal.Title><i className="fas fa-trash-alt"></i> Delete Circuit</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete {circuit.name}?</p>
+        <div className="delete-icon">
+          <i className="fas fa-exclamation-triangle"></i>
+        </div>
+        <p className="delete-message">Are you sure you want to delete <strong>{circuit.name}</strong>?</p>
+        <p className="delete-warning">This action cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onRequestClose}>
-          Close
+          <i className="fas fa-times"></i> Close
         </Button>
         <Button variant="danger" onClick={handleDelete}>
-          Delete
+          <i className="fas fa-trash"></i> Delete
         </Button>
       </Modal.Footer>
     </Modal>

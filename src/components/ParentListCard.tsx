@@ -9,6 +9,7 @@ import BranchDropDown from './BranchDropDown'
 import { getBranches } from '../redux/slices/schoolSlice'
 import ParentEditModal from './ParentEditModal'
 import '../css/ParentList.css'
+import '../css/ModernFilters.css'
 type AnyType = {
     [key: string]: string;
   };

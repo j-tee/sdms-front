@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Header from './components/Header';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Footer from './components/Footer';
-import Information from './components/Information';
 import { ToastProvider } from './utility/ToastContext';
 import Toast from './utility/Toastify';
 import Confirmation from './components/Confirmation';
@@ -24,7 +23,48 @@ import Finance from './components/Finance';
 import Subscription from './components/Subscription';
 import SystemAdmin from './components/SystemAdmin';
 
+const useChromeSelectDropdownFix = () => {
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return;
+    }
+
+    const userAgent = window.navigator.userAgent;
+    const isChrome = /Chrome/.test(userAgent) && !/Edg/.test(userAgent) && !/OPR/.test(userAgent);
+    if (!isChrome) {
+      return;
+    }
+
+    const handleFocusIn = (event: FocusEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.tagName === 'SELECT') {
+        document.body.classList.add('chrome-select-open');
+      }
+    };
+
+    const handleFocusOut = () => {
+      window.requestAnimationFrame(() => {
+        const activeElement = document.activeElement as HTMLElement | null;
+        if (!activeElement || activeElement.tagName !== 'SELECT') {
+          document.body.classList.remove('chrome-select-open');
+        }
+      });
+    };
+
+    document.addEventListener('focusin', handleFocusIn, true);
+    document.addEventListener('focusout', handleFocusOut, true);
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn, true);
+      document.removeEventListener('focusout', handleFocusOut, true);
+      document.body.classList.remove('chrome-select-open');
+    };
+  }, []);
+};
+
 function App() {
+  useChromeSelectDropdownFix();
+
   return (
     <div className="hero_area">
       <ToastProvider>       
@@ -49,7 +89,6 @@ function App() {
             <Route path="/email" element={<Email />} />
           </Routes>
         </AuthProvider>
-        <Information />
         <Footer />
       </ToastProvider>
     </div>

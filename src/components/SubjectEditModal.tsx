@@ -6,6 +6,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { getSubjects, updateSubject } from '../redux/slices/subjectSlice';
 import { showToastify } from '../utility/Toastify';
 import { Modal, Button, Form } from 'react-bootstrap';
+import '../css/ModernModal.css';
 
 interface SubjectEditModalProps {
     schoolId: number;
@@ -69,9 +70,9 @@ const SubjectEditModal: React.FC<SubjectEditModalProps> = ({
     }, [subject]);
 
     return (
-        <Modal show={isOpen} onHide={onRequestClose} centered>
+        <Modal show={isOpen} onHide={onRequestClose} centered className="modern-modal edit-modal">
             <Modal.Header closeButton>
-                <Modal.Title>Edit Subject</Modal.Title>
+                <Modal.Title><i className="fas fa-edit"></i> Edit Subject</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -110,7 +111,7 @@ const SubjectEditModal: React.FC<SubjectEditModalProps> = ({
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? 'Saving...' : 'Save Changes'}
+                        <i className="fas fa-save"></i> {isSubmitting ? 'Saving...' : 'Save Changes'}
                     </Button>
                 </Form>
             </Modal.Body>

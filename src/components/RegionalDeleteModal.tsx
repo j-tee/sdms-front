@@ -6,6 +6,7 @@ import { deleteRegion, getRegions } from '../redux/slices/regionSlice';
 import { Region } from '../models/region';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const RegionalDeleteModal = (props: any) => {
 	const {region, params,isOpen, onRequestClose, setDeleteModalOpen} = props;
@@ -23,19 +24,23 @@ const RegionalDeleteModal = (props: any) => {
 	}, [dispatch, region, params])
   return (
     <>
-      <Modal show={isOpen} onHide={onRequestClose}>
+      <Modal show={isOpen} onHide={onRequestClose} className="modern-modal delete-modal">
 				<Modal.Header closeButton>
-					<Modal.Title>Delete {region?.name}</Modal.Title>
+					<Modal.Title><i className="fas fa-trash-alt"></i> Delete {region?.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<p>Are you sure you want to delete this  region?</p>
+					<div className="delete-icon">
+						<i className="fas fa-exclamation-triangle"></i>
+					</div>
+					<p className="delete-message">Are you sure you want to delete <strong>{region?.name}</strong>?</p>
+					<p className="delete-warning">This action cannot be undone.</p>
 				</Modal.Body>
 				<Modal.Footer>
 					<button className="btn btn-secondary" onClick={onRequestClose}>
-						Close
+						<i className="fas fa-times"></i> Close
 					</button>
 					<button className="btn btn-danger" onClick={() => handleDelete(region)}>
-						Delete
+						<i className="fas fa-trash"></i> Delete
 					</button>
 				</Modal.Footer>
 			</Modal>

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { ToastContext } from "../utility/ToastContext";
 import { showToastify } from "../utility/Toastify";
 import { getParents, updateParent } from "../redux/slices/parentSlice";
+import '../css/ModernModal.css';
 
 const ParentEditModal = (props: any) => {
   const { isOpen, onRequestClose, branchId, schoolId,setEditModalOpen, parent, params } = props;
@@ -32,9 +33,9 @@ const ParentEditModal = (props: any) => {
     }
   }, [parent]);
   return (
-    <Modal show={isOpen} onHide={onRequestClose} size="lg">
+    <Modal show={isOpen} onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Edit Parent</Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit Parent</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit} id="editParentForm">
         <Modal.Body>
@@ -161,7 +162,7 @@ const ParentEditModal = (props: any) => {
 				</Modal.Body>
         <Modal.Footer>
 					<Button variant="secondary" onClick={handleSubmit}>
-						Submit
+						<i className="fas fa-save"></i> Submit
 					</Button>
 				</Modal.Footer>
       </Form>

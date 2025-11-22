@@ -190,13 +190,14 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
   return (
     <div className="academic-section-content">
       {/* Filter Section */}
-      <div className="academic-add-section mb-4">
-        <div className="academic-section-header">
-          <div className="academic-section-icon">
+      <div className="filter-card-modern mb-4">
+        <div className="filter-header">
+          <div className="filter-icon-wrapper">
             <i className="fas fa-filter"></i>
           </div>
           <h5>Filter Score Sheet</h5>
         </div>
+        <div className="card-body">
         <Form onSubmit={handleSubmit}>
           <Row className='mb-3'>
             <Col>
@@ -218,6 +219,7 @@ const ScoreSheetCard = ({ schoolId, branchId, index }: any) => {
             </Col>
           </Row>
         </Form>
+        </div>
       </div>
 
       {/* Assessment Info Card */}

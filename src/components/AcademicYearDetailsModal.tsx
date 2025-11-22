@@ -1,12 +1,13 @@
 import React from 'react'
 import { Card, Modal } from 'react-bootstrap';
+import '../css/ModernModal.css';
 
 const AcademicYearDetailsModal = (props: any) => {
   const { year, schoolId, branchId, isOpen, onRequestClose, setAcademicYearDetailsModalOpen } = props;
   return (
-    <Modal animation show={isOpen} onHide={onRequestClose} size="lg">
+    <Modal animation show={isOpen} onHide={onRequestClose} size="lg" className="modern-modal details-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{year.academic_year} Academic Year Details</Modal.Title>
+        <Modal.Title><i className="fas fa-info-circle"></i> {year.academic_year} Academic Year Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Card>
@@ -19,7 +20,7 @@ const AcademicYearDetailsModal = (props: any) => {
         </Card>
       </Modal.Body>
       <Modal.Footer>
-        <button onClick={() => setAcademicYearDetailsModalOpen(false)} className="btn btn-primary">Close</button>
+        <button onClick={() => setAcademicYearDetailsModalOpen(false)} className="btn btn-primary"><i className="fas fa-times"></i> Close</button>
       </Modal.Footer>
     </Modal>
   )

@@ -20,7 +20,7 @@ import PaginationComponent from './PaginationComponent';
 const AttendanceCard = (props: any) => {
   const { schoolId, branchId, index } = props;
   const { academic_term } = useSelector((state: RootState) => state.calendar)
-  const { attendees, attendances, pagination } = useSelector((state: RootState) => state.attendance)
+  const { attendees, attendances, attendances_pagination } = useSelector((state: RootState) => state.attendance)
   const [onRoll, setOnRoll] = useState<Attendance[]>([])
   const dispatch = useDispatch<AppDispatch>()
   const { setShowToast } = useContext(ToastContext)
@@ -171,13 +171,14 @@ const handlePageChange = (page: number) => {
   return (
     <div className="academic-section-content">
       {/* Filter Section */}
-      <div className="academic-add-section mb-4">
-        <div className="academic-section-header">
-          <div className="academic-section-icon">
+      <div className="filter-card-modern mb-4">
+        <div className="filter-header">
+          <div className="filter-icon-wrapper">
             <i className="fas fa-filter"></i>
           </div>
           <h5>Filter Attendance</h5>
         </div>
+        <div className="card-body">
         <Form onSubmit={handleSubmit}>
           <Row className='d-flex flex-column flex-lg-row'>
             <Col>
@@ -201,6 +202,7 @@ const handlePageChange = (page: number) => {
             </Col>
           </Row>
         </Form>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -295,13 +297,13 @@ const handlePageChange = (page: number) => {
           <div className="d-flex flex-column flex-md-row px-2 justify-content-between align-items-center">
             <PaginationComponent
               params={params}
-              activePage={pagination?.current_page}
-              itemsCountPerPage={pagination?.per_page}
-              totalItemsCount={pagination?.total_items || 0}
+              activePage={attendances_pagination?.current_page}
+              itemsCountPerPage={attendances_pagination?.per_page}
+              totalItemsCount={attendances_pagination?.total_items || 0}
               pageRangeDisplayed={5}
-              totalPages={pagination?.total_pages}
-              hideDisabled={pagination?.total_pages === 0}
-              hideNavigation={pagination?.total_pages === 1}
+              totalPages={attendances_pagination?.total_pages}
+              hideDisabled={attendances_pagination?.total_pages === 0}
+              hideNavigation={attendances_pagination?.total_pages === 1}
               onChange={handlePageChange}
             />
             <DropdownButton

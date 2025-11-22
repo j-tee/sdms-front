@@ -6,6 +6,7 @@ import { Student } from "../models/student";
 import { ToastContext } from "../utility/ToastContext";
 import { getStudents, updateStudent } from "../redux/slices/studentSlice";
 import { showToastify } from "../utility/Toastify";
+import '../css/ModernModal.css';
 
 const StudentEditModal = (props: any) => {
   const { isOpen, onRequestClose, branchId, schoolId, student, params } = props;
@@ -94,10 +95,10 @@ const StudentEditModal = (props: any) => {
 		}
 	}, [student]);
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg">
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title className="text-center">Edit Student</Modal.Title>
+          <Modal.Title className="text-center"><i className="fas fa-edit"></i> Edit Student</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="gy-3">
@@ -196,10 +197,10 @@ const StudentEditModal = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <button type="button" className="btn btn-secondary" onClick={onRequestClose}>
-            Close
+            <i className="fas fa-times"></i> Close
           </button>
           <button type="submit" className="btn btn-primary">
-            Save Changes
+            <i className="fas fa-save"></i> Save Changes
           </button>
         </Modal.Footer>
       </Form>

@@ -10,6 +10,7 @@ import { Registration } from "../models/student";
 import { getRegistrationInformation, updateRegistration } from "../redux/slices/studentRegSlice";
 import { showToastify } from "../utility/Toastify";
 import { ToastContext } from "../utility/ToastContext";
+import '../css/ModernModal.css';
 
 const RegistrationEditModal = (props: any) => {
 	const { setShowToast } = useContext(ToastContext)
@@ -63,10 +64,10 @@ const RegistrationEditModal = (props: any) => {
   };
   
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size="xl">
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size="xl" className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Registration</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Registration</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className="d-flex flex-column flex-lg-row">
@@ -110,10 +111,10 @@ const RegistrationEditModal = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={onRequestClose}>
-            Close
+            <i className="fas fa-times"></i> Close
           </Button>
           <Button variant="primary" type="submit">
-            Save Changes
+            <i className="fas fa-save"></i> Save Changes
           </Button>
         </Modal.Footer>
       </Form>

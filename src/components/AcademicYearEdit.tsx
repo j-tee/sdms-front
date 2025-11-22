@@ -6,6 +6,7 @@ import { AppDispatch } from '../redux/store';
 import { getAcademicYears, updateAcademicYear } from '../redux/slices/calendarSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const AcademicYearEdit = (props: any) => {
   const { setAcademicYearEditModalOpen, isOpen, onRequestClose, academic_year, branchId, schoolId } = props;
@@ -44,9 +45,12 @@ const AcademicYearEdit = (props: any) => {
   }
   return (
     <Form>
-      <Modal animation show={isOpen} onHide={onRequestClose} size="lg">
+      <Modal animation show={isOpen} onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
         <Modal.Header closeButton>
-          <Modal.Title>Edit Academic Year</Modal.Title>
+          <Modal.Title>
+            <i className="fas fa-calendar-alt"></i>
+            Edit Academic Year
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className='d-flex flex-column flex-lg-row'>
@@ -81,7 +85,10 @@ const AcademicYearEdit = (props: any) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <button type="submit" onClick={handleClick} className="btn btn-primary">Submit</button>
+          <button type="submit" onClick={handleClick} className="btn btn-primary">
+            <i className="fas fa-save"></i>
+            Save Changes
+          </button>
         </Modal.Footer>
       </Modal>
     </Form>

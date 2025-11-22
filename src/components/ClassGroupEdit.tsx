@@ -10,6 +10,7 @@ import ProgramDropDown from './ProgramDropDown';
 import StageDropDown from './StageDropDown';
 import { getPrograms } from '../redux/slices/programSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const ClassGroupEdit = (props: any) => {
   const { isOpen, onRequestClose, classGroup, params, branchId, schoolId, setClassGroupEditModalOpen } = props;
@@ -64,10 +65,10 @@ const ClassGroupEdit = (props: any) => {
     }
   };
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg'>
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg' className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Class Group {classGroup.class_name}</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Class Group {classGroup.class_name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
@@ -97,8 +98,8 @@ const ClassGroupEdit = (props: any) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <button className='btn btn-primary' type='submit'>Save</button>
-          <button className='btn btn-secondary' onClick={() => setClassGroupEditModalOpen(false)}>Cancel</button>
+          <button className='btn btn-primary' type='submit'><i className="fas fa-save"></i> Save</button>
+          <button className='btn btn-secondary' onClick={() => setClassGroupEditModalOpen(false)}><i className="fas fa-times"></i> Cancel</button>
         </Modal.Footer>
       </Form>
     </Modal>

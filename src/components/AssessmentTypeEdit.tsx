@@ -6,6 +6,7 @@ import { AssessmentType } from '../models/assessmentTypes';
 import { Col, Form, Modal, Row } from 'react-bootstrap';
 import { getAssessmentTypes, updateAssessmentType } from '../redux/slices/assesmentTypeSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const AssessmentTypeEdit = (props: any) => {
   const { schoolId, branchId, assessmentType, params, isOpen, onRequestClose, setAssessmentTypeEditModalOpen } = props;
@@ -39,9 +40,9 @@ const AssessmentTypeEdit = (props: any) => {
     }))
   }, [assessmentType])
   return (
-    <Modal show={isOpen} onHide={onRequestClose} animation centered size='lg'>
+    <Modal show={isOpen} onHide={onRequestClose} animation centered size='lg' className="modern-modal edit-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Edit Assessment Type</Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit Assessment Type</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
@@ -73,7 +74,7 @@ const AssessmentTypeEdit = (props: any) => {
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-primary" type="submit">
-            Submit
+            <i className="fas fa-save"></i> Submit
           </button>
         </Modal.Footer>
       </Form>

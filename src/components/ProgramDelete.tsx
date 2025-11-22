@@ -5,6 +5,7 @@ import { ToastContext } from '../utility/ToastContext';
 import { Modal } from 'react-bootstrap';
 import { deleteProgram, getPrograms } from '../redux/slices/programSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const ProgramDelete = (props: any) => {
   const { isOpen, onRequestClose, program, params, branchId, schoolId, setProgramDeleteModalOpne } = props;
@@ -21,16 +22,20 @@ const ProgramDelete = (props: any) => {
     setProgramDeleteModalOpne(false)
   }
   return (
-    <Modal show={isOpen} onHide={onRequestClose} animation centered>
+    <Modal show={isOpen} onHide={onRequestClose} animation centered className="modern-modal delete-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Delete Program</Modal.Title>
+        <Modal.Title><i className="fas fa-trash-alt"></i> Delete Program</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete {program.prog_name}?</p>
+        <div className="delete-icon">
+          <i className="fas fa-exclamation-triangle"></i>
+        </div>
+        <p className="delete-message">Are you sure you want to delete <strong>{program.prog_name}</strong>?</p>
+        <p className="delete-warning">This action cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer>
-        <button className='btn btn-secondary' onClick={onRequestClose}>Close</button>
-        <button className='btn btn-danger' onClick={handleDelete}>Delete</button>
+        <button className='btn btn-secondary' onClick={onRequestClose}><i className="fas fa-times"></i> Close</button>
+        <button className='btn btn-danger' onClick={handleDelete}><i className="fas fa-trash"></i> Delete</button>
       </Modal.Footer>
     </Modal>
   )

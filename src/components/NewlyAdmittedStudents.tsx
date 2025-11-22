@@ -111,6 +111,10 @@ useEffect(()=>{
         <Card.Title className='registration-title'>Newly Admitted Students Registration</Card.Title>
       </Card.Header>
       <Card.Body className='registration-body'>
+        <div className="filter-section-title mb-3">
+          <i className="fas fa-calendar-alt"></i>
+          Academic Period
+        </div>
         <Row className='filter-row'>
           <Col>
             <AcademicYearDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} />
@@ -119,6 +123,10 @@ useEffect(()=>{
             <AcademicTermDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} yearId={undefined} />
           </Col>
         </Row>
+        <div className="filter-section-title mb-3 mt-3">
+          <i className="fas fa-graduation-cap"></i>
+          Program Details
+        </div>
         <Row className='d-flex flex-column flex-lg-row filter-row'>
           <Col>
             <DepartmentDropDown onChange={handleInputChange} admission={undefined} branchId={branchId} schoolId={schoolId} />

@@ -6,7 +6,7 @@
   background: white;
   padding: 2rem 0 4rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Container positioning */

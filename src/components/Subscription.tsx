@@ -6,6 +6,7 @@ import SchoolSubscription from "./SchoolSubscription";
 import ParentSubscription from "./ParentSubscription";
 import SubscriptionFeeCard from "./SubscriptionFeeCard";
 import './Subscription.css';
+import '../css/ModernFilters.css';
 type AnyType = {
 	[key: string]: string;
 };
@@ -44,7 +45,9 @@ const Subscription = () => {
           <Card className="filter-card-modern mb-3">
             <Card.Body>
               <div className="filter-header">
-                <i className="fas fa-map-marker-alt"></i>
+                <div className="filter-icon-wrapper">
+                  <i className="fas fa-map-marker-alt"></i>
+                </div>
                 <h5>Filter by Location</h5>
               </div>
               <LocationDropDown onLocationChange={handleInputChange} />

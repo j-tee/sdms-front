@@ -10,6 +10,7 @@ import { Region } from "../models/region";
 import { District } from "../models/district";
 import { getDistricts } from "../redux/slices/districtSlice";
 import { getRegions } from "../redux/slices/regionSlice";
+import '../css/ModernModal.css';
 
 const CircuitEditModal = (props: any) => {
   const { isOpen, onRequestClose, setEditModalOpen, params, circuit } = props;
@@ -48,9 +49,9 @@ const CircuitEditModal = (props: any) => {
 		dispatch(getRegions({...params, paginate: false}));
 	}, [params, dispatch, circuit]);
   return (
-	<Modal show={isOpen} onHide={onRequestClose}>
+	<Modal show={isOpen} onHide={onRequestClose} className="modern-modal edit-modal">
 		<Modal.Header closeButton>
-			<Modal.Title>Edit Circuit</Modal.Title>
+			<Modal.Title><i className="fas fa-edit"></i> Edit Circuit</Modal.Title>
 		</Modal.Header>
 		<Modal.Body>
 			<Form onSubmit={handleSubmit}>
@@ -94,7 +95,7 @@ const CircuitEditModal = (props: any) => {
 					</Form.Control>
 				</Form.Group>
 				<Button variant="primary" type="submit">
-					Save Changes
+					<i className="fas fa-save"></i> Save Changes
 				</Button>
 			</Form>
 		</Modal.Body>

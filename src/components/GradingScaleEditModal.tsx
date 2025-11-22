@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { ToastContext } from "../utility/ToastContext";
 import { getGradingScales, updateGradingScale } from "../redux/slices/gradingScaleSlice";
 import { showToastify } from "../utility/Toastify";
+import '../css/ModernModal.css';
 
 const GradingScaleEditModal = (props: any) => {
   const {
@@ -46,10 +47,10 @@ const GradingScaleEditModal = (props: any) => {
     }));
   }, [grading]);
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg">
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size="lg" className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Grading Scale</Modal.Title>
+          <Modal.Title><i className="fas fa-edit"></i> Edit Grading Scale</Modal.Title>
         </Modal.Header>
         <Modal.Body>
 				<div className="row">
@@ -109,7 +110,7 @@ const GradingScaleEditModal = (props: any) => {
               </div>
               <div className="col-md-12">
                 <Button type="submit" className="btn btn-primary">
-                  Submit
+                  <i className="fas fa-save"></i> Submit
                 </Button>
               </div>
             </div>

@@ -18,6 +18,7 @@ import { ClassGroupParams } from '../models/classGroup';
 import { showToastify } from '../utility/Toastify';
 import { getLessons, updateLesson } from '../redux/slices/lessonSlice';
 import { options } from '../models/utilities';
+import '../css/ModernModal.css';
 
 const TimeTableEditModal = (props: any) => {
     const { lesson, schoolId, branchId, isOpen, params, onRequestClose, setTimeTableEditModalOpen } = props;
@@ -142,9 +143,9 @@ const TimeTableEditModal = (props: any) => {
     };
 
     return (
-        <Modal animation show={isOpen} centered onHide={onRequestClose} size='xl'>
+        <Modal animation show={isOpen} centered onHide={onRequestClose} size='xl' className="modern-modal edit-modal">
             <Modal.Header closeButton>
-                <Modal.Title>Edit: {lesson.class_group_name} - {lesson.program_subject_name}</Modal.Title>
+                <Modal.Title><i className="fas fa-edit"></i> Edit: {lesson.class_group_name} - {lesson.program_subject_name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -195,7 +196,7 @@ const TimeTableEditModal = (props: any) => {
                     </Row>
                     <Row>
                         <Col>
-                            <button type="submit" className="btn btn-primary mt-2">Save</button>
+                            <button type="submit" className="btn btn-primary mt-2"><i className="fas fa-save"></i> Save</button>
                         </Col>
                     </Row>
                 </Form>

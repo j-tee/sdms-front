@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import AssessmentTypeCard from './AssessmentTypeCard';
-import ContinuousAssessmentCard from './ContinuousAssessmentCard';
+import ExerciseCard from './ExerciseCard';
 import ScoreSheetCard from './ScoreSheetCard';
 import GradeScale from './GradeScale';
 
@@ -36,7 +36,7 @@ const AssessmentCard = (props: any) => {
             </span>
           }
         >
-          <ContinuousAssessmentCard index={key} schoolId={schoolId} branchId={branchId} />
+          <ExerciseCard index={key} schoolId={schoolId} branchId={branchId} />
         </Tab>
         <Tab 
           eventKey="sc" 

@@ -5,6 +5,7 @@ import { Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import { getDepartments, updateDepartment } from '../redux/slices/departmentSlice';
 import { ToastContext } from '../utility/ToastContext';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const DepartmentEdit = (props: any) => {
   const { department, schoolId, params, branchId, isOpen, onRequestClose, setDepartmentEditModalOpen } = props;
@@ -25,9 +26,9 @@ const DepartmentEdit = (props: any) => {
     })
   }
   return (
-    <Modal show={isOpen} onHide={onRequestClose} animation centered size='lg'>
+    <Modal show={isOpen} onHide={onRequestClose} animation centered size='lg' className="modern-modal edit-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Edit Department</Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit Department</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Card>
@@ -44,10 +45,10 @@ const DepartmentEdit = (props: any) => {
                 </Row>
                 <Modal.Footer>
                   <Button variant='secondary' onClick={onRequestClose}>
-                    Close
+                    <i className="fas fa-times"></i> Close
                   </Button>
                   <Button variant='primary' type='submit'>
-                    Save Changes
+                    <i className="fas fa-save"></i> Save Changes
                   </Button>
                 </Modal.Footer>
               </Form>

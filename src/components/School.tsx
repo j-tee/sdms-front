@@ -17,6 +17,7 @@ import PaginationComponent from "./PaginationComponent";
 import { debounce } from "lodash";
 import UserSession from "../utility/userSession";
 import "./School.css";
+import "../css/ModernFilters.css";
 
 type AnyType = {
   [key: string]: string;
@@ -158,7 +159,9 @@ const School = () => {
             <Card className="filter-card-modern">
               <Card.Body>
                 <div className="filter-header">
-                  <i className="fas fa-filter"></i>
+                  <div className="filter-icon-wrapper">
+                    <i className="fas fa-filter"></i>
+                  </div>
                   <h5>Filter Schools</h5>
                 </div>
                 <SchoolDropdowns onChange={handleInputChange} />

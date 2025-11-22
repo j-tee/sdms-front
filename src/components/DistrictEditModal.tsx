@@ -7,6 +7,7 @@ import { Region } from '../models/region';
 import { ToastContext } from '../utility/ToastContext';
 import { getDistricts, updateDistrict } from '../redux/slices/districtSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const DistrictEditModal = (props: any) => {
     const {isOpen, onRequestClose,setEditModalOpen, district, params} = props
@@ -27,9 +28,9 @@ const DistrictEditModal = (props: any) => {
       setFormData(district);
     }, [params, dispatch, district]);
   return (
-    <Modal show={isOpen} onHide={onRequestClose}>
+    <Modal show={isOpen} onHide={onRequestClose} className="modern-modal edit-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Edit District </Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit District </Modal.Title>
         </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -58,7 +59,7 @@ const DistrictEditModal = (props: any) => {
             </Form.Control>
           </Form.Group>
           <Button variant="primary" type="submit">
-            Submit
+            <i className="fas fa-save"></i> Submit
           </Button>
         </Form>
               

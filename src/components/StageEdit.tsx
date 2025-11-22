@@ -7,6 +7,7 @@ import { Col, Form, Modal, Row } from 'react-bootstrap';
 import BranchDropDown from './BranchDropDown';
 import { getStages, updateStage } from '../redux/slices/stageSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 const StageEdit = (props: any) => {
   const { isOpen, onRequestClose, stage, params, branchId, schoolId, setStageEditModalOpen } = props; 
@@ -50,10 +51,10 @@ const StageEdit = (props: any) => {
     })
   }
   return (
-    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg'>
+    <Modal show={isOpen} animation centered onHide={onRequestClose} size='lg' className="modern-modal edit-modal">
       <Form onSubmit={handleSubmit}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Stage {stage.stage_name}</Modal.Title>
+        <Modal.Title><i className="fas fa-edit"></i> Edit Stage {stage.stage_name}</Modal.Title>
       </Modal.Header>      
         <Modal.Body>
           <Row>
@@ -71,8 +72,8 @@ const StageEdit = (props: any) => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <button className='btn btn-secondary' onClick={onRequestClose}>Close</button>
-          <button type='submit' className='btn btn-danger'>Update</button>
+          <button className='btn btn-secondary' onClick={onRequestClose}><i className="fas fa-times"></i> Close</button>
+          <button type='submit' className='btn btn-danger'><i className="fas fa-save"></i> Update</button>
         </Modal.Footer>
       </Form>
     </Modal>

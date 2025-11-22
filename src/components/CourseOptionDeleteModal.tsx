@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { deleteCourseOption, getCourseOptions } from '../redux/slices/programSubjectSlice';
 import { showToastify } from '../utility/Toastify';
+import '../css/ModernModal.css';
 
 interface CourseOptionDeleteModalProps {
   subjectId: number;
@@ -38,19 +39,23 @@ const CourseOptionDeleteModal: FC<CourseOptionDeleteModalProps> = ({
   };
 
   return (
-    <Modal show={isOpen} onHide={onRequestClose} centered>
+    <Modal show={isOpen} onHide={onRequestClose} centered className="modern-modal delete-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Delete Course Option</Modal.Title>
+        <Modal.Title><i className="fas fa-trash-alt"></i> Delete Course Option</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure you want to delete this course option? This action cannot be undone.</p>
+        <div className="delete-icon">
+          <i className="fas fa-exclamation-triangle"></i>
+        </div>
+        <p className="delete-message">Are you sure you want to delete <strong>this course option</strong>?</p>
+        <p className="delete-warning">This action cannot be undone.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onRequestClose}>
-          Cancel
+          <i className="fas fa-times"></i> Cancel
         </Button>
         <Button variant="danger" onClick={handleDelete}>
-          Delete
+          <i className="fas fa-trash"></i> Delete
         </Button>
       </Modal.Footer>
     </Modal>

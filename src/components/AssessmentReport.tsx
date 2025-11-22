@@ -68,21 +68,23 @@ const AssessmentReport = (props: any) => {
   return (
     <div className="academic-section-content">
       {/* Filter Section */}
-      <div className="academic-add-section mb-4">
-        <div className="academic-section-header">
-          <div className="academic-section-icon">
+      <div className="filter-card-modern mb-4">
+        <div className="filter-header">
+          <div className="filter-icon-wrapper">
             <i className="fas fa-filter"></i>
           </div>
           <h5>Filter Assessment Reports</h5>
         </div>
-        <Row className='d-flex flex-column flex-lg-row'>
-          <Col>
-            <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} value={undefined} />
-          </Col>
-          <Col>
-            <LessonDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} staffId={0} academicTermId={academic_term.id|| 0} />
-          </Col>
-        </Row>
+        <div className="card-body">
+          <Row className='d-flex flex-column flex-lg-row'>
+            <Col>
+              <StaffDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} value={undefined} />
+            </Col>
+            <Col>
+              <LessonDropDown onChange={handleInputChange} branchId={branchId} schoolId={schoolId} staffId={0} academicTermId={academic_term.id|| 0} />
+            </Col>
+          </Row>
+        </div>
       </div>
 
       {/* Assessment Summary Cards */}
