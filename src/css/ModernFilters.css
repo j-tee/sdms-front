@@ -225,7 +225,35 @@
   width: 100%;
 }
 
-/* Temporarily disable transforms to keep Chrome native selects anchored */
+/* Chrome native select dropdown fix using :has() - more reliable than JS */
+/* When any select is focused, remove transforms from all ancestors */
+body:has(select:focus),
+body:has(select:focus) *,
+body:has(select:focus) *::before,
+body:has(select:focus) *::after {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Target specific Bootstrap containers that commonly have transforms */
+body:has(select:focus) .modal,
+body:has(select:focus) .modal-dialog,
+body:has(select:focus) .modal.fade .modal-dialog,
+body:has(select:focus) .tab-pane,
+body:has(select:focus) .tab-pane.fade,
+body:has(select:focus) .tab-pane.fade.show,
+body:has(select:focus) .fade,
+body:has(select:focus) .collapsing,
+body:has(select:focus) .filter-card-modern,
+body:has(select:focus) .filter-section {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Fallback for browsers without :has() support - using class from JS hook */
 body.chrome-select-open,
 body.chrome-select-open *,
 body.chrome-select-open *::before,
@@ -234,34 +262,6 @@ body.chrome-select-open *::after {
   transition: none !important;
   animation: none !important;
   will-change: auto !important;
-}
-
-/* Ensure all Bootstrap containers lose transforms during select focus */
-body.chrome-select-open .modal,
-body.chrome-select-open .modal-dialog,
-body.chrome-select-open .modal.fade .modal-dialog,
-body.chrome-select-open .tab-pane,
-body.chrome-select-open .tab-pane.fade,
-body.chrome-select-open .tab-pane.fade.show,
-body.chrome-select-open .fade,
-body.chrome-select-open .collapsing {
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
-}
-
-/* Prevent parent transforms from affecting select dropdowns */
-.filter-card-modern:has(select:focus),
-.filter-section:has(select:focus),
-.parent-list-filters:has(select:focus),
-.exit-profiles-filters:has(select:focus),
-.tab-pane:has(select:focus),
-.tab-pane.fade:has(select:focus),
-.fade:has(select:focus),
-.modal:has(select:focus),
-.modal-dialog:has(select:focus) {
-  transform: none !important;
-  transition: none !important;
 }
 
 /* Filter Buttons */
