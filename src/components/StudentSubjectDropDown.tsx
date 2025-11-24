@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react'
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import { getSubjects } from '../redux/slices/subjectSlice';
+import { getSubjectListFromTimeTable, getSubjects } from '../redux/slices/subjectSlice';
 import { getScoreSheets } from '../redux/slices/scoreSheetSlice';
 
 type AnyType = {
@@ -14,26 +14,33 @@ type AnyType = {
     index: any;
   }
 const StudentSubjectDropDown:FC<StudentSubjectDropDownProps> = ({params, index, onChange}) => {
-    const { subjects} = useSelector((state: RootState) => state.subject)
+    const { subjects, subjects_from_timetable} = useSelector((state: RootState) => state.subject)
     const dispatch = useDispatch<AppDispatch>();
     const handleInputChange = (e: React.ChangeEvent<any>) => {
         const selectedSubjectId = e.target.value;
         onChange('subject_id', selectedSubjectId);
       };
 
-      useEffect(() => {
-        
+      useEffect(() => {        
         if(params.student_id && params.student_id > 0 && index === 'second'){
           dispatch(getScoreSheets({ ...params, paginate: true}));
-        }
-        
+        }        
       }, [dispatch, index, params]);
+
+      useEffect(() => {
+        if (params.student_id && params.student_id > 0) {
+          dispatch(getSubjectListFromTimeTable({
+            student_id: params.student_id,
+            paginate: false,
+          }));
+        }
+      }, [dispatch, params.student_id]);
   return (
     <Form.Group controlId="subjectId">
     <Form.Label>Subjects</Form.Label>
     <Form.Select as="select" onChange={handleInputChange}>
         <option value="0">-----Select Subject----</option>
-        {subjects && subjects.map((subject) => (
+        {subjects_from_timetable && subjects_from_timetable.map((subject) => (
           <option key={subject.id} value={subject.id}>
             {subject.subject_name}
           </option>

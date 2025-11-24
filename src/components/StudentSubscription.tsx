@@ -182,7 +182,7 @@ const StudentSubscription = (props: any) => {
         </span>
         <Row>
           <Col>
-            Amount Due: GHS{parseFloat(amount.toString()).toFixed(4)}
+            Amount Due: GHS{parseFloat(amount.toString()).toFixed(2)}
           </Col>
         </Row>
         <Button onClick={makePayment}>Subscribe</Button>
